@@ -27,6 +27,7 @@ def _connect():
             outcome TEXT NOT NULL DEFAULT 'PENDENTE',
             closed_at TEXT,
             delivery_status TEXT NOT NULL DEFAULT 'PENDING'
+            ,entry_captured_at TEXT
         )
         """
     )
@@ -40,6 +41,8 @@ def _connect():
         connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_at TEXT")
     if "delivery_status" not in columns:
         connection.execute("ALTER TABLE paper_signals ADD COLUMN delivery_status TEXT NOT NULL DEFAULT 'PENDING'")
+    if "entry_captured_at" not in columns:
+        connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_captured_at TEXT")
     connection.commit()
     return connection
 
@@ -136,7 +139,7 @@ def recent_signals(limit: int = 10) -> list[dict]:
     return [dict(row) for row in rows]
 
 
-def settle_pending(price_lookup) -> list[dict]:
+def settle_pending(price_lookup, price_lookup_at=None) -> list[dict]:
     now = datetime.now(timezone.utc)
     settled = []
     with _connect() as connection:
@@ -147,7 +150,7 @@ def settle_pending(price_lookup) -> list[dict]:
             if datetime.fromisoformat(row["expires_at"]) > now:
                 continue
             try:
-                exit_price = float(price_lookup(row["symbol"]))
+                exit_price = float(price_lookup_at(row["symbol"], row["expires_at"]) if price_lookup_at else price_lookup(row["symbol"]))
                 entry_price = float(row["entry_price"])
                 if exit_price == entry_price:
                     outcome = "VOID"
@@ -163,6 +166,30 @@ def settle_pending(price_lookup) -> list[dict]:
             except (TypeError, ValueError, KeyError, OSError, ConnectionError):
                 continue
     return settled
+
+
+def capture_entry_prices(price_lookup_at) -> int:
+    """Replace the scan-time reference with the price at the scheduled entry."""
+    now = datetime.now(timezone.utc)
+    captured = 0
+    with _connect() as connection:
+        rows = connection.execute(
+            "SELECT id, symbol, entry_at FROM paper_signals WHERE outcome = 'PENDENTE' AND entry_captured_at IS NULL"
+        ).fetchall()
+        for row in rows:
+            entry_at = datetime.fromisoformat(row["entry_at"])
+            if entry_at > now:
+                continue
+            try:
+                entry_price = float(price_lookup_at(row["symbol"], row["entry_at"]))
+                connection.execute(
+                    "UPDATE paper_signals SET entry_price = ?, entry_captured_at = ? WHERE id = ? AND outcome = 'PENDENTE' AND entry_captured_at IS NULL",
+                    (entry_price, now.isoformat(), row["id"]),
+                )
+                captured += 1
+            except (TypeError, ValueError, KeyError, OSError, ConnectionError):
+                continue
+    return captured
 
 
 def format_result(result: dict) -> str:

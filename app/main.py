@@ -9,11 +9,11 @@ from flask import Flask, jsonify
 
 try:
     from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
-    from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
+    from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
-    from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
+    from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -211,13 +211,27 @@ def price_lookup(symbol: str) -> float:
     return float(candles[-1]["close"])
 
 
+def price_lookup_at(symbol: str, iso_timestamp: str) -> float:
+    """Read the close of the M5 candle at or before a scheduled UTC timestamp."""
+    target = datetime.fromisoformat(iso_timestamp).timestamp()
+    candles = fetch_candles(symbol, interval="5m", range_="2d", count=600)
+    eligible = [candle for candle in candles if candle.get("timestamp") is not None and float(candle["timestamp"]) <= target]
+    if not eligible:
+        raise ValueError("candle histórica indisponível")
+    candle = eligible[-1]
+    if target - float(candle["timestamp"]) > 10 * 60:
+        raise ValueError("candle histórica atrasada")
+    return float(candle["close"])
+
+
 def settlement_loop() -> None:
     if not BOT_TOKEN:
         return
     while True:
         try:
             state["settlement_last_check"] = datetime.now(timezone.utc).isoformat()
-            settled = settle_pending(price_lookup)
+            capture_entry_prices(price_lookup_at)
+            settled = settle_pending(price_lookup, price_lookup_at)
             delivered = 0
             for item in pending_result_deliveries():
                 if send_result(item) and mark_result_delivered(item["id"]):
