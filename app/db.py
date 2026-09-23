@@ -52,3 +52,7 @@ def connect() -> DatabaseConnection:
     raw = sqlite3.connect(path)
     raw.row_factory = sqlite3.Row
     return DatabaseConnection(raw, postgres=False)
+
+
+def backend_name() -> str:
+    return "PostgreSQL" if os.getenv("DATABASE_URL", "").strip() else "SQLite fallback"

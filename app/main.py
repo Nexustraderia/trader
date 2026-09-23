@@ -8,10 +8,12 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify
 
 try:
+    from .db import backend_name
     from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
+    from db import backend_name
     from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
@@ -399,6 +401,7 @@ def health():
             "mode": BOT_MODE,
             "telegram_configured": bool(BOT_TOKEN),
             "channel_configured": bool(CHANNEL_ID),
+            "paper_database": backend_name(),
             "started_at": state["started_at"],
             "last_update": state["last_update"],
             "last_message": state["last_message"],
