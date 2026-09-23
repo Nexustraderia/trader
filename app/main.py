@@ -48,6 +48,9 @@ state = {
     "auto_sent_today": 0,
     "auto_sent_date": None,
     "signals_since_promo": 0,
+    "last_settlement": None,
+    "settled_count": 0,
+    "settlement_error": None,
 }
 
 
@@ -75,16 +78,19 @@ def send_result(item: dict, chat_id: str | None = None) -> bool:
     image_path = RESULT_IMAGE_PATHS.get(outcome)
     if not BOT_TOKEN or not image_path or not os.path.isfile(image_path):
         return send_message(format_result(item), chat_id)
-    with open(image_path, "rb") as image_file:
-        response = requests.post(
-            telegram_url("sendPhoto"),
-            data={"chat_id": chat_id or CHANNEL_ID, "caption": format_result(item)},
-            files={"photo": (os.path.basename(image_path), image_file, "image/png")},
-            timeout=30,
-        )
-    response.raise_for_status()
-    state["last_message"] = datetime.now(timezone.utc).isoformat()
-    return True
+    try:
+        with open(image_path, "rb") as image_file:
+            response = requests.post(
+                telegram_url("sendPhoto"),
+                data={"chat_id": chat_id or CHANNEL_ID, "caption": format_result(item)},
+                files={"photo": (os.path.basename(image_path), image_file, "image/png")},
+                timeout=30,
+            )
+        response.raise_for_status()
+        state["last_message"] = datetime.now(timezone.utc).isoformat()
+        return True
+    except (OSError, requests.RequestException):
+        return send_message(format_result(item), chat_id)
 
 
 def send_affiliate_promo(chat_id: str | None = None) -> bool:
@@ -177,8 +183,12 @@ def settlement_loop() -> None:
             settled = settle_pending(price_lookup)
             for item in settled:
                 send_result(item)
-        except Exception:
-            pass
+            if settled:
+                state["last_settlement"] = datetime.now(timezone.utc).isoformat()
+                state["settled_count"] += len(settled)
+            state["settlement_error"] = None
+        except Exception as error:
+            state["settlement_error"] = type(error).__name__
         time.sleep(60)
 
 
@@ -317,6 +327,9 @@ def health():
             "auto_signal_min_score": AUTO_SIGNAL_MIN_SCORE,
             "auto_signal_max_daily": AUTO_SIGNAL_MAX_DAILY,
             "auto_symbols": AUTO_SYMBOLS,
+            "last_settlement": state["last_settlement"],
+            "settled_count": state["settled_count"],
+            "settlement_error": state["settlement_error"],
         }
     )
 

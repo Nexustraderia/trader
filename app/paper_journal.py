@@ -104,7 +104,7 @@ def settle_pending(price_lookup) -> list[dict]:
                     (outcome, now.isoformat(), row["id"]),
                 )
                 settled.append({"id": row["id"], "symbol": row["symbol"], "direction": row["direction"], "entry_at": row["entry_at"], "outcome": outcome, "entry_price": entry_price, "exit_price": exit_price})
-            except (TypeError, ValueError, KeyError):
+            except (TypeError, ValueError, KeyError, OSError, ConnectionError):
                 continue
     return settled
 

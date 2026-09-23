@@ -26,6 +26,8 @@ A publicação automática usa `AUTO_SIGNALS_ENABLED=true`, intervalo padrão de
 
 Resultados liquidados como `WIN` e `LOSS` são enviados ao Telegram com as artes correspondentes em `app/assets/win.png` e `app/assets/loss.png`. Se uma imagem não estiver disponível, o bot envia o resultado em texto.
 
+Cada sinal tem seu próprio `entry_at` e `expires_at`: o resultado só é calculado depois do fechamento da vela M5 de expiração daquele sinal. O loop de liquidação consulta os vencimentos periodicamente, mas não substitui o horário individual de cada entrada.
+
 A promoção da corretora é opcional e fica desativada por padrão. Quando `AFFILIATE_PROMO_ENABLED=true`, o bot envia a arte `app/assets/promo.png` a cada cinco sinais publicados, com botão para o link configurado em `AFFILIATE_URL`. A mensagem identifica que é publicidade/link de afiliado, não promete lucro nem garante bônus, e recomenda verificar as condições diretamente com a corretora.
 
 ## Próximas etapas
