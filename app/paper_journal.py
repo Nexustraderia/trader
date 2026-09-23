@@ -1,8 +1,10 @@
 import sqlite3
 import uuid
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 DB_PATH = "signals.sqlite3"
+LOCAL_ZONE = ZoneInfo("America/Sao_Paulo")
 
 
 def _connect():
@@ -17,6 +19,7 @@ def _connect():
             timeframe TEXT NOT NULL,
             entry_price REAL,
             created_at TEXT NOT NULL,
+            entry_at TEXT,
             expires_at TEXT,
             outcome TEXT NOT NULL DEFAULT 'PENDENTE',
             closed_at TEXT
@@ -27,12 +30,16 @@ def _connect():
         connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_price REAL")
     if "expires_at" not in columns:
         connection.execute("ALTER TABLE paper_signals ADD COLUMN expires_at TEXT")
+    if "entry_at" not in columns:
+        connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_at TEXT")
     connection.commit()
     return connection
 
 
 def create_signal(result: dict) -> dict:
     created_at = datetime.now(timezone.utc)
+    next_minute = ((created_at.minute // 5) + 1) * 5
+    entry_at = created_at.replace(second=0, microsecond=0) + timedelta(minutes=next_minute - created_at.minute)
     signal = {
         "id": uuid.uuid4().hex[:8].upper(),
         "symbol": result["symbol"],
@@ -41,11 +48,12 @@ def create_signal(result: dict) -> dict:
         "timeframe": "M5",
         "entry_price": result.get("price"),
         "created_at": created_at.isoformat(),
-        "expires_at": (created_at + timedelta(minutes=5)).isoformat(),
+        "entry_at": entry_at.isoformat(),
+        "expires_at": (entry_at + timedelta(minutes=5)).isoformat(),
     }
     with _connect() as connection:
         connection.execute(
-            "INSERT INTO paper_signals (id, symbol, direction, score, timeframe, entry_price, created_at, expires_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO paper_signals (id, symbol, direction, score, timeframe, entry_price, created_at, entry_at, expires_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             tuple(signal.values()),
         )
     return signal
@@ -66,7 +74,7 @@ def close_signal(signal_id: str, outcome: str) -> bool:
 def recent_signals(limit: int = 10) -> list[dict]:
     with _connect() as connection:
         rows = connection.execute(
-            "SELECT id, symbol, direction, score, timeframe, entry_price, created_at, expires_at, outcome FROM paper_signals ORDER BY created_at DESC LIMIT ?",
+            "SELECT id, symbol, direction, score, timeframe, entry_price, created_at, entry_at, expires_at, outcome FROM paper_signals ORDER BY created_at DESC LIMIT ?",
             (limit,),
         ).fetchall()
     return [dict(row) for row in rows]
@@ -102,19 +110,22 @@ def settle_pending(price_lookup) -> list[dict]:
 
 
 def format_signal(signal: dict) -> str:
+    entry = datetime.fromisoformat(signal["entry_at"]).astimezone(LOCAL_ZONE) if signal.get("entry_at") else None
+    expiry = datetime.fromisoformat(signal["expires_at"]).astimezone(LOCAL_ZONE) if signal.get("expires_at") else None
     return "\n".join([
-        "NEXUS IA TRADER — SINAL SIMULADO",
+        "NEXUS IA TRADER — SINAL DE ANÁLISE",
         "",
         f"ID: {signal['id']}",
         f"Ativo: {signal['symbol']}",
         f"Direção: {signal['direction']}",
-        f"Período: {signal['timeframe']}",
+        f"Entrada: {entry.strftime('%H:%M') if entry else 'próxima vela'} (BRT)",
+        f"Expiração: {expiry.strftime('%H:%M') if expiry else 'M5'} (BRT)",
+        f"Tempo: {signal['timeframe']}",
         f"Score: {signal['score']}/100",
         f"Preço de entrada: {signal['entry_price']}" if signal.get("entry_price") is not None else "Preço de entrada: indisponível",
-        f"Expiração: {signal['expires_at']}" if signal.get("expires_at") else "Expiração: M5",
         "",
-        "Registro PAPER TRADING — nenhuma ordem foi enviada.",
-        "Resultado deve ser avaliado manualmente; não é garantia de lucro.",
+        "PAPER TRADING — nenhuma ordem real foi enviada.",
+        "Resultado será avaliado após a expiração M5.",
     ])
 
 

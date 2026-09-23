@@ -2,10 +2,11 @@ import os
 import tempfile
 import time
 import unittest
+from datetime import datetime
 
 from app.market_data import is_fresh, normalize_symbol
 from app.news_sentinel import should_block
-from app.paper_journal import close_signal, create_signal, ranking, recent_signals, settle_pending, statistics
+from app.paper_journal import close_signal, create_signal, format_signal, ranking, recent_signals, settle_pending, statistics
 from app.signal_engine import analyze
 import app.paper_journal as paper_journal
 
@@ -38,6 +39,8 @@ class CoreTests(unittest.TestCase):
             signal = create_signal({"symbol": "EUR/JPY", "decision": "CALL", "score": 75, "price": 180.12})
             self.assertEqual(signal["entry_price"], 180.12)
             self.assertIn("expires_at", signal)
+            self.assertEqual((datetime.fromisoformat(signal["expires_at"]) - datetime.fromisoformat(signal["entry_at"])).seconds, 300)
+            self.assertIn("Entrada:", format_signal(signal))
             self.assertTrue(close_signal(signal["id"], "WIN"))
             self.assertFalse(close_signal(signal["id"], "LOSS"))
             self.assertEqual(recent_signals(1)[0]["outcome"], "WIN")
