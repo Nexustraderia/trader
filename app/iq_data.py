@@ -56,7 +56,10 @@ def available_iq_assets() -> set[str]:
     now = time.time()
     if _asset_cache and now - _asset_cache_at < 300:
         return set(_asset_cache)
-    open_time = _get_client().get_all_open_time(0)
+    try:
+        open_time = _get_client().get_all_open_time(0)
+    except Exception:
+        raise RuntimeError("IQ Option OTC catalog unavailable") from None
     if not isinstance(open_time, dict):
         raise RuntimeError("IQ Option asset catalog unavailable")
     assets = set()

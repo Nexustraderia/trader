@@ -200,6 +200,8 @@ def auto_scan_loop() -> None:
                     state["auto_last_sent"][result["symbol"]] = now
                     state["auto_sent_today"] += 1
             except Exception as error:
+                if "IQ Option OTC catalog unavailable" in str(error) or "IQ Option asset not open" in str(error):
+                    continue
                 state["auto_scan_errors"] += 1
                 state["auto_last_error"] = f"{type(error).__name__}: {str(error)[:160]}"
                 continue
