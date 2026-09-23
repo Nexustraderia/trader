@@ -35,10 +35,29 @@ def volatility_metrics(values: list[float], period: int = 14) -> tuple[float, fl
     return (sum(changes) / len(changes) if changes else 0.0), latest
 
 
+def directional_confidence(decision: str, score: int | float) -> int:
+    """Convert the legacy directional score into confidence for either side.
+
+    The original score is intentionally asymmetric: CALL is high (e.g. 80),
+    while PUT is low (e.g. 20). Comparing both directly to an entry threshold
+    accidentally made automatic PUT signals impossible.
+    """
+    score = max(0, min(100, int(round(score))))
+    if decision == "CALL":
+        return score
+    if decision == "PUT":
+        return 100 - score
+    return 50
+
+
+def _set_confidence(result: dict) -> None:
+    result["confidence"] = directional_confidence(result.get("decision", "AGUARDAR"), result.get("score", 50))
+
+
 def analyze(symbol: str, candles: list[dict]) -> dict:
     closes = [float(candle["close"]) for candle in candles]
     if len(closes) < 20:
-        return {"symbol": symbol, "decision": "AGUARDAR", "score": 0, "reason": "Dados insuficientes para análise."}
+        return {"symbol": symbol, "decision": "AGUARDAR", "score": 0, "confidence": 50, "reason": "Dados insuficientes para análise."}
 
     fast = ema(closes, 9)
     slow = ema(closes, 21)
@@ -55,10 +74,10 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         score -= 20
         reasons.append("EMA 9 abaixo da EMA 21")
 
-    if momentum >= 52 and momentum <= 68:
+    if 52 <= momentum <= 68:
         score += 15
         reasons.append(f"RSI favorável ({momentum:.1f})")
-    elif momentum <= 48 and momentum >= 32:
+    elif 32 <= momentum <= 48:
         score -= 15
         reasons.append(f"RSI pressionado ({momentum:.1f})")
     elif momentum > 70 or momentum < 30:
@@ -80,7 +99,7 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
     else:
         decision = "AGUARDAR"
 
-    return {
+    result = {
         "symbol": symbol,
         "decision": decision,
         "score": score,
@@ -92,8 +111,10 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         "latest_move_pct": latest_move_pct,
         "reasons": reasons,
         "analyzed_at": datetime.now(timezone.utc).isoformat(),
-        "source": "Yahoo Finance Chart API (protótipo)",
+        "source": "market data provider",
     }
+    _set_confidence(result)
+    return result
 
 
 def analyze_with_confirmation(
@@ -149,6 +170,7 @@ def analyze_with_confirmation(
     result["confluence_ok"] = result["decision"] in ("CALL", "PUT") and result["m15_decision"] == result["decision"] and result["h1_decision"] == result["decision"] and result["m1_confirmation_ok"] and volatility_ok
     if not result["confluence_ok"]:
         result["reasons"].append("Confluência completa M5/M15/H1 não confirmada")
+    _set_confidence(result)
     return result
 
 
@@ -159,7 +181,8 @@ def format_analysis(result: dict) -> str:
         f"Ativo: {result['symbol']}",
         f"Direção: {result['decision']}",
         "Período: M5",
-        f"Score: {result['score']}/100",
+        f"Score técnico: {result['score']}/100",
+        f"Confiança direcional: {result.get('confidence', 50)}/100",
         f"Confirmação M15: {result.get('m15_decision', 'indisponível')}",
         f"Contexto H1: {result.get('h1_decision', 'indisponível')}",
         f"Gatilho M1: {result.get('m1_decision', 'indisponível')}",

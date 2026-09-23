@@ -17,6 +17,7 @@ SYMBOLS = {
 
 TWELVE_DATA_URL = "https://api.twelvedata.com/time_series"
 _LAST_SOURCE = "Yahoo Finance Chart API (fallback)"
+_LAST_ERROR = None
 
 
 def normalize_symbol(value: str) -> str:
@@ -54,8 +55,18 @@ def market_data_source() -> str:
     return _LAST_SOURCE
 
 
+def market_data_diagnostics() -> dict:
+    """Return provider state without exposing API keys or response bodies."""
+    return {
+        "source": _LAST_SOURCE,
+        "last_error": _LAST_ERROR,
+        "twelve_data_configured": bool(os.getenv("TWELVEDATA_API_KEY", "").strip()),
+    }
+
+
 def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: int = 80) -> list[dict]:
-    global _LAST_SOURCE
+    global _LAST_SOURCE, _LAST_ERROR
+    _LAST_ERROR = None
     normalized = normalize_symbol(symbol)
     if os.getenv("TWELVEDATA_API_KEY", "").strip():
         try:
@@ -63,8 +74,8 @@ def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: 
             if candles:
                 _LAST_SOURCE = "Twelve Data"
                 return candles
-        except (requests.RequestException, ValueError, KeyError, RuntimeError):
-            pass
+        except (requests.RequestException, ValueError, KeyError, RuntimeError) as error:
+            _LAST_ERROR = f"Twelve Data: {type(error).__name__}"
     ticker = SYMBOLS.get(normalized)
     if not ticker:
         raise ValueError(f"Ativo não suportado: {symbol}")
@@ -86,6 +97,7 @@ def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: 
                 break
         except (requests.RequestException, ValueError, KeyError) as error:
             last_error = error
+            _LAST_ERROR = f"Yahoo Finance: {type(error).__name__}"
     if not payload:
         raise RuntimeError(f"Fonte de candles indisponível: {type(last_error).__name__}")
     _LAST_SOURCE = "Yahoo Finance Chart API (fallback)"

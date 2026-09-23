@@ -8,11 +8,11 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify
 
 try:
-    from .market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
+    from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
-    from market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
+    from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
@@ -27,7 +27,9 @@ PORT = int(os.getenv("PORT", "10000"))
 AUTO_SIGNALS_ENABLED = os.getenv("AUTO_SIGNALS_ENABLED", "false").lower() == "true"
 # M5 strategy: refresh once per minute, never once per second.
 AUTO_SIGNAL_INTERVAL = 60
-AUTO_SIGNAL_MIN_SCORE = int(os.getenv("AUTO_SIGNAL_MIN_SCORE", "80"))
+# Legacy technical score is directional: CALL is high and PUT is low. Use the
+# normalized confidence so a high-quality PUT is not rejected as "low score".
+AUTO_SIGNAL_MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", os.getenv("AUTO_SIGNAL_MIN_SCORE", "70")))
 AUTO_SIGNAL_MAX_DAILY = int(os.getenv("AUTO_SIGNAL_MAX_DAILY", "6"))
 AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "7200"))
 AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/USD,EUR/JPY,USD/JPY,GBP/USD,GBP/JPY,AUD/USD,USD/CAD").split(",") if item.strip())
@@ -172,12 +174,13 @@ def auto_scan_loop() -> None:
                     "m5": result.get("decision"),
                     "m15": result.get("m15_decision"),
                     "h1": result.get("h1_decision"),
+                    "confidence": result.get("confidence", 50),
                     "confluence_ok": result.get("confluence_ok", False),
                 }
                 now = datetime.now(timezone.utc)
                 last_sent = state["auto_last_sent"].get(result["symbol"])
                 cooldown_ok = not last_sent or now - last_sent >= timedelta(minutes=20)
-                eligible = result.get("confluence_ok", False) and result["score"] >= AUTO_SIGNAL_MIN_SCORE
+                eligible = result.get("confluence_ok", False) and result.get("confidence", 0) >= AUTO_SIGNAL_MIN_CONFIDENCE
                 today = now.date().isoformat()
                 if state["auto_sent_date"] != today:
                     state["auto_sent_date"] = today
@@ -380,7 +383,7 @@ def health():
             "last_update": state["last_update"],
             "last_message": state["last_message"],
             "auto_signals_enabled": AUTO_SIGNALS_ENABLED,
-            "auto_signal_min_score": AUTO_SIGNAL_MIN_SCORE,
+            "auto_signal_min_confidence": AUTO_SIGNAL_MIN_CONFIDENCE,
             "auto_signal_max_daily": AUTO_SIGNAL_MAX_DAILY,
             "auto_symbols": AUTO_SYMBOLS,
             "auto_sent_today": state["auto_sent_today"],
@@ -409,6 +412,7 @@ def health_data():
             "status": "ok",
             "symbol": symbol,
             "source": market_data_source(),
+            "diagnostics": market_data_diagnostics(),
             "candle_available": bool(candles),
             "candle_fresh": is_fresh(candles, 10 * 60),
             "twelve_data_configured": bool(os.getenv("TWELVEDATA_API_KEY", "").strip()),
@@ -418,6 +422,7 @@ def health_data():
             "status": "error",
             "symbol": symbol,
             "detail": type(error).__name__,
+            "diagnostics": market_data_diagnostics(),
             "twelve_data_configured": bool(os.getenv("TWELVEDATA_API_KEY", "").strip()),
         }), 503
 
