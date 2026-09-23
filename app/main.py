@@ -35,7 +35,7 @@ AUTO_SIGNAL_INTERVAL = 60
 # the directional score is reduced by a neutral M1 trigger.
 AUTO_SIGNAL_MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", os.getenv("AUTO_SIGNAL_MIN_SCORE", "65")))
 AUTO_SIGNAL_MAX_DAILY = int(os.getenv("AUTO_SIGNAL_MAX_DAILY", "6"))
-AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "7200"))
+AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "3600"))
 BASE_AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/USD,EUR/JPY,USD/JPY,GBP/USD,GBP/JPY,AUD/USD,USD/CAD").split(",") if item.strip())
 OTC_AUTO_SYMBOLS = tuple(f"{symbol.replace('/', '')}-OTC" for symbol in BASE_AUTO_SYMBOLS)
 AUTO_SYMBOLS = BASE_AUTO_SYMBOLS + (OTC_AUTO_SYMBOLS if os.getenv("AUTO_INCLUDE_OTC", "true").lower() == "true" else ())
@@ -252,13 +252,13 @@ def settlement_loop() -> None:
 
 
 def session_summary_loop() -> None:
-    """Publish a rolling two-hour paper-trading summary to the channel."""
+    """Publish an hourly paper-trading summary; pending results remain in PostgreSQL."""
     if not BOT_TOKEN:
         return
     while True:
         time.sleep(max(900, AUTO_SUMMARY_INTERVAL))
         try:
-            send_message(format_session_summary(session_statistics(2)))
+            send_message(format_session_summary(session_statistics(1)))
         except Exception:
             continue
 
@@ -313,7 +313,7 @@ def handle_update(update: dict) -> None:
     elif text == "/ranking":
         send_message(format_ranking(ranking()), chat_id)
     elif text == "/sessao":
-        send_message(format_session_summary(session_statistics(2)), chat_id)
+        send_message(format_session_summary(session_statistics(1)), chat_id)
     elif text == "/ajuda":
         send_message(
             "NEXUS IA TRADER\n\n"
@@ -323,7 +323,7 @@ def handle_update(update: dict) -> None:
             "/historico — lista simulações\n\n"
             "/stats [ATIVO] — mostra estatísticas gerais ou por ativo\n\n"
             "/ranking — compara os ativos da amostra\n\n"
-            "/sessao — resumo das últimas 2 horas\n\n"
+            "/sessao — resumo da última hora\n\n"
             "Nenhum comando envia ordens reais.",
             chat_id,
         )
