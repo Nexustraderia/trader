@@ -26,7 +26,12 @@ _LAST_ERROR = None
 
 
 def normalize_symbol(value: str) -> str:
-    raw = value.strip().upper().replace("-", "/")
+    raw = value.strip().upper()
+    if raw.endswith("-OTC"):
+        base = raw[:-4].replace("/", "")
+        otc_aliases = {"EURJPY", "EURUSD", "USDJPY", "GBPUSD", "GBPJPY", "AUDUSD", "USDCAD"}
+        return f"{base}-OTC" if base in otc_aliases else raw
+    raw = raw.replace("-", "/")
     aliases = {"EURJPY": "EUR/JPY", "EURUSD": "EUR/USD", "USDJPY": "USD/JPY", "GBPUSD": "GBP/USD", "GBPJPY": "GBP/JPY", "AUDUSD": "AUD/USD", "USDCAD": "USD/CAD", "XAUUSD": "XAU/USD", "OURO": "XAU/USD"}
     return aliases.get(raw, raw)
 

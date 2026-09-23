@@ -22,6 +22,8 @@ INTERVAL_SECONDS = {"1m": 60, "5m": 300, "15m": 900, "1h": 3600}
 
 _client = None
 _client_lock = threading.Lock()
+_asset_cache = set()
+_asset_cache_at = 0.0
 
 
 def iq_option_configured() -> bool:
@@ -48,11 +50,33 @@ def _get_client():
         return client
 
 
+def available_iq_assets() -> set[str]:
+    """Return currently open IQ Option asset codes, cached briefly."""
+    global _asset_cache, _asset_cache_at
+    now = time.time()
+    if _asset_cache and now - _asset_cache_at < 300:
+        return set(_asset_cache)
+    open_time = _get_client().get_all_open_time(False)
+    assets = set()
+    for category in open_time.values():
+        if isinstance(category, dict):
+            for name, status in category.items():
+                if isinstance(status, dict) and status.get("open"):
+                    assets.add(str(name).upper())
+    _asset_cache = assets
+    _asset_cache_at = now
+    return set(assets)
+
+
 def fetch_iq_candles(symbol: str, interval: str, count: int) -> list[dict]:
     active = IQ_SYMBOLS.get(symbol)
+    if not active and symbol.endswith("-OTC"):
+        active = symbol.replace("/", "")
     size = INTERVAL_SECONDS.get(interval)
     if not active or not size:
         raise ValueError(f"IQ Option symbol/interval unsupported: {symbol}/{interval}")
+    if active.upper() not in available_iq_assets():
+        raise RuntimeError(f"IQ Option asset not open: {active}")
     candles = _get_client().get_candles(active, size, min(count, 1000), int(time.time()))
     if not candles:
         raise RuntimeError("IQ Option returned no candles")

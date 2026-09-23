@@ -20,3 +20,5 @@ services:
         sync: false
       - key: IQ_OPTION_PASSWORD
         sync: false
+      - key: AUTO_INCLUDE_OTC
+        value: "true"
