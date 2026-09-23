@@ -52,7 +52,7 @@ class CoreTests(unittest.TestCase):
         self.assertFalse(should_block({"status": "SEM_ALERTA"}))
         alert = format_channel_alert({"symbol": "EUR/JPY", "events": [{"title": "ECB rate decision"}]})
         self.assertIn("EUR/JPY", alert)
-        self.assertIn("🐮🐮🐮", alert)
+        self.assertIn("calendário Trading Economics", alert)
         self.assertIn("30 minutos", alert)
 
     def test_paper_signal_lifecycle(self):

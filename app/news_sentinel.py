@@ -12,9 +12,9 @@ DEFAULT_FEEDS = [
 TRADING_ECONOMICS_URL = "https://api.tradingeconomics.com/calendar"
 _CALENDAR_CACHE = {"checked_at": None, "events": []}
 HIGH_IMPACT_TERMS = (
-    "interest rate", "rate decision", "monetary policy", "central bank", "inflation",
-    "cpi", "ppi", "payroll", "nonfarm", "employment", "unemployment", "fed",
-    "ecb", "boj", "bank of japan", "fomc", "press conference", "gdp",
+    "interest rate", "rate decision", "monetary policy", "cpi", "consumer price index",
+    "ppi", "nonfarm payroll", "nfp", "fomc", "federal reserve", "ecb", "boj",
+    "bank of japan", "bank of england", "rba", "bank of canada", "gdp",
 )
 PAIR_TERMS = {
     "EUR/JPY": ("euro", "ecb", "europe", "japan", "boj", "yen"),
@@ -71,7 +71,7 @@ def _fetch_structured_calendar() -> tuple[list[dict], str | None]:
     for item in payload:
         importance = int(item.get("Importance") or 0)
         event_date = _parse_calendar_date(item.get("Date"))
-        if importance < 3 or not event_date or abs((event_date - now).total_seconds()) > 24 * 3600:
+        if importance < 3 or not event_date or abs((event_date - now).total_seconds()) > 30 * 60:
             continue
         events.append({
             "title": item.get("Event") or item.get("Category") or "Evento macroeconômico",
@@ -108,54 +108,17 @@ def _structured_news(symbol: str) -> dict | None:
     }
 
 
-def fetch_news(symbol: str, hours: int = 24, limit: int = 8) -> dict:
+def fetch_news(symbol: str, hours: float = 0.75, limit: int = 4) -> dict:
     structured = _structured_news(symbol)
     if structured is not None:
         return structured
-    feeds = [item.strip() for item in os.getenv("NEWS_FEEDS", "").split(",") if item.strip()] or DEFAULT_FEEDS
-    cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
-    terms = PAIR_TERMS.get(symbol, ())
-    events = []
-    errors = []
-
-    for feed_url in feeds:
-        try:
-            response = requests.get(feed_url, headers={"User-Agent": "NEXUS-IA-TRADER/0.1"}, timeout=15)
-            response.raise_for_status()
-            root = ET.fromstring(response.content)
-            for item in root.findall(".//item"):
-                title = _text(item, "title")
-                link = _text(item, "link")
-                published = _text(item, "pubDate")
-                try:
-                    published_at = parsedate_to_datetime(published).astimezone(timezone.utc)
-                except (TypeError, ValueError, OverflowError):
-                    published_at = None
-                if published_at and published_at < cutoff:
-                    continue
-                haystack = f"{title} {published}".lower()
-                relevant = not terms or any(term in haystack for term in terms)
-                high_impact = any(term in haystack for term in HIGH_IMPACT_TERMS)
-                if relevant and high_impact:
-                    events.append({"title": title, "link": link, "published": published, "high_impact": True})
-        except (requests.RequestException, ET.ParseError, ValueError) as error:
-            errors.append(type(error).__name__)
-
-    unique = []
-    seen = set()
-    for event in events:
-        key = event["title"].lower()
-        if key not in seen:
-            seen.add(key)
-            unique.append(event)
-    unique = unique[:limit]
     return {
         "symbol": symbol,
-        "status": "ALERTA" if unique else ("SEM_ALERTA" if not errors else "DADOS_PARCIAIS"),
-        "events": unique,
-        "errors": errors,
+        "status": "SEM_FONTE",
+        "events": [],
+        "errors": ["TRADING_ECONOMICS_API_KEY ausente"],
         "checked_at": datetime.now(timezone.utc).isoformat(),
-        "source": "Google News RSS (triagem de manchetes; protótipo)",
+        "source": "Trading Economics Calendar API não configurada",
     }
 
 
@@ -181,12 +144,12 @@ def format_channel_alert(news: dict, block_minutes: int = 30) -> str:
     return "\n".join([
         "Perigo 🚨 NEXUS TRADER informa:",
         "",
-        f"Notícia de impacto no mercado {news['symbol']} 🐮🐮🐮",
+        f"Risco macro detectado no mercado {news['symbol']}",
         "",
         f"{title}",
         "",
         f"Não serão enviadas análises para este ativo nos próximos {block_minutes} minutos.",
         "",
-        "NEXUS SENTINEL — proteção automática por risco de notícia.",
+        "NEXUS SENTINEL — baseado no calendário Trading Economics.",
         "Triagem informativa; não é recomendação financeira.",
     ])
