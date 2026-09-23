@@ -7,10 +7,16 @@ import requests
 from dotenv import load_dotenv
 from flask import Flask, jsonify
 
-from market_data import fetch_candles, normalize_symbol
-from news_sentinel import fetch_news, format_news, should_block
-from paper_journal import close_signal, create_signal, format_history, format_signal, format_statistics, recent_signals, settle_pending, statistics
-from signal_engine import analyze_with_confirmation, format_analysis
+try:
+    from .market_data import fetch_candles, is_fresh, normalize_symbol
+    from .news_sentinel import fetch_news, format_news, should_block
+    from .paper_journal import close_signal, create_signal, format_history, format_signal, format_statistics, recent_signals, settle_pending, statistics
+    from .signal_engine import analyze_with_confirmation, format_analysis
+except ImportError:
+    from market_data import fetch_candles, is_fresh, normalize_symbol
+    from news_sentinel import fetch_news, format_news, should_block
+    from paper_journal import close_signal, create_signal, format_history, format_signal, format_statistics, recent_signals, settle_pending, statistics
+    from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
 
@@ -58,6 +64,12 @@ def build_analysis(symbol: str) -> tuple[dict, dict]:
     candles_m5 = fetch_candles(symbol, interval="5m", range_="1d", count=80)
     candles_m15 = fetch_candles(symbol, interval="15m", range_="5d", count=80)
     candles_h1 = fetch_candles(symbol, interval="1h", range_="60d", count=80)
+    if not is_fresh(candles_m5, 10 * 60):
+        raise RuntimeError("candles M5 atrasados")
+    if not is_fresh(candles_m15, 35 * 60):
+        raise RuntimeError("candles M15 atrasados")
+    if not is_fresh(candles_h1, 2 * 60 * 60):
+        raise RuntimeError("candles H1 atrasados")
     result = analyze_with_confirmation(symbol, candles_m5, candles_m15, candles_h1)
     news = fetch_news(symbol)
     result["news_status"] = news["status"]

@@ -49,3 +49,9 @@ def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: 
         if values["close"] is not None:
             candles.append({"timestamp": timestamp, **values})
     return candles[-count:]
+
+
+def is_fresh(candles: list[dict], max_age_seconds: int) -> bool:
+    if not candles or candles[-1].get("timestamp") is None:
+        return False
+    return time.time() - float(candles[-1]["timestamp"]) <= max_age_seconds

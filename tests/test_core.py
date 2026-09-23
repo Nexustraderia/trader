@@ -1,8 +1,9 @@
 import os
 import tempfile
+import time
 import unittest
 
-from app.market_data import normalize_symbol
+from app.market_data import is_fresh, normalize_symbol
 from app.news_sentinel import should_block
 from app.paper_journal import close_signal, create_signal, recent_signals, settle_pending, statistics
 from app.signal_engine import analyze
@@ -13,6 +14,10 @@ class CoreTests(unittest.TestCase):
     def test_symbol_normalization(self):
         self.assertEqual(normalize_symbol("eurjpy"), "EUR/JPY")
         self.assertEqual(normalize_symbol("XAUUSD"), "XAU/USD")
+
+    def test_stale_market_data_is_rejected(self):
+        self.assertTrue(is_fresh([{"timestamp": time.time()}], 60))
+        self.assertFalse(is_fresh([{"timestamp": time.time() - 120}], 60))
 
     def test_signal_engine_can_choose_wait(self):
         candles = [{"close": value} for value in range(100, 130)]
