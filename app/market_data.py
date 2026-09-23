@@ -7,7 +7,11 @@ import requests
 SYMBOLS = {
     "EUR/JPY": "EURJPY=X",
     "EUR/USD": "EURUSD=X",
+    "USD/JPY": "JPY=X",
     "GBP/USD": "GBPUSD=X",
+    "GBP/JPY": "GBPJPY=X",
+    "AUD/USD": "AUDUSD=X",
+    "USD/CAD": "CAD=X",
     "XAU/USD": "GC=F",
 }
 
@@ -17,7 +21,7 @@ _LAST_SOURCE = "Yahoo Finance Chart API (fallback)"
 
 def normalize_symbol(value: str) -> str:
     raw = value.strip().upper().replace("-", "/")
-    aliases = {"EURJPY": "EUR/JPY", "EURUSD": "EUR/USD", "GBPUSD": "GBP/USD", "XAUUSD": "XAU/USD", "OURO": "XAU/USD"}
+    aliases = {"EURJPY": "EUR/JPY", "EURUSD": "EUR/USD", "USDJPY": "USD/JPY", "GBPUSD": "GBP/USD", "GBPJPY": "GBP/JPY", "AUDUSD": "AUD/USD", "USDCAD": "USD/CAD", "XAUUSD": "XAU/USD", "OURO": "XAU/USD"}
     return aliases.get(raw, raw)
 
 

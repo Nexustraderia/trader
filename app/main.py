@@ -31,7 +31,7 @@ AUTO_SIGNAL_INTERVAL = int(os.getenv("AUTO_SIGNAL_INTERVAL", "300"))
 AUTO_SIGNAL_MIN_SCORE = int(os.getenv("AUTO_SIGNAL_MIN_SCORE", "80"))
 AUTO_SIGNAL_MAX_DAILY = int(os.getenv("AUTO_SIGNAL_MAX_DAILY", "6"))
 AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "7200"))
-AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/JPY,EUR/USD,GBP/USD,XAU/USD").split(",") if item.strip())
+AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/USD,EUR/JPY,USD/JPY,GBP/USD,GBP/JPY,AUD/USD,USD/CAD").split(",") if item.strip())
 
 state = {
     "started_at": datetime.now(timezone.utc).isoformat(),

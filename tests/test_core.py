@@ -15,6 +15,10 @@ class CoreTests(unittest.TestCase):
     def test_symbol_normalization(self):
         self.assertEqual(normalize_symbol("eurjpy"), "EUR/JPY")
         self.assertEqual(normalize_symbol("XAUUSD"), "XAU/USD")
+        self.assertEqual(normalize_symbol("usdjpy"), "USD/JPY")
+        self.assertEqual(normalize_symbol("GBPJPY"), "GBP/JPY")
+        self.assertEqual(normalize_symbol("audusd"), "AUD/USD")
+        self.assertEqual(normalize_symbol("USDCAD"), "USD/CAD")
 
     def test_stale_market_data_is_rejected(self):
         self.assertTrue(is_fresh([{"timestamp": time.time()}], 60))
