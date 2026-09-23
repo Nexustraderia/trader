@@ -9,6 +9,7 @@ from flask import Flask, jsonify
 
 from market_data import fetch_candles, normalize_symbol
 from news_sentinel import fetch_news, format_news, should_block
+from paper_journal import close_signal, create_signal, format_history, format_signal, recent_signals
 from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -45,6 +46,20 @@ def send_message(text: str, chat_id: str | None = None) -> bool:
     return True
 
 
+def build_analysis(symbol: str) -> tuple[dict, dict]:
+    candles_m5 = fetch_candles(symbol, interval="5m", range_="1d", count=80)
+    candles_m15 = fetch_candles(symbol, interval="15m", range_="5d", count=80)
+    candles_h1 = fetch_candles(symbol, interval="1h", range_="60d", count=80)
+    result = analyze_with_confirmation(symbol, candles_m5, candles_m15, candles_h1)
+    news = fetch_news(symbol)
+    result["news_status"] = news["status"]
+    if should_block(news):
+        result["decision"] = "AGUARDAR"
+        result["score"] = min(result["score"], 40)
+        result["reasons"].append("NEXUS SENTINEL detectou notícia macro de alto impacto; sinal bloqueado")
+    return result, news
+
+
 def handle_update(update: dict) -> None:
     message = update.get("message", {})
     text = (message.get("text") or "").strip()
@@ -75,20 +90,44 @@ def handle_update(update: dict) -> None:
                 f"Não foi possível consultar as notícias agora ({type(error).__name__}).",
                 chat_id,
             )
+    elif text.startswith("/sinal"):
+        requested = text.removeprefix("/sinal").strip() or "EUR/JPY"
+        symbol = normalize_symbol(requested)
+        try:
+            result, _ = build_analysis(symbol)
+            if result["decision"] not in ("CALL", "PUT"):
+                send_message(
+                    format_analysis(result) + "\n\nNenhum sinal simulado criado: condição insuficiente.",
+                    chat_id,
+                )
+            else:
+                send_message(format_signal(create_signal(result)), chat_id)
+        except Exception as error:
+            send_message(f"NEXUS IA TRADER\n\nSinal simulado indisponível: {type(error).__name__}", chat_id)
+    elif text.startswith("/resultado"):
+        parts = text.split()
+        if len(parts) != 3 or not close_signal(parts[1], parts[2]):
+            send_message("Uso: /resultado ID WIN|LOSS|VOID", chat_id)
+        else:
+            send_message(f"Resultado do sinal {parts[1].upper()} registrado como {parts[2].upper()}.", chat_id)
+    elif text == "/historico":
+        send_message(format_history(recent_signals()), chat_id)
+    elif text == "/ajuda":
+        send_message(
+            "NEXUS IA TRADER\n\n"
+            "/analisar EUR/JPY — análise M5/M15/H1\n"
+            "/noticias EUR/JPY — filtro macroeconômico\n"
+            "/sinal EUR/JPY — cria registro PAPER TRADING\n"
+            "/resultado ID WIN|LOSS|VOID — fecha simulação\n"
+            "/historico — lista simulações\n\n"
+            "Nenhum comando envia ordens reais.",
+            chat_id,
+        )
     elif text.startswith("/analisar"):
         requested = text.removeprefix("/analisar").strip() or "EUR/JPY"
         symbol = normalize_symbol(requested)
         try:
-            candles_m5 = fetch_candles(symbol, interval="5m", range_="1d", count=80)
-            candles_m15 = fetch_candles(symbol, interval="15m", range_="5d", count=80)
-            candles_h1 = fetch_candles(symbol, interval="1h", range_="60d", count=80)
-            result = analyze_with_confirmation(symbol, candles_m5, candles_m15, candles_h1)
-            news = fetch_news(symbol)
-            result["news_status"] = news["status"]
-            if should_block(news):
-                result["decision"] = "AGUARDAR"
-                result["score"] = min(result["score"], 40)
-                result["reasons"].append("NEXUS SENTINEL detectou notícia macro de alto impacto; sinal bloqueado")
+            result, _ = build_analysis(symbol)
             send_message(format_analysis(result), chat_id)
         except Exception as error:
             send_message(

@@ -3,5 +3,6 @@
 __pycache__/
 *.pyc
 *.sqlite3
+signals.sqlite3
 logs/
 .DS_Store
