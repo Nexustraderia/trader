@@ -9,12 +9,10 @@ from flask import Flask, jsonify
 
 try:
     from .market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
-    from .news_sentinel import fetch_news, format_channel_alert, format_news, should_block
     from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, ranking, recent_signals, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
-    from news_sentinel import fetch_news, format_channel_alert, format_news, should_block
     from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, ranking, recent_signals, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
@@ -40,8 +38,6 @@ state = {
     "auto_last_sent": {},
     "auto_sent_today": 0,
     "auto_sent_date": None,
-    "news_block_until": {},
-    "news_alert_keys": {},
 }
 
 
@@ -78,28 +74,7 @@ def build_analysis(symbol: str) -> tuple[dict, dict]:
         raise RuntimeError("candles H1 atrasados")
     result = analyze_with_confirmation(symbol, candles_m5, candles_m15, candles_h1)
     result["source"] = ", ".join(dict.fromkeys((source_m5, source_m15, source_h1)))
-    news = fetch_news(symbol)
-    result["news_status"] = news["status"]
-    if state["news_block_until"].get(symbol, datetime.min.replace(tzinfo=timezone.utc)) > datetime.now(timezone.utc):
-        result["decision"] = "AGUARDAR"
-        result["score"] = min(result["score"], 40)
-        result["reasons"].append("NEXUS SENTINEL mantém bloqueio temporário por notícia de alto impacto")
-    return result, news
-
-
-def apply_news_risk(symbol: str, news: dict) -> bool:
-    """Announce a new high-impact headline and block that asset for 30 minutes."""
-    if not should_block(news) or not news.get("events"):
-        return False
-    now = datetime.now(timezone.utc)
-    event = news["events"][0]
-    key = f"{symbol}:{event.get('title', '').strip().lower()}"
-    if state["news_alert_keys"].get(symbol) != key:
-        state["news_alert_keys"][symbol] = key
-        state["news_block_until"][symbol] = now + timedelta(minutes=30)
-        send_message(format_channel_alert(news, 30))
-        return True
-    return state["news_block_until"].get(symbol, datetime.min.replace(tzinfo=timezone.utc)) > now
+    return result, {}
 
 
 def auto_scan_loop() -> None:
@@ -109,11 +84,7 @@ def auto_scan_loop() -> None:
     while True:
         for symbol in AUTO_SYMBOLS:
             try:
-                result, news = build_analysis(normalize_symbol(symbol))
-                if apply_news_risk(result["symbol"], news):
-                    result["decision"] = "AGUARDAR"
-                    result["score"] = min(result["score"], 40)
-                    result["confluence_ok"] = False
+                result, _ = build_analysis(normalize_symbol(symbol))
                 now = datetime.now(timezone.utc)
                 last_sent = state["auto_last_sent"].get(result["symbol"])
                 cooldown_ok = not last_sent or now - last_sent >= timedelta(minutes=20)
@@ -187,16 +158,7 @@ def handle_update(update: dict) -> None:
             chat_id,
         )
     elif text.startswith("/noticias"):
-        requested = text.removeprefix("/noticias").strip() or "EUR/JPY"
-        symbol = normalize_symbol(requested)
-        try:
-            send_message(format_news(fetch_news(symbol)), chat_id)
-        except Exception as error:
-            send_message(
-                "NEXUS SENTINEL\n\nStatus: AGUARDAR\n"
-                f"Não foi possível consultar as notícias agora ({type(error).__name__}).",
-                chat_id,
-            )
+        send_message("NEXUS IA TRADER\n\nO módulo de notícias está desativado temporariamente.", chat_id)
     elif text.startswith("/sinal"):
         requested = text.removeprefix("/sinal").strip() or "EUR/JPY"
         symbol = normalize_symbol(requested)
@@ -231,7 +193,6 @@ def handle_update(update: dict) -> None:
         send_message(
             "NEXUS IA TRADER\n\n"
             "/analisar EUR/JPY — análise M5/M15/H1\n"
-            "/noticias EUR/JPY — filtro macroeconômico\n"
             "/sinal EUR/JPY — cria registro PAPER TRADING\n"
             "/resultado ID WIN|LOSS|VOID — fecha simulação\n"
             "/historico — lista simulações\n\n"
@@ -287,12 +248,6 @@ def index():
 
 @app.get("/health")
 def health():
-    now = datetime.now(timezone.utc)
-    active_news_blocks = {
-        symbol: until.isoformat()
-        for symbol, until in state["news_block_until"].items()
-        if until > now
-    }
     return jsonify(
         {
             "status": "online",
@@ -306,7 +261,6 @@ def health():
             "auto_signal_min_score": AUTO_SIGNAL_MIN_SCORE,
             "auto_signal_max_daily": AUTO_SIGNAL_MAX_DAILY,
             "auto_symbols": AUTO_SYMBOLS,
-            "active_news_blocks": active_news_blocks,
         }
     )
 

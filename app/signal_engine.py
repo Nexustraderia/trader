@@ -146,7 +146,6 @@ def format_analysis(result: dict) -> str:
         f"Contexto H1: {result.get('h1_decision', 'indisponível')}",
         f"Confluência completa: {'SIM' if result.get('confluence_ok') else 'NÃO'}",
         f"Volatilidade: {'OK' if result.get('volatility_ok') else 'BLOQUEADA'}",
-        f"NEXUS SENTINEL: {result.get('news_status', 'não consultado')}",
     ]
     if "price" in result:
         lines.extend([f"Preço de referência: {result['price']}", f"RSI: {result['rsi']:.1f}"])

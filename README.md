@@ -10,7 +10,7 @@ O modo padrão é `TESTE`. O bot coleta candles públicos para análise sob dema
 
 - `/status` — verifica o estado do bot.
 - `/analisar EUR/JPY` — compara M5, M15 e H1 e aplica o filtro NEXUS SENTINEL.
-- `/noticias EUR/JPY` — consulta uma triagem de manchetes macroeconômicas recentes.
+- `/noticias EUR/JPY` — informa que o módulo de notícias está temporariamente desativado.
 - `/sinal EUR/JPY` — cria um registro de paper trading somente quando houver CALL ou PUT confirmado.
 - `/resultado ID WIN|LOSS|VOID` — fecha manualmente uma simulação.
 - `/historico` — lista os registros simulados.
@@ -18,7 +18,7 @@ O modo padrão é `TESTE`. O bot coleta candles públicos para análise sob dema
 - `/ranking` — compara WIN, LOSS e taxa histórica entre os ativos.
 - Publicação automática — desativada por padrão; quando habilitada, publica apenas paper signals com score mínimo, cooldown e limite diário.
 
-O SENTINEL bloqueia uma eventual direção quando detecta eventos de alto impacto. Com `TRADING_ECONOMICS_API_KEY`, usa exclusivamente o calendário estruturado do Trading Economics, filtrando eventos de importância 3 e países relacionados ao par; sem essa chave, o SENTINEL fica sem fonte de notícias e não bloqueia pares por manchetes genéricas. O sistema não raspa nem redistribui o calendário do Investing.com. O diário é local ao serviço e pode ser reiniciado quando a instância gratuita do Render for recriada.
+O módulo de notícias está temporariamente fora do fluxo operacional para evitar falsos bloqueios. Ele poderá ser retomado no futuro somente com uma fonte estruturada e autorizada. O diário é local ao serviço e pode ser reiniciado quando a instância gratuita do Render for recriada.
 
 Para candles intraday, o bot usa Twelve Data quando `TWELVEDATA_API_KEY` está configurada; sem essa chave, utiliza a Yahoo Finance Chart API como fallback público. As chaves devem ser configuradas somente no Render, nunca no GitHub.
 
@@ -26,7 +26,7 @@ A publicação automática usa `AUTO_SIGNALS_ENABLED=true`, intervalo padrão de
 
 ## Próximas etapas
 
-1. Configurar a chave da fonte estruturada de calendário econômico no Render.
+1. Acumular histórico de paper trading para avaliar desempenho por ativo.
 2. Registrar análises em modo simulado para avaliação histórica.
 3. Adicionar métricas de qualidade e trilha de auditoria.
 
