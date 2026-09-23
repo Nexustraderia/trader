@@ -1,0 +1,20 @@
+name: Render keepalive
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping-render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Wake Render service
+        run: |
+          set -e
+          curl --fail --silent --show-error --max-time 20 \
+            "https://trader-f4z2.onrender.com/health?source=github-actions" \
+            -o /tmp/health.json
+          grep -q '"status":"online"' /tmp/health.json
+          echo "Render online"
