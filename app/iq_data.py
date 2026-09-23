@@ -19,6 +19,7 @@ IQ_SYMBOLS = {
     "XAU/USD": "XAUUSD",
 }
 INTERVAL_SECONDS = {"1m": 60, "5m": 300, "15m": 900, "1h": 3600}
+OTC_BASES = ("EURUSD", "EURJPY", "USDJPY", "GBPUSD", "GBPJPY", "AUDUSD", "USDCAD")
 
 _client = None
 _client_lock = threading.Lock()
@@ -80,9 +81,7 @@ def is_iq_asset_open(symbol: str) -> bool:
     # authoritative availability test. Avoid the heavy platform catalog call.
     if not normalized.endswith("-OTC"):
         return True
-    active = IQ_SYMBOLS.get(normalized)
-    if not active and normalized.endswith("-OTC"):
-        active = normalized[:-4].replace("/", "") + "-OTC"
+    active = normalized[:-4].replace("/", "") + "-OTC" if normalized.endswith("-OTC") else IQ_SYMBOLS.get(normalized)
     if not active:
         return False
     try:
@@ -91,7 +90,8 @@ def is_iq_asset_open(symbol: str) -> bool:
         # For normal Forex, build_analysis performs the authoritative fresh
         # candle check. OTC remains strict because its session is platform-only.
         return not normalized.endswith("-OTC")
-    if active.upper() in assets:
+    candidates = {active.upper(), active.upper().replace("-OTC", "_OTC"), active.upper().replace("-OTC", " OTC")}
+    if candidates.intersection(assets):
         return True
     # A normal pair is considered eligible for the subsequent fresh-candle
     # gate; this avoids false closures when IQ's heavy catalog is incomplete.
@@ -105,8 +105,11 @@ def fetch_iq_candles(symbol: str, interval: str, count: int) -> list[dict]:
     size = INTERVAL_SECONDS.get(interval)
     if not active or not size:
         raise ValueError(f"IQ Option symbol/interval unsupported: {symbol}/{interval}")
-    if symbol.endswith("-OTC") and active.upper() not in available_iq_assets():
-        raise RuntimeError(f"IQ Option asset not open: {active}")
+    if symbol.endswith("-OTC"):
+        assets = available_iq_assets()
+        candidates = {active.upper(), active.upper().replace("-OTC", "_OTC"), active.upper().replace("-OTC", " OTC")}
+        if not candidates.intersection(assets):
+            raise RuntimeError(f"IQ Option asset not open: {active}")
     candles = _get_client().get_candles(active, size, min(count, 1000), int(time.time()))
     if not candles:
         raise RuntimeError("IQ Option returned no candles")
@@ -122,3 +125,14 @@ def fetch_iq_candles(symbol: str, interval: str, count: int) -> list[dict]:
             "volume": float(candle.get("volume", 0) or 0),
         })
     return normalized[-count:]
+
+
+def otc_open_assets() -> list[str]:
+    """Return configured OTC codes that the cached IQ catalog marks open."""
+    assets = available_iq_assets()
+    opened = []
+    for base in OTC_BASES:
+        candidates = {f"{base}-OTC", f"{base}_OTC", f"{base} OTC"}
+        if candidates.intersection(assets):
+            opened.append(f"{base}-OTC")
+    return opened

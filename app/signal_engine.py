@@ -35,6 +35,25 @@ def volatility_metrics(values: list[float], period: int = 14) -> tuple[float, fl
     return (sum(changes) / len(changes) if changes else 0.0), latest
 
 
+def macd(values: list[float]) -> tuple[float, float, float]:
+    fast = ema(values, 12)
+    slow = ema(values, 26)
+    line = fast - slow
+    history = []
+    for index in range(max(26, len(values) - 35), len(values) + 1):
+        history.append(ema(values[:index], 12) - ema(values[:index], 26))
+    signal = ema(history, 9) if history else line
+    return line, signal, line - signal
+
+
+def bollinger(values: list[float], period: int = 20) -> tuple[float, float, float]:
+    window = values[-period:] if len(values) >= period else values
+    middle = sum(window) / len(window)
+    variance = sum((value - middle) ** 2 for value in window) / len(window)
+    deviation = variance ** 0.5
+    return middle - 2 * deviation, middle, middle + 2 * deviation
+
+
 def directional_confidence(decision: str, score: int | float) -> int:
     """Convert the legacy directional score into confidence for either side.
 
@@ -61,8 +80,11 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
 
     fast = ema(closes, 9)
     slow = ema(closes, 21)
+    trend = ema(closes, 50)
     momentum = rsi(closes)
     volatility_pct, latest_move_pct = volatility_metrics(closes)
+    macd_line, macd_signal, macd_histogram = macd(closes)
+    lower_band, middle_band, upper_band = bollinger(closes)
     recent = closes[-1]
     score = 50
     reasons = []
@@ -74,6 +96,13 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         score -= 20
         reasons.append("EMA 9 abaixo da EMA 21")
 
+    if recent > trend:
+        score += 10
+        reasons.append("Preço acima da EMA 50")
+    elif recent < trend:
+        score -= 10
+        reasons.append("Preço abaixo da EMA 50")
+
     if 52 <= momentum <= 68:
         score += 15
         reasons.append(f"RSI favorável ({momentum:.1f})")
@@ -82,6 +111,13 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         reasons.append(f"RSI pressionado ({momentum:.1f})")
     elif momentum > 70 or momentum < 30:
         reasons.append(f"RSI extremo ({momentum:.1f}); risco de entrada atrasada")
+
+    if macd_histogram > 0:
+        score += 10
+        reasons.append("MACD com momentum positivo")
+    elif macd_histogram < 0:
+        score -= 10
+        reasons.append("MACD com momentum negativo")
 
     recent_change = (closes[-1] / closes[-6] - 1) * 100
     if recent_change > 0:
@@ -107,6 +143,13 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         "rsi": momentum,
         "ema_fast": fast,
         "ema_slow": slow,
+        "ema_trend": trend,
+        "macd": macd_line,
+        "macd_signal": macd_signal,
+        "macd_histogram": macd_histogram,
+        "bollinger_lower": lower_band,
+        "bollinger_middle": middle_band,
+        "bollinger_upper": upper_band,
         "volatility_pct": volatility_pct,
         "latest_move_pct": latest_move_pct,
         "reasons": reasons,
@@ -174,6 +217,11 @@ def analyze_with_confirmation(
             result["reasons"].append(f"Conflito com gatilho M1 ({trigger['decision']}); entrada bloqueada")
     confirmation_confidence = directional_confidence(confirmation["decision"], confirmation["score"])
     result["m15_confidence"] = confirmation_confidence
+    trend_momentum_ok = (
+        (result["decision"] == "CALL" and result["price"] >= result["ema_trend"] and result["macd_histogram"] >= 0)
+        or (result["decision"] == "PUT" and result["price"] <= result["ema_trend"] and result["macd_histogram"] <= 0)
+    )
+    result["trend_momentum_ok"] = trend_momentum_ok
     result["confluence_ok"] = (
         result["decision"] in ("CALL", "PUT")
         and result["m15_decision"] == result["decision"]
@@ -181,6 +229,7 @@ def analyze_with_confirmation(
         and result["h1_decision"] == result["decision"]
         and result["m1_confirmation_ok"]
         and volatility_ok
+        and trend_momentum_ok
     )
     if not result["confluence_ok"]:
         result["reasons"].append("Confluência completa M5/M15/H1 não confirmada")
