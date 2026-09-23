@@ -308,7 +308,11 @@ def session_summary_loop() -> None:
     if not BOT_TOKEN:
         return
     while True:
-        time.sleep(max(900, AUTO_SUMMARY_INTERVAL))
+        if AUTO_SUMMARY_INTERVAL == 3600:
+            seconds_to_hour = 3600 - (time.time() % 3600)
+            time.sleep(max(30, seconds_to_hour))
+        else:
+            time.sleep(max(900, AUTO_SUMMARY_INTERVAL))
         try:
             send_message(format_session_summary(session_statistics(1)))
         except Exception:
