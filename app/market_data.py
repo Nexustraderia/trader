@@ -4,6 +4,11 @@ import time
 
 import requests
 
+try:
+    from .iq_data import fetch_iq_candles, iq_option_configured
+except ImportError:
+    from iq_data import fetch_iq_candles, iq_option_configured
+
 SYMBOLS = {
     "EUR/JPY": "EURJPY=X",
     "EUR/USD": "EURUSD=X",
@@ -61,6 +66,7 @@ def market_data_diagnostics() -> dict:
         "source": _LAST_SOURCE,
         "last_error": _LAST_ERROR,
         "twelve_data_configured": bool(os.getenv("TWELVEDATA_API_KEY", "").strip()),
+        "iq_option_configured": iq_option_configured(),
     }
 
 
@@ -68,6 +74,16 @@ def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: 
     global _LAST_SOURCE, _LAST_ERROR
     _LAST_ERROR = None
     normalized = normalize_symbol(symbol)
+    if os.getenv("MARKET_DATA_PROVIDER", "IQOPTION").strip().upper() in {"IQOPTION", "IQ_OPTION"}:
+        try:
+            candles = fetch_iq_candles(normalized, interval, count)
+            if candles:
+                _LAST_SOURCE = "IQ Option Practice candles (read-only)"
+                return candles
+        except Exception as error:
+            _LAST_ERROR = f"IQ Option: {type(error).__name__}"
+            if os.getenv("IQ_OPTION_STRICT", "false").lower() == "true":
+                raise
     if os.getenv("TWELVEDATA_API_KEY", "").strip():
         try:
             candles = _fetch_twelve_data(normalized, interval, count)
