@@ -265,6 +265,29 @@ def health():
     )
 
 
+@app.get("/health/data")
+def health_data():
+    """Verify a live candle without exposing secrets or prices."""
+    symbol = "EUR/USD"
+    try:
+        candles = fetch_candles(symbol, interval="5m", range_="1d", count=1)
+        return jsonify({
+            "status": "ok",
+            "symbol": symbol,
+            "source": market_data_source(),
+            "candle_available": bool(candles),
+            "candle_fresh": is_fresh(candles, 10 * 60),
+            "twelve_data_configured": bool(os.getenv("TWELVEDATA_API_KEY", "").strip()),
+        })
+    except Exception as error:
+        return jsonify({
+            "status": "error",
+            "symbol": symbol,
+            "detail": type(error).__name__,
+            "twelve_data_configured": bool(os.getenv("TWELVEDATA_API_KEY", "").strip()),
+        }), 503
+
+
 if __name__ == "__main__":
     if BOT_TOKEN:
         threading.Thread(target=polling_loop, daemon=True).start()
