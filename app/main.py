@@ -1,5 +1,4 @@
 import os
-import json
 import threading
 import time
 from datetime import datetime, timedelta, timezone
@@ -31,11 +30,6 @@ AUTO_SIGNAL_MIN_SCORE = int(os.getenv("AUTO_SIGNAL_MIN_SCORE", "80"))
 AUTO_SIGNAL_MAX_DAILY = int(os.getenv("AUTO_SIGNAL_MAX_DAILY", "6"))
 AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "7200"))
 AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/USD,EUR/JPY,USD/JPY,GBP/USD,GBP/JPY,AUD/USD,USD/CAD").split(",") if item.strip())
-AFFILIATE_PROMO_ENABLED = os.getenv("AFFILIATE_PROMO_ENABLED", "false").lower() == "true"
-AFFILIATE_PROMO_TEST = os.getenv("AFFILIATE_PROMO_TEST", "false").lower() == "true"
-AFFILIATE_PROMO_EVERY = max(1, int(os.getenv("AFFILIATE_PROMO_EVERY", "5")))
-AFFILIATE_URL = os.getenv("AFFILIATE_URL", "https://affiliate.iqoption.net/redir/?aff=232843&aff_model=revenue&afftrack=").strip()
-PROMO_IMAGE_PATH = os.getenv("PROMO_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "promo.png"))
 RESULT_IMAGE_PATHS = {
     "WIN": os.getenv("WIN_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "win.png")),
     "LOSS": os.getenv("LOSS_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "loss.png")),
@@ -48,7 +42,6 @@ state = {
     "auto_last_sent": {},
     "auto_sent_today": 0,
     "auto_sent_date": None,
-    "signals_since_promo": 0,
     "last_settlement": None,
     "settled_count": 0,
     "settlement_error": None,
@@ -117,45 +110,6 @@ def send_result(item: dict, chat_id: str | None = None) -> bool:
     return False
 
 
-def send_affiliate_promo(chat_id: str | None = None) -> bool:
-    """Publish an explicitly labeled affiliate promotion with a URL button."""
-    caption = (
-        "E aí, está gostando das análises feitas pela nossa IA?\n\n"
-        "Confira a corretora indicada pelo NEXUS IA TRADER e veja as condições do bônus de boas-vindas no cadastro.\n\n"
-        "Link de afiliado do NEXUS IA TRADER."
-    )
-    markup = {"inline_keyboard": [[{"text": "Clique aqui e cadastre-se", "url": AFFILIATE_URL}]]}
-    if not BOT_TOKEN:
-        return False
-    if not os.path.isfile(PROMO_IMAGE_PATH):
-        return send_message(caption + f"\n\n{AFFILIATE_URL}", chat_id)
-    file_id = state["result_file_ids"].get("PROMO") or get_telegram_file_id("PROMO")
-    if file_id:
-        response = requests.post(
-            telegram_url("sendPhoto"),
-            json={"chat_id": chat_id or CHANNEL_ID, "photo": file_id, "caption": caption, "reply_markup": markup},
-            timeout=30,
-        )
-    else:
-        with open(PROMO_IMAGE_PATH, "rb") as image_file:
-            response = requests.post(
-                telegram_url("sendPhoto"),
-                data={"chat_id": chat_id or CHANNEL_ID, "caption": caption, "reply_markup": json.dumps(markup)},
-                files={"photo": (os.path.basename(PROMO_IMAGE_PATH), image_file, "image/png")},
-                timeout=30,
-            )
-    response.raise_for_status()
-    if not file_id:
-        photos = response.json().get("result", {}).get("photo", [])
-        if photos:
-            file_id = photos[-1].get("file_id")
-            state["result_file_ids"]["PROMO"] = file_id
-            if file_id:
-                save_telegram_file_id("PROMO", file_id)
-    state["last_message"] = datetime.now(timezone.utc).isoformat()
-    return True
-
-
 def build_analysis(symbol: str) -> tuple[dict, dict]:
     candles_m5 = fetch_candles(symbol, interval="5m", range_="1d", count=80)
     source_m5 = market_data_source()
@@ -200,10 +154,6 @@ def auto_scan_loop() -> None:
                     )
                     state["auto_last_sent"][result["symbol"]] = now
                     state["auto_sent_today"] += 1
-                    state["signals_since_promo"] += 1
-                    if AFFILIATE_PROMO_ENABLED and state["signals_since_promo"] >= AFFILIATE_PROMO_EVERY:
-                        if send_affiliate_promo():
-                            state["signals_since_promo"] = 0
             except Exception:
                 continue
         time.sleep(max(60, AUTO_SIGNAL_INTERVAL))
@@ -407,11 +357,6 @@ def health_data():
 
 if __name__ == "__main__":
     if BOT_TOKEN:
-        if AFFILIATE_PROMO_TEST:
-            try:
-                send_affiliate_promo()
-            except Exception:
-                pass
         threading.Thread(target=polling_loop, daemon=True).start()
         threading.Thread(target=settlement_loop, daemon=True).start()
         threading.Thread(target=session_summary_loop, daemon=True).start()

@@ -32,8 +32,6 @@ O SQLite mantém o sinal e o resultado fechado até que o Telegram confirme o en
 
 Depois do primeiro envio de cada arte, o bot armazena o `file_id` fornecido pelo Telegram e reutiliza esse identificador. Assim, as mensagens seguintes enviam imagem e texto sem fazer upload repetido do arquivo pesado.
 
-A promoção da corretora é opcional e fica desativada por padrão. Quando `AFFILIATE_PROMO_ENABLED=true`, o bot envia a arte `app/assets/promo.png` a cada cinco sinais publicados, com botão para o link configurado em `AFFILIATE_URL`. A mensagem identifica que é publicidade/link de afiliado, não promete lucro nem garante bônus, e recomenda verificar as condições diretamente com a corretora.
-
 ## Próximas etapas
 
 1. Acumular histórico de paper trading para avaliar desempenho por ativo.

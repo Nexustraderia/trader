@@ -181,13 +181,26 @@ def format_result(result: dict) -> str:
 def format_signal(signal: dict) -> str:
     entry = datetime.fromisoformat(signal["entry_at"]).astimezone(LOCAL_ZONE) if signal.get("entry_at") else None
     return "\n".join([
-        "NEXUS IA TRADER",
-        "As melhores análises em tempo Real",
+        "⚡️ NEXUS I.A TRADER ⚡️",
+        "🤖 Análises em tempo real com Inteligência Artificial",
         "",
-        f"Ativo: {signal['symbol']}",
-        f"Direção: {signal['direction']}",
-        f"Entrada: {entry.strftime('%H:%M') if entry else 'próxima vela'}",
-        f"Tempo Expiração: {signal['timeframe']}",
+        "━━━━━━━━━━━━━━━━━━",
+        "",
+        "💱 ATIVO",
+        signal["symbol"],
+        "",
+        "📊 DIREÇÃO",
+        f"🟢 {signal['direction']}" if signal["direction"] == "CALL" else f"🔴 {signal['direction']}",
+        "",
+        "⏰ ENTRADA",
+        entry.strftime("%H:%M") if entry else "próxima vela",
+        "",
+        "⌛ EXPIRAÇÃO",
+        signal["timeframe"],
+        "",
+        "━━━━━━━━━━━━━━━━━━",
+        "🧠 Análise gerada pelo Nexus I.A Trader",
+        "⚠️ Gerencie seu risco com responsabilidade",
     ])
 
 
