@@ -85,7 +85,7 @@ def settle_pending(price_lookup) -> list[dict]:
     settled = []
     with _connect() as connection:
         rows = connection.execute(
-            "SELECT id, symbol, direction, entry_price, expires_at FROM paper_signals WHERE outcome = 'PENDENTE' AND expires_at IS NOT NULL"
+            "SELECT id, symbol, direction, entry_price, entry_at, expires_at FROM paper_signals WHERE outcome = 'PENDENTE' AND expires_at IS NOT NULL"
         ).fetchall()
         for row in rows:
             if datetime.fromisoformat(row["expires_at"]) > now:
@@ -103,10 +103,26 @@ def settle_pending(price_lookup) -> list[dict]:
                     "UPDATE paper_signals SET outcome = ?, closed_at = ? WHERE id = ? AND outcome = 'PENDENTE'",
                     (outcome, now.isoformat(), row["id"]),
                 )
-                settled.append({"id": row["id"], "symbol": row["symbol"], "direction": row["direction"], "outcome": outcome, "entry_price": entry_price, "exit_price": exit_price})
+                settled.append({"id": row["id"], "symbol": row["symbol"], "direction": row["direction"], "entry_at": row["entry_at"], "outcome": outcome, "entry_price": entry_price, "exit_price": exit_price})
             except (TypeError, ValueError, KeyError):
                 continue
     return settled
+
+
+def format_result(result: dict) -> str:
+    entry = datetime.fromisoformat(result["entry_at"]).astimezone(LOCAL_ZONE) if result.get("entry_at") else None
+    outcome = {"WIN": "Win", "LOSS": "Loss", "VOID": "Void"}.get(result["outcome"], result["outcome"])
+    return "\n".join([
+        "NEXUS IA TRADER ( Resultado final da nossa análise)",
+        "",
+        f"Ativo: {result['symbol']}",
+        f"Direção: {result['direction']}",
+        f"Entrada: {entry.strftime('%H:%M') if entry else 'indisponível'}",
+        "Tempo Expiração: M5",
+        "",
+        f"O resultado desta entrada foi {outcome}.",
+        "Mantenha o seu gerenciamento foque no seus objetivos.",
+    ])
 
 
 def format_signal(signal: dict) -> str:

@@ -10,12 +10,12 @@ from flask import Flask, jsonify
 try:
     from .market_data import fetch_candles, is_fresh, normalize_symbol
     from .news_sentinel import fetch_news, format_news, should_block
-    from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_signal, format_statistics, ranking, recent_signals, settle_pending, statistics
+    from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_signal, format_statistics, ranking, recent_signals, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from market_data import fetch_candles, is_fresh, normalize_symbol
     from news_sentinel import fetch_news, format_news, should_block
-    from paper_journal import close_signal, create_signal, format_history, format_ranking, format_signal, format_statistics, ranking, recent_signals, settle_pending, statistics
+    from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_signal, format_statistics, ranking, recent_signals, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -123,13 +123,7 @@ def settlement_loop() -> None:
         try:
             settled = settle_pending(price_lookup)
             for item in settled:
-                send_message(
-                    "NEXUS IA TRADER — RESULTADO SIMULADO\n\n"
-                    f"ID: {item['id']}\nAtivo: {item['symbol']}\n"
-                    f"Direção: {item['direction']}\nResultado M5: {item['outcome']}\n"
-                    f"Entrada: {item['entry_price']}\nSaída: {item['exit_price']}\n\n"
-                    "PAPER TRADING — sem ordem real."
-                )
+                send_message(format_result(item))
         except Exception:
             pass
         time.sleep(60)

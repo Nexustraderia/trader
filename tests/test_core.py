@@ -6,7 +6,7 @@ from datetime import datetime
 
 from app.market_data import is_fresh, normalize_symbol
 from app.news_sentinel import should_block
-from app.paper_journal import close_signal, create_signal, format_signal, ranking, recent_signals, settle_pending, statistics
+from app.paper_journal import close_signal, create_signal, format_result, format_signal, ranking, recent_signals, settle_pending, statistics
 from app.signal_engine import analyze
 import app.paper_journal as paper_journal
 
@@ -61,6 +61,9 @@ class CoreTests(unittest.TestCase):
                 connection.execute("UPDATE paper_signals SET expires_at = ? WHERE id = ?", ("2000-01-01T00:00:00+00:00", connection_signal["id"]))
             settled = settle_pending(lambda symbol: 1.0990)
             self.assertEqual(settled[0]["outcome"], "WIN")
+            result_text = format_result(settled[0])
+            self.assertIn("NEXUS IA TRADER ( Resultado final da nossa análise)", result_text)
+            self.assertIn("O resultado desta entrada foi Win.", result_text)
         finally:
             os.unlink(database)
 
