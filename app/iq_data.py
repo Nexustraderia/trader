@@ -81,7 +81,17 @@ def is_iq_asset_open(symbol: str) -> bool:
         active = normalized[:-4].replace("/", "") + "-OTC"
     if not active:
         return False
-    return active.upper() in available_iq_assets()
+    try:
+        assets = available_iq_assets()
+    except RuntimeError:
+        # For normal Forex, build_analysis performs the authoritative fresh
+        # candle check. OTC remains strict because its session is platform-only.
+        return not normalized.endswith("-OTC")
+    if active.upper() in assets:
+        return True
+    # A normal pair is considered eligible for the subsequent fresh-candle
+    # gate; this avoids false closures when IQ's heavy catalog is incomplete.
+    return not normalized.endswith("-OTC")
 
 
 def fetch_iq_candles(symbol: str, interval: str, count: int) -> list[dict]:
