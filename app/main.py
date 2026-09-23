@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify
 
 from market_data import fetch_candles, normalize_symbol
-from signal_engine import analyze, format_analysis
+from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
 
@@ -67,8 +67,9 @@ def handle_update(update: dict) -> None:
         requested = text.removeprefix("/analisar").strip() or "EUR/JPY"
         symbol = normalize_symbol(requested)
         try:
-            candles = fetch_candles(symbol, interval="5m", range_="1d", count=80)
-            result = analyze(symbol, candles)
+            candles_m5 = fetch_candles(symbol, interval="5m", range_="1d", count=80)
+            candles_m15 = fetch_candles(symbol, interval="15m", range_="5d", count=80)
+            result = analyze_with_confirmation(symbol, candles_m5, candles_m15)
             send_message(format_analysis(result), chat_id)
         except Exception as error:
             send_message(

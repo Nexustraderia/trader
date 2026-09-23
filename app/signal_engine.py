@@ -84,6 +84,23 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
     }
 
 
+def analyze_with_confirmation(symbol: str, m5_candles: list[dict], m15_candles: list[dict]) -> dict:
+    result = analyze(symbol, m5_candles)
+    confirmation = analyze(symbol, m15_candles)
+    result["m15_decision"] = confirmation["decision"]
+    result["m15_score"] = confirmation["score"]
+
+    if result["decision"] in ("CALL", "PUT"):
+        if result["decision"] == confirmation["decision"]:
+            result["score"] = min(100, result["score"] + 15)
+            result["reasons"].append(f"Confirmação M15 alinhada ({confirmation['decision']})")
+        else:
+            result["score"] = max(0, result["score"] - 20)
+            result["decision"] = "AGUARDAR"
+            result["reasons"].append(f"Conflito com M15 ({confirmation['decision']}); sinal bloqueado")
+    return result
+
+
 def format_analysis(result: dict) -> str:
     lines = [
         "NEXUS IA TRADER — ANÁLISE TESTE",
@@ -92,6 +109,7 @@ def format_analysis(result: dict) -> str:
         f"Direção: {result['decision']}",
         "Período: M5",
         f"Score: {result['score']}/100",
+        f"Confirmação M15: {result.get('m15_decision', 'indisponível')}",
     ]
     if "price" in result:
         lines.extend([f"Preço de referência: {result['price']}", f"RSI: {result['rsi']:.1f}"])
