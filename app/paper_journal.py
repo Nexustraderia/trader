@@ -1,13 +1,16 @@
+import os
 import sqlite3
 import uuid
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
-DB_PATH = "signals.sqlite3"
+DB_PATH = os.getenv("PAPER_DB_PATH", "signals.sqlite3")
 LOCAL_ZONE = ZoneInfo("America/Sao_Paulo")
 
 
 def _connect():
+    parent = os.path.dirname(os.path.abspath(DB_PATH))
+    os.makedirs(parent, exist_ok=True)
     connection = sqlite3.connect(DB_PATH)
     connection.row_factory = sqlite3.Row
     connection.execute(

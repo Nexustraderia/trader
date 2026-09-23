@@ -96,13 +96,22 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
     }
 
 
-def analyze_with_confirmation(symbol: str, m5_candles: list[dict], m15_candles: list[dict], h1_candles: list[dict] | None = None) -> dict:
+def analyze_with_confirmation(
+    symbol: str,
+    m5_candles: list[dict],
+    m15_candles: list[dict],
+    h1_candles: list[dict] | None = None,
+    m1_candles: list[dict] | None = None,
+) -> dict:
     result = analyze(symbol, m5_candles)
     confirmation = analyze(symbol, m15_candles)
     result["m15_decision"] = confirmation["decision"]
     result["m15_score"] = confirmation["score"]
     context = analyze(symbol, h1_candles) if h1_candles else None
+    trigger = analyze(symbol, m1_candles) if m1_candles else None
     result["h1_decision"] = context["decision"] if context else "indisponível"
+    result["m1_decision"] = trigger["decision"] if trigger else "indisponível"
+    result["m1_confirmation_ok"] = True
     volatility_ok = result.get("volatility_pct", 0.0) >= 0.003 and result.get("latest_move_pct", 0.0) <= 1.00
     result["volatility_ok"] = volatility_ok
     if not volatility_ok:
@@ -128,7 +137,16 @@ def analyze_with_confirmation(symbol: str, m5_candles: list[dict], m15_candles: 
     elif context and result["decision"] in ("CALL", "PUT") and context["decision"] == result["decision"]:
         result["score"] = min(100, result["score"] + 10)
         result["reasons"].append(f"Contexto H1 alinhado ({context['decision']})")
-    result["confluence_ok"] = result["decision"] in ("CALL", "PUT") and result["m15_decision"] == result["decision"] and result["h1_decision"] == result["decision"] and volatility_ok
+    if trigger and result["decision"] in ("CALL", "PUT"):
+        if trigger["decision"] == result["decision"]:
+            result["score"] = min(100, result["score"] + 5)
+            result["reasons"].append(f"Gatilho M1 alinhado ({trigger['decision']})")
+        else:
+            result["m1_confirmation_ok"] = False
+            result["score"] = max(0, result["score"] - 15)
+            result["decision"] = "AGUARDAR"
+            result["reasons"].append(f"Conflito com gatilho M1 ({trigger['decision']}); entrada bloqueada")
+    result["confluence_ok"] = result["decision"] in ("CALL", "PUT") and result["m15_decision"] == result["decision"] and result["h1_decision"] == result["decision"] and result["m1_confirmation_ok"] and volatility_ok
     if not result["confluence_ok"]:
         result["reasons"].append("Confluência completa M5/M15/H1 não confirmada")
     return result
@@ -144,6 +162,7 @@ def format_analysis(result: dict) -> str:
         f"Score: {result['score']}/100",
         f"Confirmação M15: {result.get('m15_decision', 'indisponível')}",
         f"Contexto H1: {result.get('h1_decision', 'indisponível')}",
+        f"Gatilho M1: {result.get('m1_decision', 'indisponível')}",
         f"Confluência completa: {'SIM' if result.get('confluence_ok') else 'NÃO'}",
         f"Volatilidade: {'OK' if result.get('volatility_ok') else 'BLOQUEADA'}",
     ]

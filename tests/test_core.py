@@ -40,6 +40,22 @@ class CoreTests(unittest.TestCase):
         result = analyze_with_confirmation("EUR/JPY", rising, rising, rising)
         self.assertTrue(result["confluence_ok"])
 
+    def test_m1_confirms_aligned_signal(self):
+        rising = [{"close": value} for value in range(100, 180)]
+        result = analyze_with_confirmation("EUR/JPY", rising, rising, rising, rising)
+        self.assertEqual(result["m1_decision"], "CALL")
+        self.assertTrue(result["m1_confirmation_ok"])
+        self.assertTrue(result["confluence_ok"])
+
+    def test_m1_conflict_blocks_signal(self):
+        rising = [{"close": value} for value in range(100, 180)]
+        falling = [{"close": value} for value in range(180, 100, -1)]
+        result = analyze_with_confirmation("EUR/JPY", rising, rising, rising, falling)
+        self.assertEqual(result["m1_decision"], "PUT")
+        self.assertFalse(result["m1_confirmation_ok"])
+        self.assertFalse(result["confluence_ok"])
+        self.assertEqual(result["decision"], "AGUARDAR")
+
     def test_flat_market_is_blocked_by_volatility_filter(self):
         flat = [{"close": 100.0 + (index * 0.00001)} for index in range(80)]
         result = analyze_with_confirmation("EUR/JPY", flat, flat, flat)

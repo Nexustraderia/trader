@@ -9,7 +9,7 @@ O modo padrão é `TESTE`. O bot coleta candles públicos para análise sob dema
 ## Comandos
 
 - `/status` — verifica o estado do bot.
-- `/analisar EUR/JPY` — compara M5, M15 e H1 e aplica o filtro NEXUS SENTINEL.
+- `/analisar EUR/JPY` — compara M1, M5, M15 e H1 e aplica o filtro NEXUS SENTINEL.
 - `/noticias EUR/JPY` — informa que o módulo de notícias está temporariamente desativado.
 - `/sinal EUR/JPY` — cria um registro de paper trading somente quando houver CALL ou PUT confirmado.
 - `/resultado ID WIN|LOSS|VOID` — fecha manualmente uma simulação.
@@ -18,17 +18,17 @@ O modo padrão é `TESTE`. O bot coleta candles públicos para análise sob dema
 - `/ranking` — compara WIN, LOSS e taxa histórica entre os ativos.
 - Publicação automática — desativada por padrão; quando habilitada, publica apenas paper signals com score mínimo, cooldown e limite diário.
 
-O módulo de notícias está temporariamente fora do fluxo operacional para evitar falsos bloqueios. Ele poderá ser retomado no futuro somente com uma fonte estruturada e autorizada. O diário é local ao serviço e pode ser reiniciado quando a instância gratuita do Render for recriada.
+O módulo de notícias está temporariamente fora do fluxo operacional para evitar falsos bloqueios. Ele poderá ser retomado no futuro somente com uma fonte estruturada e autorizada. O M1 é usado apenas como gatilho de entrada: ele confirma ou bloqueia a direção definida por M5/M15/H1, mas nunca cria um sinal sozinho.
 
 Para candles intraday, o bot usa Twelve Data quando `TWELVEDATA_API_KEY` está configurada; sem essa chave, utiliza a Yahoo Finance Chart API como fallback público. As chaves devem ser configuradas somente no Render, nunca no GitHub.
 
-A publicação automática usa `AUTO_SIGNALS_ENABLED=true`, intervalo padrão de 5 minutos, score mínimo 80/100, cooldown de 20 minutos por ativo e máximo de 6 registros por dia. Mesmo habilitada, ela publica somente `PAPER TRADING`; não existe integração com corretoras.
+A publicação automática usa `AUTO_SIGNALS_ENABLED=true`, varredura de 60 segundos, score mínimo 80/100, cooldown de 20 minutos por ativo e máximo de 6 registros por dia. Mesmo habilitada, ela publica somente `PAPER TRADING`; não existe integração com corretoras.
 
 Resultados liquidados como `WIN` e `LOSS` são enviados ao Telegram com as artes correspondentes em `app/assets/win.png` e `app/assets/loss.png`. A imagem e o texto são tratados como uma entrega única: se o envio da foto falhar, o resultado fica aguardando e é reenviado automaticamente.
 
 Cada sinal tem seu próprio `entry_at` e `expires_at`: o resultado só é calculado depois do fechamento da vela M5 de expiração daquele sinal. O loop de liquidação consulta os vencimentos periodicamente, mas não substitui o horário individual de cada entrada.
 
-O SQLite mantém o sinal e o resultado fechado até que o Telegram confirme o envio da imagem junto com o texto. Se o Render, a rede ou o Telegram falhar, a entrega permanece pendente e é tentada novamente nos ciclos seguintes, em vez de ser descartada.
+O SQLite mantém o sinal e o resultado fechado até que o Telegram confirme o envio da imagem junto com o texto. Se o Render, a rede ou o Telegram falhar, a entrega permanece pendente e é tentada novamente nos ciclos seguintes, em vez de ser descartada. Para conservar o banco entre deploys, configure `PAPER_DB_PATH` para um volume persistente montado em `/var/data/signals.sqlite3`; sem armazenamento persistente, o plano gratuito pode recriar o filesystem e apagar o histórico.
 
 Depois do primeiro envio de cada arte, o bot armazena o `file_id` fornecido pelo Telegram e reutiliza esse identificador. Assim, as mensagens seguintes enviam imagem e texto sem fazer upload repetido do arquivo pesado.
 
@@ -50,6 +50,7 @@ Nunca coloque tokens ou chaves no GitHub. Configure as variáveis diretamente no
 - `TELEGRAM_CHANNEL_ID`
 - `BOT_MODE` (`TESTE` por padrão)
 - `PORT` (fornecida pelo Render)
+- `PAPER_DB_PATH` (use `/var/data/signals.sqlite3` somente quando houver volume persistente montado)
 
 ## Validação
 
