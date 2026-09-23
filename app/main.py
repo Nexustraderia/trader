@@ -1,7 +1,7 @@
 import os
 import threading
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import requests
 from dotenv import load_dotenv
@@ -20,11 +20,19 @@ BOT_MODE = os.getenv("BOT_MODE", "TESTE").upper()
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID", "@NexusTraderIA").strip()
 PORT = int(os.getenv("PORT", "10000"))
+AUTO_SIGNALS_ENABLED = os.getenv("AUTO_SIGNALS_ENABLED", "false").lower() == "true"
+AUTO_SIGNAL_INTERVAL = int(os.getenv("AUTO_SIGNAL_INTERVAL", "300"))
+AUTO_SIGNAL_MIN_SCORE = int(os.getenv("AUTO_SIGNAL_MIN_SCORE", "80"))
+AUTO_SIGNAL_MAX_DAILY = int(os.getenv("AUTO_SIGNAL_MAX_DAILY", "6"))
+AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/JPY,EUR/USD,GBP/USD,XAU/USD").split(",") if item.strip())
 
 state = {
     "started_at": datetime.now(timezone.utc).isoformat(),
     "last_update": None,
     "last_message": None,
+    "auto_last_sent": {},
+    "auto_sent_today": 0,
+    "auto_sent_date": None,
 }
 
 
@@ -58,6 +66,35 @@ def build_analysis(symbol: str) -> tuple[dict, dict]:
         result["score"] = min(result["score"], 40)
         result["reasons"].append("NEXUS SENTINEL detectou notícia macro de alto impacto; sinal bloqueado")
     return result, news
+
+
+def auto_scan_loop() -> None:
+    """Publish only high-score paper signals; never sends broker orders."""
+    if not BOT_TOKEN or not AUTO_SIGNALS_ENABLED:
+        return
+    while True:
+        for symbol in AUTO_SYMBOLS:
+            try:
+                result, _ = build_analysis(normalize_symbol(symbol))
+                now = datetime.now(timezone.utc)
+                last_sent = state["auto_last_sent"].get(result["symbol"])
+                cooldown_ok = not last_sent or now - last_sent >= timedelta(minutes=20)
+                eligible = result["decision"] in ("CALL", "PUT") and result["score"] >= AUTO_SIGNAL_MIN_SCORE
+                today = now.date().isoformat()
+                if state["auto_sent_date"] != today:
+                    state["auto_sent_date"] = today
+                    state["auto_sent_today"] = 0
+                daily_limit_ok = state["auto_sent_today"] < AUTO_SIGNAL_MAX_DAILY
+                if eligible and cooldown_ok and daily_limit_ok:
+                    signal = create_signal(result)
+                    send_message(
+                        format_signal(signal) + "\n\nPublicação automática TESTE — sem ordem real.",
+                    )
+                    state["auto_last_sent"][result["symbol"]] = now
+                    state["auto_sent_today"] += 1
+            except Exception:
+                continue
+        time.sleep(max(60, AUTO_SIGNAL_INTERVAL))
 
 
 def handle_update(update: dict) -> None:
@@ -178,6 +215,10 @@ def health():
             "started_at": state["started_at"],
             "last_update": state["last_update"],
             "last_message": state["last_message"],
+            "auto_signals_enabled": AUTO_SIGNALS_ENABLED,
+            "auto_signal_min_score": AUTO_SIGNAL_MIN_SCORE,
+            "auto_signal_max_daily": AUTO_SIGNAL_MAX_DAILY,
+            "auto_symbols": AUTO_SYMBOLS,
         }
     )
 
@@ -185,4 +226,6 @@ def health():
 if __name__ == "__main__":
     if BOT_TOKEN:
         threading.Thread(target=polling_loop, daemon=True).start()
+        if AUTO_SIGNALS_ENABLED:
+            threading.Thread(target=auto_scan_loop, daemon=True).start()
     app.run(host="0.0.0.0", port=PORT)
