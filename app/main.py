@@ -91,10 +91,8 @@ def send_affiliate_promo(chat_id: str | None = None) -> bool:
     """Publish an explicitly labeled affiliate promotion with a URL button."""
     caption = (
         "E aí, está gostando das análises feitas pela nossa IA?\n\n"
-        "Confira a corretora indicada pelo NEXUS IA TRADER. "
-        "Consulte a disponibilidade, os riscos e as condições do possível bônus de boas-vindas antes de se cadastrar.\n\n"
-        "Publicidade/Link de afiliado: podemos receber comissão se houver cadastro.\n"
-        "Não é recomendação financeira nem garantia de lucro."
+        "Confira a corretora indicada pelo NEXUS IA TRADER e veja as condições do bônus de boas-vindas no cadastro.\n\n"
+        "Link de afiliado do NEXUS IA TRADER."
     )
     markup = {"inline_keyboard": [[{"text": "Clique aqui e cadastre-se", "url": AFFILIATE_URL}]]}
     if not BOT_TOKEN:
