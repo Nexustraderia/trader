@@ -6,7 +6,7 @@ from datetime import datetime
 
 from app.market_data import is_fresh, market_data_source, normalize_symbol
 from app.news_sentinel import should_block
-from app.paper_journal import close_signal, create_signal, format_result, format_signal, ranking, recent_signals, settle_pending, statistics
+from app.paper_journal import close_signal, create_signal, format_result, format_session_summary, format_signal, ranking, recent_signals, session_statistics, settle_pending, statistics
 from app.signal_engine import analyze, analyze_with_confirmation
 import app.paper_journal as paper_journal
 
@@ -71,6 +71,10 @@ class CoreTests(unittest.TestCase):
             self.assertEqual(statistics("EUR/JPY")["wins"], 1)
             self.assertEqual(statistics("GBP/USD")["total"], 0)
             self.assertEqual(ranking()[0]["symbol"], "EUR/JPY")
+            summary = format_session_summary(session_statistics(2))
+            self.assertIn("Análises feitas: 1", summary)
+            self.assertIn("WIN: 1", summary)
+            self.assertIn("Não usamos martingale.", summary)
 
             connection_signal = create_signal({"symbol": "EUR/USD", "decision": "PUT", "score": 80, "price": 1.1000})
             with paper_journal._connect() as connection:

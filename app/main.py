@@ -10,12 +10,12 @@ from flask import Flask, jsonify
 try:
     from .market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
     from .news_sentinel import fetch_news, format_news, should_block
-    from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_signal, format_statistics, ranking, recent_signals, settle_pending, statistics
+    from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, ranking, recent_signals, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
     from news_sentinel import fetch_news, format_news, should_block
-    from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_signal, format_statistics, ranking, recent_signals, settle_pending, statistics
+    from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, ranking, recent_signals, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -30,6 +30,7 @@ AUTO_SIGNALS_ENABLED = os.getenv("AUTO_SIGNALS_ENABLED", "false").lower() == "tr
 AUTO_SIGNAL_INTERVAL = int(os.getenv("AUTO_SIGNAL_INTERVAL", "300"))
 AUTO_SIGNAL_MIN_SCORE = int(os.getenv("AUTO_SIGNAL_MIN_SCORE", "80"))
 AUTO_SIGNAL_MAX_DAILY = int(os.getenv("AUTO_SIGNAL_MAX_DAILY", "6"))
+AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "7200"))
 AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/JPY,EUR/USD,GBP/USD,XAU/USD").split(",") if item.strip())
 
 state = {
@@ -133,6 +134,18 @@ def settlement_loop() -> None:
         time.sleep(60)
 
 
+def session_summary_loop() -> None:
+    """Publish a rolling two-hour paper-trading summary to the channel."""
+    if not BOT_TOKEN:
+        return
+    while True:
+        time.sleep(max(900, AUTO_SUMMARY_INTERVAL))
+        try:
+            send_message(format_session_summary(session_statistics(2)))
+        except Exception:
+            continue
+
+
 def handle_update(update: dict) -> None:
     message = update.get("message", {})
     text = (message.get("text") or "").strip()
@@ -191,6 +204,8 @@ def handle_update(update: dict) -> None:
         send_message(format_statistics(statistics(symbol), symbol), chat_id)
     elif text == "/ranking":
         send_message(format_ranking(ranking()), chat_id)
+    elif text == "/sessao":
+        send_message(format_session_summary(session_statistics(2)), chat_id)
     elif text == "/ajuda":
         send_message(
             "NEXUS IA TRADER\n\n"
@@ -201,6 +216,7 @@ def handle_update(update: dict) -> None:
             "/historico — lista simulações\n\n"
             "/stats [ATIVO] — mostra estatísticas gerais ou por ativo\n\n"
             "/ranking — compara os ativos da amostra\n\n"
+            "/sessao — resumo das últimas 2 horas\n\n"
             "Nenhum comando envia ordens reais.",
             chat_id,
         )
@@ -271,6 +287,7 @@ if __name__ == "__main__":
     if BOT_TOKEN:
         threading.Thread(target=polling_loop, daemon=True).start()
         threading.Thread(target=settlement_loop, daemon=True).start()
+        threading.Thread(target=session_summary_loop, daemon=True).start()
         if AUTO_SIGNALS_ENABLED:
             threading.Thread(target=auto_scan_loop, daemon=True).start()
     app.run(host="0.0.0.0", port=PORT)

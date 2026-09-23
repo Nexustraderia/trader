@@ -178,6 +178,50 @@ def format_statistics(stats: dict, symbol: str | None = None) -> str:
     ])
 
 
+def session_statistics(hours: int = 2) -> dict:
+    """Summarize signals created in the rolling session window."""
+    since = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat()
+    with _connect() as connection:
+        rows = connection.execute(
+            "SELECT outcome, COUNT(*) AS total FROM paper_signals WHERE created_at >= ? GROUP BY outcome",
+            (since,),
+        ).fetchall()
+    counts = {row["outcome"]: row["total"] for row in rows}
+    wins = counts.get("WIN", 0)
+    losses = counts.get("LOSS", 0)
+    decided = wins + losses
+    return {
+        "hours": hours,
+        "total": sum(counts.values()),
+        "wins": wins,
+        "losses": losses,
+        "void": counts.get("VOID", 0),
+        "pending": counts.get("PENDENTE", 0),
+        "accuracy": (wins / decided * 100) if decided else None,
+    }
+
+
+def format_session_summary(stats: dict) -> str:
+    accuracy = f"{stats['accuracy']:.1f}%" if stats["accuracy"] is not None else "sem amostra"
+    return "\n".join([
+        "NEXUS IA TRADER — RESULTADO DA SESSÃO",
+        "",
+        f"Resumo das últimas {stats['hours']} horas",
+        "",
+        f"Análises feitas: {stats['total']}",
+        f"WIN: {stats['wins']}",
+        f"LOSS: {stats['losses']}",
+        f"VOID: {stats['void']}",
+        f"Pendentes: {stats['pending']}",
+        f"Taxa da janela: {accuracy}",
+        "",
+        "Não usamos martingale.",
+        "Mantenha seu gerenciamento e foque nos seus objetivos.",
+        "",
+        "Resumo baseado em paper trading; não é garantia de resultado.",
+    ])
+
+
 def ranking() -> list[dict]:
     with _connect() as connection:
         rows = connection.execute(
