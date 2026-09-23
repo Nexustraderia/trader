@@ -33,3 +33,14 @@ Nunca coloque tokens ou chaves no GitHub. Configure as variáveis diretamente no
 - `TELEGRAM_CHANNEL_ID`
 - `BOT_MODE` (`TESTE` por padrão)
 - `PORT` (fornecida pelo Render)
+
+## Validação
+
+Para executar os testes automatizados localmente:
+
+```bash
+python3 -m unittest discover -s tests -v
+python3 -m py_compile app/*.py
+```
+
+Os testes cobrem normalização de ativos, cálculo de score, bloqueio do SENTINEL e ciclo de vida do paper trading. O teste de candles depende de acesso à fonte pública de mercado.
