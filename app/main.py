@@ -10,11 +10,11 @@ from flask import Flask, jsonify
 
 try:
     from .market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
-    from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, ranking, recent_signals, session_statistics, settle_pending, statistics
+    from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, mark_result_delivered, pending_result_deliveries, ranking, recent_signals, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
-    from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, ranking, recent_signals, session_statistics, settle_pending, statistics
+    from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, mark_result_delivered, pending_result_deliveries, ranking, recent_signals, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -51,7 +51,6 @@ state = {
     "last_settlement": None,
     "settled_count": 0,
     "settlement_error": None,
-    "undelivered_results": [],
 }
 
 
@@ -188,17 +187,12 @@ def settlement_loop() -> None:
         return
     while True:
         try:
-            if state["undelivered_results"]:
-                pending_delivery = list(state["undelivered_results"])
-                state["undelivered_results"] = []
-                for item in pending_delivery:
-                    if not send_result(item):
-                        state["undelivered_results"].append(item)
             settled = settle_pending(price_lookup)
-            for item in settled:
-                if not send_result(item):
-                    state["undelivered_results"].append(item)
-            if settled:
+            delivered = 0
+            for item in pending_result_deliveries():
+                if send_result(item) and mark_result_delivered(item["id"]):
+                    delivered += 1
+            if settled or delivered:
                 state["last_settlement"] = datetime.now(timezone.utc).isoformat()
                 state["settled_count"] += len(settled)
             state["settlement_error"] = None
@@ -345,7 +339,7 @@ def health():
             "last_settlement": state["last_settlement"],
             "settled_count": state["settled_count"],
             "settlement_error": state["settlement_error"],
-            "undelivered_results": len(state["undelivered_results"]),
+            "undelivered_results": len(pending_result_deliveries()),
         }
     )
 

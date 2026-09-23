@@ -22,7 +22,8 @@ def _connect():
             entry_at TEXT,
             expires_at TEXT,
             outcome TEXT NOT NULL DEFAULT 'PENDENTE',
-            closed_at TEXT
+            closed_at TEXT,
+            delivery_status TEXT NOT NULL DEFAULT 'PENDING'
         )"""
     )
     columns = {row[1] for row in connection.execute("PRAGMA table_info(paper_signals)")}
@@ -32,6 +33,8 @@ def _connect():
         connection.execute("ALTER TABLE paper_signals ADD COLUMN expires_at TEXT")
     if "entry_at" not in columns:
         connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_at TEXT")
+    if "delivery_status" not in columns:
+        connection.execute("ALTER TABLE paper_signals ADD COLUMN delivery_status TEXT NOT NULL DEFAULT 'PENDING'")
     connection.commit()
     return connection
 
@@ -75,6 +78,25 @@ def close_signal(signal_id: str, outcome: str) -> bool:
         cursor = connection.execute(
             "UPDATE paper_signals SET outcome = ?, closed_at = ? WHERE id = ? AND outcome = 'PENDENTE'",
             (outcome, datetime.now(timezone.utc).isoformat(), signal_id.upper()),
+        )
+        return cursor.rowcount == 1
+
+
+def pending_result_deliveries(limit: int = 50) -> list[dict]:
+    """Return closed results whose Telegram photo+caption are not confirmed yet."""
+    with _connect() as connection:
+        rows = connection.execute(
+            "SELECT id, symbol, direction, entry_at, outcome, entry_price FROM paper_signals WHERE outcome IN ('WIN', 'LOSS', 'VOID') AND delivery_status = 'PENDING' ORDER BY closed_at ASC LIMIT ?",
+            (limit,),
+        ).fetchall()
+    return [dict(row) for row in rows]
+
+
+def mark_result_delivered(signal_id: str) -> bool:
+    with _connect() as connection:
+        cursor = connection.execute(
+            "UPDATE paper_signals SET delivery_status = 'DELIVERED' WHERE id = ? AND outcome IN ('WIN', 'LOSS', 'VOID') AND delivery_status = 'PENDING'",
+            (signal_id.upper(),),
         )
         return cursor.rowcount == 1
 
