@@ -42,6 +42,9 @@ state = {
     "auto_last_sent": {},
     "auto_sent_today": 0,
     "auto_sent_date": None,
+    "auto_last_scan": None,
+    "auto_scan_errors": 0,
+    "auto_last_error": None,
     "last_settlement": None,
     "settled_count": 0,
     "settlement_error": None,
@@ -135,6 +138,7 @@ def auto_scan_loop() -> None:
     while True:
         for symbol in AUTO_SYMBOLS:
             try:
+                state["auto_last_scan"] = datetime.now(timezone.utc).isoformat()
                 result, _ = build_analysis(normalize_symbol(symbol))
                 now = datetime.now(timezone.utc)
                 last_sent = state["auto_last_sent"].get(result["symbol"])
@@ -154,7 +158,9 @@ def auto_scan_loop() -> None:
                     )
                     state["auto_last_sent"][result["symbol"]] = now
                     state["auto_sent_today"] += 1
-            except Exception:
+            except Exception as error:
+                state["auto_scan_errors"] += 1
+                state["auto_last_error"] = type(error).__name__
                 continue
         time.sleep(max(60, AUTO_SIGNAL_INTERVAL))
 
@@ -321,6 +327,10 @@ def health():
             "auto_signal_min_score": AUTO_SIGNAL_MIN_SCORE,
             "auto_signal_max_daily": AUTO_SIGNAL_MAX_DAILY,
             "auto_symbols": AUTO_SYMBOLS,
+            "auto_sent_today": state["auto_sent_today"],
+            "auto_last_scan": state["auto_last_scan"],
+            "auto_scan_errors": state["auto_scan_errors"],
+            "auto_last_error": state["auto_last_error"],
             "last_settlement": state["last_settlement"],
             "settlement_last_check": state["settlement_last_check"],
             "settled_count": state["settled_count"],
