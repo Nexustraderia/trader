@@ -69,7 +69,8 @@ def handle_update(update: dict) -> None:
         try:
             candles_m5 = fetch_candles(symbol, interval="5m", range_="1d", count=80)
             candles_m15 = fetch_candles(symbol, interval="15m", range_="5d", count=80)
-            result = analyze_with_confirmation(symbol, candles_m5, candles_m15)
+            candles_h1 = fetch_candles(symbol, interval="1h", range_="60d", count=80)
+            result = analyze_with_confirmation(symbol, candles_m5, candles_m15, candles_h1)
             send_message(format_analysis(result), chat_id)
         except Exception as error:
             send_message(

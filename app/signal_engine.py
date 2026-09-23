@@ -84,11 +84,13 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
     }
 
 
-def analyze_with_confirmation(symbol: str, m5_candles: list[dict], m15_candles: list[dict]) -> dict:
+def analyze_with_confirmation(symbol: str, m5_candles: list[dict], m15_candles: list[dict], h1_candles: list[dict] | None = None) -> dict:
     result = analyze(symbol, m5_candles)
     confirmation = analyze(symbol, m15_candles)
     result["m15_decision"] = confirmation["decision"]
     result["m15_score"] = confirmation["score"]
+    context = analyze(symbol, h1_candles) if h1_candles else None
+    result["h1_decision"] = context["decision"] if context else "indisponível"
 
     if result["decision"] in ("CALL", "PUT"):
         if result["decision"] == confirmation["decision"]:
@@ -98,6 +100,13 @@ def analyze_with_confirmation(symbol: str, m5_candles: list[dict], m15_candles: 
             result["score"] = max(0, result["score"] - 20)
             result["decision"] = "AGUARDAR"
             result["reasons"].append(f"Conflito com M15 ({confirmation['decision']}); sinal bloqueado")
+    if context and result["decision"] in ("CALL", "PUT") and context["decision"] not in (result["decision"], "AGUARDAR"):
+        result["score"] = max(0, result["score"] - 15)
+        result["decision"] = "AGUARDAR"
+        result["reasons"].append(f"Conflito com contexto H1 ({context['decision']}); sinal bloqueado")
+    elif context and result["decision"] in ("CALL", "PUT") and context["decision"] == result["decision"]:
+        result["score"] = min(100, result["score"] + 10)
+        result["reasons"].append(f"Contexto H1 alinhado ({context['decision']})")
     return result
 
 
@@ -110,6 +119,7 @@ def format_analysis(result: dict) -> str:
         "Período: M5",
         f"Score: {result['score']}/100",
         f"Confirmação M15: {result.get('m15_decision', 'indisponível')}",
+        f"Contexto H1: {result.get('h1_decision', 'indisponível')}",
     ]
     if "price" in result:
         lines.extend([f"Preço de referência: {result['price']}", f"RSI: {result['rsi']:.1f}"])
