@@ -51,6 +51,7 @@ state = {
     "last_settlement": None,
     "settled_count": 0,
     "settlement_error": None,
+    "undelivered_results": [],
 }
 
 
@@ -77,20 +78,25 @@ def send_result(item: dict, chat_id: str | None = None) -> bool:
     outcome = item.get("outcome", "").upper()
     image_path = RESULT_IMAGE_PATHS.get(outcome)
     if not BOT_TOKEN or not image_path or not os.path.isfile(image_path):
-        return send_message(format_result(item), chat_id)
-    try:
-        with open(image_path, "rb") as image_file:
-            response = requests.post(
-                telegram_url("sendPhoto"),
-                data={"chat_id": chat_id or CHANNEL_ID, "caption": format_result(item)},
-                files={"photo": (os.path.basename(image_path), image_file, "image/png")},
-                timeout=30,
-            )
-        response.raise_for_status()
-        state["last_message"] = datetime.now(timezone.utc).isoformat()
-        return True
-    except (OSError, requests.RequestException):
-        return send_message(format_result(item), chat_id)
+        state["settlement_error"] = f"imagem_{outcome.lower()}_ausente"
+        return False
+    for attempt in range(3):
+        try:
+            with open(image_path, "rb") as image_file:
+                response = requests.post(
+                    telegram_url("sendPhoto"),
+                    data={"chat_id": chat_id or CHANNEL_ID, "caption": format_result(item)},
+                    files={"photo": (os.path.basename(image_path), image_file, "image/png")},
+                    timeout=30,
+                )
+            response.raise_for_status()
+            state["last_message"] = datetime.now(timezone.utc).isoformat()
+            return True
+        except (OSError, requests.RequestException) as error:
+            state["settlement_error"] = type(error).__name__
+            if attempt < 2:
+                time.sleep(2)
+    return False
 
 
 def send_affiliate_promo(chat_id: str | None = None) -> bool:
@@ -180,9 +186,16 @@ def settlement_loop() -> None:
         return
     while True:
         try:
+            if state["undelivered_results"]:
+                pending_delivery = list(state["undelivered_results"])
+                state["undelivered_results"] = []
+                for item in pending_delivery:
+                    if not send_result(item):
+                        state["undelivered_results"].append(item)
             settled = settle_pending(price_lookup)
             for item in settled:
-                send_result(item)
+                if not send_result(item):
+                    state["undelivered_results"].append(item)
             if settled:
                 state["last_settlement"] = datetime.now(timezone.utc).isoformat()
                 state["settled_count"] += len(settled)
@@ -330,6 +343,7 @@ def health():
             "last_settlement": state["last_settlement"],
             "settled_count": state["settled_count"],
             "settlement_error": state["settlement_error"],
+            "undelivered_results": len(state["undelivered_results"]),
         }
     )
 

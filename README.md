@@ -24,7 +24,7 @@ Para candles intraday, o bot usa Twelve Data quando `TWELVEDATA_API_KEY` está c
 
 A publicação automática usa `AUTO_SIGNALS_ENABLED=true`, intervalo padrão de 5 minutos, score mínimo 80/100, cooldown de 20 minutos por ativo e máximo de 6 registros por dia. Mesmo habilitada, ela publica somente `PAPER TRADING`; não existe integração com corretoras.
 
-Resultados liquidados como `WIN` e `LOSS` são enviados ao Telegram com as artes correspondentes em `app/assets/win.png` e `app/assets/loss.png`. Se uma imagem não estiver disponível, o bot envia o resultado em texto.
+Resultados liquidados como `WIN` e `LOSS` são enviados ao Telegram com as artes correspondentes em `app/assets/win.png` e `app/assets/loss.png`. A imagem e o texto são tratados como uma entrega única: se o envio da foto falhar, o resultado fica aguardando e é reenviado automaticamente.
 
 Cada sinal tem seu próprio `entry_at` e `expires_at`: o resultado só é calculado depois do fechamento da vela M5 de expiração daquele sinal. O loop de liquidação consulta os vencimentos periodicamente, mas não substitui o horário individual de cada entrada.
 
