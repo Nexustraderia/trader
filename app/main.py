@@ -100,7 +100,7 @@ def auto_scan_loop() -> None:
                 if eligible and cooldown_ok and daily_limit_ok:
                     signal = create_signal(result)
                     send_message(
-                        format_signal(signal) + "\n\nPublicação automática TESTE — sem ordem real.",
+                        format_signal(signal),
                     )
                     state["auto_last_sent"][result["symbol"]] = now
                     state["auto_sent_today"] += 1

@@ -111,21 +111,18 @@ def settle_pending(price_lookup) -> list[dict]:
 
 def format_signal(signal: dict) -> str:
     entry = datetime.fromisoformat(signal["entry_at"]).astimezone(LOCAL_ZONE) if signal.get("entry_at") else None
-    expiry = datetime.fromisoformat(signal["expires_at"]).astimezone(LOCAL_ZONE) if signal.get("expires_at") else None
     return "\n".join([
-        "NEXUS IA TRADER — SINAL DE ANÁLISE",
+        "NEXUS IA TRADER — SINAL",
         "",
         f"ID: {signal['id']}",
         f"Ativo: {signal['symbol']}",
         f"Direção: {signal['direction']}",
-        f"Entrada: {entry.strftime('%H:%M') if entry else 'próxima vela'} (BRT)",
-        f"Expiração: {expiry.strftime('%H:%M') if expiry else 'M5'} (BRT)",
+        f"Entrada: {entry.strftime('%H:%M') if entry else 'próxima vela'}",
         f"Tempo: {signal['timeframe']}",
         f"Score: {signal['score']}/100",
         f"Preço de entrada: {signal['entry_price']}" if signal.get("entry_price") is not None else "Preço de entrada: indisponível",
         "",
-        "PAPER TRADING — nenhuma ordem real foi enviada.",
-        "Resultado será avaliado após a expiração M5.",
+        "Análise automática informativa.",
     ])
 
 
