@@ -10,11 +10,11 @@ from flask import Flask, jsonify
 
 try:
     from .market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
-    from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
+    from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
-    from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
+    from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -51,6 +51,7 @@ state = {
     "last_settlement": None,
     "settled_count": 0,
     "settlement_error": None,
+    "settlement_last_check": None,
     "result_file_ids": {},
 }
 
@@ -219,6 +220,7 @@ def settlement_loop() -> None:
         return
     while True:
         try:
+            state["settlement_last_check"] = datetime.now(timezone.utc).isoformat()
             settled = settle_pending(price_lookup)
             delivered = 0
             for item in pending_result_deliveries():
@@ -369,9 +371,11 @@ def health():
             "auto_signal_max_daily": AUTO_SIGNAL_MAX_DAILY,
             "auto_symbols": AUTO_SYMBOLS,
             "last_settlement": state["last_settlement"],
+            "settlement_last_check": state["settlement_last_check"],
             "settled_count": state["settled_count"],
             "settlement_error": state["settlement_error"],
             "paper_statistics": statistics(),
+            "pending_signals": pending_signal_status(),
             "undelivered_results": len(pending_result_deliveries()),
         }
     )

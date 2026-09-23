@@ -115,6 +115,15 @@ def mark_result_delivered(signal_id: str) -> bool:
         return cursor.rowcount == 1
 
 
+def pending_signal_status(limit: int = 20) -> list[dict]:
+    with _connect() as connection:
+        rows = connection.execute(
+            "SELECT id, symbol, direction, entry_at, expires_at, outcome FROM paper_signals WHERE outcome = 'PENDENTE' ORDER BY expires_at ASC LIMIT ?",
+            (limit,),
+        ).fetchall()
+    return [dict(row) for row in rows]
+
+
 def recent_signals(limit: int = 10) -> list[dict]:
     with _connect() as connection:
         rows = connection.execute(
