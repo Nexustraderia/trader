@@ -9,7 +9,7 @@ from flask import Flask, jsonify
 
 from market_data import fetch_candles, normalize_symbol
 from news_sentinel import fetch_news, format_news, should_block
-from paper_journal import close_signal, create_signal, format_history, format_signal, recent_signals
+from paper_journal import close_signal, create_signal, format_history, format_signal, format_statistics, recent_signals, statistics
 from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -149,6 +149,8 @@ def handle_update(update: dict) -> None:
             send_message(f"Resultado do sinal {parts[1].upper()} registrado como {parts[2].upper()}.", chat_id)
     elif text == "/historico":
         send_message(format_history(recent_signals()), chat_id)
+    elif text == "/stats":
+        send_message(format_statistics(statistics()), chat_id)
     elif text == "/ajuda":
         send_message(
             "NEXUS IA TRADER\n\n"
@@ -157,6 +159,7 @@ def handle_update(update: dict) -> None:
             "/sinal EUR/JPY — cria registro PAPER TRADING\n"
             "/resultado ID WIN|LOSS|VOID — fecha simulação\n"
             "/historico — lista simulações\n\n"
+            "/stats — mostra estatísticas do paper trading\n\n"
             "Nenhum comando envia ordens reais.",
             chat_id,
         )
