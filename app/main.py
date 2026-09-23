@@ -9,11 +9,13 @@ from flask import Flask, jsonify
 
 try:
     from .db import backend_name
+    from .iq_data import is_iq_asset_open
     from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from db import backend_name
+    from iq_data import is_iq_asset_open
     from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
@@ -37,7 +39,7 @@ AUTO_SIGNAL_MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", os.gete
 AUTO_SIGNAL_MAX_DAILY = int(os.getenv("AUTO_SIGNAL_MAX_DAILY", "6"))
 AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "3600"))
 BASE_AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/USD,EUR/JPY,USD/JPY,GBP/USD,GBP/JPY,AUD/USD,USD/CAD").split(",") if item.strip())
-OTC_AUTO_SYMBOLS = tuple(f"{symbol.replace('/', '')}-OTC" for symbol in BASE_AUTO_SYMBOLS)
+OTC_AUTO_SYMBOLS = tuple(f"{symbol}-OTC" for symbol in BASE_AUTO_SYMBOLS)
 AUTO_SYMBOLS = BASE_AUTO_SYMBOLS + (OTC_AUTO_SYMBOLS if os.getenv("AUTO_INCLUDE_OTC", "true").lower() == "true" else ())
 RESULT_IMAGE_PATHS = {
     "WIN": os.getenv("WIN_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "win.png")),
@@ -143,6 +145,8 @@ def send_result(item: dict, chat_id: str | None = None) -> bool:
 
 
 def build_analysis(symbol: str) -> tuple[dict, dict]:
+    if not is_iq_asset_open(symbol):
+        raise RuntimeError("IQ Option asset closed")
     candles_m1 = fetch_candles(symbol, interval="1m", range_="1d", count=80)
     source_m1 = market_data_source()
     candles_m5 = fetch_candles(symbol, interval="5m", range_="1d", count=80)
@@ -202,7 +206,7 @@ def auto_scan_loop() -> None:
                     state["auto_last_sent"][result["symbol"]] = now
                     state["auto_sent_today"] += 1
             except Exception as error:
-                if "IQ Option OTC catalog unavailable" in str(error) or "IQ Option asset not open" in str(error):
+                if "IQ Option OTC catalog unavailable" in str(error) or "IQ Option asset not open" in str(error) or "IQ Option asset closed" in str(error):
                     continue
                 state["auto_scan_errors"] += 1
                 state["auto_last_error"] = f"{type(error).__name__}: {str(error)[:160]}"

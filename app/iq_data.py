@@ -73,6 +73,17 @@ def available_iq_assets() -> set[str]:
     return set(assets)
 
 
+def is_iq_asset_open(symbol: str) -> bool:
+    """Check availability before generating a signal for any asset."""
+    normalized = symbol.strip().upper()
+    active = IQ_SYMBOLS.get(normalized)
+    if not active and normalized.endswith("-OTC"):
+        active = normalized[:-4].replace("/", "") + "-OTC"
+    if not active:
+        return False
+    return active.upper() in available_iq_assets()
+
+
 def fetch_iq_candles(symbol: str, interval: str, count: int) -> list[dict]:
     active = IQ_SYMBOLS.get(symbol)
     if not active and symbol.endswith("-OTC"):
