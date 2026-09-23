@@ -26,6 +26,15 @@ def rsi(values: list[float], period: int = 14) -> float:
     return 100 - (100 / (1 + average_gain / average_loss))
 
 
+def volatility_metrics(values: list[float], period: int = 14) -> tuple[float, float]:
+    """Return average absolute move and latest move as percentages."""
+    if len(values) < 2 or values[-1] == 0:
+        return 0.0, 0.0
+    changes = [abs(current - previous) / abs(previous) * 100 for previous, current in zip(values[-period - 1:], values[-period:]) if previous]
+    latest = abs(values[-1] - values[-2]) / abs(values[-2]) * 100 if values[-2] else 0.0
+    return (sum(changes) / len(changes) if changes else 0.0), latest
+
+
 def analyze(symbol: str, candles: list[dict]) -> dict:
     closes = [float(candle["close"]) for candle in candles]
     if len(closes) < 20:
@@ -34,6 +43,7 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
     fast = ema(closes, 9)
     slow = ema(closes, 21)
     momentum = rsi(closes)
+    volatility_pct, latest_move_pct = volatility_metrics(closes)
     recent = closes[-1]
     score = 50
     reasons = []
@@ -78,6 +88,8 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         "rsi": momentum,
         "ema_fast": fast,
         "ema_slow": slow,
+        "volatility_pct": volatility_pct,
+        "latest_move_pct": latest_move_pct,
         "reasons": reasons,
         "analyzed_at": datetime.now(timezone.utc).isoformat(),
         "source": "Yahoo Finance Chart API (protótipo)",
@@ -91,6 +103,15 @@ def analyze_with_confirmation(symbol: str, m5_candles: list[dict], m15_candles: 
     result["m15_score"] = confirmation["score"]
     context = analyze(symbol, h1_candles) if h1_candles else None
     result["h1_decision"] = context["decision"] if context else "indisponível"
+    volatility_ok = result.get("volatility_pct", 0.0) >= 0.003 and result.get("latest_move_pct", 0.0) <= 1.00
+    result["volatility_ok"] = volatility_ok
+    if not volatility_ok:
+        result["decision"] = "AGUARDAR"
+        result["score"] = min(result["score"], 40)
+        if result.get("volatility_pct", 0.0) < 0.003:
+            result["reasons"].append("Volatilidade insuficiente; mercado possivelmente lateralizado")
+        if result.get("latest_move_pct", 0.0) > 1.00:
+            result["reasons"].append("Último movimento muito amplo; risco de entrada após impulso")
 
     if result["decision"] in ("CALL", "PUT"):
         if result["decision"] == confirmation["decision"]:
@@ -107,7 +128,7 @@ def analyze_with_confirmation(symbol: str, m5_candles: list[dict], m15_candles: 
     elif context and result["decision"] in ("CALL", "PUT") and context["decision"] == result["decision"]:
         result["score"] = min(100, result["score"] + 10)
         result["reasons"].append(f"Contexto H1 alinhado ({context['decision']})")
-    result["confluence_ok"] = result["decision"] in ("CALL", "PUT") and result["m15_decision"] == result["decision"] and result["h1_decision"] == result["decision"]
+    result["confluence_ok"] = result["decision"] in ("CALL", "PUT") and result["m15_decision"] == result["decision"] and result["h1_decision"] == result["decision"] and volatility_ok
     if not result["confluence_ok"]:
         result["reasons"].append("Confluência completa M5/M15/H1 não confirmada")
     return result
@@ -124,6 +145,7 @@ def format_analysis(result: dict) -> str:
         f"Confirmação M15: {result.get('m15_decision', 'indisponível')}",
         f"Contexto H1: {result.get('h1_decision', 'indisponível')}",
         f"Confluência completa: {'SIM' if result.get('confluence_ok') else 'NÃO'}",
+        f"Volatilidade: {'OK' if result.get('volatility_ok') else 'BLOQUEADA'}",
         f"NEXUS SENTINEL: {result.get('news_status', 'não consultado')}",
     ]
     if "price" in result:

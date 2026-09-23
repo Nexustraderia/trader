@@ -12,6 +12,7 @@ SYMBOLS = {
 }
 
 TWELVE_DATA_URL = "https://api.twelvedata.com/time_series"
+_LAST_SOURCE = "Yahoo Finance Chart API (fallback)"
 
 
 def normalize_symbol(value: str) -> str:
@@ -46,15 +47,17 @@ def _fetch_twelve_data(symbol: str, interval: str, count: int) -> list[dict]:
 
 
 def market_data_source() -> str:
-    return "Twelve Data" if os.getenv("TWELVEDATA_API_KEY", "").strip() else "Yahoo Finance Chart API (fallback)"
+    return _LAST_SOURCE
 
 
 def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: int = 80) -> list[dict]:
+    global _LAST_SOURCE
     normalized = normalize_symbol(symbol)
     if os.getenv("TWELVEDATA_API_KEY", "").strip():
         try:
             candles = _fetch_twelve_data(normalized, interval, count)
             if candles:
+                _LAST_SOURCE = "Twelve Data"
                 return candles
         except (requests.RequestException, ValueError, KeyError, RuntimeError):
             pass
@@ -81,6 +84,7 @@ def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: 
             last_error = error
     if not payload:
         raise RuntimeError(f"Fonte de candles indisponível: {type(last_error).__name__}")
+    _LAST_SOURCE = "Yahoo Finance Chart API (fallback)"
     timestamps = payload.get("timestamp") or []
     quote = payload["indicators"]["quote"][0]
     candles = []

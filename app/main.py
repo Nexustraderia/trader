@@ -62,8 +62,11 @@ def send_message(text: str, chat_id: str | None = None) -> bool:
 
 def build_analysis(symbol: str) -> tuple[dict, dict]:
     candles_m5 = fetch_candles(symbol, interval="5m", range_="1d", count=80)
+    source_m5 = market_data_source()
     candles_m15 = fetch_candles(symbol, interval="15m", range_="5d", count=80)
+    source_m15 = market_data_source()
     candles_h1 = fetch_candles(symbol, interval="1h", range_="60d", count=80)
+    source_h1 = market_data_source()
     if not is_fresh(candles_m5, 10 * 60):
         raise RuntimeError("candles M5 atrasados")
     if not is_fresh(candles_m15, 35 * 60):
@@ -71,7 +74,7 @@ def build_analysis(symbol: str) -> tuple[dict, dict]:
     if not is_fresh(candles_h1, 2 * 60 * 60):
         raise RuntimeError("candles H1 atrasados")
     result = analyze_with_confirmation(symbol, candles_m5, candles_m15, candles_h1)
-    result["source"] = market_data_source()
+    result["source"] = ", ".join(dict.fromkeys((source_m5, source_m15, source_h1)))
     news = fetch_news(symbol)
     result["news_status"] = news["status"]
     if should_block(news):

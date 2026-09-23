@@ -36,6 +36,13 @@ class CoreTests(unittest.TestCase):
         result = analyze_with_confirmation("EUR/JPY", rising, rising, rising)
         self.assertTrue(result["confluence_ok"])
 
+    def test_flat_market_is_blocked_by_volatility_filter(self):
+        flat = [{"close": 100.0 + (index * 0.00001)} for index in range(80)]
+        result = analyze_with_confirmation("EUR/JPY", flat, flat, flat)
+        self.assertFalse(result["volatility_ok"])
+        self.assertFalse(result["confluence_ok"])
+        self.assertEqual(result["decision"], "AGUARDAR")
+
     def test_news_alert_blocks(self):
         self.assertTrue(should_block({"status": "ALERTA"}))
         self.assertFalse(should_block({"status": "SEM_ALERTA"}))
