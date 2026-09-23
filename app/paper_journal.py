@@ -52,6 +52,14 @@ def create_signal(result: dict) -> dict:
         "expires_at": (entry_at + timedelta(minutes=5)).isoformat(),
     }
     with _connect() as connection:
+        existing = connection.execute(
+            "SELECT id, symbol, direction, score, timeframe, entry_price, created_at, entry_at, expires_at FROM paper_signals WHERE symbol = ? AND entry_at = ? AND outcome = 'PENDENTE' LIMIT 1",
+            (signal["symbol"], signal["entry_at"]),
+        ).fetchone()
+        if existing:
+            duplicate = dict(existing)
+            duplicate["_duplicate"] = True
+            return duplicate
         connection.execute(
             "INSERT INTO paper_signals (id, symbol, direction, score, timeframe, entry_price, created_at, entry_at, expires_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             tuple(signal.values()),

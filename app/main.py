@@ -160,6 +160,8 @@ def auto_scan_loop() -> None:
                 daily_limit_ok = state["auto_sent_today"] < AUTO_SIGNAL_MAX_DAILY
                 if eligible and cooldown_ok and daily_limit_ok:
                     signal = create_signal(result)
+                    if signal.get("_duplicate"):
+                        continue
                     send_message(
                         format_signal(signal),
                     )

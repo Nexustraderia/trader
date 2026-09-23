@@ -62,6 +62,8 @@ class CoreTests(unittest.TestCase):
             paper_journal.DB_PATH = database
             signal = create_signal({"symbol": "EUR/JPY", "decision": "CALL", "score": 75, "price": 180.12})
             self.assertEqual(signal["entry_price"], 180.12)
+            duplicate = create_signal({"symbol": "EUR/JPY", "decision": "CALL", "score": 75, "price": 180.12})
+            self.assertTrue(duplicate.get("_duplicate"))
             self.assertIn("expires_at", signal)
             self.assertEqual((datetime.fromisoformat(signal["expires_at"]) - datetime.fromisoformat(signal["entry_at"])).seconds, 300)
             formatted = format_signal(signal)
