@@ -75,7 +75,8 @@ def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: 
                 _LAST_SOURCE = "Twelve Data"
                 return candles
         except (requests.RequestException, ValueError, KeyError, RuntimeError) as error:
-            _LAST_ERROR = f"Twelve Data: {type(error).__name__}"
+            status = f" HTTP {error.response.status_code}" if isinstance(error, requests.HTTPError) and error.response is not None else ""
+            _LAST_ERROR = f"Twelve Data: {type(error).__name__}{status}"
     ticker = SYMBOLS.get(normalized)
     if not ticker:
         raise ValueError(f"Ativo não suportado: {symbol}")
@@ -97,7 +98,8 @@ def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: 
                 break
         except (requests.RequestException, ValueError, KeyError) as error:
             last_error = error
-            _LAST_ERROR = f"Yahoo Finance: {type(error).__name__}"
+            status = f" HTTP {error.response.status_code}" if isinstance(error, requests.HTTPError) and error.response is not None else ""
+            _LAST_ERROR = f"Yahoo Finance: {type(error).__name__}{status}"
     if not payload:
         raise RuntimeError(f"Fonte de candles indisponível: {type(last_error).__name__}")
     _LAST_SOURCE = "Yahoo Finance Chart API (fallback)"
