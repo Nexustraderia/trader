@@ -48,6 +48,7 @@ state = {
     "auto_sent_today": 0,
     "auto_sent_date": None,
     "auto_last_scan": None,
+    "auto_last_decisions": {},
     "auto_scan_errors": 0,
     "auto_last_error": None,
     "last_settlement": None,
@@ -164,6 +165,15 @@ def auto_scan_loop() -> None:
             try:
                 state["auto_last_scan"] = datetime.now(timezone.utc).isoformat()
                 result, _ = build_analysis(normalize_symbol(symbol))
+                state["auto_last_decisions"][result["symbol"]] = {
+                    "decision": result.get("decision"),
+                    "score": result.get("score"),
+                    "m1": result.get("m1_decision"),
+                    "m5": result.get("decision"),
+                    "m15": result.get("m15_decision"),
+                    "h1": result.get("h1_decision"),
+                    "confluence_ok": result.get("confluence_ok", False),
+                }
                 now = datetime.now(timezone.utc)
                 last_sent = state["auto_last_sent"].get(result["symbol"])
                 cooldown_ok = not last_sent or now - last_sent >= timedelta(minutes=20)
@@ -375,6 +385,7 @@ def health():
             "auto_symbols": AUTO_SYMBOLS,
             "auto_sent_today": state["auto_sent_today"],
             "auto_last_scan": state["auto_last_scan"],
+            "auto_last_decisions": state["auto_last_decisions"],
             "auto_scan_errors": state["auto_scan_errors"],
             "auto_last_error": state["auto_last_error"],
             "last_settlement": state["last_settlement"],

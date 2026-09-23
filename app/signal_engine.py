@@ -141,7 +141,7 @@ def analyze_with_confirmation(
         if trigger["decision"] == result["decision"]:
             result["score"] = min(100, result["score"] + 5)
             result["reasons"].append(f"Gatilho M1 alinhado ({trigger['decision']})")
-        else:
+        elif trigger["decision"] in ("CALL", "PUT") and trigger["decision"] != result["decision"]:
             result["m1_confirmation_ok"] = False
             result["score"] = max(0, result["score"] - 15)
             result["decision"] = "AGUARDAR"
