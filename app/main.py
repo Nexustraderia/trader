@@ -432,6 +432,7 @@ def health_data():
             "candle_available": bool(candles),
             "candle_fresh": is_fresh(candles, 10 * 60),
             "twelve_data_configured": bool(os.getenv("TWELVEDATA_API_KEY", "").strip()),
+            "iq_option_configured": market_data_diagnostics().get("iq_option_configured", False),
         })
     except Exception as error:
         return jsonify({
@@ -440,6 +441,7 @@ def health_data():
             "detail": type(error).__name__,
             "diagnostics": market_data_diagnostics(),
             "twelve_data_configured": bool(os.getenv("TWELVEDATA_API_KEY", "").strip()),
+            "iq_option_configured": market_data_diagnostics().get("iq_option_configured", False),
         }), 503
 
 

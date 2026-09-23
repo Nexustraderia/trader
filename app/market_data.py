@@ -82,7 +82,7 @@ def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: 
                 return candles
         except Exception as error:
             _LAST_ERROR = f"IQ Option: {type(error).__name__}"
-            if os.getenv("IQ_OPTION_STRICT", "false").lower() == "true":
+            if os.getenv("IQ_OPTION_STRICT", "true").lower() == "true":
                 raise
     if os.getenv("TWELVEDATA_API_KEY", "").strip():
         try:
