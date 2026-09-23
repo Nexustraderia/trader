@@ -9,13 +9,13 @@ from flask import Flask, jsonify
 
 try:
     from .db import backend_name
-    from .iq_data import is_iq_asset_open, otc_open_assets
+    from .iq_data import cached_otc_open_assets, is_iq_asset_open
     from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from db import backend_name
-    from iq_data import is_iq_asset_open, otc_open_assets
+    from iq_data import cached_otc_open_assets, is_iq_asset_open
     from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
@@ -449,12 +449,6 @@ def index():
 
 @app.get("/health")
 def health():
-    try:
-        open_otc = otc_open_assets()
-        otc_error = None
-    except Exception as error:
-        open_otc = []
-        otc_error = type(error).__name__
     return jsonify(
         {
             "status": "online",
@@ -475,8 +469,7 @@ def health():
             "auto_cycle_completed": state["auto_cycle_completed"],
             "auto_cycle_progress": f"{state['auto_cycle_processed']}/{state['auto_cycle_total']}",
             "auto_current_symbol": state["auto_current_symbol"],
-            "iq_open_otc": open_otc,
-            "iq_otc_catalog_error": otc_error,
+            "iq_open_otc": cached_otc_open_assets(),
             "signal_sticker_error": state["signal_sticker_error"],
             "auto_last_decisions": state["auto_last_decisions"],
             "auto_scan_errors": state["auto_scan_errors"],

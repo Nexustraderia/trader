@@ -136,3 +136,15 @@ def otc_open_assets() -> list[str]:
         if candidates.intersection(assets):
             opened.append(f"{base}-OTC")
     return opened
+
+
+def cached_otc_open_assets() -> list[str]:
+    """Return the last catalog snapshot without making a network call."""
+    if not _asset_cache:
+        return []
+    opened = []
+    for base in OTC_BASES:
+        candidates = {f"{base}-OTC", f"{base}_OTC", f"{base} OTC"}
+        if candidates.intersection(_asset_cache):
+            opened.append(f"{base}-OTC")
+    return opened
