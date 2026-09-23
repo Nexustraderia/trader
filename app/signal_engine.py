@@ -125,6 +125,8 @@ def analyze_with_confirmation(
     m1_candles: list[dict] | None = None,
 ) -> dict:
     result = analyze(symbol, m5_candles)
+    base_confidence = result.get("confidence", 50)
+    confirmation_bonus = 0
     confirmation = analyze(symbol, m15_candles)
     result["m15_decision"] = confirmation["decision"]
     result["m15_score"] = confirmation["score"]
@@ -138,6 +140,7 @@ def analyze_with_confirmation(
     if not volatility_ok:
         result["decision"] = "AGUARDAR"
         result["score"] = min(result["score"], 40)
+        result["confidence"] = 50
         if result.get("volatility_pct", 0.0) < 0.003:
             result["reasons"].append("Volatilidade insuficiente; mercado possivelmente lateralizado")
         if result.get("latest_move_pct", 0.0) > 1.00:
@@ -146,6 +149,7 @@ def analyze_with_confirmation(
     if result["decision"] in ("CALL", "PUT"):
         if result["decision"] == confirmation["decision"]:
             result["score"] = min(100, result["score"] + 15)
+            confirmation_bonus += 10
             result["reasons"].append(f"Confirmação M15 alinhada ({confirmation['decision']})")
         else:
             result["score"] = max(0, result["score"] - 20)
@@ -157,10 +161,12 @@ def analyze_with_confirmation(
         result["reasons"].append(f"Conflito com contexto H1 ({context['decision']}); sinal bloqueado")
     elif context and result["decision"] in ("CALL", "PUT") and context["decision"] == result["decision"]:
         result["score"] = min(100, result["score"] + 10)
+        confirmation_bonus += 10
         result["reasons"].append(f"Contexto H1 alinhado ({context['decision']})")
     if trigger and result["decision"] in ("CALL", "PUT"):
         if trigger["decision"] == result["decision"]:
             result["score"] = min(100, result["score"] + 5)
+            confirmation_bonus += 5
             result["reasons"].append(f"Gatilho M1 alinhado ({trigger['decision']})")
         elif trigger["decision"] in ("CALL", "PUT") and trigger["decision"] != result["decision"]:
             result["m1_confirmation_ok"] = False
@@ -170,7 +176,10 @@ def analyze_with_confirmation(
     result["confluence_ok"] = result["decision"] in ("CALL", "PUT") and result["m15_decision"] == result["decision"] and result["h1_decision"] == result["decision"] and result["m1_confirmation_ok"] and volatility_ok
     if not result["confluence_ok"]:
         result["reasons"].append("Confluência completa M5/M15/H1 não confirmada")
-    _set_confidence(result)
+    if result["confluence_ok"]:
+        result["confidence"] = min(100, base_confidence + confirmation_bonus)
+    else:
+        result["confidence"] = 50
     return result
 
 
