@@ -76,6 +76,10 @@ def available_iq_assets() -> set[str]:
 def is_iq_asset_open(symbol: str) -> bool:
     """Check availability before generating a signal for any asset."""
     normalized = symbol.strip().upper()
+    # For normal Forex, the subsequent M1/M5/M15/H1 freshness checks are the
+    # authoritative availability test. Avoid the heavy platform catalog call.
+    if not normalized.endswith("-OTC"):
+        return True
     active = IQ_SYMBOLS.get(normalized)
     if not active and normalized.endswith("-OTC"):
         active = normalized[:-4].replace("/", "") + "-OTC"
