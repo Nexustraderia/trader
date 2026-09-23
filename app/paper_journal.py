@@ -24,8 +24,10 @@ def _connect():
             outcome TEXT NOT NULL DEFAULT 'PENDENTE',
             closed_at TEXT,
             delivery_status TEXT NOT NULL DEFAULT 'PENDING'
-        )"""
+        )
+        """
     )
+    connection.execute("CREATE TABLE IF NOT EXISTS telegram_file_cache (outcome TEXT PRIMARY KEY, file_id TEXT NOT NULL)")
     columns = {row[1] for row in connection.execute("PRAGMA table_info(paper_signals)")}
     if "entry_price" not in columns:
         connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_price REAL")
@@ -37,6 +39,17 @@ def _connect():
         connection.execute("ALTER TABLE paper_signals ADD COLUMN delivery_status TEXT NOT NULL DEFAULT 'PENDING'")
     connection.commit()
     return connection
+
+
+def get_telegram_file_id(outcome: str) -> str | None:
+    with _connect() as connection:
+        row = connection.execute("SELECT file_id FROM telegram_file_cache WHERE outcome = ?", (outcome.upper(),)).fetchone()
+    return row["file_id"] if row else None
+
+
+def save_telegram_file_id(outcome: str, file_id: str) -> None:
+    with _connect() as connection:
+        connection.execute("INSERT OR REPLACE INTO telegram_file_cache (outcome, file_id) VALUES (?, ?)", (outcome.upper(), file_id))
 
 
 def create_signal(result: dict) -> dict:

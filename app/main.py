@@ -10,11 +10,11 @@ from flask import Flask, jsonify
 
 try:
     from .market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
-    from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, mark_result_delivered, pending_result_deliveries, ranking, recent_signals, session_statistics, settle_pending, statistics
+    from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
-    from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, mark_result_delivered, pending_result_deliveries, ranking, recent_signals, session_statistics, settle_pending, statistics
+    from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -51,6 +51,7 @@ state = {
     "last_settlement": None,
     "settled_count": 0,
     "settlement_error": None,
+    "result_file_ids": {},
 }
 
 
@@ -81,14 +82,30 @@ def send_result(item: dict, chat_id: str | None = None) -> bool:
         return False
     for attempt in range(3):
         try:
-            with open(image_path, "rb") as image_file:
+            file_id = state["result_file_ids"].get(outcome) or get_telegram_file_id(outcome)
+            if file_id:
                 response = requests.post(
                     telegram_url("sendPhoto"),
-                    data={"chat_id": chat_id or CHANNEL_ID, "caption": format_result(item)},
-                    files={"photo": (os.path.basename(image_path), image_file, "image/png")},
+                    json={"chat_id": chat_id or CHANNEL_ID, "photo": file_id, "caption": format_result(item)},
                     timeout=30,
                 )
+            else:
+                with open(image_path, "rb") as image_file:
+                    response = requests.post(
+                        telegram_url("sendPhoto"),
+                        data={"chat_id": chat_id or CHANNEL_ID, "caption": format_result(item)},
+                        files={"photo": (os.path.basename(image_path), image_file, "image/png")},
+                        timeout=30,
+                    )
             response.raise_for_status()
+            if not file_id:
+                result = response.json().get("result", {})
+                photos = result.get("photo", [])
+                if photos:
+                    file_id = photos[-1].get("file_id")
+                    state["result_file_ids"][outcome] = file_id
+                    if file_id:
+                        save_telegram_file_id(outcome, file_id)
             state["last_message"] = datetime.now(timezone.utc).isoformat()
             return True
         except (OSError, requests.RequestException) as error:
@@ -110,14 +127,29 @@ def send_affiliate_promo(chat_id: str | None = None) -> bool:
         return False
     if not os.path.isfile(PROMO_IMAGE_PATH):
         return send_message(caption + f"\n\n{AFFILIATE_URL}", chat_id)
-    with open(PROMO_IMAGE_PATH, "rb") as image_file:
+    file_id = state["result_file_ids"].get("PROMO") or get_telegram_file_id("PROMO")
+    if file_id:
         response = requests.post(
             telegram_url("sendPhoto"),
-            data={"chat_id": chat_id or CHANNEL_ID, "caption": caption, "reply_markup": json.dumps(markup)},
-            files={"photo": (os.path.basename(PROMO_IMAGE_PATH), image_file, "image/png")},
+            json={"chat_id": chat_id or CHANNEL_ID, "photo": file_id, "caption": caption, "reply_markup": markup},
             timeout=30,
         )
+    else:
+        with open(PROMO_IMAGE_PATH, "rb") as image_file:
+            response = requests.post(
+                telegram_url("sendPhoto"),
+                data={"chat_id": chat_id or CHANNEL_ID, "caption": caption, "reply_markup": json.dumps(markup)},
+                files={"photo": (os.path.basename(PROMO_IMAGE_PATH), image_file, "image/png")},
+                timeout=30,
+            )
     response.raise_for_status()
+    if not file_id:
+        photos = response.json().get("result", {}).get("photo", [])
+        if photos:
+            file_id = photos[-1].get("file_id")
+            state["result_file_ids"]["PROMO"] = file_id
+            if file_id:
+                save_telegram_file_id("PROMO", file_id)
     state["last_message"] = datetime.now(timezone.utc).isoformat()
     return True
 
