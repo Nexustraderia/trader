@@ -32,6 +32,7 @@ AUTO_SIGNAL_MAX_DAILY = int(os.getenv("AUTO_SIGNAL_MAX_DAILY", "6"))
 AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "7200"))
 AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/USD,EUR/JPY,USD/JPY,GBP/USD,GBP/JPY,AUD/USD,USD/CAD").split(",") if item.strip())
 AFFILIATE_PROMO_ENABLED = os.getenv("AFFILIATE_PROMO_ENABLED", "false").lower() == "true"
+AFFILIATE_PROMO_TEST = os.getenv("AFFILIATE_PROMO_TEST", "false").lower() == "true"
 AFFILIATE_PROMO_EVERY = max(1, int(os.getenv("AFFILIATE_PROMO_EVERY", "5")))
 AFFILIATE_URL = os.getenv("AFFILIATE_URL", "https://affiliate.iqoption.net/redir/?aff=232843&aff_model=revenue&afftrack=").strip()
 PROMO_IMAGE_PATH = os.getenv("PROMO_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "promo.png"))
@@ -52,7 +53,7 @@ state = {
     "settled_count": 0,
     "settlement_error": None,
     "settlement_last_check": None,
-    "result_file_ids": {},
+            "result_file_ids": {},
 }
 
 
@@ -406,6 +407,11 @@ def health_data():
 
 if __name__ == "__main__":
     if BOT_TOKEN:
+        if AFFILIATE_PROMO_TEST:
+            try:
+                send_affiliate_promo()
+            except Exception:
+                pass
         threading.Thread(target=polling_loop, daemon=True).start()
         threading.Thread(target=settlement_loop, daemon=True).start()
         threading.Thread(target=session_summary_loop, daemon=True).start()
