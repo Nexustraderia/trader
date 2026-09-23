@@ -187,8 +187,10 @@ def handle_update(update: dict) -> None:
             send_message(f"Resultado do sinal {parts[1].upper()} registrado como {parts[2].upper()}.", chat_id)
     elif text == "/historico":
         send_message(format_history(recent_signals()), chat_id)
-    elif text == "/stats":
-        send_message(format_statistics(statistics()), chat_id)
+    elif text.startswith("/stats"):
+        requested = text.removeprefix("/stats").strip()
+        symbol = normalize_symbol(requested) if requested else None
+        send_message(format_statistics(statistics(symbol), symbol), chat_id)
     elif text == "/ajuda":
         send_message(
             "NEXUS IA TRADER\n\n"
@@ -197,7 +199,7 @@ def handle_update(update: dict) -> None:
             "/sinal EUR/JPY — cria registro PAPER TRADING\n"
             "/resultado ID WIN|LOSS|VOID — fecha simulação\n"
             "/historico — lista simulações\n\n"
-            "/stats — mostra estatísticas do paper trading\n\n"
+            "/stats [ATIVO] — mostra estatísticas gerais ou por ativo\n\n"
             "Nenhum comando envia ordens reais.",
             chat_id,
         )

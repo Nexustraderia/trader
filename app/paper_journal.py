@@ -129,9 +129,12 @@ def format_history(signals: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def statistics() -> dict:
+def statistics(symbol: str | None = None) -> dict:
     with _connect() as connection:
-        rows = connection.execute("SELECT outcome, COUNT(*) AS total FROM paper_signals GROUP BY outcome").fetchall()
+        if symbol:
+            rows = connection.execute("SELECT outcome, COUNT(*) AS total FROM paper_signals WHERE symbol = ? GROUP BY outcome", (symbol,)).fetchall()
+        else:
+            rows = connection.execute("SELECT outcome, COUNT(*) AS total FROM paper_signals GROUP BY outcome").fetchall()
     counts = {row["outcome"]: row["total"] for row in rows}
     wins = counts.get("WIN", 0)
     losses = counts.get("LOSS", 0)
@@ -139,10 +142,10 @@ def statistics() -> dict:
     return {"total": sum(counts.values()), "wins": wins, "losses": losses, "void": counts.get("VOID", 0), "pending": counts.get("PENDENTE", 0), "accuracy": (wins / decided * 100) if decided else None}
 
 
-def format_statistics(stats: dict) -> str:
+def format_statistics(stats: dict, symbol: str | None = None) -> str:
     accuracy = f"{stats['accuracy']:.1f}%" if stats["accuracy"] is not None else "sem amostra"
     return "\n".join([
-        "NEXUS IA TRADER — ESTATÍSTICAS PAPER",
+        f"NEXUS IA TRADER — ESTATÍSTICAS PAPER{f' — {symbol}' if symbol else ''}",
         "",
         f"Total: {stats['total']}",
         f"WIN: {stats['wins']}",

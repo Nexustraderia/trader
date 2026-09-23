@@ -42,6 +42,8 @@ class CoreTests(unittest.TestCase):
             self.assertFalse(close_signal(signal["id"], "LOSS"))
             self.assertEqual(recent_signals(1)[0]["outcome"], "WIN")
             self.assertEqual(statistics()["accuracy"], 100.0)
+            self.assertEqual(statistics("EUR/JPY")["wins"], 1)
+            self.assertEqual(statistics("GBP/USD")["total"], 0)
 
             connection_signal = create_signal({"symbol": "EUR/USD", "decision": "PUT", "score": 80, "price": 1.1000})
             with paper_journal._connect() as connection:
