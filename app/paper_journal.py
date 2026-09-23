@@ -1,18 +1,19 @@
 import os
-import sqlite3
 import uuid
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
+
+try:
+    from .db import connect
+except ImportError:
+    from db import connect
 
 DB_PATH = os.getenv("PAPER_DB_PATH", "signals.sqlite3")
 LOCAL_ZONE = ZoneInfo("America/Sao_Paulo")
 
 
 def _connect():
-    parent = os.path.dirname(os.path.abspath(DB_PATH))
-    os.makedirs(parent, exist_ok=True)
-    connection = sqlite3.connect(DB_PATH)
-    connection.row_factory = sqlite3.Row
+    connection = connect()
     connection.execute(
         """CREATE TABLE IF NOT EXISTS paper_signals (
             id TEXT PRIMARY KEY,
@@ -32,17 +33,18 @@ def _connect():
         """
     )
     connection.execute("CREATE TABLE IF NOT EXISTS telegram_file_cache (outcome TEXT PRIMARY KEY, file_id TEXT NOT NULL)")
-    columns = {row[1] for row in connection.execute("PRAGMA table_info(paper_signals)")}
-    if "entry_price" not in columns:
-        connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_price REAL")
-    if "expires_at" not in columns:
-        connection.execute("ALTER TABLE paper_signals ADD COLUMN expires_at TEXT")
-    if "entry_at" not in columns:
-        connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_at TEXT")
-    if "delivery_status" not in columns:
-        connection.execute("ALTER TABLE paper_signals ADD COLUMN delivery_status TEXT NOT NULL DEFAULT 'PENDING'")
-    if "entry_captured_at" not in columns:
-        connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_captured_at TEXT")
+    if not connection.postgres:
+        columns = {row[1] for row in connection.execute("PRAGMA table_info(paper_signals)")}
+        if "entry_price" not in columns:
+            connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_price REAL")
+        if "expires_at" not in columns:
+            connection.execute("ALTER TABLE paper_signals ADD COLUMN expires_at TEXT")
+        if "entry_at" not in columns:
+            connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_at TEXT")
+        if "delivery_status" not in columns:
+            connection.execute("ALTER TABLE paper_signals ADD COLUMN delivery_status TEXT NOT NULL DEFAULT 'PENDING'")
+        if "entry_captured_at" not in columns:
+            connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_captured_at TEXT")
     connection.commit()
     return connection
 
