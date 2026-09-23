@@ -68,6 +68,7 @@ state = {
     "auto_cycle_processed": 0,
     "auto_cycle_total": len(AUTO_SYMBOLS),
     "auto_current_symbol": None,
+    "signal_sticker_error": None,
     "auto_last_decisions": {},
     "auto_scan_errors": 0,
     "auto_last_error": None,
@@ -103,6 +104,7 @@ def signal_reply_markup() -> dict:
 
 def send_signal(signal: dict, chat_id: str | None = None) -> bool:
     """Send the anti-martingale sticker, then the formatted signal."""
+    state["signal_sticker_error"] = None
     if BOT_TOKEN and SIGNAL_STICKER_FILE_ID:
         try:
             response = requests.post(
@@ -111,8 +113,16 @@ def send_signal(signal: dict, chat_id: str | None = None) -> bool:
                 timeout=20,
             )
             response.raise_for_status()
-        except requests.RequestException:
-            pass
+        except requests.RequestException as error:
+            state["signal_sticker_error"] = type(error).__name__
+            if getattr(error, "response", None) is not None:
+                try:
+                    detail = error.response.json().get("description", "")
+                    state["signal_sticker_error"] = f"{type(error).__name__}: {detail[:140]}"
+                except ValueError:
+                    pass
+    elif not SIGNAL_STICKER_FILE_ID:
+        state["signal_sticker_error"] = "sticker_file_id_ausente"
     return send_message(format_signal(signal), chat_id, signal_reply_markup())
 
 
@@ -457,6 +467,7 @@ def health():
             "auto_cycle_completed": state["auto_cycle_completed"],
             "auto_cycle_progress": f"{state['auto_cycle_processed']}/{state['auto_cycle_total']}",
             "auto_current_symbol": state["auto_current_symbol"],
+            "signal_sticker_error": state["signal_sticker_error"],
             "auto_last_decisions": state["auto_last_decisions"],
             "auto_scan_errors": state["auto_scan_errors"],
             "auto_last_error": state["auto_last_error"],
