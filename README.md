@@ -30,6 +30,8 @@ Cada sinal tem seu próprio `entry_at` e `expires_at`: o resultado só é calcul
 
 O SQLite mantém o sinal e o resultado fechado até que o Telegram confirme o envio da imagem junto com o texto. Se o Render, a rede ou o Telegram falhar, a entrega permanece pendente e é tentada novamente nos ciclos seguintes, em vez de ser descartada. Para conservar o banco entre deploys, configure `PAPER_DB_PATH` para um volume persistente montado em `/var/data/signals.sqlite3`; sem armazenamento persistente, o plano gratuito pode recriar o filesystem e apagar o histórico.
 
+A página inicial executa uma verificação no endpoint `/health` a cada cinco minutos enquanto estiver aberta no navegador. Isso gera tráfego de entrada e pode reduzir o adormecimento por inatividade, mas não substitui um processo sempre ativo: se a página for fechada, o serviço poderá dormir conforme as regras do Render Free.
+
 Depois do primeiro envio de cada arte, o bot armazena o `file_id` fornecido pelo Telegram e reutiliza esse identificador. Assim, as mensagens seguintes enviam imagem e texto sem fazer upload repetido do arquivo pesado.
 
 Opcionalmente, `WIN_STICKER_FILE_ID` e `LOSS_STICKER_FILE_ID` substituem a arte por um sticker. Como stickers não aceitam legenda, o bot envia o sticker e, em seguida, o texto completo do resultado.

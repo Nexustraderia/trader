@@ -333,7 +333,29 @@ def polling_loop() -> None:
 
 @app.get("/")
 def index():
-    return "NEXUS IA TRADER online"
+    return """<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NEXUS IA TRADER</title></head>
+<body style="font-family:Arial,sans-serif;background:#101010;color:#eee;padding:2rem">
+  <h1>NEXUS IA TRADER online</h1>
+  <p id="status">Verificando status...</p>
+  <script>
+    const status = document.getElementById("status");
+    async function keepAlive() {
+      try {
+        const response = await fetch("/health?source=page", {cache: "no-store"});
+        status.textContent = response.ok
+          ? "Serviço online — última verificação: " + new Date().toLocaleTimeString()
+          : "Serviço respondeu com erro HTTP " + response.status;
+      } catch (error) {
+        status.textContent = "Não foi possível verificar o serviço agora.";
+      }
+    }
+    keepAlive();
+    setInterval(keepAlive, 300000);
+  </script>
+</body>
+</html>"""
 
 
 @app.get("/health")
