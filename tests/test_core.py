@@ -5,7 +5,7 @@ import unittest
 
 from app.market_data import is_fresh, normalize_symbol
 from app.news_sentinel import should_block
-from app.paper_journal import close_signal, create_signal, recent_signals, settle_pending, statistics
+from app.paper_journal import close_signal, create_signal, ranking, recent_signals, settle_pending, statistics
 from app.signal_engine import analyze
 import app.paper_journal as paper_journal
 
@@ -44,6 +44,7 @@ class CoreTests(unittest.TestCase):
             self.assertEqual(statistics()["accuracy"], 100.0)
             self.assertEqual(statistics("EUR/JPY")["wins"], 1)
             self.assertEqual(statistics("GBP/USD")["total"], 0)
+            self.assertEqual(ranking()[0]["symbol"], "EUR/JPY")
 
             connection_signal = create_signal({"symbol": "EUR/USD", "decision": "PUT", "score": 80, "price": 1.1000})
             with paper_journal._connect() as connection:

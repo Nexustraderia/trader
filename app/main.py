@@ -10,12 +10,12 @@ from flask import Flask, jsonify
 try:
     from .market_data import fetch_candles, is_fresh, normalize_symbol
     from .news_sentinel import fetch_news, format_news, should_block
-    from .paper_journal import close_signal, create_signal, format_history, format_signal, format_statistics, recent_signals, settle_pending, statistics
+    from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_signal, format_statistics, ranking, recent_signals, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from market_data import fetch_candles, is_fresh, normalize_symbol
     from news_sentinel import fetch_news, format_news, should_block
-    from paper_journal import close_signal, create_signal, format_history, format_signal, format_statistics, recent_signals, settle_pending, statistics
+    from paper_journal import close_signal, create_signal, format_history, format_ranking, format_signal, format_statistics, ranking, recent_signals, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -191,6 +191,8 @@ def handle_update(update: dict) -> None:
         requested = text.removeprefix("/stats").strip()
         symbol = normalize_symbol(requested) if requested else None
         send_message(format_statistics(statistics(symbol), symbol), chat_id)
+    elif text == "/ranking":
+        send_message(format_ranking(ranking()), chat_id)
     elif text == "/ajuda":
         send_message(
             "NEXUS IA TRADER\n\n"
@@ -200,6 +202,7 @@ def handle_update(update: dict) -> None:
             "/resultado ID WIN|LOSS|VOID — fecha simulação\n"
             "/historico — lista simulações\n\n"
             "/stats [ATIVO] — mostra estatísticas gerais ou por ativo\n\n"
+            "/ranking — compara os ativos da amostra\n\n"
             "Nenhum comando envia ordens reais.",
             chat_id,
         )

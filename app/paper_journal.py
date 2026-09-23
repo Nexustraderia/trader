@@ -156,3 +156,31 @@ def format_statistics(stats: dict, symbol: str | None = None) -> str:
         "",
         "Amostra simulada; não representa garantia de desempenho futuro.",
     ])
+
+
+def ranking() -> list[dict]:
+    with _connect() as connection:
+        rows = connection.execute(
+            """SELECT symbol,
+                      COUNT(*) AS total,
+                      SUM(CASE WHEN outcome = 'WIN' THEN 1 ELSE 0 END) AS wins,
+                      SUM(CASE WHEN outcome = 'LOSS' THEN 1 ELSE 0 END) AS losses
+               FROM paper_signals GROUP BY symbol ORDER BY wins DESC, total DESC, symbol"""
+        ).fetchall()
+    result = []
+    for row in rows:
+        decided = row["wins"] + row["losses"]
+        result.append({"symbol": row["symbol"], "total": row["total"], "wins": row["wins"], "losses": row["losses"], "accuracy": (row["wins"] / decided * 100) if decided else None})
+    return result
+
+
+def format_ranking(rows: list[dict]) -> str:
+    lines = ["NEXUS IA TRADER — RANKING PAPER", ""]
+    if not rows:
+        lines.append("Nenhum resultado registrado ainda.")
+    else:
+        for row in rows:
+            accuracy = f"{row['accuracy']:.1f}%" if row["accuracy"] is not None else "sem amostra"
+            lines.append(f"{row['symbol']} | WIN {row['wins']} | LOSS {row['losses']} | Total {row['total']} | Taxa {accuracy}")
+    lines.extend(["", "Ranking baseado somente em paper trading; não é garantia de lucro."])
+    return "\n".join(lines)
