@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: nexus-ia-trader
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app/main.py
+    envVars:
+      - key: BOT_MODE
+        value: TESTE
+      - key: TELEGRAM_CHANNEL_ID
+        value: '@NexusTraderIA'
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
