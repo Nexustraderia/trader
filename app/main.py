@@ -30,6 +30,10 @@ AUTO_SIGNAL_MIN_SCORE = int(os.getenv("AUTO_SIGNAL_MIN_SCORE", "80"))
 AUTO_SIGNAL_MAX_DAILY = int(os.getenv("AUTO_SIGNAL_MAX_DAILY", "6"))
 AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "7200"))
 AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/USD,EUR/JPY,USD/JPY,GBP/USD,GBP/JPY,AUD/USD,USD/CAD").split(",") if item.strip())
+RESULT_IMAGE_PATHS = {
+    "WIN": os.getenv("WIN_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "win.png")),
+    "LOSS": os.getenv("LOSS_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "loss.png")),
+}
 
 state = {
     "started_at": datetime.now(timezone.utc).isoformat(),
@@ -54,6 +58,24 @@ def send_message(text: str, chat_id: str | None = None) -> bool:
         json={"chat_id": chat_id or CHANNEL_ID, "text": text},
         timeout=20,
     )
+    response.raise_for_status()
+    state["last_message"] = datetime.now(timezone.utc).isoformat()
+    return True
+
+
+def send_result(item: dict, chat_id: str | None = None) -> bool:
+    """Send the settlement caption with the matching WIN/LOSS artwork."""
+    outcome = item.get("outcome", "").upper()
+    image_path = RESULT_IMAGE_PATHS.get(outcome)
+    if not BOT_TOKEN or not image_path or not os.path.isfile(image_path):
+        return send_message(format_result(item), chat_id)
+    with open(image_path, "rb") as image_file:
+        response = requests.post(
+            telegram_url("sendPhoto"),
+            data={"chat_id": chat_id or CHANNEL_ID, "caption": format_result(item)},
+            files={"photo": (os.path.basename(image_path), image_file, "image/png")},
+            timeout=30,
+        )
     response.raise_for_status()
     state["last_message"] = datetime.now(timezone.utc).isoformat()
     return True
@@ -120,7 +142,7 @@ def settlement_loop() -> None:
         try:
             settled = settle_pending(price_lookup)
             for item in settled:
-                send_message(format_result(item))
+                send_result(item)
         except Exception:
             pass
         time.sleep(60)
