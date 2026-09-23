@@ -201,7 +201,7 @@ def auto_scan_loop() -> None:
                     state["auto_sent_today"] += 1
             except Exception as error:
                 state["auto_scan_errors"] += 1
-                state["auto_last_error"] = type(error).__name__
+                state["auto_last_error"] = f"{type(error).__name__}: {str(error)[:160]}"
                 continue
         time.sleep(max(60, AUTO_SIGNAL_INTERVAL))
 
