@@ -22,15 +22,25 @@ def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: 
     if not ticker:
         raise ValueError(f"Ativo não suportado: {symbol}")
 
-    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
-    response = requests.get(
-        url,
-        params={"interval": interval, "range": range_, "includePrePost": "false"},
-        headers={"User-Agent": "NEXUS-IA-TRADER/0.1"},
-        timeout=20,
-    )
-    response.raise_for_status()
-    payload = response.json()["chart"]["result"][0]
+    last_error = None
+    payload = None
+    for host in ("query1.finance.yahoo.com", "query2.finance.yahoo.com"):
+        try:
+            url = f"https://{host}/v8/finance/chart/{ticker}"
+            response = requests.get(
+                url,
+                params={"interval": interval, "range": range_, "includePrePost": "false"},
+                headers={"User-Agent": "Mozilla/5.0 (NEXUS-IA-TRADER prototype)"},
+                timeout=20,
+            )
+            response.raise_for_status()
+            payload = response.json().get("chart", {}).get("result", [None])[0]
+            if payload:
+                break
+        except (requests.RequestException, ValueError, KeyError) as error:
+            last_error = error
+    if not payload:
+        raise RuntimeError(f"Fonte de candles indisponível: {type(last_error).__name__}")
     timestamps = payload.get("timestamp") or []
     quote = payload["indicators"]["quote"][0]
     candles = []

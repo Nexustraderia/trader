@@ -51,16 +51,16 @@ def handle_update(update: dict) -> None:
 
     if text == "/start":
         send_message(
-            "NEXUS IA TRADER\\n\\n"
-            "Status: ONLINE\\n"
-            f"Modo: {BOT_MODE}\\n"
-            "Análises automáticas: em preparação\\n"
+            "NEXUS IA TRADER\n\n"
+            "Status: ONLINE\n"
+            f"Modo: {BOT_MODE}\n"
+            "Análises automáticas: em preparação\n"
             "Ordens automáticas: DESATIVADAS",
             chat_id,
         )
     elif text == "/status":
         send_message(
-            f"NEXUS IA TRADER\\nStatus: ONLINE\\nModo: {BOT_MODE}",
+            f"NEXUS IA TRADER\nStatus: ONLINE\nModo: {BOT_MODE}",
             chat_id,
         )
     elif text.startswith("/analisar"):
@@ -72,9 +72,9 @@ def handle_update(update: dict) -> None:
             send_message(format_analysis(result), chat_id)
         except Exception as error:
             send_message(
-                "NEXUS IA TRADER\\n\\n"
-                f"Não foi possível analisar {symbol} agora.\\n"
-                "Status: AGUARDAR\\n"
+                "NEXUS IA TRADER\n\n"
+                f"Não foi possível analisar {symbol} agora.\n"
+                "Status: AGUARDAR\n"
                 f"Detalhe técnico: {type(error).__name__}",
                 chat_id,
             )
