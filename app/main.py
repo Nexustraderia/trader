@@ -50,6 +50,10 @@ RESULT_STICKER_IDS = {
     "WIN": os.getenv("WIN_STICKER_FILE_ID", "").strip(),
     "LOSS": os.getenv("LOSS_STICKER_FILE_ID", "").strip(),
 }
+SIGNAL_STICKER_FILE_ID = os.getenv(
+    "SIGNAL_STICKER_FILE_ID",
+    "CAACAgEAAxkBAAFU1olqtERbheqendjULXdKIX-apGKBRAACUgkAAnDjoEUmIym3kq2dsT0E",
+).strip()
 
 state = {
     "started_at": datetime.now(timezone.utc).isoformat(),
@@ -95,6 +99,21 @@ def send_message(text: str, chat_id: str | None = None, reply_markup: dict | Non
 
 def signal_reply_markup() -> dict:
     return {"inline_keyboard": [[{"text": "CLIQUE AQUI", "url": IQ_OPTION_AFFILIATE_URL}]]}
+
+
+def send_signal(signal: dict, chat_id: str | None = None) -> bool:
+    """Send the anti-martingale sticker, then the formatted signal."""
+    if BOT_TOKEN and SIGNAL_STICKER_FILE_ID:
+        try:
+            response = requests.post(
+                telegram_url("sendSticker"),
+                json={"chat_id": chat_id or CHANNEL_ID, "sticker": SIGNAL_STICKER_FILE_ID},
+                timeout=20,
+            )
+            response.raise_for_status()
+        except requests.RequestException:
+            pass
+    return send_message(format_signal(signal), chat_id, signal_reply_markup())
 
 
 def send_result(item: dict, chat_id: str | None = None) -> bool:
@@ -217,10 +236,7 @@ def auto_scan_loop() -> None:
                     signal = create_signal(result)
                     if signal.get("_duplicate"):
                         continue
-                    send_message(
-                        format_signal(signal),
-                        reply_markup=signal_reply_markup(),
-                    )
+                    send_signal(signal)
                     state["auto_last_sent"][result["symbol"]] = now
                     state["auto_sent_today"] += 1
             except Exception as error:
@@ -321,7 +337,7 @@ def handle_update(update: dict) -> None:
                     chat_id,
                 )
             else:
-                    send_message(format_signal(create_signal(result)), chat_id, signal_reply_markup())
+                    send_signal(create_signal(result), chat_id)
         except Exception as error:
             send_message(f"NEXUS IA TRADER\n\nSinal simulado indisponível: {type(error).__name__}", chat_id)
     elif text.startswith("/resultado"):
