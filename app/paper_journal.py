@@ -33,6 +33,8 @@ def _connect():
         """
     )
     connection.execute("CREATE TABLE IF NOT EXISTS telegram_file_cache (outcome TEXT PRIMARY KEY, file_id TEXT NOT NULL)")
+    connection.execute("CREATE TABLE IF NOT EXISTS paper_summary_state (id INTEGER PRIMARY KEY, covered_count INTEGER NOT NULL DEFAULT 0)")
+    connection.execute("INSERT INTO paper_summary_state (id, covered_count) VALUES (1, 0) ON CONFLICT (id) DO NOTHING")
     if not connection.postgres:
         columns = {row[1] for row in connection.execute("PRAGMA table_info(paper_signals)")}
         if "entry_price" not in columns:
@@ -314,6 +316,30 @@ def session_statistics(hours: int = 2) -> dict:
     }
 
 
+def next_result_batch(limit: int = 20) -> dict | None:
+    with _connect() as connection:
+        state = connection.execute("SELECT covered_count FROM paper_summary_state WHERE id = 1").fetchone()
+        covered = int(state["covered_count"] if state else 0)
+        total_row = connection.execute("SELECT COUNT(*) AS total FROM paper_signals WHERE outcome IN ('WIN', 'LOSS', 'VOID')").fetchone()
+        total = int(total_row["total"])
+        if total - covered < limit:
+            return None
+        rows = connection.execute(
+            "SELECT outcome FROM paper_signals WHERE outcome IN ('WIN', 'LOSS', 'VOID') ORDER BY closed_at ASC, id ASC LIMIT ? OFFSET ?",
+            (limit, covered),
+        ).fetchall()
+    counts = {"WIN": 0, "LOSS": 0, "VOID": 0}
+    for row in rows:
+        counts[row["outcome"]] = counts.get(row["outcome"], 0) + 1
+    decided = counts["WIN"] + counts["LOSS"]
+    return {"start": covered, "total": limit, **counts, "accuracy": (counts["WIN"] / decided * 100) if decided else None}
+
+
+def mark_result_batch(start: int, size: int = 20) -> None:
+    with _connect() as connection:
+        connection.execute("UPDATE paper_summary_state SET covered_count = ? WHERE id = 1 AND covered_count = ?", (start + size, start))
+
+
 def format_session_summary(stats: dict) -> str:
     accuracy = f"{stats['accuracy']:.1f}%" if stats["accuracy"] is not None else "sem amostra"
     return "\n".join([
@@ -332,6 +358,23 @@ def format_session_summary(stats: dict) -> str:
         "Mantenha seu gerenciamento e foque nos seus objetivos.",
         "",
         "Resumo baseado em paper trading; não é garantia de resultado.",
+    ])
+
+
+def format_result_batch(stats: dict) -> str:
+    accuracy = f"{stats['accuracy']:.1f}%" if stats["accuracy"] is not None else "sem amostra"
+    return "\n".join([
+        "NEXUS IA TRADER — RESULTADO DA SESSÃO",
+        "",
+        f"Foram finalizadas {stats['total']} análises",
+        "",
+        f"WIN: {stats['WIN']}",
+        f"LOSS: {stats['LOSS']}",
+        f"VOID: {stats['VOID']}",
+        f"Taxa de acerto: {accuracy}",
+        "",
+        "Não usamos martingale.",
+        "Mantenha a disciplina e respeite seu gerenciamento de risco.",
     ])
 
 

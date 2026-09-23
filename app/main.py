@@ -11,13 +11,13 @@ try:
     from .db import backend_name
     from .iq_data import is_iq_asset_open
     from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
-    from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
+    from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from db import backend_name
     from iq_data import is_iq_asset_open
     from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
-    from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_delivered, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
+    from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -304,19 +304,17 @@ def settlement_loop() -> None:
 
 
 def session_summary_loop() -> None:
-    """Publish an hourly paper-trading summary; pending results remain in PostgreSQL."""
+    """Publish one persistent summary for every 20 finalized results."""
     if not BOT_TOKEN:
         return
     while True:
-        if AUTO_SUMMARY_INTERVAL == 3600:
-            seconds_to_hour = 3600 - (time.time() % 3600)
-            time.sleep(max(30, seconds_to_hour))
-        else:
-            time.sleep(max(900, AUTO_SUMMARY_INTERVAL))
         try:
-            send_message(format_session_summary(session_statistics(1)))
+            batch = next_result_batch(20)
+            if batch and send_message(format_result_batch(batch)):
+                mark_result_batch(batch["start"], batch["total"])
         except Exception:
-            continue
+            pass
+        time.sleep(60)
 
 
 def handle_update(update: dict) -> None:
