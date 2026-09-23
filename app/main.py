@@ -34,6 +34,10 @@ RESULT_IMAGE_PATHS = {
     "WIN": os.getenv("WIN_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "win.png")),
     "LOSS": os.getenv("LOSS_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "loss.png")),
 }
+RESULT_STICKER_IDS = {
+    "WIN": os.getenv("WIN_STICKER_FILE_ID", "").strip(),
+    "LOSS": os.getenv("LOSS_STICKER_FILE_ID", "").strip(),
+}
 
 state = {
     "started_at": datetime.now(timezone.utc).isoformat(),
@@ -49,7 +53,7 @@ state = {
     "settled_count": 0,
     "settlement_error": None,
     "settlement_last_check": None,
-            "result_file_ids": {},
+    "result_file_ids": {},
 }
 
 
@@ -74,6 +78,21 @@ def send_message(text: str, chat_id: str | None = None) -> bool:
 def send_result(item: dict, chat_id: str | None = None) -> bool:
     """Send the settlement caption with the matching WIN/LOSS artwork."""
     outcome = item.get("outcome", "").upper()
+    sticker_id = RESULT_STICKER_IDS.get(outcome)
+    if BOT_TOKEN and sticker_id:
+        try:
+            sticker_response = requests.post(
+                telegram_url("sendSticker"),
+                json={"chat_id": chat_id or CHANNEL_ID, "sticker": sticker_id},
+                timeout=30,
+            )
+            sticker_response.raise_for_status()
+            send_message(format_result(item), chat_id)
+            state["last_message"] = datetime.now(timezone.utc).isoformat()
+            return True
+        except requests.RequestException as error:
+            state["settlement_error"] = type(error).__name__
+            return False
     image_path = RESULT_IMAGE_PATHS.get(outcome)
     if not BOT_TOKEN or not image_path or not os.path.isfile(image_path):
         state["settlement_error"] = f"imagem_{outcome.lower()}_ausente"
