@@ -27,6 +27,7 @@ app = Flask(__name__)
 BOT_MODE = os.getenv("BOT_MODE", "TESTE").upper()
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID", "@NexusTraderIA").strip()
+IQ_OPTION_AFFILIATE_URL = "https://affiliate.iqoption.net/redir/?aff=232843&aff_model=revenue&afftrack="
 PORT = int(os.getenv("PORT", "10000"))
 AUTO_SIGNALS_ENABLED = os.getenv("AUTO_SIGNALS_ENABLED", "false").lower() == "true"
 # M5 strategy: refresh once per minute, never once per second.
@@ -73,18 +74,22 @@ def telegram_url(method: str) -> str:
     return f"https://api.telegram.org/bot{BOT_TOKEN}/{method}"
 
 
-def send_message(text: str, chat_id: str | None = None) -> bool:
+def send_message(text: str, chat_id: str | None = None, reply_markup: dict | None = None) -> bool:
     """Send a Telegram message only when a token is configured."""
     if not BOT_TOKEN:
         return False
     response = requests.post(
         telegram_url("sendMessage"),
-        json={"chat_id": chat_id or CHANNEL_ID, "text": text},
+        json={"chat_id": chat_id or CHANNEL_ID, "text": text, **({"reply_markup": reply_markup} if reply_markup else {})},
         timeout=20,
     )
     response.raise_for_status()
     state["last_message"] = datetime.now(timezone.utc).isoformat()
     return True
+
+
+def signal_reply_markup() -> dict:
+    return {"inline_keyboard": [[{"text": "CLIQUE AQUI", "url": IQ_OPTION_AFFILIATE_URL}]]}
 
 
 def send_result(item: dict, chat_id: str | None = None) -> bool:
@@ -202,6 +207,7 @@ def auto_scan_loop() -> None:
                         continue
                     send_message(
                         format_signal(signal),
+                        reply_markup=signal_reply_markup(),
                     )
                     state["auto_last_sent"][result["symbol"]] = now
                     state["auto_sent_today"] += 1
@@ -299,7 +305,7 @@ def handle_update(update: dict) -> None:
                     chat_id,
                 )
             else:
-                send_message(format_signal(create_signal(result)), chat_id)
+                    send_message(format_signal(create_signal(result)), chat_id, signal_reply_markup())
         except Exception as error:
             send_message(f"NEXUS IA TRADER\n\nSinal simulado indisponível: {type(error).__name__}", chat_id)
     elif text.startswith("/resultado"):

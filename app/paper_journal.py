@@ -233,6 +233,9 @@ def format_signal(signal: dict) -> str:
         "━━━━━━━━━━━━━━━━━━",
         "🧠 Análise gerada pelo Nexus I.A Trader",
         "⚠️ Gerencie seu risco com responsabilidade",
+        "",
+        "Nossas análises e resultados são para corretora IQ OPTION.",
+        "Caso não tenha cadastro (CLIQUE AQUI)",
     ])
 
 
