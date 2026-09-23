@@ -196,17 +196,29 @@ def capture_entry_prices(price_lookup_at) -> int:
 
 def format_result(result: dict) -> str:
     entry = datetime.fromisoformat(result["entry_at"]).astimezone(LOCAL_ZONE) if result.get("entry_at") else None
-    outcome = {"WIN": "Win", "LOSS": "Loss", "VOID": "Void"}.get(result["outcome"], result["outcome"])
+    outcome = result["outcome"].upper()
+    if outcome == "WIN":
+        result_line = "✅ Resultado: WIN"
+        closing = "🎯 Mantenha o foco nos seus objetivos e siga sempre um gerenciamento de risco responsável."
+    elif outcome == "LOSS":
+        result_line = "🔴 Resultado: LOSS"
+        closing = "O mercado faz parte do processo. Mantenha a disciplina, respeite seu gerenciamento de risco e continue focado nos seus objetivos."
+    else:
+        result_line = "⚪ Resultado: VOID"
+        closing = "Resultado sem direção definida. Mantenha a disciplina e respeite seu gerenciamento de risco."
     return "\n".join([
-        "NEXUS IA TRADER ( Resultado final da nossa análise)",
+        "⚡️ NEXUS I.A TRADER ⚡️",
         "",
-        f"Ativo: {result['symbol']}",
-        f"Direção: {result['direction']}",
-        f"Entrada: {entry.strftime('%H:%M') if entry else 'indisponível'}",
-        "Tempo Expiração: M5",
+        "📊 Resultado final da análise",
         "",
-        f"O resultado desta entrada foi {outcome}.",
-        "Mantenha o seu gerenciamento foque no seus objetivos.",
+        f"💱 Ativo: {result['symbol']}",
+        f"🟢 Direção: {result['direction']}" if result["direction"] == "CALL" else f"🔴 Direção: {result['direction']}",
+        f"⏰ Entrada: {entry.strftime('%H:%M') if entry else 'indisponível'}",
+        "⌛ Expiração: M5",
+        "",
+        result_line,
+        "",
+        closing,
     ])
 
 

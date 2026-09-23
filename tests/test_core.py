@@ -113,8 +113,8 @@ class CoreTests(unittest.TestCase):
             settled = settle_pending(lambda symbol: 1.0990)
             self.assertEqual(settled[0]["outcome"], "WIN")
             result_text = format_result(settled[0])
-            self.assertIn("NEXUS IA TRADER ( Resultado final da nossa análise)", result_text)
-            self.assertIn("O resultado desta entrada foi Win.", result_text)
+            self.assertIn("⚡️ NEXUS I.A TRADER ⚡️", result_text)
+            self.assertIn("✅ Resultado: WIN", result_text)
         finally:
             os.unlink(database)
 
