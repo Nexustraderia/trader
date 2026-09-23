@@ -59,6 +59,11 @@ state = {
     "auto_sent_today": 0,
     "auto_sent_date": None,
     "auto_last_scan": None,
+    "auto_cycle_started": None,
+    "auto_cycle_completed": None,
+    "auto_cycle_processed": 0,
+    "auto_cycle_total": len(AUTO_SYMBOLS),
+    "auto_current_symbol": None,
     "auto_last_decisions": {},
     "auto_scan_errors": 0,
     "auto_last_error": None,
@@ -178,7 +183,14 @@ def auto_scan_loop() -> None:
     if not BOT_TOKEN or not AUTO_SIGNALS_ENABLED:
         return
     while True:
+        state["auto_cycle_started"] = datetime.now(timezone.utc).isoformat()
+        state["auto_cycle_completed"] = None
+        state["auto_cycle_processed"] = 0
+        state["auto_cycle_total"] = len(AUTO_SYMBOLS)
+        state["auto_current_symbol"] = None
+        state["auto_last_decisions"] = {}
         for symbol in AUTO_SYMBOLS:
+            state["auto_current_symbol"] = symbol
             try:
                 state["auto_last_scan"] = datetime.now(timezone.utc).isoformat()
                 result, _ = build_analysis(normalize_symbol(symbol))
@@ -217,6 +229,10 @@ def auto_scan_loop() -> None:
                 state["auto_scan_errors"] += 1
                 state["auto_last_error"] = f"{type(error).__name__}: {str(error)[:160]}"
                 continue
+            finally:
+                state["auto_cycle_processed"] += 1
+        state["auto_current_symbol"] = None
+        state["auto_cycle_completed"] = datetime.now(timezone.utc).isoformat()
         time.sleep(max(60, AUTO_SIGNAL_INTERVAL))
 
 
@@ -421,6 +437,10 @@ def health():
             "auto_symbols": AUTO_SYMBOLS,
             "auto_sent_today": state["auto_sent_today"],
             "auto_last_scan": state["auto_last_scan"],
+            "auto_cycle_started": state["auto_cycle_started"],
+            "auto_cycle_completed": state["auto_cycle_completed"],
+            "auto_cycle_progress": f"{state['auto_cycle_processed']}/{state['auto_cycle_total']}",
+            "auto_current_symbol": state["auto_current_symbol"],
             "auto_last_decisions": state["auto_last_decisions"],
             "auto_scan_errors": state["auto_scan_errors"],
             "auto_last_error": state["auto_last_error"],
