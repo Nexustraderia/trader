@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify
 
 from market_data import fetch_candles, normalize_symbol
+from news_sentinel import fetch_news, format_news, should_block
 from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -63,6 +64,17 @@ def handle_update(update: dict) -> None:
             f"NEXUS IA TRADER\nStatus: ONLINE\nModo: {BOT_MODE}",
             chat_id,
         )
+    elif text.startswith("/noticias"):
+        requested = text.removeprefix("/noticias").strip() or "EUR/JPY"
+        symbol = normalize_symbol(requested)
+        try:
+            send_message(format_news(fetch_news(symbol)), chat_id)
+        except Exception as error:
+            send_message(
+                "NEXUS SENTINEL\n\nStatus: AGUARDAR\n"
+                f"Não foi possível consultar as notícias agora ({type(error).__name__}).",
+                chat_id,
+            )
     elif text.startswith("/analisar"):
         requested = text.removeprefix("/analisar").strip() or "EUR/JPY"
         symbol = normalize_symbol(requested)
@@ -71,6 +83,12 @@ def handle_update(update: dict) -> None:
             candles_m15 = fetch_candles(symbol, interval="15m", range_="5d", count=80)
             candles_h1 = fetch_candles(symbol, interval="1h", range_="60d", count=80)
             result = analyze_with_confirmation(symbol, candles_m5, candles_m15, candles_h1)
+            news = fetch_news(symbol)
+            result["news_status"] = news["status"]
+            if should_block(news):
+                result["decision"] = "AGUARDAR"
+                result["score"] = min(result["score"], 40)
+                result["reasons"].append("NEXUS SENTINEL detectou notícia macro de alto impacto; sinal bloqueado")
             send_message(format_analysis(result), chat_id)
         except Exception as error:
             send_message(

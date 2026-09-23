@@ -120,6 +120,7 @@ def format_analysis(result: dict) -> str:
         f"Score: {result['score']}/100",
         f"Confirmação M15: {result.get('m15_decision', 'indisponível')}",
         f"Contexto H1: {result.get('h1_decision', 'indisponível')}",
+        f"NEXUS SENTINEL: {result.get('news_status', 'não consultado')}",
     ]
     if "price" in result:
         lines.extend([f"Preço de referência: {result['price']}", f"RSI: {result['rsi']:.1f}"])

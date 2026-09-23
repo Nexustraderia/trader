@@ -4,15 +4,21 @@ Bot de análise de mercado para Telegram. O sistema publica cenários analítico
 
 ## Estado atual
 
-Esta é a primeira estrutura do projeto. O modo padrão é `TESTE` e ainda não há coleta automática de dados nem geração de sinais reais.
+O modo padrão é `TESTE`. O bot coleta candles públicos para análise sob demanda e não envia ordens para corretoras.
+
+## Comandos
+
+- `/status` — verifica o estado do bot.
+- `/analisar EUR/JPY` — compara M5, M15 e H1 e aplica o filtro NEXUS SENTINEL.
+- `/noticias EUR/JPY` — consulta uma triagem de manchetes macroeconômicas recentes.
+
+O SENTINEL bloqueia uma eventual direção quando detecta manchetes de alto impacto. A fonte atual é um RSS público usado apenas como protótipo; ela não substitui um calendário econômico profissional nem representa integração oficial com o Investing.com.
 
 ## Próximas etapas
 
-1. Conectar e testar o Telegram.
-2. Adicionar uma fonte autorizada de dados de mercado.
-3. Implementar a primeira análise simples de tendência.
-4. Adicionar notícias e calendário econômico.
-5. Registrar sinais em modo simulado.
+1. Integrar uma fonte autorizada e estruturada de calendário econômico.
+2. Registrar análises em modo simulado para avaliação histórica.
+3. Adicionar métricas de qualidade e trilha de auditoria.
 
 ## Segurança
 
