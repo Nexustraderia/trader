@@ -17,8 +17,11 @@ HIGH_IMPACT_TERMS = (
 PAIR_TERMS = {
     "EUR/JPY": ("euro", "ecb", "europe", "japan", "boj", "yen"),
     "EUR/USD": ("euro", "ecb", "europe", "fed", "fomc", "dollar", "usd"),
+    "USD/JPY": ("fed", "fomc", "dollar", "usd", "japan", "boj", "yen"),
     "GBP/USD": ("boe", "bank of england", "britain", "uk", "fed", "dollar", "usd"),
-    "XAU/USD": ("fed", "fomc", "dollar", "usd", "inflation", "interest rate"),
+    "GBP/JPY": ("boe", "bank of england", "britain", "uk", "japan", "boj", "yen"),
+    "AUD/USD": ("rba", "australia", "australian", "fed", "fomc", "dollar", "usd"),
+    "USD/CAD": ("bank of canada", "canada", "oil", "fed", "fomc", "dollar", "usd"),
 }
 
 
@@ -89,3 +92,20 @@ def format_news(news: dict) -> str:
         lines.extend(["", "Nenhum evento macro de alto impacto foi identificado na triagem."])
     lines.extend(["", f"Fonte: {news['source']}", "Modo TESTE — triagem informativa, não é recomendação financeira."])
     return "\n".join(lines)
+
+
+def format_channel_alert(news: dict, block_minutes: int = 30) -> str:
+    event = news.get("events", [{}])[0]
+    title = event.get("title", "Evento macroeconômico de alto impacto")
+    return "\n".join([
+        "Perigo 🚨 NEXUS TRADER informa:",
+        "",
+        f"Notícia de impacto no mercado {news['symbol']} 🐮🐮🐮",
+        "",
+        f"{title}",
+        "",
+        f"Não serão enviadas análises para este ativo nos próximos {block_minutes} minutos.",
+        "",
+        "NEXUS SENTINEL — proteção automática por risco de notícia.",
+        "Triagem informativa; não é recomendação financeira.",
+    ])

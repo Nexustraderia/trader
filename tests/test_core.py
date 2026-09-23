@@ -5,7 +5,7 @@ import unittest
 from datetime import datetime
 
 from app.market_data import is_fresh, market_data_source, normalize_symbol
-from app.news_sentinel import should_block
+from app.news_sentinel import format_channel_alert, should_block
 from app.paper_journal import close_signal, create_signal, format_result, format_session_summary, format_signal, ranking, recent_signals, session_statistics, settle_pending, statistics
 from app.signal_engine import analyze, analyze_with_confirmation
 import app.paper_journal as paper_journal
@@ -50,6 +50,10 @@ class CoreTests(unittest.TestCase):
     def test_news_alert_blocks(self):
         self.assertTrue(should_block({"status": "ALERTA"}))
         self.assertFalse(should_block({"status": "SEM_ALERTA"}))
+        alert = format_channel_alert({"symbol": "EUR/JPY", "events": [{"title": "ECB rate decision"}]})
+        self.assertIn("EUR/JPY", alert)
+        self.assertIn("🐮🐮🐮", alert)
+        self.assertIn("30 minutos", alert)
 
     def test_paper_signal_lifecycle(self):
         with tempfile.NamedTemporaryFile(suffix=".sqlite3", delete=False) as file:
