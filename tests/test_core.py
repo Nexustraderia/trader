@@ -4,7 +4,7 @@ import time
 import unittest
 from datetime import datetime
 
-from app.market_data import is_fresh, normalize_symbol
+from app.market_data import is_fresh, market_data_source, normalize_symbol
 from app.news_sentinel import should_block
 from app.paper_journal import close_signal, create_signal, format_result, format_signal, ranking, recent_signals, settle_pending, statistics
 from app.signal_engine import analyze, analyze_with_confirmation
@@ -19,6 +19,10 @@ class CoreTests(unittest.TestCase):
     def test_stale_market_data_is_rejected(self):
         self.assertTrue(is_fresh([{"timestamp": time.time()}], 60))
         self.assertFalse(is_fresh([{"timestamp": time.time() - 120}], 60))
+
+    def test_market_source_fallback_is_explicit(self):
+        os.environ.pop("TWELVEDATA_API_KEY", None)
+        self.assertIn("fallback", market_data_source())
 
     def test_signal_engine_can_choose_wait(self):
         candles = [{"close": value} for value in range(100, 130)]

@@ -1,3 +1,5 @@
+import calendar
+import os
 import time
 
 import requests
@@ -9,6 +11,8 @@ SYMBOLS = {
     "XAU/USD": "GC=F",
 }
 
+TWELVE_DATA_URL = "https://api.twelvedata.com/time_series"
+
 
 def normalize_symbol(value: str) -> str:
     raw = value.strip().upper().replace("-", "/")
@@ -16,8 +20,44 @@ def normalize_symbol(value: str) -> str:
     return aliases.get(raw, raw)
 
 
+def _fetch_twelve_data(symbol: str, interval: str, count: int) -> list[dict]:
+    api_key = os.getenv("TWELVEDATA_API_KEY", "").strip()
+    if not api_key:
+        return []
+    response = requests.get(
+        TWELVE_DATA_URL,
+        params={"symbol": normalize_symbol(symbol), "interval": interval.replace("m", "min").replace("h", "h"), "outputsize": min(count, 5000), "timezone": "UTC", "apikey": api_key},
+        headers={"User-Agent": "NEXUS-IA-TRADER/1.0"},
+        timeout=20,
+    )
+    response.raise_for_status()
+    payload = response.json()
+    if payload.get("status") == "error" or not payload.get("values"):
+        raise RuntimeError(payload.get("message", "Twelve Data sem candles"))
+    candles = []
+    for item in reversed(payload["values"]):
+        timestamp = item.get("datetime")
+        try:
+            epoch = calendar.timegm(time.strptime(timestamp, "%Y-%m-%d %H:%M:%S"))
+        except (TypeError, ValueError):
+            epoch = None
+        candles.append({"timestamp": epoch, "open": float(item["open"]), "high": float(item["high"]), "low": float(item["low"]), "close": float(item["close"]), "volume": float(item.get("volume") or 0)})
+    return candles[-count:]
+
+
+def market_data_source() -> str:
+    return "Twelve Data" if os.getenv("TWELVEDATA_API_KEY", "").strip() else "Yahoo Finance Chart API (fallback)"
+
+
 def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: int = 80) -> list[dict]:
     normalized = normalize_symbol(symbol)
+    if os.getenv("TWELVEDATA_API_KEY", "").strip():
+        try:
+            candles = _fetch_twelve_data(normalized, interval, count)
+            if candles:
+                return candles
+        except (requests.RequestException, ValueError, KeyError, RuntimeError):
+            pass
     ticker = SYMBOLS.get(normalized)
     if not ticker:
         raise ValueError(f"Ativo não suportado: {symbol}")

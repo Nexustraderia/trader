@@ -20,6 +20,8 @@ O modo padrão é `TESTE`. O bot coleta candles públicos para análise sob dema
 
 O SENTINEL bloqueia uma eventual direção quando detecta manchetes de alto impacto. A fonte atual é um RSS público usado apenas como protótipo; ela não substitui um calendário econômico profissional nem representa integração oficial com o Investing.com. O diário é local ao serviço e pode ser reiniciado quando a instância gratuita do Render for recriada.
 
+Para candles intraday, o bot usa Twelve Data quando `TWELVEDATA_API_KEY` está configurada; sem essa chave, utiliza a Yahoo Finance Chart API como fallback público. A chave deve ser configurada somente no Render, nunca no GitHub.
+
 A publicação automática usa `AUTO_SIGNALS_ENABLED=true`, intervalo padrão de 5 minutos, score mínimo 80/100, cooldown de 20 minutos por ativo e máximo de 6 registros por dia. Mesmo habilitada, ela publica somente `PAPER TRADING`; não existe integração com corretoras.
 
 ## Próximas etapas

@@ -8,12 +8,12 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify
 
 try:
-    from .market_data import fetch_candles, is_fresh, normalize_symbol
+    from .market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
     from .news_sentinel import fetch_news, format_news, should_block
     from .paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_signal, format_statistics, ranking, recent_signals, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
-    from market_data import fetch_candles, is_fresh, normalize_symbol
+    from market_data import fetch_candles, is_fresh, market_data_source, normalize_symbol
     from news_sentinel import fetch_news, format_news, should_block
     from paper_journal import close_signal, create_signal, format_history, format_ranking, format_result, format_signal, format_statistics, ranking, recent_signals, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
@@ -71,6 +71,7 @@ def build_analysis(symbol: str) -> tuple[dict, dict]:
     if not is_fresh(candles_h1, 2 * 60 * 60):
         raise RuntimeError("candles H1 atrasados")
     result = analyze_with_confirmation(symbol, candles_m5, candles_m15, candles_h1)
+    result["source"] = market_data_source()
     news = fetch_news(symbol)
     result["news_status"] = news["status"]
     if should_block(news):
