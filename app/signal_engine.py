@@ -125,7 +125,6 @@ def analyze_with_confirmation(
     m1_candles: list[dict] | None = None,
 ) -> dict:
     result = analyze(symbol, m5_candles)
-    base_confidence = result.get("confidence", 50)
     confirmation_bonus = 0
     confirmation = analyze(symbol, m15_candles)
     result["m15_decision"] = confirmation["decision"]
@@ -173,11 +172,22 @@ def analyze_with_confirmation(
             result["score"] = max(0, result["score"] - 15)
             result["decision"] = "AGUARDAR"
             result["reasons"].append(f"Conflito com gatilho M1 ({trigger['decision']}); entrada bloqueada")
-    result["confluence_ok"] = result["decision"] in ("CALL", "PUT") and result["m15_decision"] == result["decision"] and result["h1_decision"] == result["decision"] and result["m1_confirmation_ok"] and volatility_ok
+    confirmation_confidence = directional_confidence(confirmation["decision"], confirmation["score"])
+    result["m15_confidence"] = confirmation_confidence
+    result["confluence_ok"] = (
+        result["decision"] in ("CALL", "PUT")
+        and result["m15_decision"] == result["decision"]
+        and confirmation_confidence >= 60
+        and result["h1_decision"] == result["decision"]
+        and result["m1_confirmation_ok"]
+        and volatility_ok
+    )
     if not result["confluence_ok"]:
         result["reasons"].append("Confluência completa M5/M15/H1 não confirmada")
     if result["confluence_ok"]:
-        result["confidence"] = min(100, base_confidence + confirmation_bonus)
+        # Confidence must describe the final direction and final score after
+        # all M15/H1/M1 adjustments; do not reuse the pre-confirmation score.
+        result["confidence"] = min(95, directional_confidence(result["decision"], result["score"]) + 5)
     else:
         result["confidence"] = 50
     return result
