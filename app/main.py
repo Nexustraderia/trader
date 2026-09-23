@@ -7,6 +7,9 @@ import requests
 from dotenv import load_dotenv
 from flask import Flask, jsonify
 
+from market_data import fetch_candles, normalize_symbol
+from signal_engine import analyze, format_analysis
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -60,6 +63,21 @@ def handle_update(update: dict) -> None:
             f"NEXUS IA TRADER\\nStatus: ONLINE\\nModo: {BOT_MODE}",
             chat_id,
         )
+    elif text.startswith("/analisar"):
+        requested = text.removeprefix("/analisar").strip() or "EUR/JPY"
+        symbol = normalize_symbol(requested)
+        try:
+            candles = fetch_candles(symbol, interval="5m", range_="1d", count=80)
+            result = analyze(symbol, candles)
+            send_message(format_analysis(result), chat_id)
+        except Exception as error:
+            send_message(
+                "NEXUS IA TRADER\\n\\n"
+                f"Não foi possível analisar {symbol} agora.\\n"
+                "Status: AGUARDAR\\n"
+                f"Detalhe técnico: {type(error).__name__}",
+                chat_id,
+            )
 
 
 def polling_loop() -> None:

@@ -1,0 +1,102 @@
+from datetime import datetime, timezone
+
+
+def ema(values: list[float], period: int) -> float:
+    if len(values) < period:
+        return values[-1]
+    multiplier = 2 / (period + 1)
+    current = sum(values[:period]) / period
+    for value in values[period:]:
+        current = (value - current) * multiplier + current
+    return current
+
+
+def rsi(values: list[float], period: int = 14) -> float:
+    if len(values) <= period:
+        return 50.0
+    gains, losses = [], []
+    for previous, current in zip(values[-period - 1:-1], values[-period:]):
+        change = current - previous
+        gains.append(max(change, 0))
+        losses.append(max(-change, 0))
+    average_gain = sum(gains) / period
+    average_loss = sum(losses) / period
+    if average_loss == 0:
+        return 100.0 if average_gain else 50.0
+    return 100 - (100 / (1 + average_gain / average_loss))
+
+
+def analyze(symbol: str, candles: list[dict]) -> dict:
+    closes = [float(candle["close"]) for candle in candles]
+    if len(closes) < 20:
+        return {"symbol": symbol, "decision": "AGUARDAR", "score": 0, "reason": "Dados insuficientes para análise."}
+
+    fast = ema(closes, 9)
+    slow = ema(closes, 21)
+    momentum = rsi(closes)
+    recent = closes[-1]
+    score = 50
+    reasons = []
+
+    if fast > slow:
+        score += 20
+        reasons.append("EMA 9 acima da EMA 21")
+    elif fast < slow:
+        score -= 20
+        reasons.append("EMA 9 abaixo da EMA 21")
+
+    if momentum >= 52 and momentum <= 68:
+        score += 15
+        reasons.append(f"RSI favorável ({momentum:.1f})")
+    elif momentum <= 48 and momentum >= 32:
+        score -= 15
+        reasons.append(f"RSI pressionado ({momentum:.1f})")
+    elif momentum > 70 or momentum < 30:
+        reasons.append(f"RSI extremo ({momentum:.1f}); risco de entrada atrasada")
+
+    recent_change = (closes[-1] / closes[-6] - 1) * 100
+    if recent_change > 0:
+        score += 10
+        reasons.append(f"Movimento recente positivo ({recent_change:.2f}%)")
+    elif recent_change < 0:
+        score -= 10
+        reasons.append(f"Movimento recente negativo ({recent_change:.2f}%)")
+
+    score = max(0, min(100, score))
+    if score >= 70:
+        decision = "CALL"
+    elif score <= 30:
+        decision = "PUT"
+    else:
+        decision = "AGUARDAR"
+
+    return {
+        "symbol": symbol,
+        "decision": decision,
+        "score": score,
+        "price": recent,
+        "rsi": momentum,
+        "ema_fast": fast,
+        "ema_slow": slow,
+        "reasons": reasons,
+        "analyzed_at": datetime.now(timezone.utc).isoformat(),
+        "source": "Yahoo Finance Chart API (protótipo)",
+    }
+
+
+def format_analysis(result: dict) -> str:
+    lines = [
+        "NEXUS IA TRADER — ANÁLISE TESTE",
+        "",
+        f"Ativo: {result['symbol']}",
+        f"Direção: {result['decision']}",
+        "Período: M5",
+        f"Score: {result['score']}/100",
+    ]
+    if "price" in result:
+        lines.extend([f"Preço de referência: {result['price']}", f"RSI: {result['rsi']:.1f}"])
+    lines.append("")
+    lines.append("Motivos:")
+    lines.extend(f"• {reason}" for reason in result.get("reasons", []))
+    lines.extend(["", "Modo TESTE — não é ordem nem garantia de resultado.", f"Fonte: {result.get('source', 'indisponível')}"])
+    return "\n".join(lines)
