@@ -9,7 +9,7 @@ from flask import Flask, jsonify
 
 from market_data import fetch_candles, normalize_symbol
 from news_sentinel import fetch_news, format_news, should_block
-from paper_journal import close_signal, create_signal, format_history, format_signal, format_statistics, recent_signals, statistics
+from paper_journal import close_signal, create_signal, format_history, format_signal, format_statistics, recent_signals, settle_pending, statistics
 from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -95,6 +95,32 @@ def auto_scan_loop() -> None:
             except Exception:
                 continue
         time.sleep(max(60, AUTO_SIGNAL_INTERVAL))
+
+
+def price_lookup(symbol: str) -> float:
+    candles = fetch_candles(symbol, interval="5m", range_="1d", count=1)
+    if not candles:
+        raise ValueError("preço indisponível")
+    return float(candles[-1]["close"])
+
+
+def settlement_loop() -> None:
+    if not BOT_TOKEN:
+        return
+    while True:
+        try:
+            settled = settle_pending(price_lookup)
+            for item in settled:
+                send_message(
+                    "NEXUS IA TRADER — RESULTADO SIMULADO\n\n"
+                    f"ID: {item['id']}\nAtivo: {item['symbol']}\n"
+                    f"Direção: {item['direction']}\nResultado M5: {item['outcome']}\n"
+                    f"Entrada: {item['entry_price']}\nSaída: {item['exit_price']}\n\n"
+                    "PAPER TRADING — sem ordem real."
+                )
+        except Exception:
+            pass
+        time.sleep(60)
 
 
 def handle_update(update: dict) -> None:
@@ -229,6 +255,7 @@ def health():
 if __name__ == "__main__":
     if BOT_TOKEN:
         threading.Thread(target=polling_loop, daemon=True).start()
+        threading.Thread(target=settlement_loop, daemon=True).start()
         if AUTO_SIGNALS_ENABLED:
             threading.Thread(target=auto_scan_loop, daemon=True).start()
     app.run(host="0.0.0.0", port=PORT)

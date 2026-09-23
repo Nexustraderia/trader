@@ -4,7 +4,7 @@ import unittest
 
 from app.market_data import normalize_symbol
 from app.news_sentinel import should_block
-from app.paper_journal import close_signal, create_signal, recent_signals, statistics
+from app.paper_journal import close_signal, create_signal, recent_signals, settle_pending, statistics
 from app.signal_engine import analyze
 import app.paper_journal as paper_journal
 
@@ -32,10 +32,17 @@ class CoreTests(unittest.TestCase):
             paper_journal.DB_PATH = database
             signal = create_signal({"symbol": "EUR/JPY", "decision": "CALL", "score": 75, "price": 180.12})
             self.assertEqual(signal["entry_price"], 180.12)
+            self.assertIn("expires_at", signal)
             self.assertTrue(close_signal(signal["id"], "WIN"))
             self.assertFalse(close_signal(signal["id"], "LOSS"))
             self.assertEqual(recent_signals(1)[0]["outcome"], "WIN")
             self.assertEqual(statistics()["accuracy"], 100.0)
+
+            connection_signal = create_signal({"symbol": "EUR/USD", "decision": "PUT", "score": 80, "price": 1.1000})
+            with paper_journal._connect() as connection:
+                connection.execute("UPDATE paper_signals SET expires_at = ? WHERE id = ?", ("2000-01-01T00:00:00+00:00", connection_signal["id"]))
+            settled = settle_pending(lambda symbol: 1.0990)
+            self.assertEqual(settled[0]["outcome"], "WIN")
         finally:
             os.unlink(database)
 

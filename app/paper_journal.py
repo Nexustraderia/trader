@@ -1,6 +1,6 @@
 import sqlite3
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 DB_PATH = "signals.sqlite3"
 
@@ -17,6 +17,7 @@ def _connect():
             timeframe TEXT NOT NULL,
             entry_price REAL,
             created_at TEXT NOT NULL,
+            expires_at TEXT,
             outcome TEXT NOT NULL DEFAULT 'PENDENTE',
             closed_at TEXT
         )"""
@@ -24,11 +25,14 @@ def _connect():
     columns = {row[1] for row in connection.execute("PRAGMA table_info(paper_signals)")}
     if "entry_price" not in columns:
         connection.execute("ALTER TABLE paper_signals ADD COLUMN entry_price REAL")
+    if "expires_at" not in columns:
+        connection.execute("ALTER TABLE paper_signals ADD COLUMN expires_at TEXT")
     connection.commit()
     return connection
 
 
 def create_signal(result: dict) -> dict:
+    created_at = datetime.now(timezone.utc)
     signal = {
         "id": uuid.uuid4().hex[:8].upper(),
         "symbol": result["symbol"],
@@ -36,11 +40,12 @@ def create_signal(result: dict) -> dict:
         "score": int(result["score"]),
         "timeframe": "M5",
         "entry_price": result.get("price"),
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": created_at.isoformat(),
+        "expires_at": (created_at + timedelta(minutes=5)).isoformat(),
     }
     with _connect() as connection:
         connection.execute(
-            "INSERT INTO paper_signals (id, symbol, direction, score, timeframe, entry_price, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO paper_signals (id, symbol, direction, score, timeframe, entry_price, created_at, expires_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             tuple(signal.values()),
         )
     return signal
@@ -61,10 +66,39 @@ def close_signal(signal_id: str, outcome: str) -> bool:
 def recent_signals(limit: int = 10) -> list[dict]:
     with _connect() as connection:
         rows = connection.execute(
-            "SELECT id, symbol, direction, score, timeframe, entry_price, created_at, outcome FROM paper_signals ORDER BY created_at DESC LIMIT ?",
+            "SELECT id, symbol, direction, score, timeframe, entry_price, created_at, expires_at, outcome FROM paper_signals ORDER BY created_at DESC LIMIT ?",
             (limit,),
         ).fetchall()
     return [dict(row) for row in rows]
+
+
+def settle_pending(price_lookup) -> list[dict]:
+    now = datetime.now(timezone.utc)
+    settled = []
+    with _connect() as connection:
+        rows = connection.execute(
+            "SELECT id, symbol, direction, entry_price, expires_at FROM paper_signals WHERE outcome = 'PENDENTE' AND expires_at IS NOT NULL"
+        ).fetchall()
+        for row in rows:
+            if datetime.fromisoformat(row["expires_at"]) > now:
+                continue
+            try:
+                exit_price = float(price_lookup(row["symbol"]))
+                entry_price = float(row["entry_price"])
+                if exit_price == entry_price:
+                    outcome = "VOID"
+                elif (row["direction"] == "CALL" and exit_price > entry_price) or (row["direction"] == "PUT" and exit_price < entry_price):
+                    outcome = "WIN"
+                else:
+                    outcome = "LOSS"
+                connection.execute(
+                    "UPDATE paper_signals SET outcome = ?, closed_at = ? WHERE id = ? AND outcome = 'PENDENTE'",
+                    (outcome, now.isoformat(), row["id"]),
+                )
+                settled.append({"id": row["id"], "symbol": row["symbol"], "direction": row["direction"], "outcome": outcome, "entry_price": entry_price, "exit_price": exit_price})
+            except (TypeError, ValueError, KeyError):
+                continue
+    return settled
 
 
 def format_signal(signal: dict) -> str:
@@ -77,6 +111,7 @@ def format_signal(signal: dict) -> str:
         f"Período: {signal['timeframe']}",
         f"Score: {signal['score']}/100",
         f"Preço de entrada: {signal['entry_price']}" if signal.get("entry_price") is not None else "Preço de entrada: indisponível",
+        f"Expiração: {signal['expires_at']}" if signal.get("expires_at") else "Expiração: M5",
         "",
         "Registro PAPER TRADING — nenhuma ordem foi enviada.",
         "Resultado deve ser avaliado manualmente; não é garantia de lucro.",
