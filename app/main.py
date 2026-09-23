@@ -108,4 +108,13 @@ def health():
 if __name__ == "__main__":
     if BOT_TOKEN:
         threading.Thread(target=polling_loop, daemon=True).start()
+        if BOT_MODE == "TESTE":
+            send_message(
+                "NEXUS IA TRADER\n\n"
+                "Teste de conexão realizado com sucesso.\n"
+                "Status: ONLINE\n"
+                "Modo: TESTE\n"
+                "Análises automáticas: DESATIVADAS\n"
+                "Ordens automáticas: DESATIVADAS"
+            )
     app.run(host="0.0.0.0", port=PORT)
