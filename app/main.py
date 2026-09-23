@@ -371,6 +371,7 @@ def health():
             "last_settlement": state["last_settlement"],
             "settled_count": state["settled_count"],
             "settlement_error": state["settlement_error"],
+            "paper_statistics": statistics(),
             "undelivered_results": len(pending_result_deliveries()),
         }
     )
