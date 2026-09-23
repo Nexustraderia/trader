@@ -79,6 +79,8 @@ class CoreTests(unittest.TestCase):
             self.assertEqual(pending_result_deliveries()[0]["id"], signal["id"])
             self.assertTrue(mark_result_delivered(signal["id"]))
             self.assertEqual(pending_result_deliveries(), [])
+            duplicate_after_delivery = create_signal({"symbol": "EUR/JPY", "decision": "CALL", "score": 75, "price": 180.12})
+            self.assertTrue(duplicate_after_delivery.get("_duplicate"))
             self.assertEqual(recent_signals(1)[0]["outcome"], "WIN")
             self.assertEqual(statistics()["accuracy"], 100.0)
             self.assertEqual(statistics("EUR/JPY")["wins"], 1)

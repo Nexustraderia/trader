@@ -55,8 +55,9 @@ def create_signal(result: dict) -> dict:
         "expires_at": (entry_at + timedelta(minutes=5)).isoformat(),
     }
     with _connect() as connection:
+        connection.execute("BEGIN IMMEDIATE")
         existing = connection.execute(
-            "SELECT id, symbol, direction, score, timeframe, entry_price, created_at, entry_at, expires_at FROM paper_signals WHERE symbol = ? AND entry_at = ? AND outcome = 'PENDENTE' LIMIT 1",
+            "SELECT id, symbol, direction, score, timeframe, entry_price, created_at, entry_at, expires_at FROM paper_signals WHERE symbol = ? AND entry_at = ? LIMIT 1",
             (signal["symbol"], signal["entry_at"]),
         ).fetchone()
         if existing:
