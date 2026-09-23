@@ -107,6 +107,9 @@ def analyze_with_confirmation(symbol: str, m5_candles: list[dict], m15_candles: 
     elif context and result["decision"] in ("CALL", "PUT") and context["decision"] == result["decision"]:
         result["score"] = min(100, result["score"] + 10)
         result["reasons"].append(f"Contexto H1 alinhado ({context['decision']})")
+    result["confluence_ok"] = result["decision"] in ("CALL", "PUT") and result["m15_decision"] == result["decision"] and result["h1_decision"] == result["decision"]
+    if not result["confluence_ok"]:
+        result["reasons"].append("Confluência completa M5/M15/H1 não confirmada")
     return result
 
 
@@ -120,6 +123,7 @@ def format_analysis(result: dict) -> str:
         f"Score: {result['score']}/100",
         f"Confirmação M15: {result.get('m15_decision', 'indisponível')}",
         f"Contexto H1: {result.get('h1_decision', 'indisponível')}",
+        f"Confluência completa: {'SIM' if result.get('confluence_ok') else 'NÃO'}",
         f"NEXUS SENTINEL: {result.get('news_status', 'não consultado')}",
     ]
     if "price" in result:

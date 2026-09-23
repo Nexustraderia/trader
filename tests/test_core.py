@@ -7,7 +7,7 @@ from datetime import datetime
 from app.market_data import is_fresh, normalize_symbol
 from app.news_sentinel import should_block
 from app.paper_journal import close_signal, create_signal, format_result, format_signal, ranking, recent_signals, settle_pending, statistics
-from app.signal_engine import analyze
+from app.signal_engine import analyze, analyze_with_confirmation
 import app.paper_journal as paper_journal
 
 
@@ -26,6 +26,11 @@ class CoreTests(unittest.TestCase):
         self.assertIn(result["decision"], {"CALL", "PUT", "AGUARDAR"})
         self.assertGreaterEqual(result["score"], 0)
         self.assertLessEqual(result["score"], 100)
+
+    def test_full_timeframe_confluence_is_required(self):
+        rising = [{"close": value} for value in range(100, 180)]
+        result = analyze_with_confirmation("EUR/JPY", rising, rising, rising)
+        self.assertTrue(result["confluence_ok"])
 
     def test_news_alert_blocks(self):
         self.assertTrue(should_block({"status": "ALERTA"}))

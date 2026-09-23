@@ -91,7 +91,7 @@ def auto_scan_loop() -> None:
                 now = datetime.now(timezone.utc)
                 last_sent = state["auto_last_sent"].get(result["symbol"])
                 cooldown_ok = not last_sent or now - last_sent >= timedelta(minutes=20)
-                eligible = result["decision"] in ("CALL", "PUT") and result["score"] >= AUTO_SIGNAL_MIN_SCORE
+                eligible = result.get("confluence_ok", False) and result["score"] >= AUTO_SIGNAL_MIN_SCORE
                 today = now.date().isoformat()
                 if state["auto_sent_date"] != today:
                     state["auto_sent_date"] = today
@@ -164,7 +164,7 @@ def handle_update(update: dict) -> None:
         symbol = normalize_symbol(requested)
         try:
             result, _ = build_analysis(symbol)
-            if result["decision"] not in ("CALL", "PUT"):
+            if not result.get("confluence_ok", False):
                 send_message(
                     format_analysis(result) + "\n\nNenhum sinal simulado criado: condição insuficiente.",
                     chat_id,
