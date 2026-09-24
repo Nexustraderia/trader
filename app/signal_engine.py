@@ -232,8 +232,10 @@ def analyze_with_confirmation(
         result["decision"] in ("CALL", "PUT")
         and result["m15_decision"] == result["decision"]
         and confirmation_confidence >= 70
-        and result["h1_decision"] == result["decision"]
-        and context_confidence >= 65
+        # H1 is a context filter: neutral context is acceptable, while an
+        # opposite directional context remains a hard block.
+        and result["h1_decision"] in (result["decision"], "AGUARDAR")
+        and (result["h1_decision"] == "AGUARDAR" or context_confidence >= 65)
         and result["m1_confirmation_ok"]
         and volatility_ok
         and trend_momentum_ok
