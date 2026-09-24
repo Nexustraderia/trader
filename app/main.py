@@ -9,13 +9,13 @@ from flask import Flask, jsonify
 
 try:
     from .db import backend_name
-    from .iq_data import available_asset_modes, available_signal_assets, cached_otc_open_assets, is_iq_asset_open
+    from .iq_data import available_asset_modes, available_iq_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
     from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from db import backend_name
-    from iq_data import available_asset_modes, available_signal_assets, cached_otc_open_assets, is_iq_asset_open
+    from iq_data import available_asset_modes, available_iq_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
     from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
@@ -218,10 +218,10 @@ def auto_scan_loop() -> None:
         state["auto_cycle_started"] = datetime.now(timezone.utc).isoformat()
         state["auto_cycle_completed"] = None
         state["auto_cycle_processed"] = 0
-        try:
-            scan_symbols = available_signal_assets()
-        except Exception:
-            scan_symbols = list(AUTO_SYMBOLS)
+        # Never block the scan on IQ's heavyweight open-time catalog. A
+        # background/previously refreshed catalog may expand this list; when
+        # it is unavailable, keep the reliable configured universe running.
+        scan_symbols = cached_signal_assets()
         if not scan_symbols:
             scan_symbols = list(AUTO_SYMBOLS)
         state["auto_symbols"] = scan_symbols
@@ -276,6 +276,16 @@ def auto_scan_loop() -> None:
         state["auto_current_symbol"] = None
         state["auto_cycle_completed"] = datetime.now(timezone.utc).isoformat()
         time.sleep(max(60, AUTO_SIGNAL_INTERVAL))
+
+
+def asset_catalog_loop() -> None:
+    """Refresh IQ's open-asset catalog outside the time-sensitive scan loop."""
+    while True:
+        try:
+            available_iq_assets()
+        except Exception:
+            pass
+        time.sleep(300)
 
 
 def price_lookup(symbol: str) -> float:
@@ -551,6 +561,7 @@ if __name__ == "__main__":
         threading.Thread(target=polling_loop, daemon=True).start()
         threading.Thread(target=settlement_loop, daemon=True).start()
         threading.Thread(target=session_summary_loop, daemon=True).start()
+        threading.Thread(target=asset_catalog_loop, daemon=True).start()
         if AUTO_SIGNALS_ENABLED:
             threading.Thread(target=auto_scan_loop, daemon=True).start()
     app.run(host="0.0.0.0", port=PORT)

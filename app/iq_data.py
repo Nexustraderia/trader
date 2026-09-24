@@ -102,6 +102,11 @@ def available_signal_assets() -> list[str]:
     return sorted({_display_symbol(asset) for asset in assets})
 
 
+def cached_signal_assets() -> list[str]:
+    """Return discovered assets without contacting IQ Option."""
+    return sorted({_display_symbol(asset) for asset in _asset_cache})
+
+
 def available_asset_modes() -> dict[str, list[str]]:
     """Return the open IQ modalities for each display symbol."""
     result = {}
@@ -113,6 +118,10 @@ def available_asset_modes() -> dict[str, list[str]]:
 def is_iq_asset_open(symbol: str) -> bool:
     """Check availability before generating a signal for any asset."""
     normalized = symbol.strip().upper()
+    # Normal pairs are validated by fresh candles below. Do not block every
+    # scan on IQ's heavyweight open-time catalog request.
+    if not normalized.endswith("-OTC"):
+        return True
     active = normalized.replace("/", "")
     if normalized.endswith("-OTC"):
         active = active[:-4] + "-OTC"
