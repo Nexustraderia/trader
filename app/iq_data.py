@@ -29,6 +29,8 @@ _client_lock = threading.Lock()
 _asset_cache = set()
 _asset_cache_at = 0.0
 _asset_modes_cache = {}
+_connect_blocked_until = 0.0
+_last_connect_error = None
 socket.setdefaulttimeout(10)
 
 
@@ -37,12 +39,16 @@ def iq_option_configured() -> bool:
 
 
 def _get_client():
-    global _client
+    global _client, _connect_blocked_until, _last_connect_error
     if not iq_option_configured():
         raise RuntimeError("IQ Option Practice credentials not configured")
     with _client_lock:
         if _client is not None:
             return _client
+        now = time.time()
+        if now < _connect_blocked_until:
+            detail = _last_connect_error or "IQ Option connection temporarily unavailable"
+            raise TimeoutError(detail)
         try:
             from iqoptionapi.stable_api import IQ_Option
         except ImportError as error:
@@ -66,12 +72,20 @@ def _get_client():
 
         threading.Thread(target=connect_worker, daemon=True, name="iq-connect").start()
         if not done.wait(15):
+            _last_connect_error = "IQ Option connection timeout"
+            _connect_blocked_until = time.time() + 60
             raise TimeoutError("IQ Option connection timeout")
         connected = result[0] if result else False
         if isinstance(connected, Exception):
+            _last_connect_error = f"IQ Option connection failed: {type(connected).__name__}"
+            _connect_blocked_until = time.time() + 60
             raise connected
         if connected is False:
+            _last_connect_error = "IQ Option connection failed"
+            _connect_blocked_until = time.time() + 60
             raise RuntimeError("IQ Option connection failed")
+        _last_connect_error = None
+        _connect_blocked_until = 0.0
         _client = client
         return client
 

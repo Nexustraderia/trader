@@ -15,7 +15,7 @@ services:
       - key: MARKET_DATA_PROVIDER
         value: IQOPTION
       - key: IQ_OPTION_STRICT
-        value: "true"
+        value: "false"
       - key: IQ_OPTION_EMAIL
         sync: false
       - key: IQ_OPTION_PASSWORD
