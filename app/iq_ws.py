@@ -90,7 +90,6 @@ class _IQSession:
             await self.ws.send(json.dumps({
                 "name": "sendMessage",
                 "request_id": request_id,
-                "local_time": int(time.time()),
                 "msg": {
                     "name": "get-candles",
                     "version": "2.0",
@@ -99,6 +98,7 @@ class _IQSession:
                         "size": int(size),
                         "to": int(time.time()),
                         "count": int(count),
+                        "": int(active_id),
                     },
                 },
             }))
