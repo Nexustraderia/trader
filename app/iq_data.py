@@ -174,7 +174,7 @@ def available_iq_assets() -> set[str]:
         return opened, failures
 
     try:
-        opened, failures = _async_call(probe_all(), timeout=45)
+        opened, failures = _async_call(probe_all(), timeout=180)
     except Exception as error:
         detail = _aio_last_error or f"{type(error).__name__}: {str(error)[:180]}"
         raise RuntimeError(f"IQ Option candle connection unavailable ({detail})") from None
@@ -245,7 +245,11 @@ def is_iq_asset_open(symbol: str) -> bool:
     normalized = _display_symbol(symbol)
     # Every asset, including normal forex pairs, must be confirmed open by the
     # Every asset must be confirmed open by the IQ catalog before analysis.
-    return bool(_asset_cache) and normalized in {_display_symbol(asset) for asset in _asset_cache}
+    if normalized.endswith("-OTC"):
+        return bool(_asset_cache) and normalized in {_display_symbol(asset) for asset in _asset_cache}
+    # Normal IQ symbols have stable numeric opcodes and can be tested directly
+    # even while the optional OTC/open-catalog refresh is still in progress.
+    return normalized in IQ_SYMBOLS
 
 
 def fetch_iq_candles(symbol: str, interval: str, count: int) -> list[dict]:

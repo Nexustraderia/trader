@@ -9,13 +9,13 @@ from flask import Flask, jsonify
 
 try:
     from .db import backend_name
-    from .iq_data import available_asset_modes, available_iq_assets, available_signal_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
+    from .iq_data import IQ_SYMBOLS, available_asset_modes, available_iq_assets, available_signal_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
     from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from db import backend_name
-    from iq_data import available_asset_modes, available_iq_assets, available_signal_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
+    from iq_data import IQ_SYMBOLS, available_asset_modes, available_iq_assets, available_signal_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
     from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
@@ -223,7 +223,12 @@ def auto_scan_loop() -> None:
         state["auto_cycle_processed"] = 0
         # IQ Option is the sole provider. Without a fresh IQ catalog there is
         # no scan universe and no signal is generated.
-        scan_symbols = list(state["iq_open_assets"]) if AUTO_INCLUDE_IQ_ASSETS and state["iq_catalog_available"] else []
+        if AUTO_INCLUDE_IQ_ASSETS:
+            # Keep normal IQ pairs testable while the slower OTC/open-catalog
+            # refresh is running. No external market-data fallback is used.
+            scan_symbols = list(state["iq_open_assets"]) if state["iq_catalog_available"] else sorted(IQ_SYMBOLS)
+        else:
+            scan_symbols = []
         state["auto_symbols"] = scan_symbols
         state["auto_cycle_total"] = len(scan_symbols)
         state["auto_current_symbol"] = None
