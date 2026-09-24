@@ -7,6 +7,8 @@ import os
 import socket
 import threading
 import time
+import asyncio
+import concurrent.futures
 
 import iqoptionapi.constants as OP_code
 
@@ -35,6 +37,44 @@ _last_connect_error = None
 # than a normal HTTP request. A short global socket timeout causes false
 # failures before the WebSocket session is ready.
 socket.setdefaulttimeout(30)
+
+_aio_loop = None
+_aio_thread = None
+_aio_client = None
+
+
+def _async_call(coro, timeout: float = 45):
+    """Run one read-only IQ request on the persistent asyncio WebSocket."""
+    global _aio_loop, _aio_thread, _aio_client
+    if _aio_loop is None:
+        _aio_loop = asyncio.new_event_loop()
+        _aio_thread = threading.Thread(target=_aio_loop.run_forever, daemon=True, name="iq-aio-loop")
+        _aio_thread.start()
+    future = asyncio.run_coroutine_threadsafe(coro, _aio_loop)
+    try:
+        return future.result(timeout=timeout)
+    except Exception:
+        future.cancel()
+        raise
+
+
+async def _async_client_connect():
+    from iqoptionapi.aio import AsyncIQOption
+    client = AsyncIQOption(os.environ["IQ_OPTION_EMAIL"].strip(), os.environ["IQ_OPTION_PASSWORD"])
+    await client.connect()
+    return client
+
+
+def _get_async_client():
+    global _aio_client
+    if _aio_client is None:
+        _aio_client = _async_call(_async_client_connect())
+    return _aio_client
+
+
+def _async_candles(active: str, size: int, count: int) -> list[dict]:
+    client = _get_async_client()
+    return _async_call(client.get_candles(active, size, count, int(time.time()), timeout=20))
 
 
 def iq_option_configured() -> bool:
@@ -98,31 +138,30 @@ def _get_client():
 
 
 def available_iq_assets() -> set[str]:
-    """Return currently open IQ Option asset codes, cached briefly."""
+    """Return IQ assets confirmed by successful IQ-only candle responses."""
     global _asset_cache, _asset_cache_at, _asset_modes_cache
     now = time.time()
     if _asset_cache and now - _asset_cache_at < 300:
         return set(_asset_cache)
+    candidates = list(IQ_SYMBOLS.values()) + [f"{base}-OTC" for base in OTC_BASES]
+    candidates = sorted(set(candidates))
+
+    async def probe_all():
+        client = _get_async_client()
+        results = await asyncio.gather(
+            *(client.get_candles(active, 60, 2, int(time.time()), timeout=12) for active in candidates),
+            return_exceptions=True,
+        )
+        return [(active, result) for active, result in zip(candidates, results) if isinstance(result, list) and result]
+
     try:
-        open_time = _get_client().get_all_open_time(0)
+        opened = _async_call(probe_all(), timeout=45)
     except Exception:
-        raise RuntimeError("IQ Option OTC catalog unavailable") from None
-    if not isinstance(open_time, dict):
-        raise RuntimeError("IQ Option asset catalog unavailable")
-    assets = set()
-    modes = {}
-    # These are the IQ Option binary-style modalities. They share the same
-    # candle feed, so an asset open in both binary and digital is scanned once.
-    supported_categories = {"binary", "turbo", "digital"}
-    for category_name, category in open_time.items():
-        if str(category_name).lower() not in supported_categories:
-            continue
-        if isinstance(category, dict):
-            for name, status in category.items():
-                if isinstance(status, dict) and status.get("open"):
-                    asset = str(name).upper()
-                    assets.add(asset)
-                    modes.setdefault(asset, set()).add(str(category_name).lower())
+        raise RuntimeError("IQ Option candle connection unavailable") from None
+    assets = {_compact_asset(active) for active, _ in opened}
+    modes = {asset: {"candles"} for asset in assets}
+    if not assets:
+        raise RuntimeError("IQ Option returned no candle assets")
     _asset_cache = assets
     _asset_modes_cache = modes
     _asset_cache_at = now
@@ -198,18 +237,12 @@ def fetch_iq_candles(symbol: str, interval: str, count: int) -> list[dict]:
         assets = available_iq_assets()
         if normalized not in {_display_symbol(asset) for asset in assets}:
             raise RuntimeError(f"IQ Option asset not open: {active}")
-    client = _get_client()
-    client.api.candles.candles_data = None
     opcode = _opcode_for_asset(active)
     if opcode is None:
         raise ValueError(f"IQ Option active opcode unavailable: {normalized}")
-    client.api.getcandles(opcode, size, min(count, 1000), int(time.time()))
-    deadline = time.time() + 12
-    while client.check_connect and client.api.candles.candles_data is None and time.time() < deadline:
-        time.sleep(0.05)
-    candles = client.api.candles.candles_data
-    if candles is None:
-        raise TimeoutError(f"IQ Option candles timeout: {symbol}/{interval}")
+    candles = _async_candles(active, size, min(count, 1000))
+    if not candles:
+        raise TimeoutError(f"IQ Option candles unavailable: {normalized}/{interval}")
     if not candles:
         raise RuntimeError("IQ Option returned no candles")
     normalized = []
