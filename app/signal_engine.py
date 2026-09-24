@@ -217,6 +217,12 @@ def analyze_with_confirmation(
             result["reasons"].append(f"Conflito com gatilho M1 ({trigger['decision']}); entrada bloqueada")
     confirmation_confidence = directional_confidence(confirmation["decision"], confirmation["score"])
     result["m15_confidence"] = confirmation_confidence
+    context_confidence = directional_confidence(context["decision"], context["score"]) if context else 50
+    result["h1_confidence"] = context_confidence
+    rsi_extreme = result.get("rsi", 50) >= 70 or result.get("rsi", 50) <= 30
+    result["rsi_entry_ok"] = not rsi_extreme
+    if rsi_extreme:
+        result["reasons"].append("RSI extremo; entrada bloqueada para evitar atraso")
     trend_momentum_ok = (
         (result["decision"] == "CALL" and result["price"] >= result["ema_trend"] and result["macd_histogram"] >= 0)
         or (result["decision"] == "PUT" and result["price"] <= result["ema_trend"] and result["macd_histogram"] <= 0)
@@ -225,8 +231,9 @@ def analyze_with_confirmation(
     result["confluence_ok"] = (
         result["decision"] in ("CALL", "PUT")
         and result["m15_decision"] == result["decision"]
-        and confirmation_confidence >= 60
+        and confirmation_confidence >= 70
         and result["h1_decision"] == result["decision"]
+        and context_confidence >= 65
         and result["m1_confirmation_ok"]
         and volatility_ok
         and trend_momentum_ok

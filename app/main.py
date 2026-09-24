@@ -34,9 +34,8 @@ AUTO_SIGNALS_ENABLED = os.getenv("AUTO_SIGNALS_ENABLED", "false").lower() == "tr
 AUTO_SIGNAL_INTERVAL = 60
 # Legacy technical score is directional: CALL is high and PUT is low. Use the
 # normalized confidence so a high-quality PUT is not rejected as "low score".
-# 65 preserves full M5/M15/H1 confluence while avoiding a dead scanner when
-# the directional score is reduced by a neutral M1 trigger.
-AUTO_SIGNAL_MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", os.getenv("AUTO_SIGNAL_MIN_SCORE", "75")))
+# Publish fewer, stronger signals: M15/H1 confirmation is now stricter too.
+AUTO_SIGNAL_MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", os.getenv("AUTO_SIGNAL_MIN_SCORE", "85")))
 # Signals are continuous. The legacy AUTO_SIGNAL_MAX_DAILY variable is kept
 # only for deployment compatibility and is intentionally ignored.
 AUTO_SIGNAL_MAX_DAILY = 0
@@ -238,7 +237,11 @@ def auto_scan_loop() -> None:
                 now = datetime.now(timezone.utc)
                 last_sent = state["auto_last_sent"].get(result["symbol"])
                 cooldown_ok = not last_sent or now - last_sent >= timedelta(minutes=20)
-                eligible = result.get("confluence_ok", False) and result.get("confidence", 0) >= AUTO_SIGNAL_MIN_CONFIDENCE
+                eligible = (
+                    result.get("confluence_ok", False)
+                    and result.get("rsi_entry_ok", True)
+                    and result.get("confidence", 0) >= AUTO_SIGNAL_MIN_CONFIDENCE
+                )
                 today = now.date().isoformat()
                 if state["auto_sent_date"] != today:
                     state["auto_sent_date"] = today
