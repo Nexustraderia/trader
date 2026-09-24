@@ -174,12 +174,8 @@ def available_asset_modes() -> dict[str, list[str]]:
 def is_iq_asset_open(symbol: str) -> bool:
     """Check availability before generating a signal for any asset."""
     normalized = _display_symbol(symbol)
-    # Normal pairs are validated by fresh candles below. Do not block every
-    # scan on IQ's heavyweight open-time catalog request.
-    if not normalized.endswith("-OTC"):
-        return True
-    # OTC availability is refreshed by asset_catalog_loop. Never make the
-    # time-sensitive signal scanner wait on IQ's blocking catalog request.
+    # Every asset, including normal forex pairs, must be confirmed open by the
+    # Every asset must be confirmed open by the IQ catalog before analysis.
     return bool(_asset_cache) and normalized in {_display_symbol(asset) for asset in _asset_cache}
 
 

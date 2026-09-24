@@ -12,16 +12,10 @@ services:
         value: '@NexusTraderIA'
       - key: TELEGRAM_BOT_TOKEN
         sync: false
-      - key: MARKET_DATA_PROVIDER
-        value: IQOPTION
-      - key: IQ_OPTION_STRICT
-        value: "false"
       - key: IQ_OPTION_EMAIL
         sync: false
       - key: IQ_OPTION_PASSWORD
         sync: false
-      - key: AUTO_INCLUDE_OTC
-        value: "true"
       - key: DATABASE_URL
         fromDatabase:
           name: bancodedadostrader

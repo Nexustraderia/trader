@@ -24,9 +24,8 @@ class CoreTests(unittest.TestCase):
         self.assertTrue(is_fresh([{"timestamp": time.time()}], 60))
         self.assertFalse(is_fresh([{"timestamp": time.time() - 120}], 60))
 
-    def test_market_source_fallback_is_explicit(self):
-        os.environ.pop("TWELVEDATA_API_KEY", None)
-        self.assertIn("fallback", market_data_source())
+    def test_market_source_is_iq_option_only(self):
+        self.assertEqual(market_data_source(), "IQ Option Practice candles (read-only)")
 
     def test_signal_engine_can_choose_wait(self):
         candles = [{"close": value} for value in range(100, 130)]

@@ -41,9 +41,6 @@ AUTO_SIGNAL_MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", os.gete
 # only for deployment compatibility and is intentionally ignored.
 AUTO_SIGNAL_MAX_DAILY = 0
 AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "3600"))
-BASE_AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/USD,EUR/JPY,USD/JPY,GBP/USD,GBP/JPY,AUD/USD,USD/CAD").split(",") if item.strip())
-OTC_AUTO_SYMBOLS = tuple(f"{symbol}-OTC" for symbol in BASE_AUTO_SYMBOLS)
-AUTO_SYMBOLS = BASE_AUTO_SYMBOLS + (OTC_AUTO_SYMBOLS if os.getenv("AUTO_INCLUDE_OTC", "true").lower() == "true" else ())
 AUTO_INCLUDE_IQ_ASSETS = os.getenv("AUTO_INCLUDE_IQ_ASSETS", "true").lower() == "true"
 RESULT_IMAGE_PATHS = {
     "WIN": os.getenv("WIN_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "win.png")),
@@ -69,9 +66,9 @@ state = {
     "auto_cycle_started": None,
     "auto_cycle_completed": None,
     "auto_cycle_processed": 0,
-    "auto_cycle_total": len(AUTO_SYMBOLS),
+    "auto_cycle_total": 0,
     "auto_current_symbol": None,
-    "auto_symbols": list(AUTO_SYMBOLS),
+    "auto_symbols": [],
     "signal_sticker_error": None,
     "auto_last_decisions": {},
     "auto_scan_errors": 0,
@@ -224,13 +221,9 @@ def auto_scan_loop() -> None:
         state["auto_cycle_started"] = datetime.now(timezone.utc).isoformat()
         state["auto_cycle_completed"] = None
         state["auto_cycle_processed"] = 0
-        # Use the IQ catalog only after a successful background refresh. If IQ
-        # is unavailable, stay on the public-data-compatible base universe.
-        scan_symbols = list(BASE_AUTO_SYMBOLS)
-        if AUTO_INCLUDE_IQ_ASSETS and state["iq_catalog_available"]:
-            scan_symbols = list(dict.fromkeys(scan_symbols + state["iq_open_assets"]))
-            if not os.getenv("AUTO_INCLUDE_OTC", "true").lower() == "true":
-                scan_symbols = [symbol for symbol in scan_symbols if not symbol.endswith("-OTC")]
+        # IQ Option is the sole provider. Without a fresh IQ catalog there is
+        # no scan universe and no signal is generated.
+        scan_symbols = list(state["iq_open_assets"]) if AUTO_INCLUDE_IQ_ASSETS and state["iq_catalog_available"] else []
         state["auto_symbols"] = scan_symbols
         state["auto_cycle_total"] = len(scan_symbols)
         state["auto_current_symbol"] = None
@@ -559,7 +552,7 @@ def health_data():
             "diagnostics": market_data_diagnostics(),
             "candle_available": bool(candles),
             "candle_fresh": is_fresh(candles, 10 * 60),
-            "twelve_data_configured": bool(os.getenv("TWELVEDATA_API_KEY", "").strip()),
+            "provider": "IQ Option only",
             "iq_option_configured": market_data_diagnostics().get("iq_option_configured", False),
         })
     except Exception as error:
@@ -568,7 +561,7 @@ def health_data():
             "symbol": symbol,
             "detail": type(error).__name__,
             "diagnostics": market_data_diagnostics(),
-            "twelve_data_configured": bool(os.getenv("TWELVEDATA_API_KEY", "").strip()),
+            "provider": "IQ Option only",
             "iq_option_configured": market_data_diagnostics().get("iq_option_configured", False),
         }), 503
 
