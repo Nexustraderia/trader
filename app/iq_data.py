@@ -122,9 +122,19 @@ def available_iq_assets() -> set[str]:
     return set(assets)
 
 
+def _compact_asset(asset: str) -> str:
+    """Normalize IQ names such as EUR/USD (OTC) to EURUSD-OTC."""
+    raw = str(asset or "").strip().upper()
+    raw = raw.replace("(", "").replace(")", "")
+    raw = raw.replace("/", "").replace("_", "-").replace(" ", "-")
+    while "--" in raw:
+        raw = raw.replace("--", "-")
+    return raw
+
+
 def _display_symbol(asset: str) -> str:
-    """Convert IQ's compact catalog code to the public scanner symbol."""
-    raw = asset.strip().upper().replace("_", "-").replace(" ", "-")
+    """Convert IQ catalog names to the public scanner symbol."""
+    raw = _compact_asset(asset)
     if raw.endswith("-OTC"):
         base = raw[:-4]
         return f"{base[:3]}/{base[3:]}-OTC" if len(base) == 6 else raw
@@ -134,13 +144,18 @@ def _display_symbol(asset: str) -> str:
     return f"{raw[:3]}/{raw[3:]}" if len(raw) == 6 and raw.isalpha() else raw
 
 
+def _opcode_for_asset(asset: str):
+    """Resolve an opcode regardless of the catalog's OTC spelling."""
+    return OP_code.ACTIVES.get(str(asset).strip().upper()) or OP_code.ACTIVES.get(_compact_asset(asset))
+
+
 def available_signal_assets() -> list[str]:
     """Return unique open binary/turbo/digital assets for automatic scanning."""
     assets = available_iq_assets()
     # The community client can only request candles for assets present in its
     # ACTIVES opcode map. Ignore catalog entries that this pinned client cannot
     # address instead of allowing one exotic entry to break a scan cycle.
-    return sorted({_display_symbol(asset) for asset in assets if OP_code.ACTIVES.get(asset) is not None})
+    return sorted({_display_symbol(asset) for asset in assets if _opcode_for_asset(asset) is not None})
 
 
 def cached_signal_assets() -> list[str]:
@@ -158,45 +173,34 @@ def available_asset_modes() -> dict[str, list[str]]:
 
 def is_iq_asset_open(symbol: str) -> bool:
     """Check availability before generating a signal for any asset."""
-    normalized = symbol.strip().upper()
+    normalized = _display_symbol(symbol)
     # Normal pairs are validated by fresh candles below. Do not block every
     # scan on IQ's heavyweight open-time catalog request.
     if not normalized.endswith("-OTC"):
         return True
-    active = normalized.replace("/", "")
-    if normalized.endswith("-OTC"):
-        active = active[:-4] + "-OTC"
-    if not active:
-        return False
     # OTC availability is refreshed by asset_catalog_loop. Never make the
     # time-sensitive signal scanner wait on IQ's blocking catalog request.
-    if not _asset_cache:
-        return False
-    try:
-        assets = set(_asset_cache)
-    except Exception:
-        return False
-    candidates = {active.upper(), active.upper().replace("-OTC", "_OTC"), active.upper().replace("-OTC", " OTC")}
-    if candidates.intersection(assets):
-        return True
-    return False
+    return bool(_asset_cache) and normalized in {_display_symbol(asset) for asset in _asset_cache}
 
 
 def fetch_iq_candles(symbol: str, interval: str, count: int) -> list[dict]:
-    active = IQ_SYMBOLS.get(symbol)
+    normalized = _display_symbol(symbol)
+    active = IQ_SYMBOLS.get(normalized)
     if not active:
-        active = symbol.replace("/", "")
+        active = _compact_asset(normalized)
     size = INTERVAL_SECONDS.get(interval)
     if not active or not size:
         raise ValueError(f"IQ Option symbol/interval unsupported: {symbol}/{interval}")
-    if symbol.endswith("-OTC"):
+    if normalized.endswith("-OTC"):
         assets = available_iq_assets()
-        candidates = {active.upper(), active.upper().replace("-OTC", "_OTC"), active.upper().replace("-OTC", " OTC")}
-        if not candidates.intersection(assets):
+        if normalized not in {_display_symbol(asset) for asset in assets}:
             raise RuntimeError(f"IQ Option asset not open: {active}")
     client = _get_client()
     client.api.candles.candles_data = None
-    client.api.getcandles(OP_code.ACTIVES[active], size, min(count, 1000), int(time.time()))
+    opcode = _opcode_for_asset(active)
+    if opcode is None:
+        raise ValueError(f"IQ Option active opcode unavailable: {normalized}")
+    client.api.getcandles(opcode, size, min(count, 1000), int(time.time()))
     deadline = time.time() + 12
     while client.check_connect and client.api.candles.candles_data is None and time.time() < deadline:
         time.sleep(0.05)
@@ -224,9 +228,9 @@ def otc_open_assets() -> list[str]:
     assets = available_iq_assets()
     opened = []
     for base in OTC_BASES:
-        candidates = {f"{base}-OTC", f"{base}_OTC", f"{base} OTC"}
-        if candidates.intersection(assets):
-            opened.append(f"{base}-OTC")
+        target = _display_symbol(f"{base}-OTC")
+        if target in {_display_symbol(asset) for asset in assets}:
+            opened.append(target)
     return opened
 
 
@@ -235,8 +239,8 @@ def cached_otc_open_assets() -> list[str]:
     if not _asset_cache:
         return []
     opened = []
+    normalized_assets = {_display_symbol(asset) for asset in _asset_cache}
     for base in OTC_BASES:
-        candidates = {f"{base}-OTC", f"{base}_OTC", f"{base} OTC"}
-        if candidates.intersection(_asset_cache):
-            opened.append(f"{base}-OTC")
+        if _display_symbol(f"{base}-OTC") in normalized_assets:
+            opened.append(_display_symbol(f"{base}-OTC"))
     return opened
