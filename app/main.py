@@ -221,9 +221,7 @@ def auto_scan_loop() -> None:
         # Never block the scan on IQ's heavyweight open-time catalog. A
         # background/previously refreshed catalog may expand this list; when
         # it is unavailable, keep the reliable configured universe running.
-        scan_symbols = cached_signal_assets()
-        if not scan_symbols:
-            scan_symbols = list(AUTO_SYMBOLS)
+        scan_symbols = list(BASE_AUTO_SYMBOLS)
         state["auto_symbols"] = scan_symbols
         state["auto_cycle_total"] = len(scan_symbols)
         state["auto_current_symbol"] = None
@@ -280,12 +278,7 @@ def auto_scan_loop() -> None:
 
 def asset_catalog_loop() -> None:
     """Refresh IQ's open-asset catalog outside the time-sensitive scan loop."""
-    while True:
-        try:
-            available_iq_assets()
-        except Exception:
-            pass
-        time.sleep(300)
+    return
 
 
 def price_lookup(symbol: str) -> float:
@@ -561,7 +554,6 @@ if __name__ == "__main__":
         threading.Thread(target=polling_loop, daemon=True).start()
         threading.Thread(target=settlement_loop, daemon=True).start()
         threading.Thread(target=session_summary_loop, daemon=True).start()
-        threading.Thread(target=asset_catalog_loop, daemon=True).start()
         if AUTO_SIGNALS_ENABLED:
             threading.Thread(target=auto_scan_loop, daemon=True).start()
     app.run(host="0.0.0.0", port=PORT)

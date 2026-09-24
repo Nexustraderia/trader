@@ -4,8 +4,11 @@ This module intentionally exposes only historical/stream candle reads. It never
 imports or calls order methods from the community client.
 """
 import os
+import socket
 import threading
 import time
+
+import iqoptionapi.constants as OP_code
 
 
 IQ_SYMBOLS = {
@@ -26,6 +29,7 @@ _client_lock = threading.Lock()
 _asset_cache = set()
 _asset_cache_at = 0.0
 _asset_modes_cache = {}
+socket.setdefaulttimeout(10)
 
 
 def iq_option_configured() -> bool:
@@ -44,10 +48,30 @@ def _get_client():
         except ImportError as error:
             raise RuntimeError("iqoptionapi dependency unavailable") from error
         client = IQ_Option(os.environ["IQ_OPTION_EMAIL"].strip(), os.environ["IQ_OPTION_PASSWORD"])
-        connected = client.connect()
+        result = []
+        done = threading.Event()
+
+        def connect_worker():
+            try:
+                connected = client.connect()
+                if connected is False:
+                    result.append(False)
+                else:
+                    client.change_balance("PRACTICE")
+                    result.append(True)
+            except Exception as error:
+                result.append(error)
+            finally:
+                done.set()
+
+        threading.Thread(target=connect_worker, daemon=True, name="iq-connect").start()
+        if not done.wait(15):
+            raise TimeoutError("IQ Option connection timeout")
+        connected = result[0] if result else False
+        if isinstance(connected, Exception):
+            raise connected
         if connected is False:
             raise RuntimeError("IQ Option connection failed")
-        client.change_balance("PRACTICE")
         _client = client
         return client
 
@@ -153,7 +177,15 @@ def fetch_iq_candles(symbol: str, interval: str, count: int) -> list[dict]:
         candidates = {active.upper(), active.upper().replace("-OTC", "_OTC"), active.upper().replace("-OTC", " OTC")}
         if not candidates.intersection(assets):
             raise RuntimeError(f"IQ Option asset not open: {active}")
-    candles = _get_client().get_candles(active, size, min(count, 1000), int(time.time()))
+    client = _get_client()
+    client.api.candles.candles_data = None
+    client.api.getcandles(OP_code.ACTIVES[active], size, min(count, 1000), int(time.time()))
+    deadline = time.time() + 12
+    while client.check_connect and client.api.candles.candles_data is None and time.time() < deadline:
+        time.sleep(0.05)
+    candles = client.api.candles.candles_data
+    if candles is None:
+        raise TimeoutError(f"IQ Option candles timeout: {symbol}/{interval}")
     if not candles:
         raise RuntimeError("IQ Option returned no candles")
     normalized = []
