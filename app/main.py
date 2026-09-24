@@ -37,7 +37,9 @@ AUTO_SIGNAL_INTERVAL = 60
 # 65 preserves full M5/M15/H1 confluence while avoiding a dead scanner when
 # the directional score is reduced by a neutral M1 trigger.
 AUTO_SIGNAL_MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", os.getenv("AUTO_SIGNAL_MIN_SCORE", "75")))
-AUTO_SIGNAL_MAX_DAILY = int(os.getenv("AUTO_SIGNAL_MAX_DAILY", "6"))
+# Signals are continuous. The legacy AUTO_SIGNAL_MAX_DAILY variable is kept
+# only for deployment compatibility and is intentionally ignored.
+AUTO_SIGNAL_MAX_DAILY = 0
 AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "3600"))
 BASE_AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/USD,EUR/JPY,USD/JPY,GBP/USD,GBP/JPY,AUD/USD,USD/CAD").split(",") if item.strip())
 OTC_AUTO_SYMBOLS = tuple(f"{symbol}-OTC" for symbol in BASE_AUTO_SYMBOLS)
@@ -241,7 +243,9 @@ def auto_scan_loop() -> None:
                 if state["auto_sent_date"] != today:
                     state["auto_sent_date"] = today
                     state["auto_sent_today"] = 0
-                daily_limit_ok = state["auto_sent_today"] < AUTO_SIGNAL_MAX_DAILY
+                # No daily cap: quality remains protected by confluence,
+                # confidence, per-asset cooldown, and journal deduplication.
+                daily_limit_ok = True
                 if eligible and cooldown_ok and daily_limit_ok:
                     signal = create_signal(result)
                     if signal.get("_duplicate"):
