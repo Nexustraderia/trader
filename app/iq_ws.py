@@ -1,4 +1,4 @@
-"""Read-only IQ Option WebSocket client with one reusable authenticated session."""
+"""Read-only IQ Option WebSocket client using the protocol validated in Colab."""
 
 from __future__ import annotations
 
@@ -7,8 +7,8 @@ import json
 import time
 from typing import Any
 
-import aiohttp
-import websockets
+import requests
+import websocket
 
 LOGIN_URL = "https://auth.iqoption.com/api/v2/login"
 WSS_URL = "wss://ws.iqoption.com/echo/websocket"
@@ -22,107 +22,97 @@ class _IQSession:
         self.ws: Any = None
         self.request_lock = asyncio.Lock()
 
-    async def connect(self) -> None:
-        if self.ws is not None:
-            return
-        timeout = aiohttp.ClientTimeout(total=20)
-        async with aiohttp.ClientSession(
-            headers={"User-Agent": USER_AGENT},
-            timeout=timeout,
-        ) as session:
-            async with session.post(
-                LOGIN_URL,
-                json={"identifier": self.email, "password": self.password},
-                headers={
-                    "Origin": "https://iqoption.com",
-                    "Content-Type": "application/json",
-                },
-            ) as response:
-                try:
-                    payload = await response.json(content_type=None)
-                except Exception:
-                    payload = {}
-                if response.status != 200:
-                    raise RuntimeError(f"IQ login HTTP {response.status}: {str(payload)[:160]}")
-                cookie = response.cookies.get("ssid")
-                if cookie is None:
-                    raise RuntimeError(f"IQ login sem SSID: {str(payload)[:160]}")
-                ssid = cookie.value
-
-        ws = await websockets.connect(
-            WSS_URL,
-            origin="https://iqoption.com",
-            user_agent_header=USER_AGENT,
-            open_timeout=20,
-            close_timeout=5,
-            ping_interval=20,
+    def _connect_sync(self) -> Any:
+        response = requests.post(
+            LOGIN_URL,
+            json={"identifier": self.email, "password": self.password},
+            headers={"Origin": "https://iqoption.com", "User-Agent": USER_AGENT},
+            timeout=25,
         )
         try:
-            await ws.send(json.dumps({"name": "authenticate", "msg": {"ssid": ssid, "protocol": 3}}))
-            deadline = time.monotonic() + 20
-            while time.monotonic() < deadline:
-                raw = await asyncio.wait_for(ws.recv(), timeout=max(0.1, deadline - time.monotonic()))
-                message = _decode(raw)
-                if message.get("name") == "heartbeat":
-                    await ws.send(json.dumps({"name": "heartbeat", "msg": message.get("msg")}))
-                if message.get("name") == "authenticated":
-                    if not message.get("msg"):
-                        raise RuntimeError("IQ WebSocket rejeitou autenticação")
-                    self.ws = ws
-                    return
-            raise TimeoutError("IQ WebSocket timeout na autenticação")
-        except BaseException:
-            await ws.close()
-            raise
+            payload = response.json()
+        except Exception:
+            payload = {}
+        if response.status_code != 200:
+            raise RuntimeError(f"IQ login HTTP {response.status_code}: {str(payload)[:160]}")
+        ssid = response.cookies.get("ssid")
+        if not ssid:
+            raise RuntimeError(f"IQ login sem SSID: {str(payload)[:160]}")
+
+        ws = websocket.create_connection(
+            WSS_URL,
+            origin="https://iqoption.com",
+            timeout=15,
+        )
+        ws.send(json.dumps({"name": "authenticate", "msg": {"ssid": ssid, "protocol": 3}}))
+        deadline = time.monotonic() + 20
+        while time.monotonic() < deadline:
+            ws.settimeout(max(0.1, deadline - time.monotonic()))
+            message = _decode(ws.recv())
+            if message.get("name") == "heartbeat":
+                ws.send(json.dumps({"name": "heartbeat", "msg": message.get("msg")}))
+            if message.get("name") == "authenticated":
+                if not message.get("msg"):
+                    raise RuntimeError("IQ WebSocket rejeitou autenticação")
+                return ws
+        ws.close()
+        raise TimeoutError("IQ WebSocket timeout na autenticação")
+
+    async def connect(self) -> None:
+        if self.ws is None:
+            self.ws = await asyncio.to_thread(self._connect_sync)
 
     async def close(self) -> None:
         ws, self.ws = self.ws, None
         if ws is not None:
             try:
-                await ws.close()
+                await asyncio.to_thread(ws.close)
             except Exception:
                 pass
+
+    def _candles_sync(self, active_id: int, size: int, count: int) -> list[dict]:
+        request_id = f"nexus-{int(time.time() * 1000)}"
+        self.ws.send(json.dumps({
+            "name": "sendMessage",
+            "request_id": request_id,
+            "local_time": int(time.time()),
+            "msg": {
+                "name": "get-candles",
+                "version": "2.0",
+                "body": {
+                    "active_id": int(active_id),
+                    "size": int(size),
+                    "to": int(time.time()),
+                    "count": int(count),
+                },
+            },
+        }))
+        deadline = time.monotonic() + 25
+        last_names: list[str] = []
+        while time.monotonic() < deadline:
+            self.ws.settimeout(max(0.1, deadline - time.monotonic()))
+            message = _decode(self.ws.recv())
+            last_names.append(str(message.get("name", "")))
+            last_names = last_names[-8:]
+            if message.get("name") == "heartbeat":
+                self.ws.send(json.dumps({"name": "heartbeat", "msg": message.get("msg")}))
+            if message.get("request_id") == request_id or message.get("name") == "candles":
+                payload = message.get("msg") or {}
+                candles = list(payload.get("candles") or [])
+                if not candles:
+                    raise RuntimeError(
+                        f"IQ candles response sem candles: name={message.get('name')} keys={sorted(payload)[:12]}"
+                    )
+                return candles
+        raise TimeoutError(f"IQ WebSocket não retornou candles; mensagens={last_names}")
 
     async def candles(self, active_id: int, size: int, count: int) -> list[dict]:
         async with self.request_lock:
             await self.connect()
-            request_id = f"nexus-{int(time.time() * 1000)}"
-            await self.ws.send(json.dumps({
-                "name": "sendMessage",
-                "request_id": request_id,
-                "local_time": int(time.time()),
-                "msg": {
-                    "name": "get-candles",
-                    "version": "2.0",
-                    "body": {
-                        "active_id": int(active_id),
-                        "size": int(size),
-                        "to": int(time.time()),
-                        "count": int(count),
-                    },
-                },
-            }))
-            deadline = time.monotonic() + 25
-            last_names: list[str] = []
-            while time.monotonic() < deadline:
-                try:
-                    raw = await asyncio.wait_for(self.ws.recv(), timeout=max(0.1, deadline - time.monotonic()))
-                except asyncio.TimeoutError as error:
-                    raise TimeoutError(f"IQ WebSocket sem resposta; mensagens={last_names}") from error
-                message = _decode(raw)
-                last_names.append(str(message.get("name", "")))
-                last_names = last_names[-8:]
-                if message.get("name") == "heartbeat":
-                    await self.ws.send(json.dumps({"name": "heartbeat", "msg": message.get("msg")}))
-                if message.get("request_id") == request_id or message.get("name") == "candles":
-                    payload = message.get("msg") or {}
-                    candles = list(payload.get("candles") or [])
-                    if not candles:
-                        raise RuntimeError(
-                            f"IQ candles response sem candles: name={message.get('name')} keys={sorted(payload)[:12]}"
-                        )
-                    return candles
-            raise TimeoutError(f"IQ WebSocket não retornou candles; mensagens={last_names}")
+            try:
+                return await asyncio.to_thread(self._candles_sync, active_id, size, count)
+            except websocket.WebSocketTimeoutException as error:
+                raise TimeoutError("IQ WebSocket sem resposta") from error
 
 
 def _decode(raw: Any) -> dict:
