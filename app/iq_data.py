@@ -169,13 +169,18 @@ def available_iq_assets() -> set[str]:
             *(get_candles(email, password, _opcode_for_asset(active), 60, 2) for active in candidates),
             return_exceptions=True,
         )
-        return [(active, result) for active, result in zip(candidates, results) if isinstance(result, list) and result]
+        opened = [(active, result) for active, result in zip(candidates, results) if isinstance(result, list) and result]
+        failures = [result for result in results if isinstance(result, Exception)]
+        return opened, failures
 
     try:
-        opened = _async_call(probe_all(), timeout=45)
+        opened, failures = _async_call(probe_all(), timeout=45)
     except Exception as error:
         detail = _aio_last_error or f"{type(error).__name__}: {str(error)[:180]}"
         raise RuntimeError(f"IQ Option candle connection unavailable ({detail})") from None
+    if not opened:
+        detail = f"; first={type(failures[0]).__name__}: {str(failures[0])[:160]}" if failures else ""
+        raise RuntimeError(f"IQ Option returned no candle assets{detail}")
     assets = {_compact_asset(active) for active, _ in opened}
     modes = {asset: {"candles"} for asset in assets}
     if not assets:

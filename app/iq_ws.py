@@ -73,5 +73,10 @@ async def get_candles(email: str, password: str, active_id: int, size: int, coun
                 await ws.send(json.dumps({"name": "heartbeat", "msg": message.get("msg")}))
             if message.get("request_id") == request_id:
                 payload = message.get("msg") or {}
-                return list(payload.get("candles") or [])
+                candles = list(payload.get("candles") or [])
+                if not candles:
+                    raise RuntimeError(
+                        f"IQ candles response sem candles: name={message.get('name')} keys={sorted(payload)[:12]}"
+                    )
+                return candles
         raise TimeoutError("IQ WebSocket não retornou candles")
