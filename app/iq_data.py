@@ -62,14 +62,7 @@ def _async_call(coro, timeout: float = 45):
 
 
 async def _async_client_connect():
-    from iqoptionapi.aio import AsyncIQOption
-    client = AsyncIQOption(
-        os.environ["IQ_OPTION_EMAIL"].strip(),
-        os.environ["IQ_OPTION_PASSWORD"],
-        wss_url="wss://ws.iqoption.com/echo/websocket",
-    )
-    await client.connect()
-    return client
+    return True
 
 
 def _get_async_client():
@@ -80,8 +73,17 @@ def _get_async_client():
 
 
 def _async_candles(active: str, size: int, count: int) -> list[dict]:
-    client = _get_async_client()
-    return _async_call(client.get_candles(active, size, count, int(time.time()), timeout=20))
+    from .iq_ws import get_candles
+    active_id = _opcode_for_asset(active)
+    if active_id is None:
+        raise ValueError(f"IQ Option active opcode unavailable: {active}")
+    return _async_call(get_candles(
+        os.environ["IQ_OPTION_EMAIL"].strip(),
+        os.environ["IQ_OPTION_PASSWORD"],
+        active_id,
+        size,
+        count,
+    ), timeout=60)
 
 
 def iq_option_configured() -> bool:
@@ -154,9 +156,11 @@ def available_iq_assets() -> set[str]:
     candidates = sorted(set(candidates))
 
     async def probe_all():
-        client = _get_async_client()
+        from .iq_ws import get_candles
+        email = os.environ["IQ_OPTION_EMAIL"].strip()
+        password = os.environ["IQ_OPTION_PASSWORD"]
         results = await asyncio.gather(
-            *(client.get_candles(active, 60, 2, int(time.time()), timeout=12) for active in candidates),
+            *(get_candles(email, password, _opcode_for_asset(active), 60, 2) for active in candidates),
             return_exceptions=True,
         )
         return [(active, result) for active, result in zip(candidates, results) if isinstance(result, list) and result]
