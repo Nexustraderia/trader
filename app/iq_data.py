@@ -31,7 +31,10 @@ _asset_cache_at = 0.0
 _asset_modes_cache = {}
 _connect_blocked_until = 0.0
 _last_connect_error = None
-socket.setdefaulttimeout(10)
+# The IQ Option handshake and initial balance synchronization can take longer
+# than a normal HTTP request. A short global socket timeout causes false
+# failures before the WebSocket session is ready.
+socket.setdefaulttimeout(30)
 
 
 def iq_option_configured() -> bool:
@@ -60,18 +63,22 @@ def _get_client():
         def connect_worker():
             try:
                 connected = client.connect()
-                if connected is False:
-                    result.append(False)
+                if isinstance(connected, tuple):
+                    status, reason = (connected + (None, None))[:2]
                 else:
-                    client.change_balance("PRACTICE")
-                    result.append(True)
+                    status, reason = connected, None
+                if status is not True:
+                    result.append(RuntimeError(f"IQ Option connect rejected: {str(reason)[:120]}"))
+                    return
+                client.change_balance("PRACTICE")
+                result.append(True)
             except Exception as error:
                 result.append(error)
             finally:
                 done.set()
 
         threading.Thread(target=connect_worker, daemon=True, name="iq-connect").start()
-        if not done.wait(15):
+        if not done.wait(45):
             _last_connect_error = "IQ Option connection timeout"
             _connect_blocked_until = time.time() + 60
             raise TimeoutError("IQ Option connection timeout")
