@@ -63,7 +63,11 @@ def _async_call(coro, timeout: float = 45):
 
 async def _async_client_connect():
     from iqoptionapi.aio import AsyncIQOption
-    client = AsyncIQOption(os.environ["IQ_OPTION_EMAIL"].strip(), os.environ["IQ_OPTION_PASSWORD"])
+    client = AsyncIQOption(
+        os.environ["IQ_OPTION_EMAIL"].strip(),
+        os.environ["IQ_OPTION_PASSWORD"],
+        wss_url="wss://ws.iqoption.com/echo/websocket",
+    )
     await client.connect()
     return client
 
