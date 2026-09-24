@@ -103,12 +103,15 @@ class _IQSession:
                 },
             }))
             deadline = time.monotonic() + 25
+            last_names: list[str] = []
             while time.monotonic() < deadline:
                 raw = await asyncio.wait_for(self.ws.recv(), timeout=max(0.1, deadline - time.monotonic()))
                 message = _decode(raw)
+                last_names.append(str(message.get("name", "")))
+                last_names = last_names[-8:]
                 if message.get("name") == "heartbeat":
                     await self.ws.send(json.dumps({"name": "heartbeat", "msg": message.get("msg")}))
-                if message.get("request_id") == request_id:
+                if message.get("request_id") == request_id or message.get("name") == "candles":
                     payload = message.get("msg") or {}
                     candles = list(payload.get("candles") or [])
                     if not candles:
@@ -116,7 +119,7 @@ class _IQSession:
                             f"IQ candles response sem candles: name={message.get('name')} keys={sorted(payload)[:12]}"
                         )
                     return candles
-            raise TimeoutError("IQ WebSocket não retornou candles")
+            raise TimeoutError(f"IQ WebSocket não retornou candles; mensagens={last_names}")
 
 
 def _decode(raw: Any) -> dict:
