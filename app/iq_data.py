@@ -25,6 +25,7 @@ _client = None
 _client_lock = threading.Lock()
 _asset_cache = set()
 _asset_cache_at = 0.0
+_asset_modes_cache = {}
 
 
 def iq_option_configured() -> bool:
@@ -53,7 +54,7 @@ def _get_client():
 
 def available_iq_assets() -> set[str]:
     """Return currently open IQ Option asset codes, cached briefly."""
-    global _asset_cache, _asset_cache_at
+    global _asset_cache, _asset_cache_at, _asset_modes_cache
     now = time.time()
     if _asset_cache and now - _asset_cache_at < 300:
         return set(_asset_cache)
@@ -64,43 +65,74 @@ def available_iq_assets() -> set[str]:
     if not isinstance(open_time, dict):
         raise RuntimeError("IQ Option asset catalog unavailable")
     assets = set()
-    for category in open_time.values():
+    modes = {}
+    # These are the IQ Option binary-style modalities. They share the same
+    # candle feed, so an asset open in both binary and digital is scanned once.
+    supported_categories = {"binary", "turbo", "digital"}
+    for category_name, category in open_time.items():
+        if str(category_name).lower() not in supported_categories:
+            continue
         if isinstance(category, dict):
             for name, status in category.items():
                 if isinstance(status, dict) and status.get("open"):
-                    assets.add(str(name).upper())
+                    asset = str(name).upper()
+                    assets.add(asset)
+                    modes.setdefault(asset, set()).add(str(category_name).lower())
     _asset_cache = assets
+    _asset_modes_cache = modes
     _asset_cache_at = now
     return set(assets)
+
+
+def _display_symbol(asset: str) -> str:
+    """Convert IQ's compact catalog code to the public scanner symbol."""
+    raw = asset.strip().upper().replace("_", "-").replace(" ", "-")
+    if raw.endswith("-OTC"):
+        base = raw[:-4]
+        return f"{base[:3]}/{base[3:]}-OTC" if len(base) == 6 else raw
+    known = {value: key for key, value in IQ_SYMBOLS.items()}
+    if raw in known:
+        return known[raw]
+    return f"{raw[:3]}/{raw[3:]}" if len(raw) == 6 and raw.isalpha() else raw
+
+
+def available_signal_assets() -> list[str]:
+    """Return unique open binary/turbo/digital assets for automatic scanning."""
+    assets = available_iq_assets()
+    return sorted({_display_symbol(asset) for asset in assets})
+
+
+def available_asset_modes() -> dict[str, list[str]]:
+    """Return the open IQ modalities for each display symbol."""
+    if not _asset_cache:
+        available_iq_assets()
+    result = {}
+    for asset, modes in _asset_modes_cache.items():
+        result[_display_symbol(asset)] = sorted(modes)
+    return result
 
 
 def is_iq_asset_open(symbol: str) -> bool:
     """Check availability before generating a signal for any asset."""
     normalized = symbol.strip().upper()
-    # For normal Forex, the subsequent M1/M5/M15/H1 freshness checks are the
-    # authoritative availability test. Avoid the heavy platform catalog call.
-    if not normalized.endswith("-OTC"):
-        return True
-    active = normalized[:-4].replace("/", "") + "-OTC" if normalized.endswith("-OTC") else IQ_SYMBOLS.get(normalized)
+    active = normalized.replace("/", "")
+    if normalized.endswith("-OTC"):
+        active = active[:-4] + "-OTC"
     if not active:
         return False
     try:
         assets = available_iq_assets()
     except RuntimeError:
-        # For normal Forex, build_analysis performs the authoritative fresh
-        # candle check. OTC remains strict because its session is platform-only.
-        return not normalized.endswith("-OTC")
+        return True
     candidates = {active.upper(), active.upper().replace("-OTC", "_OTC"), active.upper().replace("-OTC", " OTC")}
     if candidates.intersection(assets):
         return True
-    # A normal pair is considered eligible for the subsequent fresh-candle
-    # gate; this avoids false closures when IQ's heavy catalog is incomplete.
-    return not normalized.endswith("-OTC")
+    return False
 
 
 def fetch_iq_candles(symbol: str, interval: str, count: int) -> list[dict]:
     active = IQ_SYMBOLS.get(symbol)
-    if not active and symbol.endswith("-OTC"):
+    if not active:
         active = symbol.replace("/", "")
     size = INTERVAL_SECONDS.get(interval)
     if not active or not size:

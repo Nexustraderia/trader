@@ -9,13 +9,13 @@ from flask import Flask, jsonify
 
 try:
     from .db import backend_name
-    from .iq_data import cached_otc_open_assets, is_iq_asset_open
+    from .iq_data import available_asset_modes, available_signal_assets, cached_otc_open_assets, is_iq_asset_open
     from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from db import backend_name
-    from iq_data import cached_otc_open_assets, is_iq_asset_open
+    from iq_data import available_asset_modes, available_signal_assets, cached_otc_open_assets, is_iq_asset_open
     from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
@@ -70,6 +70,7 @@ state = {
     "auto_cycle_processed": 0,
     "auto_cycle_total": len(AUTO_SYMBOLS),
     "auto_current_symbol": None,
+    "auto_symbols": list(AUTO_SYMBOLS),
     "signal_sticker_error": None,
     "auto_last_decisions": {},
     "auto_scan_errors": 0,
@@ -217,10 +218,17 @@ def auto_scan_loop() -> None:
         state["auto_cycle_started"] = datetime.now(timezone.utc).isoformat()
         state["auto_cycle_completed"] = None
         state["auto_cycle_processed"] = 0
-        state["auto_cycle_total"] = len(AUTO_SYMBOLS)
+        try:
+            scan_symbols = available_signal_assets()
+        except Exception:
+            scan_symbols = list(AUTO_SYMBOLS)
+        if not scan_symbols:
+            scan_symbols = list(AUTO_SYMBOLS)
+        state["auto_symbols"] = scan_symbols
+        state["auto_cycle_total"] = len(scan_symbols)
         state["auto_current_symbol"] = None
         state["auto_last_decisions"] = {}
-        for symbol in AUTO_SYMBOLS:
+        for symbol in scan_symbols:
             state["auto_current_symbol"] = symbol
             try:
                 state["auto_last_scan"] = datetime.now(timezone.utc).isoformat()
@@ -487,7 +495,8 @@ def health():
             "auto_signals_enabled": AUTO_SIGNALS_ENABLED,
             "auto_signal_min_confidence": AUTO_SIGNAL_MIN_CONFIDENCE,
             "auto_signal_max_daily": AUTO_SIGNAL_MAX_DAILY,
-            "auto_symbols": AUTO_SYMBOLS,
+            "auto_symbols": state["auto_symbols"],
+            "auto_asset_modes": available_asset_modes(),
             "auto_sent_today": state["auto_sent_today"],
             "auto_last_scan": state["auto_last_scan"],
             "auto_cycle_started": state["auto_cycle_started"],
