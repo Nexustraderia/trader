@@ -104,8 +104,6 @@ def available_signal_assets() -> list[str]:
 
 def available_asset_modes() -> dict[str, list[str]]:
     """Return the open IQ modalities for each display symbol."""
-    if not _asset_cache:
-        available_iq_assets()
     result = {}
     for asset, modes in _asset_modes_cache.items():
         result[_display_symbol(asset)] = sorted(modes)
