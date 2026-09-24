@@ -34,8 +34,9 @@ AUTO_SIGNALS_ENABLED = os.getenv("AUTO_SIGNALS_ENABLED", "false").lower() == "tr
 AUTO_SIGNAL_INTERVAL = 60
 # Legacy technical score is directional: CALL is high and PUT is low. Use the
 # normalized confidence so a high-quality PUT is not rejected as "low score".
-# Publish fewer, stronger signals: M15/H1 confirmation is now stricter too.
-AUTO_SIGNAL_MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", os.getenv("AUTO_SIGNAL_MIN_SCORE", "85")))
+# Balanced selectivity: keep full M5/M15/H1/M1 confluence while allowing
+# high-quality setups that score 80+ to be published.
+AUTO_SIGNAL_MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", os.getenv("AUTO_SIGNAL_MIN_SCORE", "80")))
 # Signals are continuous. The legacy AUTO_SIGNAL_MAX_DAILY variable is kept
 # only for deployment compatibility and is intentionally ignored.
 AUTO_SIGNAL_MAX_DAILY = 0
