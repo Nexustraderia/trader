@@ -105,7 +105,10 @@ class _IQSession:
             deadline = time.monotonic() + 25
             last_names: list[str] = []
             while time.monotonic() < deadline:
-                raw = await asyncio.wait_for(self.ws.recv(), timeout=max(0.1, deadline - time.monotonic()))
+                try:
+                    raw = await asyncio.wait_for(self.ws.recv(), timeout=max(0.1, deadline - time.monotonic()))
+                except asyncio.TimeoutError as error:
+                    raise TimeoutError(f"IQ WebSocket sem resposta; mensagens={last_names}") from error
                 message = _decode(raw)
                 last_names.append(str(message.get("name", "")))
                 last_names = last_names[-8:]
