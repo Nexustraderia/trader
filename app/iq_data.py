@@ -73,7 +73,10 @@ def _get_async_client():
 
 
 def _async_candles(active: str, size: int, count: int) -> list[dict]:
-    from .iq_ws import get_candles
+    try:
+        from .iq_ws import get_candles
+    except ImportError:
+        from iq_ws import get_candles
     active_id = _opcode_for_asset(active)
     if active_id is None:
         raise ValueError(f"IQ Option active opcode unavailable: {active}")
@@ -156,7 +159,10 @@ def available_iq_assets() -> set[str]:
     candidates = sorted(set(candidates))
 
     async def probe_all():
-        from .iq_ws import get_candles
+        try:
+            from .iq_ws import get_candles
+        except ImportError:
+            from iq_ws import get_candles
         email = os.environ["IQ_OPTION_EMAIL"].strip()
         password = os.environ["IQ_OPTION_PASSWORD"]
         results = await asyncio.gather(
