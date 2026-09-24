@@ -22,6 +22,8 @@ O módulo de notícias está temporariamente fora do fluxo operacional para evit
 
 Para candles intraday, o bot tenta primeiro a IQ Option em modo somente leitura. Se a conexão IQ Option falhar, o fallback é permitido por padrão para Twelve Data quando `TWELVEDATA_API_KEY` está configurada e, depois, para a Yahoo Finance Chart API. Para bloquear o fallback explicitamente, defina `IQ_OPTION_ALLOW_FALLBACK=false`; `IQ_OPTION_STRICT=true` sozinho não desativa mais o failover, evitando que uma variável antiga do Render deixe o scanner parado. As chaves devem ser configuradas somente no Render, nunca no GitHub.
 
+Quando `AUTO_INCLUDE_IQ_ASSETS=true`, um processo em segundo plano atualiza a cada cinco minutos o catálogo de ativos abertos retornado pela IQ Option (`binary`, `turbo` e `digital`). Somente ativos com código de candles conhecido pela biblioteca são adicionados ao scanner; se a sessão IQ Option estiver indisponível, o sistema mantém apenas o universo base compatível com as fontes públicas. OTC só é incluído quando aparece aberto no catálogo da IQ Option, porque Yahoo Finance e Twelve Data não fornecem o mesmo preço OTC da corretora.
+
 A publicação automática usa `AUTO_SIGNALS_ENABLED=true`, varredura de 60 segundos, score mínimo 80/100, cooldown de 20 minutos por ativo e máximo de 6 registros por dia. Mesmo habilitada, ela publica somente `PAPER TRADING`; não existe integração com corretoras.
 
 Resultados liquidados como `WIN` e `LOSS` são enviados ao Telegram com as artes correspondentes em `app/assets/win.png` e `app/assets/loss.png`. A imagem e o texto são tratados como uma entrega única: se o envio da foto falhar, o resultado fica aguardando e é reenviado automaticamente.

@@ -9,13 +9,13 @@ from flask import Flask, jsonify
 
 try:
     from .db import backend_name
-    from .iq_data import available_asset_modes, available_iq_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
+    from .iq_data import available_asset_modes, available_iq_assets, available_signal_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
     from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from db import backend_name
-    from iq_data import available_asset_modes, available_iq_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
+    from iq_data import available_asset_modes, available_iq_assets, available_signal_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
     from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
     from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
@@ -44,6 +44,7 @@ AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "3600"))
 BASE_AUTO_SYMBOLS = tuple(item.strip() for item in os.getenv("AUTO_SYMBOLS", "EUR/USD,EUR/JPY,USD/JPY,GBP/USD,GBP/JPY,AUD/USD,USD/CAD").split(",") if item.strip())
 OTC_AUTO_SYMBOLS = tuple(f"{symbol}-OTC" for symbol in BASE_AUTO_SYMBOLS)
 AUTO_SYMBOLS = BASE_AUTO_SYMBOLS + (OTC_AUTO_SYMBOLS if os.getenv("AUTO_INCLUDE_OTC", "true").lower() == "true" else ())
+AUTO_INCLUDE_IQ_ASSETS = os.getenv("AUTO_INCLUDE_IQ_ASSETS", "true").lower() == "true"
 RESULT_IMAGE_PATHS = {
     "WIN": os.getenv("WIN_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "win.png")),
     "LOSS": os.getenv("LOSS_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "loss.png")),
@@ -75,6 +76,11 @@ state = {
     "auto_last_decisions": {},
     "auto_scan_errors": 0,
     "auto_last_error": None,
+    "iq_catalog_available": False,
+    "iq_catalog_last_refresh": None,
+    "iq_catalog_error": None,
+    "iq_open_assets": [],
+    "iq_open_otc": [],
     "last_settlement": None,
     "settled_count": 0,
     "settlement_error": None,
@@ -218,10 +224,13 @@ def auto_scan_loop() -> None:
         state["auto_cycle_started"] = datetime.now(timezone.utc).isoformat()
         state["auto_cycle_completed"] = None
         state["auto_cycle_processed"] = 0
-        # Never block the scan on IQ's heavyweight open-time catalog. A
-        # background/previously refreshed catalog may expand this list; when
-        # it is unavailable, keep the reliable configured universe running.
+        # Use the IQ catalog only after a successful background refresh. If IQ
+        # is unavailable, stay on the public-data-compatible base universe.
         scan_symbols = list(BASE_AUTO_SYMBOLS)
+        if AUTO_INCLUDE_IQ_ASSETS and state["iq_catalog_available"]:
+            scan_symbols = list(dict.fromkeys(scan_symbols + state["iq_open_assets"]))
+            if not os.getenv("AUTO_INCLUDE_OTC", "true").lower() == "true":
+                scan_symbols = [symbol for symbol in scan_symbols if not symbol.endswith("-OTC")]
         state["auto_symbols"] = scan_symbols
         state["auto_cycle_total"] = len(scan_symbols)
         state["auto_current_symbol"] = None
@@ -278,7 +287,18 @@ def auto_scan_loop() -> None:
 
 def asset_catalog_loop() -> None:
     """Refresh IQ's open-asset catalog outside the time-sensitive scan loop."""
-    return
+    while True:
+        try:
+            assets = available_signal_assets()
+            state["iq_catalog_available"] = True
+            state["iq_catalog_last_refresh"] = datetime.now(timezone.utc).isoformat()
+            state["iq_catalog_error"] = None
+            state["iq_open_assets"] = assets
+            state["iq_open_otc"] = cached_otc_open_assets()
+        except Exception as error:
+            state["iq_catalog_available"] = False
+            state["iq_catalog_error"] = f"{type(error).__name__}: {str(error)[:160]}"
+        time.sleep(300)
 
 
 def price_lookup(symbol: str) -> float:
@@ -506,6 +526,10 @@ def health():
             "auto_cycle_completed": state["auto_cycle_completed"],
             "auto_cycle_progress": f"{state['auto_cycle_processed']}/{state['auto_cycle_total']}",
             "auto_current_symbol": state["auto_current_symbol"],
+            "iq_catalog_available": state["iq_catalog_available"],
+            "iq_catalog_last_refresh": state["iq_catalog_last_refresh"],
+            "iq_catalog_error": state["iq_catalog_error"],
+            "iq_open_assets": state["iq_open_assets"],
             "iq_open_otc": cached_otc_open_assets(),
             "signal_sticker_error": state["signal_sticker_error"],
             "auto_last_decisions": state["auto_last_decisions"],
@@ -556,4 +580,6 @@ if __name__ == "__main__":
         threading.Thread(target=session_summary_loop, daemon=True).start()
         if AUTO_SIGNALS_ENABLED:
             threading.Thread(target=auto_scan_loop, daemon=True).start()
+            if AUTO_INCLUDE_IQ_ASSETS:
+                threading.Thread(target=asset_catalog_loop, daemon=True).start()
     app.run(host="0.0.0.0", port=PORT)

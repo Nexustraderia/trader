@@ -137,7 +137,10 @@ def _display_symbol(asset: str) -> str:
 def available_signal_assets() -> list[str]:
     """Return unique open binary/turbo/digital assets for automatic scanning."""
     assets = available_iq_assets()
-    return sorted({_display_symbol(asset) for asset in assets})
+    # The community client can only request candles for assets present in its
+    # ACTIVES opcode map. Ignore catalog entries that this pinned client cannot
+    # address instead of allowing one exotic entry to break a scan cycle.
+    return sorted({_display_symbol(asset) for asset in assets if OP_code.ACTIVES.get(asset) is not None})
 
 
 def cached_signal_assets() -> list[str]:
