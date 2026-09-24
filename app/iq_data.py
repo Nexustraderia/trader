@@ -41,6 +41,7 @@ socket.setdefaulttimeout(30)
 _aio_loop = None
 _aio_thread = None
 _aio_client = None
+_aio_last_error = None
 
 
 def _async_call(coro, timeout: float = 45):
@@ -51,9 +52,11 @@ def _async_call(coro, timeout: float = 45):
         _aio_thread = threading.Thread(target=_aio_loop.run_forever, daemon=True, name="iq-aio-loop")
         _aio_thread.start()
     future = asyncio.run_coroutine_threadsafe(coro, _aio_loop)
+    global _aio_last_error
     try:
         return future.result(timeout=timeout)
-    except Exception:
+    except Exception as error:
+        _aio_last_error = f"{type(error).__name__}: {str(error)[:180]}"
         future.cancel()
         raise
 
@@ -156,8 +159,9 @@ def available_iq_assets() -> set[str]:
 
     try:
         opened = _async_call(probe_all(), timeout=45)
-    except Exception:
-        raise RuntimeError("IQ Option candle connection unavailable") from None
+    except Exception as error:
+        detail = _aio_last_error or f"{type(error).__name__}: {str(error)[:180]}"
+        raise RuntimeError(f"IQ Option candle connection unavailable ({detail})") from None
     assets = {_compact_asset(active) for active, _ in opened}
     modes = {asset: {"candles"} for asset in assets}
     if not assets:
