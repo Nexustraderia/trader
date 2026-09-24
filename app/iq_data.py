@@ -127,10 +127,14 @@ def is_iq_asset_open(symbol: str) -> bool:
         active = active[:-4] + "-OTC"
     if not active:
         return False
+    # OTC availability is refreshed by asset_catalog_loop. Never make the
+    # time-sensitive signal scanner wait on IQ's blocking catalog request.
+    if not _asset_cache:
+        return False
     try:
-        assets = available_iq_assets()
-    except RuntimeError:
-        return True
+        assets = set(_asset_cache)
+    except Exception:
+        return False
     candidates = {active.upper(), active.upper().replace("-OTC", "_OTC"), active.upper().replace("-OTC", " OTC")}
     if candidates.intersection(assets):
         return True
