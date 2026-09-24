@@ -20,7 +20,7 @@ O modo padrão é `TESTE`. O bot coleta candles públicos para análise sob dema
 
 O módulo de notícias está temporariamente fora do fluxo operacional para evitar falsos bloqueios. Ele poderá ser retomado no futuro somente com uma fonte estruturada e autorizada. O M1 é usado apenas como gatilho de entrada: ele confirma ou bloqueia a direção definida por M5/M15/H1, mas nunca cria um sinal sozinho.
 
-Para candles intraday, o bot tenta primeiro a IQ Option em modo somente leitura. Se a conexão IQ Option falhar, `IQ_OPTION_STRICT=false` permite fallback para Twelve Data quando `TWELVEDATA_API_KEY` está configurada e, depois, para a Yahoo Finance Chart API. Com `IQ_OPTION_STRICT=true`, a falha da IQ Option é propagada e nenhum fallback é usado. As chaves devem ser configuradas somente no Render, nunca no GitHub.
+Para candles intraday, o bot tenta primeiro a IQ Option em modo somente leitura. Se a conexão IQ Option falhar, o fallback é permitido por padrão para Twelve Data quando `TWELVEDATA_API_KEY` está configurada e, depois, para a Yahoo Finance Chart API. Para bloquear o fallback explicitamente, defina `IQ_OPTION_ALLOW_FALLBACK=false`; `IQ_OPTION_STRICT=true` sozinho não desativa mais o failover, evitando que uma variável antiga do Render deixe o scanner parado. As chaves devem ser configuradas somente no Render, nunca no GitHub.
 
 A publicação automática usa `AUTO_SIGNALS_ENABLED=true`, varredura de 60 segundos, score mínimo 80/100, cooldown de 20 minutos por ativo e máximo de 6 registros por dia. Mesmo habilitada, ela publica somente `PAPER TRADING`; não existe integração com corretoras.
 

@@ -87,7 +87,12 @@ def fetch_candles(symbol: str, interval: str = "5m", range_: str = "1d", count: 
                 return candles
         except Exception as error:
             _LAST_ERROR = f"IQ Option: {type(error).__name__}"
-            if os.getenv("IQ_OPTION_STRICT", "true").lower() == "true":
+            # Keep public-data failover enabled by default. Existing Render
+            # services may still carry the legacy IQ_OPTION_STRICT=true; only
+            # an explicit IQ_OPTION_ALLOW_FALLBACK=false disables failover.
+            strict = os.getenv("IQ_OPTION_STRICT", "false").lower() == "true"
+            allow_fallback = os.getenv("IQ_OPTION_ALLOW_FALLBACK", "true").lower() == "true"
+            if strict and not allow_fallback:
                 raise
     if os.getenv("TWELVEDATA_API_KEY", "").strip():
         try:
