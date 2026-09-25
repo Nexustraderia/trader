@@ -1,15 +1,5 @@
 {
-  "pending": [
-    {
-      "symbol": "GBP/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "entry_at": "2026-09-25T18:15:00+00:00",
-      "expires_at": "2026-09-25T18:20:00+00:00",
-      "entry_price": 213.354145
-    }
-  ],
+  "pending": [],
   "settled": [
     {
       "symbol": "GBP/JPY-OTC",
@@ -1021,6 +1011,17 @@
       "expires_at": "2026-09-25T18:05:00+00:00",
       "entry_price": 1.32415,
       "exit_price": 1.32453,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T18:15:00+00:00",
+      "expires_at": "2026-09-25T18:20:00+00:00",
+      "entry_price": 213.354145,
+      "exit_price": 213.036855,
       "outcome": "LOSS"
     }
   ]
