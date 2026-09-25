@@ -1,5 +1,15 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T07:10:00+00:00",
+      "expires_at": "2026-09-25T07:15:00+00:00",
+      "entry_price": 1.41517
+    }
+  ],
   "settled": [
     {
       "symbol": "GBP/JPY-OTC",
