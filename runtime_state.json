@@ -1,13 +1,13 @@
 {
   "pending": [
     {
-      "symbol": "GBP/USD-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "entry_at": "2026-09-25T13:25:00+00:00",
-      "expires_at": "2026-09-25T13:30:00+00:00",
-      "entry_price": 1.330835
+      "symbol": "AUD/USD",
+      "direction": "PUT",
+      "score": 15,
+      "confidence": 90,
+      "entry_at": "2026-09-25T13:40:00+00:00",
+      "expires_at": "2026-09-25T13:45:00+00:00",
+      "entry_price": 0.70252
     }
   ],
   "settled": [
@@ -669,6 +669,17 @@
       "expires_at": "2026-09-25T13:15:00+00:00",
       "entry_price": 1.413535,
       "exit_price": 1.41406,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T13:25:00+00:00",
+      "expires_at": "2026-09-25T13:30:00+00:00",
+      "entry_price": 1.330835,
+      "exit_price": 1.329715,
       "outcome": "LOSS"
     }
   ]
