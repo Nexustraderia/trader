@@ -1,31 +1,31 @@
 {
   "pending": [
     {
-      "symbol": "GBP/USD-OTC",
+      "symbol": "EUR/JPY",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 80,
+      "entry_at": "2026-09-25T16:45:00+00:00",
+      "expires_at": "2026-09-25T16:50:00+00:00",
+      "entry_price": 179.108
+    },
+    {
+      "symbol": "EUR/USD",
       "direction": "PUT",
       "score": 20,
       "confidence": 85,
-      "entry_at": "2026-09-25T16:30:00+00:00",
-      "expires_at": "2026-09-25T16:35:00+00:00",
-      "entry_price": 1.320975
-    },
-    {
-      "symbol": "AUD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "entry_at": "2026-09-25T16:30:00+00:00",
-      "expires_at": "2026-09-25T16:35:00+00:00",
-      "entry_price": 0.703295
+      "entry_at": "2026-09-25T16:45:00+00:00",
+      "expires_at": "2026-09-25T16:50:00+00:00",
+      "entry_price": 1.13929
     },
     {
       "symbol": "USD/CAD",
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-25T16:30:00+00:00",
-      "expires_at": "2026-09-25T16:35:00+00:00",
-      "entry_price": 1.41463
+      "entry_at": "2026-09-25T16:45:00+00:00",
+      "expires_at": "2026-09-25T16:50:00+00:00",
+      "entry_price": 1.41494
     }
   ],
   "settled": [
@@ -864,6 +864,39 @@
       "entry_price": 1.140795,
       "exit_price": 1.139575,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "entry_at": "2026-09-25T16:30:00+00:00",
+      "expires_at": "2026-09-25T16:35:00+00:00",
+      "entry_price": 1.320975,
+      "exit_price": 1.319545,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T16:30:00+00:00",
+      "expires_at": "2026-09-25T16:35:00+00:00",
+      "entry_price": 0.703295,
+      "exit_price": 0.70331,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T16:30:00+00:00",
+      "expires_at": "2026-09-25T16:35:00+00:00",
+      "entry_price": 1.41463,
+      "exit_price": 1.41463,
+      "outcome": "VOID"
     }
   ]
 }
