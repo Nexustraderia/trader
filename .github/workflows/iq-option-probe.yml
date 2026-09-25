@@ -1,0 +1,23 @@
+name: IQ Option connectivity probe
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      IQ_OPTION_EMAIL: ${{ secrets.IQ_OPTION_EMAIL }}
+      IQ_OPTION_PASSWORD: ${{ secrets.IQ_OPTION_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install --disable-pip-version-check -r requirements.txt
+      - name: Test IQ Option login and candles
+        run: python tools/iq_probe.py
