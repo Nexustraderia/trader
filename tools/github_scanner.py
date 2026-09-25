@@ -11,6 +11,7 @@ from app.signal_engine import analyze_with_confirmation
 
 CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID", "@NexusTraderIA").strip()
 BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
+IQ_OPTION_AFFILIATE_URL = "https://affiliate.iqoption.net/redir/?aff=232843&aff_model=revenue&afftrack="
 EMAIL = os.environ["IQ_OPTION_EMAIL"].strip()
 PASSWORD = os.environ["IQ_OPTION_PASSWORD"]
 MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", "80"))
@@ -23,10 +24,10 @@ def now_utc() -> datetime:
     return datetime.now(timezone.utc)
 
 
-def telegram(text: str) -> None:
+def telegram(text: str, reply_markup: dict | None = None) -> None:
     response = requests.post(
         f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
-        json={"chat_id": CHANNEL_ID, "text": text},
+        json={"chat_id": CHANNEL_ID, "text": text, **({"reply_markup": reply_markup} if reply_markup else {})},
         timeout=20,
     )
     response.raise_for_status()
@@ -71,10 +72,8 @@ def save_state(state: dict) -> None:
 
 def format_signal(result: dict, entry_at: datetime) -> str:
     local = entry_at.astimezone(BRASILIA)
-    reasons = result.get("reasons", [])[-5:]
     return "\n".join([
         "⚡️ NEXUS I.A TRADER ⚡️",
-        "🤖 Análise automática — TESTE",
         "",
         "━━━━━━━━━━━━━━━━━━",
         "",
@@ -85,14 +84,11 @@ def format_signal(result: dict, entry_at: datetime) -> str:
         f"⏰ ENTRADA\n{local.strftime('%H:%M')} (UTC−3 Brasília)",
         "⌛ EXPIRAÇÃO\nM5",
         "",
-        f"🧠 Confiança: {result.get('confidence', 0)}/100",
-        f"M1: {result.get('m1_decision')} · M5: {result.get('decision')} · M15: {result.get('m15_decision')} · H1: {result.get('h1_decision')}",
         "",
-        "Motivos:",
-        *[f"• {reason}" for reason in reasons],
-        "",
-        "Fonte: IQ Option exclusivamente.",
-        "Modo TESTE — nenhuma ordem foi executada.",
+        "Sinais Exclusivos para a IQ OPTION",
+        "100% sem martingale.",
+        "Não tem conta na IQ OPTION?",
+        "Clique no botão abaixo e cadastre-se.",
     ])
 
 
@@ -109,9 +105,6 @@ def format_result(item: dict, outcome: str) -> str:
         "⌛ Expiração: M5",
         "",
         label,
-        "",
-        "Fonte: IQ Option exclusivamente.",
-        "Modo TESTE — nenhuma ordem foi executada.",
     ])
 
 
@@ -182,7 +175,10 @@ def main() -> None:
                     "expires_at": (entry + timedelta(minutes=5)).isoformat(),
                     "entry_price": float(result["price"]),
                 }
-                telegram(format_signal(result, entry))
+                telegram(
+                    format_signal(result, entry),
+                    {"inline_keyboard": [[{"text": "CADASTRE-SE NA IQ OPTION", "url": IQ_OPTION_AFFILIATE_URL}]]},
+                )
                 state["pending"].append(item)
                 pending_keys.add(key)
                 sent += 1
