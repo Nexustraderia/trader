@@ -165,10 +165,20 @@ def available_iq_assets() -> set[str]:
             from iq_ws import get_candles
         email = os.environ["IQ_OPTION_EMAIL"].strip()
         password = os.environ["IQ_OPTION_PASSWORD"]
-        results = await asyncio.gather(
-            *(get_candles(email, password, _opcode_for_asset(active), 60, 2) for active in candidates),
-            return_exceptions=True,
-        )
+        # The read client owns one authenticated WebSocket. Probing all assets
+        # concurrently makes failed requests reset that shared session while
+        # other probes are waiting on it, which is especially fragile on
+        # Render. Keep discovery deterministic and one request at a time.
+        results = []
+        for active in candidates:
+            opcode = _opcode_for_asset(active)
+            if opcode is None:
+                results.append(ValueError(f"IQ Option active opcode unavailable: {active}"))
+                continue
+            try:
+                results.append(await get_candles(email, password, opcode, 60, 2))
+            except Exception as error:
+                results.append(error)
         opened = [(active, result) for active, result in zip(candidates, results) if isinstance(result, list) and result]
         failures = [result for result in results if isinstance(result, Exception)]
         return opened, failures
