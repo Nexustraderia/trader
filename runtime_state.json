@@ -3,11 +3,33 @@
     {
       "symbol": "GBP/JPY-OTC",
       "direction": "PUT",
+      "score": 15,
+      "confidence": 90,
+      "entry_at": "2026-09-25T05:45:00+00:00",
+      "expires_at": "2026-09-25T05:50:00+00:00",
+      "entry_price": 211.598125
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T05:45:00+00:00",
+      "expires_at": "2026-09-25T05:50:00+00:00",
+      "entry_price": 0.70177
+    }
+  ],
+  "settled": [
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "PUT",
       "score": 20,
       "confidence": 85,
       "entry_at": "2026-09-25T05:30:00+00:00",
       "expires_at": "2026-09-25T05:35:00+00:00",
-      "entry_price": 211.518215
+      "entry_price": 211.518215,
+      "exit_price": 211.595285,
+      "outcome": "LOSS"
     },
     {
       "symbol": "GBP/JPY",
@@ -16,7 +38,9 @@
       "confidence": 80,
       "entry_at": "2026-09-25T05:30:00+00:00",
       "expires_at": "2026-09-25T05:35:00+00:00",
-      "entry_price": 209.024
+      "entry_price": 209.024,
+      "exit_price": 209.0925,
+      "outcome": "LOSS"
     },
     {
       "symbol": "USD/JPY",
@@ -25,7 +49,9 @@
       "confidence": 80,
       "entry_at": "2026-09-25T05:30:00+00:00",
       "expires_at": "2026-09-25T05:35:00+00:00",
-      "entry_price": 158.1605
+      "entry_price": 158.1605,
+      "exit_price": 158.195,
+      "outcome": "LOSS"
     },
     {
       "symbol": "GBP/JPY-OTC",
@@ -34,7 +60,9 @@
       "confidence": 85,
       "entry_at": "2026-09-25T05:35:00+00:00",
       "expires_at": "2026-09-25T05:40:00+00:00",
-      "entry_price": 211.553395
+      "entry_price": 211.553395,
+      "exit_price": 211.579815,
+      "outcome": "LOSS"
     },
     {
       "symbol": "USD/JPY-OTC",
@@ -43,8 +71,9 @@
       "confidence": 80,
       "entry_at": "2026-09-25T05:35:00+00:00",
       "expires_at": "2026-09-25T05:40:00+00:00",
-      "entry_price": 157.79335
+      "entry_price": 157.79335,
+      "exit_price": 157.71385,
+      "outcome": "WIN"
     }
-  ],
-  "settled": []
+  ]
 }
