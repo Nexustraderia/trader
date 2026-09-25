@@ -5,18 +5,9 @@
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-25T12:30:00+00:00",
-      "expires_at": "2026-09-25T12:35:00+00:00",
-      "entry_price": 1.145995
-    },
-    {
-      "symbol": "USD/CAD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 85,
-      "entry_at": "2026-09-25T12:30:00+00:00",
-      "expires_at": "2026-09-25T12:35:00+00:00",
-      "entry_price": 1.41371
+      "entry_at": "2026-09-25T12:45:00+00:00",
+      "expires_at": "2026-09-25T12:50:00+00:00",
+      "entry_price": 1.148375
     }
   ],
   "settled": [
@@ -601,6 +592,28 @@
       "expires_at": "2026-09-25T12:15:00+00:00",
       "entry_price": 208.8605,
       "exit_price": 208.9925,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T12:30:00+00:00",
+      "expires_at": "2026-09-25T12:35:00+00:00",
+      "entry_price": 1.145995,
+      "exit_price": 1.147895,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "entry_at": "2026-09-25T12:30:00+00:00",
+      "expires_at": "2026-09-25T12:35:00+00:00",
+      "entry_price": 1.41371,
+      "exit_price": 1.41387,
       "outcome": "LOSS"
     }
   ]
