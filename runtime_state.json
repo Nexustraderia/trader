@@ -1,13 +1,13 @@
 {
   "pending": [
     {
-      "symbol": "USD/JPY-OTC",
+      "symbol": "GBP/USD-OTC",
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-25T11:00:00+00:00",
-      "expires_at": "2026-09-25T11:05:00+00:00",
-      "entry_price": 157.86885
+      "entry_at": "2026-09-25T11:10:00+00:00",
+      "expires_at": "2026-09-25T11:15:00+00:00",
+      "entry_price": 1.322735
     }
   ],
   "settled": [
@@ -438,6 +438,17 @@
       "expires_at": "2026-09-25T10:55:00+00:00",
       "entry_price": 1.413915,
       "exit_price": 1.414015,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T11:00:00+00:00",
+      "expires_at": "2026-09-25T11:05:00+00:00",
+      "entry_price": 157.86885,
+      "exit_price": 157.84945,
       "outcome": "LOSS"
     }
   ]
