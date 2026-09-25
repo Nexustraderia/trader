@@ -5,23 +5,12 @@
       "direction": "PUT",
       "score": 20,
       "confidence": 85,
-      "entry_at": "2026-09-25T20:15:00+00:00",
-      "expires_at": "2026-09-25T20:20:00+00:00",
-      "entry_price": 0.70257
+      "entry_at": "2026-09-25T20:30:00+00:00",
+      "expires_at": "2026-09-25T20:35:00+00:00",
+      "entry_price": 0.70258
     }
   ],
   "settled": [
-    {
-      "symbol": "USD/JPY",
-      "direction": "PUT",
-      "score": 25,
-      "confidence": 80,
-      "entry_at": "2026-09-25T05:30:00+00:00",
-      "expires_at": "2026-09-25T05:35:00+00:00",
-      "entry_price": 158.1605,
-      "exit_price": 158.195,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "GBP/JPY-OTC",
       "direction": "PUT",
@@ -1109,6 +1098,17 @@
       "expires_at": "2026-09-25T19:50:00+00:00",
       "entry_price": 1.32534,
       "exit_price": 1.32507,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "entry_at": "2026-09-25T20:15:00+00:00",
+      "expires_at": "2026-09-25T20:20:00+00:00",
+      "entry_price": 0.70257,
+      "exit_price": 0.702625,
       "outcome": "LOSS"
     }
   ]
