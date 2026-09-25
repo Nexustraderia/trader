@@ -1,5 +1,24 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "AUD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T06:45:00+00:00",
+      "expires_at": "2026-09-25T06:50:00+00:00",
+      "entry_price": 0.70249
+    },
+    {
+      "symbol": "EUR/USD",
+      "direction": "CALL",
+      "score": 95,
+      "confidence": 95,
+      "entry_at": "2026-09-25T06:45:00+00:00",
+      "expires_at": "2026-09-25T06:50:00+00:00",
+      "entry_price": 1.138395
+    }
+  ],
   "settled": [
     {
       "symbol": "GBP/JPY-OTC",
