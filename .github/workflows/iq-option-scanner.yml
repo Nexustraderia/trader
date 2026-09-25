@@ -13,6 +13,8 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     timeout-minutes: 8
+    permissions:
+      contents: write
     env:
       IQ_OPTION_EMAIL: ${{ secrets.IQ_OPTION_EMAIL }}
       IQ_OPTION_PASSWORD: ${{ secrets.IQ_OPTION_PASSWORD }}
@@ -32,3 +34,14 @@ jobs:
         run: pip install --disable-pip-version-check -r requirements.txt
       - name: Scan IQ Option and publish paper signals
         run: python tools/github_scanner.py
+      - name: Persist paper trading state
+        run: |
+          git config user.name "nexus-ia-trader[bot]"
+          git config user.email "nexus-ia-trader[bot]@users.noreply.github.com"
+          git add runtime_state.json
+          if git diff --cached --quiet; then
+            echo "No state changes to commit"
+          else
+            git commit -m "chore: persist paper trading state"
+            git push
+          fi
