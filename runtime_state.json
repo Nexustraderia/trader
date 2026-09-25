@@ -1,27 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "EUR/USD-OTC",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 85,
-      "entry_at": "2026-09-25T23:00:00+00:00",
-      "expires_at": "2026-09-25T23:05:00+00:00",
-      "entry_price": 1.140045
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "entry_at": "2026-09-25T07:25:00+00:00",
-      "expires_at": "2026-09-25T07:30:00+00:00",
-      "entry_price": 1.41526,
-      "exit_price": 1.41522,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "GBP/JPY-OTC",
       "direction": "PUT",
@@ -1110,6 +1089,17 @@
       "entry_price": 213.616845,
       "exit_price": 213.217545,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "entry_at": "2026-09-25T23:00:00+00:00",
+      "expires_at": "2026-09-25T23:05:00+00:00",
+      "entry_price": 1.140045,
+      "exit_price": 1.137425,
+      "outcome": "WIN"
     }
   ]
 }
