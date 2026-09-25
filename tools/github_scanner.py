@@ -1,5 +1,6 @@
 import os
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 import requests
 
@@ -12,6 +13,7 @@ EMAIL = os.environ["IQ_OPTION_EMAIL"].strip()
 PASSWORD = os.environ["IQ_OPTION_PASSWORD"]
 MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", "80"))
 MAX_ASSETS = int(os.getenv("MAX_SCAN_ASSETS", "12"))
+BRASILIA = ZoneInfo("America/Sao_Paulo")
 
 
 def fresh(candles: list[dict], seconds: int) -> bool:
@@ -38,6 +40,7 @@ def telegram(text: str) -> None:
 def format_signal(result: dict, entry_at: str) -> str:
     direction = result["decision"]
     reasons = result.get("reasons", [])[-5:]
+    entry_local = datetime.fromisoformat(entry_at).astimezone(BRASILIA)
     lines = [
         "⚡️ NEXUS I.A TRADER ⚡️",
         "🤖 Análise automática — TESTE",
@@ -48,7 +51,7 @@ def format_signal(result: dict, entry_at: str) -> str:
         "",
         f"📊 DIREÇÃO\n{'🟢' if direction == 'CALL' else '🔴'} {direction}",
         "",
-        f"⏰ ENTRADA\n{entry_at[11:16]} UTC",
+        f"⏰ ENTRADA\n{entry_local.strftime('%H:%M')} (UTC−3 Brasília)",
         "⌛ EXPIRAÇÃO\nM5",
         "",
         f"🧠 Confiança: {result.get('confidence', 0)}/100",
