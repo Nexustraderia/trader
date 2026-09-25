@@ -17,4 +17,8 @@ for update in payload.get("result", []):
     chat = message.get("chat", {})
     if chat.get("id") is not None:
         seen[str(chat["id"])] = chat.get("title") or chat.get("username") or chat.get("type", "unknown")
+    origin = message.get("forward_origin", {})
+    origin_chat = origin.get("chat", {}) if origin.get("type") == "channel" else message.get("forward_from_chat", {})
+    if origin_chat.get("id") is not None:
+        seen[str(origin_chat["id"])] = origin_chat.get("title") or origin_chat.get("username") or "forwarded_channel"
 print(json.dumps({"chats": seen}, ensure_ascii=False))
