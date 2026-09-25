@@ -10,6 +10,7 @@ jobs:
     env:
       IQ_OPTION_EMAIL: ${{ secrets.IQ_OPTION_EMAIL }}
       IQ_OPTION_PASSWORD: ${{ secrets.IQ_OPTION_PASSWORD }}
+      PYTHONPATH: .
     steps:
       - name: Checkout
         uses: actions/checkout@v4
