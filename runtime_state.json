@@ -1,5 +1,33 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T19:45:00+00:00",
+      "expires_at": "2026-09-25T19:50:00+00:00",
+      "entry_price": 1.152405
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 80,
+      "entry_at": "2026-09-25T19:45:00+00:00",
+      "expires_at": "2026-09-25T19:50:00+00:00",
+      "entry_price": 1.317635
+    },
+    {
+      "symbol": "GBP/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T19:45:00+00:00",
+      "expires_at": "2026-09-25T19:50:00+00:00",
+      "entry_price": 1.32534
+    }
+  ],
   "settled": [
     {
       "symbol": "GBP/JPY-OTC",
