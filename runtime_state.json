@@ -1,31 +1,31 @@
 {
   "pending": [
     {
-      "symbol": "EUR/JPY",
-      "direction": "PUT",
-      "score": 25,
-      "confidence": 80,
-      "entry_at": "2026-09-25T16:45:00+00:00",
-      "expires_at": "2026-09-25T16:50:00+00:00",
-      "entry_price": 179.108
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T16:55:00+00:00",
+      "expires_at": "2026-09-25T17:00:00+00:00",
+      "entry_price": 212.671405
     },
     {
       "symbol": "EUR/USD",
       "direction": "PUT",
       "score": 20,
       "confidence": 85,
-      "entry_at": "2026-09-25T16:45:00+00:00",
-      "expires_at": "2026-09-25T16:50:00+00:00",
-      "entry_price": 1.13929
+      "entry_at": "2026-09-25T16:55:00+00:00",
+      "expires_at": "2026-09-25T17:00:00+00:00",
+      "entry_price": 1.139285
     },
     {
       "symbol": "USD/CAD",
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-25T16:45:00+00:00",
-      "expires_at": "2026-09-25T16:50:00+00:00",
-      "entry_price": 1.41494
+      "entry_at": "2026-09-25T16:55:00+00:00",
+      "expires_at": "2026-09-25T17:00:00+00:00",
+      "entry_price": 1.415175
     }
   ],
   "settled": [
@@ -897,6 +897,39 @@
       "entry_price": 1.41463,
       "exit_price": 1.41463,
       "outcome": "VOID"
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 80,
+      "entry_at": "2026-09-25T16:45:00+00:00",
+      "expires_at": "2026-09-25T16:50:00+00:00",
+      "entry_price": 179.108,
+      "exit_price": 179.1225,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "entry_at": "2026-09-25T16:45:00+00:00",
+      "expires_at": "2026-09-25T16:50:00+00:00",
+      "entry_price": 1.13929,
+      "exit_price": 1.13929,
+      "outcome": "VOID"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T16:45:00+00:00",
+      "expires_at": "2026-09-25T16:50:00+00:00",
+      "entry_price": 1.41494,
+      "exit_price": 1.415135,
+      "outcome": "WIN"
     }
   ]
 }
