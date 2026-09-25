@@ -5,9 +5,18 @@
       "direction": "PUT",
       "score": 20,
       "confidence": 85,
-      "entry_at": "2026-09-25T17:30:00+00:00",
-      "expires_at": "2026-09-25T17:35:00+00:00",
-      "entry_price": 1.32422
+      "entry_at": "2026-09-25T17:45:00+00:00",
+      "expires_at": "2026-09-25T17:50:00+00:00",
+      "entry_price": 1.324275
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T17:45:00+00:00",
+      "expires_at": "2026-09-25T17:50:00+00:00",
+      "entry_price": 1.41534
     }
   ],
   "settled": [
@@ -967,6 +976,17 @@
       "entry_price": 1.41504,
       "exit_price": 1.41512,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "entry_at": "2026-09-25T17:30:00+00:00",
+      "expires_at": "2026-09-25T17:35:00+00:00",
+      "entry_price": 1.32422,
+      "exit_price": 1.32425,
+      "outcome": "LOSS"
     }
   ]
 }
