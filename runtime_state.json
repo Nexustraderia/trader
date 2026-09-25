@@ -1,22 +1,40 @@
 {
   "pending": [
     {
-      "symbol": "GBP/USD-OTC",
+      "symbol": "EUR/USD-OTC",
       "direction": "PUT",
-      "score": 20,
-      "confidence": 85,
-      "entry_at": "2026-09-25T15:55:00+00:00",
-      "expires_at": "2026-09-25T16:00:00+00:00",
-      "entry_price": 1.321985
+      "score": 25,
+      "confidence": 80,
+      "entry_at": "2026-09-25T16:15:00+00:00",
+      "expires_at": "2026-09-25T16:20:00+00:00",
+      "entry_price": 1.138905
     },
     {
-      "symbol": "USD/CAD",
+      "symbol": "GBP/JPY-OTC",
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-25T15:55:00+00:00",
-      "expires_at": "2026-09-25T16:00:00+00:00",
-      "entry_price": 1.414705
+      "entry_at": "2026-09-25T16:15:00+00:00",
+      "expires_at": "2026-09-25T16:20:00+00:00",
+      "entry_price": 212.285655
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 80,
+      "entry_at": "2026-09-25T16:15:00+00:00",
+      "expires_at": "2026-09-25T16:20:00+00:00",
+      "entry_price": 179.1995
+    },
+    {
+      "symbol": "EUR/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T16:15:00+00:00",
+      "expires_at": "2026-09-25T16:20:00+00:00",
+      "entry_price": 1.140795
     }
   ],
   "settled": [
@@ -788,6 +806,28 @@
       "expires_at": "2026-09-25T15:40:00+00:00",
       "entry_price": 1.413745,
       "exit_price": 1.41445,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "entry_at": "2026-09-25T15:55:00+00:00",
+      "expires_at": "2026-09-25T16:00:00+00:00",
+      "entry_price": 1.321985,
+      "exit_price": 1.322435,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T15:55:00+00:00",
+      "expires_at": "2026-09-25T16:00:00+00:00",
+      "entry_price": 1.414705,
+      "exit_price": 1.41404,
       "outcome": "LOSS"
     }
   ]
