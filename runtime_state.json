@@ -1,5 +1,24 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "AUD/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "entry_at": "2026-09-25T21:00:00+00:00",
+      "expires_at": "2026-09-25T21:05:00+00:00",
+      "entry_price": 0.70256
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "entry_at": "2026-09-25T21:00:00+00:00",
+      "expires_at": "2026-09-25T21:05:00+00:00",
+      "entry_price": 1.414255
+    }
+  ],
   "settled": [
     {
       "symbol": "USD/JPY-OTC",
