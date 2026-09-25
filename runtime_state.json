@@ -1,15 +1,5 @@
 {
-  "pending": [
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "entry_at": "2026-09-25T14:30:00+00:00",
-      "expires_at": "2026-09-25T14:35:00+00:00",
-      "entry_price": 1.41459
-    }
-  ],
+  "pending": [],
   "settled": [
     {
       "symbol": "GBP/JPY-OTC",
@@ -714,6 +704,17 @@
       "entry_price": 1.41434,
       "exit_price": 1.414545,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T14:30:00+00:00",
+      "expires_at": "2026-09-25T14:35:00+00:00",
+      "entry_price": 1.41459,
+      "exit_price": 1.414515,
+      "outcome": "LOSS"
     }
   ]
 }
