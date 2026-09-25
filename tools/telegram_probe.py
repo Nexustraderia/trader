@@ -4,9 +4,19 @@ import urllib.request
 
 
 token = os.environ["TELEGRAM_BOT_TOKEN"]
-url = f"https://api.telegram.org/bot{token}/getUpdates?limit=100"
-with urllib.request.urlopen(url, timeout=20) as response:
-    payload = json.load(response)
+def api(method: str) -> dict:
+    with urllib.request.urlopen(f"https://api.telegram.org/bot{token}/{method}", timeout=20) as response:
+        return json.load(response)
+
+
+identity = api("getMe")
+webhook = api("getWebhookInfo")
+payload = api("getUpdates?limit=100")
+print(json.dumps({
+    "bot": identity.get("result", {}).get("username"),
+    "webhook_url_configured": bool(webhook.get("result", {}).get("url")),
+    "pending_update_count": webhook.get("result", {}).get("pending_update_count"),
+}, ensure_ascii=False))
 if not payload.get("ok"):
     raise SystemExit("Telegram API returned an error")
 seen = {}
