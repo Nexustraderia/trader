@@ -1,0 +1,20 @@
+name: Telegram publish test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHANNEL_ID: "@NexusTraderIA"
+    steps:
+      - name: Send non-trading connectivity test
+        run: |
+          curl --fail-with-body --silent --show-error \
+            -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d "chat_id=${TELEGRAM_CHANNEL_ID}" \
+            --data-urlencode "text=NEXUS IA TRADER — teste de conexão do bot novo. Nenhuma ordem foi executada." \
+            | python -c 'import json,sys; d=json.load(sys.stdin); print({"ok": d.get("ok"), "chat_id": d.get("result", {}).get("chat", {}).get("id"), "title": d.get("result", {}).get("chat", {}).get("title")}) ; sys.exit(0 if d.get("ok") else 1)'
