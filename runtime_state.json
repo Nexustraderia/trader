@@ -8,6 +8,15 @@
       "entry_at": "2026-09-25T06:00:00+00:00",
       "expires_at": "2026-09-25T06:05:00+00:00",
       "entry_price": 0.70177
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T06:05:00+00:00",
+      "expires_at": "2026-09-25T06:10:00+00:00",
+      "entry_price": 1.415125
     }
   ],
   "settled": [
