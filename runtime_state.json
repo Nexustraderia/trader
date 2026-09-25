@@ -17,6 +17,15 @@
       "entry_at": "2026-09-25T05:45:00+00:00",
       "expires_at": "2026-09-25T05:50:00+00:00",
       "entry_price": 0.70177
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T05:50:00+00:00",
+      "expires_at": "2026-09-25T05:55:00+00:00",
+      "entry_price": 0.701825
     }
   ],
   "settled": [
