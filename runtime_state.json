@@ -5,9 +5,9 @@
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-25T07:10:00+00:00",
-      "expires_at": "2026-09-25T07:15:00+00:00",
-      "entry_price": 1.41517
+      "entry_at": "2026-09-25T07:25:00+00:00",
+      "expires_at": "2026-09-25T07:30:00+00:00",
+      "entry_price": 1.41526
     }
   ],
   "settled": [
@@ -142,6 +142,17 @@
       "entry_price": 1.138395,
       "exit_price": 1.138585,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T07:10:00+00:00",
+      "expires_at": "2026-09-25T07:15:00+00:00",
+      "entry_price": 1.41517,
+      "exit_price": 1.41513,
+      "outcome": "LOSS"
     }
   ]
 }
