@@ -5,18 +5,18 @@
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-25T18:45:00+00:00",
-      "expires_at": "2026-09-25T18:50:00+00:00",
-      "entry_price": 0.70286
+      "entry_at": "2026-09-25T18:55:00+00:00",
+      "expires_at": "2026-09-25T19:00:00+00:00",
+      "entry_price": 0.70308
     },
     {
       "symbol": "GBP/USD",
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-25T18:45:00+00:00",
-      "expires_at": "2026-09-25T18:50:00+00:00",
-      "entry_price": 1.32493
+      "entry_at": "2026-09-25T18:55:00+00:00",
+      "expires_at": "2026-09-25T19:00:00+00:00",
+      "entry_price": 1.32523
     }
   ],
   "settled": [
@@ -1042,6 +1042,28 @@
       "entry_price": 213.354145,
       "exit_price": 213.036855,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T18:45:00+00:00",
+      "expires_at": "2026-09-25T18:50:00+00:00",
+      "entry_price": 0.70286,
+      "exit_price": 0.70308,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-25T18:45:00+00:00",
+      "expires_at": "2026-09-25T18:50:00+00:00",
+      "entry_price": 1.32493,
+      "exit_price": 1.32527,
+      "outcome": "WIN"
     }
   ]
 }
