@@ -8,6 +8,24 @@
       "entry_at": "2026-09-26T11:55:00+00:00",
       "expires_at": "2026-09-26T12:00:00+00:00",
       "entry_price": 179.553575
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-26T12:00:00+00:00",
+      "expires_at": "2026-09-26T12:05:00+00:00",
+      "entry_price": 179.605015
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "entry_at": "2026-09-26T12:00:00+00:00",
+      "expires_at": "2026-09-26T12:05:00+00:00",
+      "entry_price": 1.302235
     }
   ],
   "settled": [
