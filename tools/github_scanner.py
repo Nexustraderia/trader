@@ -211,7 +211,11 @@ def main() -> None:
                 and result.get("confidence", 0) >= MIN_CONFIDENCE
                 and all(result.get(key) == result.get("decision") for key in ("m1_decision", "m15_decision", "h1_decision"))
             )
-            print(f"{symbol}={result.get('decision')} confidence={result.get('confidence', 0)} eligible={eligible}")
+            print(
+                f"{symbol}={result.get('decision')} confidence={result.get('confidence', 0)} "
+                f"M1={result.get('m1_decision')} M15={result.get('m15_decision')} H1={result.get('h1_decision')} "
+                f"confluence={result.get('confluence_ok')} rsi={result.get('rsi_entry_ok')} eligible={eligible}"
+            )
             key = (symbol, entry.isoformat())
             if eligible and key not in pending_keys:
                 item = {
