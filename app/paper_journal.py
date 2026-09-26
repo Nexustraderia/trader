@@ -51,6 +51,30 @@ def _connect():
     return connection
 
 
+def reset_history_if_requested() -> bool:
+    """Clear paper history once when an explicit deployment reset is enabled."""
+    if os.getenv("RESET_PAPER_HISTORY", "false").lower() != "true":
+        return False
+    reset_id = os.getenv("PAPER_HISTORY_RESET_ID", "initial")
+    with _connect() as connection:
+        connection.execute(
+            "CREATE TABLE IF NOT EXISTS paper_reset_markers (reset_id TEXT PRIMARY KEY, applied_at TEXT NOT NULL)"
+        )
+        existing = connection.execute(
+            "SELECT reset_id FROM paper_reset_markers WHERE reset_id = ? LIMIT 1", (reset_id,)
+        ).fetchone()
+        if existing:
+            return False
+        connection.execute("DELETE FROM paper_signals")
+        connection.execute("UPDATE paper_summary_state SET covered_count = 0 WHERE id = 1")
+        connection.execute(
+            "INSERT INTO paper_reset_markers (reset_id, applied_at) VALUES (?, ?)",
+            (reset_id, datetime.now(timezone.utc).isoformat()),
+        )
+        connection.commit()
+    return True
+
+
 def get_telegram_file_id(outcome: str) -> str | None:
     with _connect() as connection:
         row = connection.execute("SELECT file_id FROM telegram_file_cache WHERE outcome = ?", (outcome.upper(),)).fetchone()

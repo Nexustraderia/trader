@@ -14,7 +14,7 @@ BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 IQ_OPTION_AFFILIATE_URL = "https://affiliate.iqoption.net/redir/?aff=232843&aff_model=revenue&afftrack="
 EMAIL = os.environ["IQ_OPTION_EMAIL"].strip()
 PASSWORD = os.environ["IQ_OPTION_PASSWORD"]
-MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", "80"))
+MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", "85"))
 MAX_ASSETS = int(os.getenv("MAX_SCAN_ASSETS", "12"))
 STATE_PATH = Path(os.getenv("SCANNER_STATE_PATH", "runtime_state.json"))
 BRASILIA = ZoneInfo("America/Sao_Paulo")
@@ -147,7 +147,7 @@ def main() -> None:
     assets = available_signal_assets()
     if not assets:
         raise RuntimeError("IQ Option returned no open candle assets")
-    assets = sorted(assets, key=lambda symbol: (not symbol.endswith("-OTC"), symbol))[:MAX_ASSETS]
+    assets = sorted(symbol for symbol in assets if symbol.endswith("-OTC"))[:MAX_ASSETS]
     print(f"IQ_OPEN_ASSETS={len(assets)}")
     entry = next_entry()
     sent = 0
@@ -162,7 +162,12 @@ def main() -> None:
                 print(f"{symbol}=SKIP_STALE")
                 continue
             result = analyze_with_confirmation(symbol, m5, m15, h1, m1)
-            eligible = bool(result.get("confluence_ok")) and bool(result.get("rsi_entry_ok", True)) and result.get("confidence", 0) >= MIN_CONFIDENCE
+            eligible = (
+                bool(result.get("confluence_ok"))
+                and bool(result.get("rsi_entry_ok", True))
+                and result.get("confidence", 0) >= MIN_CONFIDENCE
+                and all(result.get(key) == result.get("decision") for key in ("m1_decision", "m15_decision", "h1_decision"))
+            )
             print(f"{symbol}={result.get('decision')} confidence={result.get('confidence', 0)} eligible={eligible}")
             key = (symbol, entry.isoformat())
             if eligible and key not in pending_keys:

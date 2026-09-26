@@ -8,6 +8,16 @@ services:
     envVars:
       - key: BOT_MODE
         value: TESTE
+      - key: AUTO_OTC_ONLY
+        value: "true"
+      - key: AUTO_REQUIRE_FULL_ALIGNMENT
+        value: "true"
+      - key: AUTO_SIGNAL_MIN_CONFIDENCE
+        value: "85"
+      - key: RESET_PAPER_HISTORY
+        value: "true"
+      - key: PAPER_HISTORY_RESET_ID
+        value: "otc-only-2026-09-26"
       - key: TELEGRAM_CHANNEL_ID
         value: '@NexusTraderIA'
       - key: TELEGRAM_BOT_TOKEN

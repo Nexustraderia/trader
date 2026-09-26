@@ -21,7 +21,8 @@ jobs:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TELEGRAM_CHANNEL_ID: "@NexusTraderIA"
       PYTHONPATH: .
-      AUTO_SIGNAL_MIN_CONFIDENCE: "80"
+      AUTO_SIGNAL_MIN_CONFIDENCE: "85"
+      OTC_ONLY: "true"
       MAX_SCAN_ASSETS: "12"
     steps:
       - name: Checkout

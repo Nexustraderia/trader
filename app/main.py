@@ -11,16 +11,18 @@ try:
     from .db import backend_name
     from .iq_data import IQ_SYMBOLS, available_asset_modes, available_iq_assets, available_signal_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
     from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
-    from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
+    from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, reset_history_if_requested, save_telegram_file_id, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from db import backend_name
     from iq_data import IQ_SYMBOLS, available_asset_modes, available_iq_assets, available_signal_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
     from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
-    from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, save_telegram_file_id, session_statistics, settle_pending, statistics
+    from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, reset_history_if_requested, save_telegram_file_id, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
+
+HISTORY_RESET_APPLIED = reset_history_if_requested()
 
 app = Flask(__name__)
 
@@ -42,6 +44,8 @@ AUTO_SIGNAL_MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", os.gete
 AUTO_SIGNAL_MAX_DAILY = 0
 AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "3600"))
 AUTO_INCLUDE_IQ_ASSETS = os.getenv("AUTO_INCLUDE_IQ_ASSETS", "true").lower() == "true"
+AUTO_OTC_ONLY = os.getenv("AUTO_OTC_ONLY", "false").lower() == "true"
+AUTO_REQUIRE_FULL_ALIGNMENT = os.getenv("AUTO_REQUIRE_FULL_ALIGNMENT", "true").lower() == "true"
 RESULT_IMAGE_PATHS = {
     "WIN": os.getenv("WIN_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "win.png")),
     "LOSS": os.getenv("LOSS_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "loss.png")),
@@ -226,7 +230,9 @@ def auto_scan_loop() -> None:
         if AUTO_INCLUDE_IQ_ASSETS:
             # Keep normal IQ pairs testable while the slower OTC/open-catalog
             # refresh is running. No external market-data fallback is used.
-            scan_symbols = list(state["iq_open_assets"]) if state["iq_catalog_available"] else sorted(IQ_SYMBOLS)
+            scan_symbols = list(state["iq_open_assets"]) if state["iq_catalog_available"] else []
+            if AUTO_OTC_ONLY:
+                scan_symbols = [symbol for symbol in scan_symbols if symbol.endswith("-OTC")]
         else:
             scan_symbols = []
         state["auto_symbols"] = scan_symbols
@@ -256,6 +262,11 @@ def auto_scan_loop() -> None:
                     and result.get("rsi_entry_ok", True)
                     and result.get("confidence", 0) >= AUTO_SIGNAL_MIN_CONFIDENCE
                 )
+                if AUTO_REQUIRE_FULL_ALIGNMENT:
+                    eligible = eligible and all(
+                        result.get(key) == result.get("decision")
+                        for key in ("m1_decision", "m15_decision", "h1_decision")
+                    )
                 today = now.date().isoformat()
                 if state["auto_sent_date"] != today:
                     state["auto_sent_date"] = today
@@ -516,6 +527,8 @@ def health():
             "auto_signals_enabled": AUTO_SIGNALS_ENABLED,
             "auto_signal_min_confidence": AUTO_SIGNAL_MIN_CONFIDENCE,
             "auto_signal_max_daily": AUTO_SIGNAL_MAX_DAILY,
+            "auto_otc_only": AUTO_OTC_ONLY,
+            "auto_require_full_alignment": AUTO_REQUIRE_FULL_ALIGNMENT,
             "auto_symbols": state["auto_symbols"],
             "auto_asset_modes": available_asset_modes(),
             "auto_sent_today": state["auto_sent_today"],
@@ -537,6 +550,7 @@ def health():
             "settlement_last_check": state["settlement_last_check"],
             "settled_count": state["settled_count"],
             "settlement_error": state["settlement_error"],
+            "history_reset_applied": HISTORY_RESET_APPLIED,
             "paper_statistics": statistics(),
             "pending_signals": pending_signal_status(),
             "undelivered_results": len(pending_result_deliveries()),
