@@ -36,8 +36,6 @@ A página inicial executa uma verificação no endpoint `/health` a cada cinco m
 
 Depois do primeiro envio de cada arte, o bot armazena o `file_id` fornecido pelo Telegram e reutiliza esse identificador. Assim, as mensagens seguintes enviam imagem e texto sem fazer upload repetido do arquivo pesado.
 
-Opcionalmente, `WIN_STICKER_FILE_ID` e `LOSS_STICKER_FILE_ID` substituem a arte por um sticker. Como stickers não aceitam legenda, o bot envia o sticker e, em seguida, o texto completo do resultado.
-
 ## Próximas etapas
 
 1. Acumular histórico de paper trading para avaliar desempenho por ativo.

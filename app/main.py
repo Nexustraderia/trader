@@ -50,14 +50,6 @@ RESULT_IMAGE_PATHS = {
     "WIN": os.getenv("WIN_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "win.png")),
     "LOSS": os.getenv("LOSS_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "loss.png")),
 }
-RESULT_STICKER_IDS = {
-    "WIN": os.getenv("WIN_STICKER_FILE_ID", "").strip(),
-    "LOSS": os.getenv("LOSS_STICKER_FILE_ID", "").strip(),
-}
-SIGNAL_STICKER_FILE_ID = os.getenv(
-    "SIGNAL_STICKER_FILE_ID",
-    "CAACAgEAAxkBAAFU1olqtERbheqendjULXdKIX-apGKBRAACUgkAAnDjoEUmIym3kq2dsT0E",
-).strip()
 
 state = {
     "started_at": datetime.now(timezone.utc).isoformat(),
@@ -73,7 +65,6 @@ state = {
     "auto_cycle_total": 0,
     "auto_current_symbol": None,
     "auto_symbols": [],
-    "signal_sticker_error": None,
     "auto_last_decisions": {},
     "auto_scan_errors": 0,
     "auto_last_error": None,
@@ -113,47 +104,13 @@ def signal_reply_markup() -> dict:
 
 
 def send_signal(signal: dict, chat_id: str | None = None) -> bool:
-    """Send the anti-martingale sticker, then the formatted signal."""
-    state["signal_sticker_error"] = None
-    if BOT_TOKEN and SIGNAL_STICKER_FILE_ID:
-        try:
-            response = requests.post(
-                telegram_url("sendSticker"),
-                json={"chat_id": chat_id or CHANNEL_ID, "sticker": SIGNAL_STICKER_FILE_ID},
-                timeout=20,
-            )
-            response.raise_for_status()
-        except requests.RequestException as error:
-            state["signal_sticker_error"] = type(error).__name__
-            if getattr(error, "response", None) is not None:
-                try:
-                    detail = error.response.json().get("description", "")
-                    state["signal_sticker_error"] = f"{type(error).__name__}: {detail[:140]}"
-                except ValueError:
-                    pass
-    elif not SIGNAL_STICKER_FILE_ID:
-        state["signal_sticker_error"] = "sticker_file_id_ausente"
+    """Send the formatted signal without sticker messages."""
     return send_message(format_signal(signal), chat_id, signal_reply_markup())
 
 
 def send_result(item: dict, chat_id: str | None = None) -> bool:
     """Send the settlement caption with the matching WIN/LOSS artwork."""
     outcome = item.get("outcome", "").upper()
-    sticker_id = RESULT_STICKER_IDS.get(outcome)
-    if BOT_TOKEN and sticker_id:
-        try:
-            sticker_response = requests.post(
-                telegram_url("sendSticker"),
-                json={"chat_id": chat_id or CHANNEL_ID, "sticker": sticker_id},
-                timeout=30,
-            )
-            sticker_response.raise_for_status()
-            send_message(format_result(item), chat_id)
-            state["last_message"] = datetime.now(timezone.utc).isoformat()
-            return True
-        except requests.RequestException as error:
-            state["settlement_error"] = type(error).__name__
-            return False
     image_path = RESULT_IMAGE_PATHS.get(outcome)
     if not BOT_TOKEN or not image_path or not os.path.isfile(image_path):
         state["settlement_error"] = f"imagem_{outcome.lower()}_ausente"
@@ -542,7 +499,6 @@ def health():
             "iq_catalog_error": state["iq_catalog_error"],
             "iq_open_assets": state["iq_open_assets"],
             "iq_open_otc": cached_otc_open_assets(),
-            "signal_sticker_error": state["signal_sticker_error"],
             "auto_last_decisions": state["auto_last_decisions"],
             "auto_scan_errors": state["auto_scan_errors"],
             "auto_last_error": state["auto_last_error"],
