@@ -1,13 +1,13 @@
 {
   "pending": [
     {
-      "symbol": "GBP/JPY-OTC",
+      "symbol": "EUR/JPY-OTC",
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-26T11:25:00+00:00",
-      "expires_at": "2026-09-26T11:30:00+00:00",
-      "entry_price": 212.564535
+      "entry_at": "2026-09-26T11:35:00+00:00",
+      "expires_at": "2026-09-26T11:40:00+00:00",
+      "entry_price": 179.491825
     }
   ],
   "settled": [
@@ -131,6 +131,17 @@
       "entry_price": 212.501245,
       "exit_price": 212.532495,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-26T11:25:00+00:00",
+      "expires_at": "2026-09-26T11:30:00+00:00",
+      "entry_price": 212.564535,
+      "exit_price": 212.262485,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -254,6 +265,17 @@
       "entry_price": 212.501245,
       "exit_price": 212.532495,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-26T11:25:00+00:00",
+      "expires_at": "2026-09-26T11:30:00+00:00",
+      "entry_price": 212.564535,
+      "exit_price": 212.262485,
+      "outcome": "LOSS"
     }
   ],
   "completed_sessions": 0
