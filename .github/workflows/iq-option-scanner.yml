@@ -23,6 +23,8 @@ jobs:
       PYTHONPATH: .
       AUTO_SIGNAL_MIN_CONFIDENCE: "85"
       OTC_ONLY: "true"
+      SESSION_STAKE: "2.00"
+      SESSION_PAYOUT_PERCENT: "90"
       MAX_SCAN_ASSETS: "12"
     steps:
       - name: Checkout

@@ -16,6 +16,9 @@ EMAIL = os.environ["IQ_OPTION_EMAIL"].strip()
 PASSWORD = os.environ["IQ_OPTION_PASSWORD"]
 MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", "85"))
 MAX_ASSETS = int(os.getenv("MAX_SCAN_ASSETS", "12"))
+SESSION_SIZE = 100
+STAKE_PER_SIGNAL = float(os.getenv("SESSION_STAKE", "2.00"))
+PAYOUT_PERCENT = float(os.getenv("SESSION_PAYOUT_PERCENT", "90"))
 STATE_PATH = Path(os.getenv("SCANNER_STATE_PATH", "runtime_state.json"))
 BRASILIA = ZoneInfo("America/Sao_Paulo")
 
@@ -58,12 +61,17 @@ def candle_at_or_before(symbol: str, target: datetime) -> float:
 
 def load_state() -> dict:
     if not STATE_PATH.exists():
-        return {"pending": [], "settled": []}
+        return {"pending": [], "settled": [], "session_results": [], "completed_sessions": 0}
     try:
         data = json.loads(STATE_PATH.read_text())
-        return {"pending": list(data.get("pending", [])), "settled": list(data.get("settled", []))}
+        return {
+            "pending": list(data.get("pending", [])),
+            "settled": list(data.get("settled", [])),
+            "session_results": list(data.get("session_results", [])),
+            "completed_sessions": int(data.get("completed_sessions", 0)),
+        }
     except (OSError, ValueError, TypeError):
-        return {"pending": [], "settled": []}
+        return {"pending": [], "settled": [], "session_results": [], "completed_sessions": 0}
 
 
 def save_state(state: dict) -> None:
@@ -108,6 +116,37 @@ def format_result(item: dict, outcome: str) -> str:
     ])
 
 
+def format_session_summary(batch: list[dict]) -> str:
+    """Format the result of one completed 100-signal paper session."""
+    counts = {outcome: sum(1 for item in batch if item.get("outcome") == outcome) for outcome in ("WIN", "LOSS", "VOID")}
+    win_return = STAKE_PER_SIGNAL * (PAYOUT_PERCENT / 100)
+    estimated_profit = counts["WIN"] * win_return - counts["LOSS"] * STAKE_PER_SIGNAL
+    return "\n".join([
+        "📊 SESSÃO DE 100 SINAIS",
+        "",
+        "SESSÃO DE 100 SINAIS O RESULTADO É:",
+        f"{counts['WIN']} WIN",
+        f"{counts['LOSS']} LOSS",
+        f"{counts['VOID']} VOID",
+        "",
+        f"Entrada por sinal: R$ {STAKE_PER_SIGNAL:.2f}".replace(".", ","),
+        f"Payout médio considerado: {PAYOUT_PERCENT:.0f}%",
+        f"Lucro estimado: R$ {estimated_profit:.2f}".replace(".", ","),
+        "",
+        "Cálculo estimado, sem martingale e sem garantia de resultado futuro.",
+    ])
+
+
+def publish_completed_sessions(state: dict) -> None:
+    """Publish each complete 100-settlement batch exactly once."""
+    session_results = state.setdefault("session_results", [])
+    while len(session_results) >= SESSION_SIZE:
+        batch = session_results[:SESSION_SIZE]
+        telegram(format_session_summary(batch))
+        del session_results[:SESSION_SIZE]
+        state["completed_sessions"] = int(state.get("completed_sessions", 0)) + 1
+
+
 def settle_pending(state: dict) -> None:
     remaining = []
     for item in state["pending"]:
@@ -130,6 +169,7 @@ def settle_pending(state: dict) -> None:
             item["outcome"] = outcome
             state["settled"].append(item)
             telegram(format_result(item, outcome))
+            state.setdefault("session_results", []).append(item)
             print(f"RESULT {item['symbol']}={outcome}")
         except Exception as error:
             item["settlement_error"] = f"{type(error).__name__}: {str(error)[:160]}"
@@ -137,12 +177,15 @@ def settle_pending(state: dict) -> None:
             print(f"SETTLEMENT_ERROR {item['symbol']} {item['settlement_error']}")
     state["pending"] = remaining
     state["settled"] = state["settled"][-100:]
+    publish_completed_sessions(state)
 
 
 def main() -> None:
     if not EMAIL or not PASSWORD:
         raise RuntimeError("IQ Option credentials are missing")
     state = load_state()
+    state.setdefault("session_results", [])
+    state.setdefault("completed_sessions", 0)
     settle_pending(state)
     assets = available_signal_assets()
     if not assets:
