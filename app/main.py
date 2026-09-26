@@ -104,7 +104,7 @@ def signal_reply_markup() -> dict:
 
 
 def send_signal(signal: dict, chat_id: str | None = None) -> bool:
-    """Send the formatted signal without sticker messages."""
+    """Send the formatted signal with its affiliate button."""
     return send_message(format_signal(signal), chat_id, signal_reply_markup())
 
 
