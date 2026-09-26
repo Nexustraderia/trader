@@ -16,7 +16,7 @@ EMAIL = os.environ["IQ_OPTION_EMAIL"].strip()
 PASSWORD = os.environ["IQ_OPTION_PASSWORD"]
 MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", "85"))
 MAX_ASSETS = int(os.getenv("MAX_SCAN_ASSETS", "12"))
-SESSION_SIZE = 100
+SESSION_SIZE = 20
 STAKE_PER_SIGNAL = float(os.getenv("SESSION_STAKE", "2.00"))
 PAYOUT_PERCENT = float(os.getenv("SESSION_PAYOUT_PERCENT", "90"))
 STATE_PATH = Path(os.getenv("SCANNER_STATE_PATH", "runtime_state.json"))
@@ -117,24 +117,35 @@ def format_result(item: dict, outcome: str) -> str:
 
 
 def format_session_summary(batch: list[dict]) -> str:
-    """Format the result of one completed 100-signal paper session."""
+    """Format one attractive 20-signal scoreboard for Telegram."""
     counts = {outcome: sum(1 for item in batch if item.get("outcome") == outcome) for outcome in ("WIN", "LOSS", "VOID")}
     win_return = STAKE_PER_SIGNAL * (PAYOUT_PERCENT / 100)
     estimated_profit = counts["WIN"] * win_return - counts["LOSS"] * STAKE_PER_SIGNAL
-    return "\n".join([
-        "📊 SESSÃO DE 100 SINAIS",
+    result_icons = {"WIN": "💚", "LOSS": "❌", "VOID": "⚪"}
+    lines = [
+        "💥🤑 PLACAR NEXUS IA 🤑💥",
         "",
-        "SESSÃO DE 100 SINAIS O RESULTADO É:",
-        f"{counts['WIN']} WIN",
-        f"{counts['LOSS']} LOSS",
-        f"{counts['VOID']} VOID",
+        f"📊 Sessão de {len(batch)} sinais encerrada",
+        "━━━━━━━━━━━━━━━━━━",
         "",
-        f"Entrada por sinal: R$ {STAKE_PER_SIGNAL:.2f}".replace(".", ","),
-        f"Payout médio considerado: {PAYOUT_PERCENT:.0f}%",
-        f"Lucro estimado: R$ {estimated_profit:.2f}".replace(".", ","),
+    ]
+    for item in batch:
+        local = datetime.fromisoformat(item["entry_at"]).astimezone(BRASILIA)
+        symbol = item["symbol"].replace("/", "")
+        lines.append(f"{local.strftime('%H:%M')}  {symbol}  {item['direction']}  {result_icons.get(item.get('outcome'), '⚪')}")
+    decided = counts["WIN"] + counts["LOSS"]
+    accuracy = counts["WIN"] / decided * 100 if decided else 0
+    profit_label = f"R$ {estimated_profit:.2f}".replace(".", ",")
+    lines.extend([
         "",
-        "Cálculo estimado, sem martingale e sem garantia de resultado futuro.",
+        "━━━━━━━━━━━━━━━━━━",
+        f"✅ WIN: {counts['WIN']}   ❌ LOSS: {counts['LOSS']}   ⚪ VOID: {counts['VOID']}",
+        f"🎯 Assertividade: {accuracy:.2f}%",
+        f"💰 Estimativa: {profit_label}",
+        "",
+        f"Entrada: R$ {STAKE_PER_SIGNAL:.2f}".replace(".", ",") + f"  •  Payout: {PAYOUT_PERCENT:.0f}%",
     ])
+    return "\n".join(lines)
 
 
 def publish_completed_sessions(state: dict) -> None:
