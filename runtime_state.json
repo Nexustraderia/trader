@@ -1,4 +1,6 @@
 {
   "pending": [],
-  "settled": []
+  "settled": [],
+  "session_results": [],
+  "completed_sessions": 0
 }
