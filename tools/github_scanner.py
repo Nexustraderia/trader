@@ -207,9 +207,10 @@ def main() -> None:
             result = analyze_with_confirmation(symbol, m5, m15, h1, m1)
             eligible = (
                 bool(result.get("confluence_ok"))
-                and bool(result.get("rsi_entry_ok", True))
                 and result.get("confidence", 0) >= MIN_CONFIDENCE
-                and all(result.get(key) == result.get("decision") for key in ("m1_decision", "m15_decision", "h1_decision"))
+                and result.get("m1_decision") == result.get("decision")
+                and result.get("m15_decision") == result.get("decision")
+                and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
             )
             print(
                 f"{symbol}={result.get('decision')} confidence={result.get('confidence', 0)} "
