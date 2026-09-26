@@ -1,5 +1,15 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-26T19:55:00+00:00",
+      "expires_at": "2026-09-26T20:00:00+00:00",
+      "entry_price": 159.04645
+    }
+  ],
   "settled": [
     {
       "symbol": "GBP/JPY-OTC",
