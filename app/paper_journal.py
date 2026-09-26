@@ -56,6 +56,10 @@ def reset_history_if_requested() -> bool:
     if os.getenv("RESET_PAPER_HISTORY", "false").lower() != "true":
         return False
     reset_id = os.getenv("PAPER_HISTORY_RESET_ID", "initial")
+    # Render keeps existing environment values when a render.yaml is changed.
+    # Include this deployment epoch so the requested one-time reset is applied
+    # even when the service still has the previous reset ID configured.
+    reset_id = f"{reset_id}:nexus-branding-2026-09-26"
     with _connect() as connection:
         connection.execute(
             "CREATE TABLE IF NOT EXISTS paper_reset_markers (reset_id TEXT PRIMARY KEY, applied_at TEXT NOT NULL)"
