@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 from dotenv import load_dotenv
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 
 try:
     from .db import backend_name
@@ -384,36 +384,7 @@ def polling_loop() -> None:
 
 @app.get("/")
 def index():
-    return """<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#080d18"><title>NEXUS I.A TRADER</title>
-  <style>
-    :root{color-scheme:dark;--bg:#080d18;--panel:#111a2b;--line:#24324a;--muted:#91a0b8;--green:#39d98a;--red:#ff6677;--gold:#f8c65d}
-    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0,#162443 0,#080d18 45%);color:#f6f8fb;font:15px Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;min-height:100vh;padding-top:66px}
-    .promo{position:fixed;z-index:10;top:0;left:0;right:0;background:linear-gradient(90deg,#f1b84b,#ffd873,#f1b84b);color:#17120a;text-align:center;padding:13px 16px;font-size:13px;font-weight:900;letter-spacing:.02em;box-shadow:0 2px 18px #0008}.promo a{color:#17120a;text-decoration:underline;text-underline-offset:3px}.wrap{max-width:920px;margin:auto;padding:28px 16px 48px}.brand{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}.brand h1{font-size:22px;letter-spacing:.04em;margin:0}.brand p{color:var(--muted);margin:7px 0 0}.pulse{display:flex;align-items:center;gap:8px;color:var(--green);font-size:12px}.dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 14px var(--green)}
-    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}.stat,.card{background:rgba(17,26,43,.9);border:1px solid var(--line);border-radius:16px}.stat{padding:14px}.stat b{display:block;font-size:21px;margin-top:5px}.stat span{color:var(--muted);font-size:12px}.tabs{display:flex;gap:8px;margin-bottom:14px}.tab{border:1px solid var(--line);background:#0d1524;color:var(--muted);border-radius:10px;padding:11px 16px;cursor:pointer;font-weight:700}.tab.active{background:#1d3c58;color:#fff;border-color:#3b7aa0}.updated{color:var(--muted);font-size:12px;margin:0 0 12px}.list{display:grid;gap:10px}.card{padding:16px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.symbol{font-weight:800;font-size:17px}.meta{color:var(--muted);font-size:12px;margin-top:6px}.direction,.outcome{font-weight:900;letter-spacing:.05em;text-align:right}.call,.win{color:var(--green)}.put,.loss{color:var(--red)}.pending{color:var(--gold)}.empty{text-align:center;padding:38px 18px;color:var(--muted);border:1px dashed var(--line);border-radius:16px}.footer{color:var(--muted);font-size:12px;text-align:center;margin-top:28px}
-    @media(max-width:620px){.wrap{padding-top:20px}.brand{align-items:flex-start}.stats{grid-template-columns:repeat(2,1fr)}.card{padding:14px}.brand h1{font-size:19px}}
-  </style>
-</head>
-<body><div class="promo">NOSSAS ANÁLISES SÃO FEITAS PARA A CORRETORA IQ OPTION · <a href="https://affiliate.iqoption.net/redir/?aff=232843&aff_model=revenue&afftrack=" target="_blank" rel="noopener noreferrer">CLIQUE AQUI E CADASTRE-SE</a></div><main class="wrap">
-  <header class="brand"><div><h1>⚡ NEXUS I.A TRADER</h1><p>Análises em tempo real com Inteligência Artificial</p></div><div class="pulse"><i class="dot"></i><span id="online">ONLINE</span></div></header>
-  <section class="stats"><div class="stat"><span>Total</span><b id="total">—</b></div><div class="stat"><span>Wins</span><b class="call" id="wins">—</b></div><div class="stat"><span>Losses</span><b class="loss" id="losses">—</b></div><div class="stat"><span>Assertividade</span><b id="accuracy">—</b></div></section>
-  <nav class="tabs"><button class="tab active" data-tab="live">Sinais ao vivo</button><button class="tab" data-tab="results">Resultados</button></nav>
-  <p class="updated" id="updated">Atualizando...</p><section id="list" class="list"></section>
-  <p class="footer">Dados atualizados automaticamente · Sinais para acompanhamento na IQ OPTION</p>
-</main>
-<script>
-  let currentTab='live';
-  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const time=v=>v?new Date(v).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'—';
-  function card(s){const dir=s.direction==='CALL'?'call':'put';const state=s.outcome==='PENDENTE'?'pending':(s.outcome==='WIN'?'win':'loss');const label=s.outcome==='PENDENTE'?'AGUARDANDO':s.outcome;return `<article class="card"><div><div class="symbol">${esc(s.symbol)}</div><div class="meta">Entrada ${time(s.entry_at)} · Expiração ${esc(s.timeframe||'M5')} · ${s.outcome==='PENDENTE'?'Em andamento':'Finalizado'}</div></div><div><div class="direction ${dir}">${esc(s.direction)}</div><div class="outcome ${state}">${label}</div></div></article>`}
-  async function load(){try{const r=await fetch('/api/dashboard',{cache:'no-store'});if(!r.ok)throw Error();const d=await r.json();const st=d.statistics||{};document.querySelector('#total').textContent=st.total??0;document.querySelector('#wins').textContent=st.wins??0;document.querySelector('#losses').textContent=st.losses??0;document.querySelector('#accuracy').textContent=st.accuracy==null?'—':Number(st.accuracy).toFixed(1)+'%';document.querySelector('#online').textContent='ONLINE';const rows=currentTab==='live'?d.live:d.results;document.querySelector('#list').innerHTML=rows.length?rows.map(card).join(''):'<div class="empty">Nenhum registro disponível no momento.</div>';document.querySelector('#updated').textContent='Última atualização: '+new Date().toLocaleTimeString('pt-BR')}catch(e){document.querySelector('#online').textContent='INDISPONÍVEL';document.querySelector('#list').innerHTML='<div class="empty">Não foi possível atualizar os dados agora.</div>'}}
-  document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{currentTab=b.dataset.tab;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));load()});load();setInterval(load,15000);
-</script></body></html>"""
-
-
+    return render_template("dashboard.html")
 @app.get("/api/dashboard")
 def dashboard_data():
     """Public read-only view of the persistent journal for the web app."""
