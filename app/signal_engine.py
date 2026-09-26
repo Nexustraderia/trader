@@ -35,6 +35,14 @@ def volatility_metrics(values: list[float], period: int = 14) -> tuple[float, fl
     return (sum(changes) / len(changes) if changes else 0.0), latest
 
 
+def support_resistance_position(values: list[float], period: int = 20) -> float:
+    """Return the latest close's position inside the recent IQ candle range."""
+    window = values[-period:] if len(values) >= period else values
+    low, high = min(window), max(window)
+    span = high - low
+    return (values[-1] - low) / span if span else 0.5
+
+
 def macd(values: list[float]) -> tuple[float, float, float]:
     fast = ema(values, 12)
     slow = ema(values, 26)
@@ -83,6 +91,7 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
     trend = ema(closes, 50)
     momentum = rsi(closes)
     volatility_pct, latest_move_pct = volatility_metrics(closes)
+    range_position = support_resistance_position(closes)
     macd_line, macd_signal, macd_histogram = macd(closes)
     lower_band, middle_band, upper_band = bollinger(closes)
     recent = closes[-1]
@@ -152,6 +161,7 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         "bollinger_upper": upper_band,
         "volatility_pct": volatility_pct,
         "latest_move_pct": latest_move_pct,
+        "range_position": range_position,
         "reasons": reasons,
         "analyzed_at": datetime.now(timezone.utc).isoformat(),
         "source": "market data provider",
@@ -228,6 +238,10 @@ def analyze_with_confirmation(
         or (result["decision"] == "PUT" and result["price"] <= result["ema_trend"] and result["macd_histogram"] <= 0)
     )
     result["trend_momentum_ok"] = trend_momentum_ok
+    result["price_action_ok"] = (
+        (result["decision"] == "CALL" and result["range_position"] >= 0.55)
+        or (result["decision"] == "PUT" and result["range_position"] <= 0.45)
+    )
     result["confluence_ok"] = (
         result["decision"] in ("CALL", "PUT")
         and result["m15_decision"] == result["decision"]
@@ -239,6 +253,7 @@ def analyze_with_confirmation(
         and result["m1_confirmation_ok"]
         and volatility_ok
         and trend_momentum_ok
+        and result["price_action_ok"]
     )
     if not result["confluence_ok"]:
         result["reasons"].append("Confluência completa M5/M15/H1 não confirmada")
