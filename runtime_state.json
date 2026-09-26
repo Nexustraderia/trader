@@ -1,22 +1,13 @@
 {
   "pending": [
     {
-      "symbol": "EUR/JPY-OTC",
+      "symbol": "USD/JPY-OTC",
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-26T21:55:00+00:00",
-      "expires_at": "2026-09-26T22:00:00+00:00",
-      "entry_price": 180.896135
-    },
-    {
-      "symbol": "EUR/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "entry_at": "2026-09-26T22:00:00+00:00",
-      "expires_at": "2026-09-26T22:05:00+00:00",
-      "entry_price": 180.869645
+      "entry_at": "2026-09-26T22:10:00+00:00",
+      "expires_at": "2026-09-26T22:15:00+00:00",
+      "entry_price": 158.88055
     }
   ],
   "settled": [
@@ -74,6 +65,28 @@
       "entry_price": 180.681485,
       "exit_price": 180.887335,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-26T21:55:00+00:00",
+      "expires_at": "2026-09-26T22:00:00+00:00",
+      "entry_price": 180.896135,
+      "exit_price": 180.844405,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-26T22:00:00+00:00",
+      "expires_at": "2026-09-26T22:05:00+00:00",
+      "entry_price": 180.869645,
+      "exit_price": 180.831645,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -131,6 +144,28 @@
       "entry_price": 180.681485,
       "exit_price": 180.887335,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-26T21:55:00+00:00",
+      "expires_at": "2026-09-26T22:00:00+00:00",
+      "entry_price": 180.896135,
+      "exit_price": 180.844405,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-26T22:00:00+00:00",
+      "expires_at": "2026-09-26T22:05:00+00:00",
+      "entry_price": 180.869645,
+      "exit_price": 180.831645,
+      "outcome": "LOSS"
     }
   ],
   "completed_sessions": 0
