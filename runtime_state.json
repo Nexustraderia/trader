@@ -5,18 +5,9 @@
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-26T13:55:00+00:00",
-      "expires_at": "2026-09-26T14:00:00+00:00",
-      "entry_price": 158.76065
-    },
-    {
-      "symbol": "USD/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "entry_at": "2026-09-26T14:00:00+00:00",
-      "expires_at": "2026-09-26T14:05:00+00:00",
-      "entry_price": 158.75705
+      "entry_at": "2026-09-26T14:10:00+00:00",
+      "expires_at": "2026-09-26T14:15:00+00:00",
+      "entry_price": 158.78165
     }
   ],
   "settled": [
@@ -261,6 +252,28 @@
       "entry_price": 158.76945,
       "exit_price": 158.75595,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-26T13:55:00+00:00",
+      "expires_at": "2026-09-26T14:00:00+00:00",
+      "entry_price": 158.76065,
+      "exit_price": 158.67975,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-26T14:00:00+00:00",
+      "expires_at": "2026-09-26T14:05:00+00:00",
+      "entry_price": 158.75705,
+      "exit_price": 158.76965,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -285,6 +298,28 @@
       "entry_price": 158.76945,
       "exit_price": 158.75595,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-26T13:55:00+00:00",
+      "expires_at": "2026-09-26T14:00:00+00:00",
+      "entry_price": 158.76065,
+      "exit_price": 158.67975,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-26T14:00:00+00:00",
+      "expires_at": "2026-09-26T14:05:00+00:00",
+      "entry_price": 158.75705,
+      "exit_price": 158.76965,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 1
