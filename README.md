@@ -26,15 +26,13 @@ Quando `AUTO_INCLUDE_IQ_ASSETS=true`, um processo em segundo plano atualiza a ca
 
 A publicação automática usa `AUTO_SIGNALS_ENABLED=true`, varredura de 60 segundos, score mínimo 80/100, cooldown de 20 minutos por ativo e máximo de 6 registros por dia. Mesmo habilitada, ela publica somente `PAPER TRADING`; não existe integração com corretoras.
 
-Resultados liquidados como `WIN` e `LOSS` são enviados ao Telegram com as artes correspondentes em `app/assets/win.png` e `app/assets/loss.png`. A imagem e o texto são tratados como uma entrega única: se o envio da foto falhar, o resultado fica aguardando e é reenviado automaticamente.
+Resultados liquidados como `WIN`, `LOSS` e `VOID` são enviados ao Telegram somente em texto. Se o Telegram falhar, o resultado fica aguardando e é reenviado automaticamente.
 
 Cada sinal tem seu próprio `entry_at` e `expires_at`: o resultado só é calculado depois do fechamento da vela M5 de expiração daquele sinal. O loop de liquidação consulta os vencimentos periodicamente, mas não substitui o horário individual de cada entrada.
 
-O SQLite mantém o sinal e o resultado fechado até que o Telegram confirme o envio da imagem junto com o texto. Se o Render, a rede ou o Telegram falhar, a entrega permanece pendente e é tentada novamente nos ciclos seguintes, em vez de ser descartada. Para conservar o banco entre deploys, configure `PAPER_DB_PATH` para um volume persistente montado em `/var/data/signals.sqlite3`; sem armazenamento persistente, o plano gratuito pode recriar o filesystem e apagar o histórico.
+O SQLite mantém o sinal e o resultado fechado até que o Telegram confirme o envio do texto. Se o Render, a rede ou o Telegram falhar, a entrega permanece pendente e é tentada novamente nos ciclos seguintes, em vez de ser descartada. Para conservar o banco entre deploys, configure `PAPER_DB_PATH` para um volume persistente montado em `/var/data/signals.sqlite3`; sem armazenamento persistente, o plano gratuito pode recriar o filesystem e apagar o histórico.
 
 A página inicial executa uma verificação no endpoint `/health` a cada cinco minutos enquanto estiver aberta no navegador. Isso gera tráfego de entrada e pode reduzir o adormecimento por inatividade, mas não substitui um processo sempre ativo: se a página for fechada, o serviço poderá dormir conforme as regras do Render Free.
-
-Depois do primeiro envio de cada arte, o bot armazena o `file_id` fornecido pelo Telegram e reutiliza esse identificador. Assim, as mensagens seguintes enviam imagem e texto sem fazer upload repetido do arquivo pesado.
 
 ## Próximas etapas
 

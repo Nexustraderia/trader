@@ -11,13 +11,13 @@ try:
     from .db import backend_name
     from .iq_data import IQ_SYMBOLS, available_asset_modes, available_iq_assets, available_signal_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
     from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
-    from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, reset_history_if_requested, save_telegram_file_id, session_statistics, settle_pending, statistics
+    from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, reset_history_if_requested, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from db import backend_name
     from iq_data import IQ_SYMBOLS, available_asset_modes, available_iq_assets, available_signal_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
     from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
-    from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, get_telegram_file_id, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, reset_history_if_requested, save_telegram_file_id, session_statistics, settle_pending, statistics
+    from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, reset_history_if_requested, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
@@ -46,11 +46,6 @@ AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "3600"))
 AUTO_INCLUDE_IQ_ASSETS = os.getenv("AUTO_INCLUDE_IQ_ASSETS", "true").lower() == "true"
 AUTO_OTC_ONLY = os.getenv("AUTO_OTC_ONLY", "false").lower() == "true"
 AUTO_REQUIRE_FULL_ALIGNMENT = os.getenv("AUTO_REQUIRE_FULL_ALIGNMENT", "true").lower() == "true"
-RESULT_IMAGE_PATHS = {
-    "WIN": os.getenv("WIN_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "win.png")),
-    "LOSS": os.getenv("LOSS_IMAGE_PATH", os.path.join(os.path.dirname(__file__), "assets", "loss.png")),
-}
-
 state = {
     "started_at": datetime.now(timezone.utc).isoformat(),
     "last_update": None,
@@ -77,7 +72,6 @@ state = {
     "settled_count": 0,
     "settlement_error": None,
     "settlement_last_check": None,
-    "result_file_ids": {},
 }
 
 
@@ -109,45 +103,8 @@ def send_signal(signal: dict, chat_id: str | None = None) -> bool:
 
 
 def send_result(item: dict, chat_id: str | None = None) -> bool:
-    """Send the settlement caption with the matching WIN/LOSS artwork."""
-    outcome = item.get("outcome", "").upper()
-    image_path = RESULT_IMAGE_PATHS.get(outcome)
-    if not BOT_TOKEN or not image_path or not os.path.isfile(image_path):
-        state["settlement_error"] = f"imagem_{outcome.lower()}_ausente"
-        return False
-    for attempt in range(3):
-        try:
-            file_id = state["result_file_ids"].get(outcome) or get_telegram_file_id(outcome)
-            if file_id:
-                response = requests.post(
-                    telegram_url("sendPhoto"),
-                    json={"chat_id": chat_id or CHANNEL_ID, "photo": file_id, "caption": format_result(item)},
-                    timeout=30,
-                )
-            else:
-                with open(image_path, "rb") as image_file:
-                    response = requests.post(
-                        telegram_url("sendPhoto"),
-                        data={"chat_id": chat_id or CHANNEL_ID, "caption": format_result(item)},
-                        files={"photo": (os.path.basename(image_path), image_file, "image/png")},
-                        timeout=30,
-                    )
-            response.raise_for_status()
-            if not file_id:
-                result = response.json().get("result", {})
-                photos = result.get("photo", [])
-                if photos:
-                    file_id = photos[-1].get("file_id")
-                    state["result_file_ids"][outcome] = file_id
-                    if file_id:
-                        save_telegram_file_id(outcome, file_id)
-            state["last_message"] = datetime.now(timezone.utc).isoformat()
-            return True
-        except (OSError, requests.RequestException) as error:
-            state["settlement_error"] = type(error).__name__
-            if attempt < 2:
-                time.sleep(2)
-    return False
+    """Send only the text result; no image attachment is used."""
+    return send_message(format_result(item), chat_id)
 
 
 def build_analysis(symbol: str) -> tuple[dict, dict]:
