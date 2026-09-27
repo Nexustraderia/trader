@@ -1,22 +1,13 @@
 {
   "pending": [
     {
-      "symbol": "GBP/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "entry_at": "2026-09-27T11:40:00+00:00",
-      "expires_at": "2026-09-27T11:45:00+00:00",
-      "entry_price": 211.305105
-    },
-    {
       "symbol": "GBP/USD-OTC",
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-27T11:40:00+00:00",
-      "expires_at": "2026-09-27T11:45:00+00:00",
-      "entry_price": 1.296655
+      "entry_at": "2026-09-27T11:50:00+00:00",
+      "expires_at": "2026-09-27T11:55:00+00:00",
+      "entry_price": 1.297425
     }
   ],
   "settled": [
@@ -470,6 +461,28 @@
       "entry_price": 1.294825,
       "exit_price": 1.296535,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T11:40:00+00:00",
+      "expires_at": "2026-09-27T11:45:00+00:00",
+      "entry_price": 211.305105,
+      "exit_price": 211.247165,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T11:40:00+00:00",
+      "expires_at": "2026-09-27T11:45:00+00:00",
+      "entry_price": 1.296655,
+      "exit_price": 1.297395,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -482,6 +495,28 @@
       "expires_at": "2026-09-27T11:35:00+00:00",
       "entry_price": 1.294825,
       "exit_price": 1.296535,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T11:40:00+00:00",
+      "expires_at": "2026-09-27T11:45:00+00:00",
+      "entry_price": 211.305105,
+      "exit_price": 211.247165,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T11:40:00+00:00",
+      "expires_at": "2026-09-27T11:45:00+00:00",
+      "entry_price": 1.296655,
+      "exit_price": 1.297395,
       "outcome": "WIN"
     }
   ],
