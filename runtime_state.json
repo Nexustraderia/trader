@@ -5,9 +5,9 @@
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-27T17:30:00+00:00",
-      "expires_at": "2026-09-27T17:35:00+00:00",
-      "entry_price": 1.300865
+      "entry_at": "2026-09-27T17:40:00+00:00",
+      "expires_at": "2026-09-27T17:45:00+00:00",
+      "entry_price": 1.300785
     }
   ],
   "settled": [
@@ -813,6 +813,17 @@
       "entry_price": 158.45765,
       "exit_price": 158.32705,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T17:30:00+00:00",
+      "expires_at": "2026-09-27T17:35:00+00:00",
+      "entry_price": 1.300865,
+      "exit_price": 1.300815,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -957,6 +968,17 @@
       "expires_at": "2026-09-27T17:25:00+00:00",
       "entry_price": 158.45765,
       "exit_price": 158.32705,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T17:30:00+00:00",
+      "expires_at": "2026-09-27T17:35:00+00:00",
+      "entry_price": 1.300865,
+      "exit_price": 1.300815,
       "outcome": "LOSS"
     }
   ],
