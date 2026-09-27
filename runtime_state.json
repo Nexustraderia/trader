@@ -5,9 +5,9 @@
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-27T20:50:00+00:00",
-      "expires_at": "2026-09-27T20:55:00+00:00",
-      "entry_price": 158.41005
+      "entry_at": "2026-09-27T21:00:00+00:00",
+      "expires_at": "2026-09-27T21:05:00+00:00",
+      "entry_price": 158.51285
     }
   ],
   "settled": [
@@ -868,6 +868,17 @@
       "entry_price": 1.301305,
       "exit_price": 1.299275,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T20:50:00+00:00",
+      "expires_at": "2026-09-27T20:55:00+00:00",
+      "entry_price": 158.41005,
+      "exit_price": 158.50755,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1068,6 +1079,17 @@
       "entry_price": 1.301305,
       "exit_price": 1.299275,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T20:50:00+00:00",
+      "expires_at": "2026-09-27T20:55:00+00:00",
+      "entry_price": 158.41005,
+      "exit_price": 158.50755,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 3
