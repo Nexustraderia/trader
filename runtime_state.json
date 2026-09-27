@@ -5,18 +5,9 @@
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-27T17:50:00+00:00",
-      "expires_at": "2026-09-27T17:55:00+00:00",
-      "entry_price": 1.301045
-    },
-    {
-      "symbol": "GBP/USD-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "entry_at": "2026-09-27T17:55:00+00:00",
-      "expires_at": "2026-09-27T18:00:00+00:00",
-      "entry_price": 1.301615
+      "entry_at": "2026-09-27T18:05:00+00:00",
+      "expires_at": "2026-09-27T18:10:00+00:00",
+      "entry_price": 1.301305
     }
   ],
   "settled": [
@@ -844,6 +835,28 @@
       "entry_price": 1.300785,
       "exit_price": 1.301115,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T17:50:00+00:00",
+      "expires_at": "2026-09-27T17:55:00+00:00",
+      "entry_price": 1.301045,
+      "exit_price": 1.301745,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T17:55:00+00:00",
+      "expires_at": "2026-09-27T18:00:00+00:00",
+      "entry_price": 1.301615,
+      "exit_price": 1.301355,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1011,6 +1024,28 @@
       "entry_price": 1.300785,
       "exit_price": 1.301115,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T17:50:00+00:00",
+      "expires_at": "2026-09-27T17:55:00+00:00",
+      "entry_price": 1.301045,
+      "exit_price": 1.301745,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T17:55:00+00:00",
+      "expires_at": "2026-09-27T18:00:00+00:00",
+      "entry_price": 1.301615,
+      "exit_price": 1.301355,
+      "outcome": "LOSS"
     }
   ],
   "completed_sessions": 3
