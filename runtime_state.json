@@ -8,6 +8,15 @@
       "entry_at": "2026-09-27T17:50:00+00:00",
       "expires_at": "2026-09-27T17:55:00+00:00",
       "entry_price": 1.301045
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T17:55:00+00:00",
+      "expires_at": "2026-09-27T18:00:00+00:00",
+      "entry_price": 1.301615
     }
   ],
   "settled": [
