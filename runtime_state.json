@@ -5,9 +5,9 @@
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-27T08:25:00+00:00",
-      "expires_at": "2026-09-27T08:30:00+00:00",
-      "entry_price": 1.140335
+      "entry_at": "2026-09-27T08:35:00+00:00",
+      "expires_at": "2026-09-27T08:40:00+00:00",
+      "entry_price": 1.141325
     }
   ],
   "settled": [
@@ -307,6 +307,17 @@
       "entry_price": 181.204375,
       "exit_price": 181.010255,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T08:25:00+00:00",
+      "expires_at": "2026-09-27T08:30:00+00:00",
+      "entry_price": 1.140335,
+      "exit_price": 1.141215,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -386,6 +397,17 @@
       "entry_price": 181.204375,
       "exit_price": 181.010255,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T08:25:00+00:00",
+      "expires_at": "2026-09-27T08:30:00+00:00",
+      "entry_price": 1.140335,
+      "exit_price": 1.141215,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 1
