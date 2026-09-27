@@ -43,6 +43,55 @@ def support_resistance_position(values: list[float], period: int = 20) -> float:
     return (values[-1] - low) / span if span else 0.5
 
 
+def support_resistance_zones(candles: list[dict], lookback: int = 40) -> dict:
+    """Find nearby swing zones and the latest candle's rejection context.
+
+    OTC entries should be based on a reaction at a zone, not simply on the
+    close being high or low inside a recent range. The function uses only the
+    supplied IQ Option candles and remains deterministic for paper testing.
+    """
+    usable = candles[-lookback:]
+    if not usable or not all("high" in c and "low" in c for c in usable):
+        return {"available": False, "near_support": False, "near_resistance": False,
+                "bullish_rejection": False, "bearish_rejection": False,
+                "support_level": None, "resistance_level": None}
+    highs = [float(c["high"]) for c in usable]
+    lows = [float(c["low"]) for c in usable]
+    closes = [float(c["close"]) for c in usable]
+    ranges = [max(0.0, h - l) for h, l in zip(highs, lows)]
+    avg_range = sum(ranges[-14:]) / max(1, len(ranges[-14:]))
+    tolerance = max(avg_range * 0.35, abs(closes[-1]) * 0.00005)
+    swing_lows = [lows[i] for i in range(2, len(lows) - 2)
+                  if lows[i] <= min(lows[i - 2:i]) and lows[i] <= min(lows[i + 1:i + 3])]
+    swing_highs = [highs[i] for i in range(2, len(highs) - 2)
+                   if highs[i] >= max(highs[i - 2:i]) and highs[i] >= max(highs[i + 1:i + 3])]
+    close = closes[-1]
+    support = max((level for level in swing_lows if level <= close + tolerance), default=min(lows))
+    resistance = min((level for level in swing_highs if level >= close - tolerance), default=max(highs))
+    candle = usable[-1]
+    open_price = float(candle.get("open", close))
+    high = float(candle["high"])
+    low = float(candle["low"])
+    body = abs(close - open_price)
+    lower_wick = max(0.0, min(open_price, close) - low)
+    upper_wick = max(0.0, high - max(open_price, close))
+    near_support = abs(close - support) <= tolerance or abs(low - support) <= tolerance
+    near_resistance = abs(close - resistance) <= tolerance or abs(high - resistance) <= tolerance
+    bullish_rejection = near_support and close > open_price and lower_wick >= max(body * 1.2, tolerance * 0.25)
+    bearish_rejection = near_resistance and close < open_price and upper_wick >= max(body * 1.2, tolerance * 0.25)
+    return {
+        "available": True,
+        "support_level": support,
+        "resistance_level": resistance,
+        "support_touches": sum(abs(level - support) <= tolerance for level in swing_lows),
+        "resistance_touches": sum(abs(level - resistance) <= tolerance for level in swing_highs),
+        "near_support": near_support,
+        "near_resistance": near_resistance,
+        "bullish_rejection": bullish_rejection,
+        "bearish_rejection": bearish_rejection,
+    }
+
+
 def macd(values: list[float]) -> tuple[float, float, float]:
     fast = ema(values, 12)
     slow = ema(values, 26)
@@ -94,6 +143,7 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
     range_position = support_resistance_position(closes)
     macd_line, macd_signal, macd_histogram = macd(closes)
     lower_band, middle_band, upper_band = bollinger(closes)
+    zones = support_resistance_zones(candles)
     recent = closes[-1]
     score = 50
     reasons = []
@@ -162,6 +212,7 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         "volatility_pct": volatility_pct,
         "latest_move_pct": latest_move_pct,
         "range_position": range_position,
+        **zones,
         "reasons": reasons,
         "analyzed_at": datetime.now(timezone.utc).isoformat(),
         "source": "market data provider",
@@ -238,10 +289,18 @@ def analyze_with_confirmation(
         or (result["decision"] == "PUT" and result["price"] <= result["ema_trend"] and result["macd_histogram"] <= 0)
     )
     result["trend_momentum_ok"] = trend_momentum_ok
-    result["price_action_ok"] = (
-        (result["decision"] == "CALL" and result["range_position"] >= 0.55)
-        or (result["decision"] == "PUT" and result["range_position"] <= 0.45)
-    )
+    if result.get("zones_available", result.get("available", False)):
+        result["price_action_ok"] = (
+            (result["decision"] == "CALL" and result.get("bullish_rejection", False))
+            or (result["decision"] == "PUT" and result.get("bearish_rejection", False))
+        )
+    else:
+        # Keep synthetic close-only unit fixtures compatible. Real IQ Option
+        # candles include OHLC and therefore use the strict zone rule above.
+        result["price_action_ok"] = (
+            (result["decision"] == "CALL" and result["range_position"] >= 0.55)
+            or (result["decision"] == "PUT" and result["range_position"] <= 0.45)
+        )
     result["confluence_ok"] = (
         result["decision"] in ("CALL", "PUT")
         and result["m15_decision"] == result["decision"]
