@@ -1,31 +1,22 @@
 {
   "pending": [
     {
-      "symbol": "GBP/USD-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "entry_at": "2026-09-27T11:50:00+00:00",
-      "expires_at": "2026-09-27T11:55:00+00:00",
-      "entry_price": 1.297425
-    },
-    {
       "symbol": "GBP/JPY-OTC",
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-27T11:55:00+00:00",
-      "expires_at": "2026-09-27T12:00:00+00:00",
-      "entry_price": 211.448335
+      "entry_at": "2026-09-27T12:05:00+00:00",
+      "expires_at": "2026-09-27T12:10:00+00:00",
+      "entry_price": 211.441085
     },
     {
       "symbol": "GBP/USD-OTC",
       "direction": "CALL",
       "score": 100,
       "confidence": 95,
-      "entry_at": "2026-09-27T11:55:00+00:00",
-      "expires_at": "2026-09-27T12:00:00+00:00",
-      "entry_price": 1.297665
+      "entry_at": "2026-09-27T12:05:00+00:00",
+      "expires_at": "2026-09-27T12:10:00+00:00",
+      "entry_price": 1.298015
     }
   ],
   "settled": [
@@ -501,6 +492,39 @@
       "entry_price": 1.296655,
       "exit_price": 1.297395,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T11:50:00+00:00",
+      "expires_at": "2026-09-27T11:55:00+00:00",
+      "entry_price": 1.297425,
+      "exit_price": 1.298265,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T11:55:00+00:00",
+      "expires_at": "2026-09-27T12:00:00+00:00",
+      "entry_price": 211.448335,
+      "exit_price": 211.451365,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T11:55:00+00:00",
+      "expires_at": "2026-09-27T12:00:00+00:00",
+      "entry_price": 1.297665,
+      "exit_price": 1.297825,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -535,6 +559,39 @@
       "expires_at": "2026-09-27T11:45:00+00:00",
       "entry_price": 1.296655,
       "exit_price": 1.297395,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T11:50:00+00:00",
+      "expires_at": "2026-09-27T11:55:00+00:00",
+      "entry_price": 1.297425,
+      "exit_price": 1.298265,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T11:55:00+00:00",
+      "expires_at": "2026-09-27T12:00:00+00:00",
+      "entry_price": 211.448335,
+      "exit_price": 211.451365,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "entry_at": "2026-09-27T11:55:00+00:00",
+      "expires_at": "2026-09-27T12:00:00+00:00",
+      "entry_price": 1.297665,
+      "exit_price": 1.297825,
       "outcome": "WIN"
     }
   ],
