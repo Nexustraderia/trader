@@ -60,7 +60,9 @@ def support_resistance_zones(candles: list[dict], lookback: int = 40) -> dict:
     closes = [float(c["close"]) for c in usable]
     ranges = [max(0.0, h - l) for h, l in zip(highs, lows)]
     avg_range = sum(ranges[-14:]) / max(1, len(ranges[-14:]))
-    tolerance = max(avg_range * 0.35, abs(closes[-1]) * 0.00005)
+    # A zone is an area; an overly narrow tolerance was blocking every setup
+    # when the last IQ candle stopped just short of the swing price.
+    tolerance = max(avg_range * 0.50, abs(closes[-1]) * 0.00005)
     swing_lows = [lows[i] for i in range(2, len(lows) - 2)
                   if lows[i] <= min(lows[i - 2:i]) and lows[i] <= min(lows[i + 1:i + 3])]
     swing_highs = [highs[i] for i in range(2, len(highs) - 2)
@@ -79,6 +81,8 @@ def support_resistance_zones(candles: list[dict], lookback: int = 40) -> dict:
     near_resistance = abs(close - resistance) <= tolerance or abs(high - resistance) <= tolerance
     bullish_rejection = near_support and close > open_price and lower_wick >= max(body * 1.2, tolerance * 0.25)
     bearish_rejection = near_resistance and close < open_price and upper_wick >= max(body * 1.2, tolerance * 0.25)
+    bullish_reaction = near_support and close > open_price and body >= avg_range * 0.25
+    bearish_reaction = near_resistance and close < open_price and body >= avg_range * 0.25
     return {
         "available": True,
         "support_level": support,
@@ -89,6 +93,8 @@ def support_resistance_zones(candles: list[dict], lookback: int = 40) -> dict:
         "near_resistance": near_resistance,
         "bullish_rejection": bullish_rejection,
         "bearish_rejection": bearish_rejection,
+        "bullish_reaction": bullish_reaction,
+        "bearish_reaction": bearish_reaction,
     }
 
 
@@ -291,8 +297,8 @@ def analyze_with_confirmation(
     result["trend_momentum_ok"] = trend_momentum_ok
     if result.get("zones_available", result.get("available", False)):
         result["price_action_ok"] = (
-            (result["decision"] == "CALL" and result.get("bullish_rejection", False))
-            or (result["decision"] == "PUT" and result.get("bearish_rejection", False))
+            (result["decision"] == "CALL" and (result.get("bullish_rejection", False) or result.get("bullish_reaction", False)))
+            or (result["decision"] == "PUT" and (result.get("bearish_rejection", False) or result.get("bearish_reaction", False)))
         )
     else:
         # Keep synthetic close-only unit fixtures compatible. Real IQ Option
