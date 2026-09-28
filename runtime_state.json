@@ -1,13 +1,13 @@
 {
   "pending": [
     {
-      "symbol": "EUR/AUD",
-      "direction": "CALL",
-      "score": 100,
+      "symbol": "CAD/JPY",
+      "direction": "PUT",
+      "score": 20,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T23:25:00+00:00",
-      "expires_at": "2026-09-28T23:30:00+00:00",
+      "entry_at": "2026-09-28T23:35:00+00:00",
+      "expires_at": "2026-09-28T23:40:00+00:00",
       "entry_price": null
     },
     {
@@ -16,58 +16,12 @@
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T23:25:00+00:00",
-      "expires_at": "2026-09-28T23:30:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "NZD/JPY",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T23:25:00+00:00",
-      "expires_at": "2026-09-28T23:30:00+00:00",
+      "entry_at": "2026-09-28T23:35:00+00:00",
+      "expires_at": "2026-09-28T23:40:00+00:00",
       "entry_price": null
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/CAD",
-      "direction": "PUT",
-      "score": 25,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T15:00:00+00:00",
-      "expires_at": "2026-09-28T15:05:00+00:00",
-      "entry_price": 1.6098,
-      "exit_price": 1.609625,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "EUR/USD",
-      "direction": "PUT",
-      "score": 25,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T15:00:00+00:00",
-      "expires_at": "2026-09-28T15:05:00+00:00",
-      "entry_price": 1.13648,
-      "exit_price": 1.13626,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T15:00:00+00:00",
-      "expires_at": "2026-09-28T15:05:00+00:00",
-      "entry_price": 1.41653,
-      "exit_price": 1.41666,
-      "outcome": "WIN"
-    },
     {
       "symbol": "USD/CHF",
       "direction": "CALL",
@@ -1231,6 +1185,42 @@
       "entry_price": 1.417645,
       "exit_price": 1.41763,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T23:25:00+00:00",
+      "expires_at": "2026-09-28T23:30:00+00:00",
+      "entry_price": 1.620745,
+      "exit_price": 1.620775,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T23:25:00+00:00",
+      "expires_at": "2026-09-28T23:30:00+00:00",
+      "entry_price": 1.889015,
+      "exit_price": 1.88907,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "NZD/JPY",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T23:25:00+00:00",
+      "expires_at": "2026-09-28T23:30:00+00:00",
+      "entry_price": 89.171,
+      "exit_price": 89.1675,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1365,6 +1355,42 @@
       "entry_price": 1.417645,
       "exit_price": 1.41763,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T23:25:00+00:00",
+      "expires_at": "2026-09-28T23:30:00+00:00",
+      "entry_price": 1.620745,
+      "exit_price": 1.620775,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T23:25:00+00:00",
+      "expires_at": "2026-09-28T23:30:00+00:00",
+      "entry_price": 1.889015,
+      "exit_price": 1.88907,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "NZD/JPY",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T23:25:00+00:00",
+      "expires_at": "2026-09-28T23:30:00+00:00",
+      "entry_price": 89.171,
+      "exit_price": 89.1675,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 5
