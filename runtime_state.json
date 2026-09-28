@@ -29,6 +29,26 @@
       "entry_at": "2026-09-28T23:50:00+00:00",
       "expires_at": "2026-09-28T23:55:00+00:00",
       "entry_price": null
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T23:55:00+00:00",
+      "expires_at": "2026-09-29T00:00:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "CAD/JPY",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T23:55:00+00:00",
+      "expires_at": "2026-09-29T00:00:00+00:00",
+      "entry_price": null
     }
   ],
   "settled": [
