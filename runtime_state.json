@@ -3,11 +3,11 @@
     {
       "symbol": "AUD/USD",
       "direction": "PUT",
-      "score": 15,
-      "confidence": 50,
+      "score": 20,
+      "confidence": 85,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T15:30:00+00:00",
-      "expires_at": "2026-09-28T15:35:00+00:00",
+      "entry_at": "2026-09-28T15:45:00+00:00",
+      "expires_at": "2026-09-28T15:50:00+00:00",
       "entry_price": null
     }
   ],
@@ -196,6 +196,18 @@
       "entry_price": 189.2585,
       "exit_price": 189.305,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "PUT",
+      "score": 15,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T15:30:00+00:00",
+      "expires_at": "2026-09-28T15:35:00+00:00",
+      "entry_price": 0.701935,
+      "exit_price": 0.70177,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -382,6 +394,18 @@
       "expires_at": "2026-09-28T15:20:00+00:00",
       "entry_price": 189.2585,
       "exit_price": 189.305,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "PUT",
+      "score": 15,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T15:30:00+00:00",
+      "expires_at": "2026-09-28T15:35:00+00:00",
+      "entry_price": 0.701935,
+      "exit_price": 0.70177,
       "outcome": "WIN"
     }
   ],
