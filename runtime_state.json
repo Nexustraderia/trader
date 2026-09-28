@@ -1,33 +1,23 @@
 {
   "pending": [
     {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T22:05:00+00:00",
+      "expires_at": "2026-09-28T22:10:00+00:00",
+      "entry_price": null
+    },
+    {
       "symbol": "EUR/JPY",
       "direction": "CALL",
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T21:55:00+00:00",
-      "expires_at": "2026-09-28T22:00:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "GBP/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T21:55:00+00:00",
-      "expires_at": "2026-09-28T22:00:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "NZD/USD",
-      "direction": "PUT",
-      "score": 15,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T21:55:00+00:00",
-      "expires_at": "2026-09-28T22:00:00+00:00",
+      "entry_at": "2026-09-28T22:05:00+00:00",
+      "expires_at": "2026-09-28T22:10:00+00:00",
       "entry_price": null
     }
   ],
@@ -996,6 +986,42 @@
       "entry_price": 208.6475,
       "exit_price": 208.643,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T21:55:00+00:00",
+      "expires_at": "2026-09-28T22:00:00+00:00",
+      "entry_price": 178.974,
+      "exit_price": 178.9795,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T21:55:00+00:00",
+      "expires_at": "2026-09-28T22:00:00+00:00",
+      "entry_price": 208.6525,
+      "exit_price": 208.6515,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "PUT",
+      "score": 15,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T21:55:00+00:00",
+      "expires_at": "2026-09-28T22:00:00+00:00",
+      "entry_price": 0.5665,
+      "exit_price": 0.56668,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1009,6 +1035,42 @@
       "expires_at": "2026-09-28T21:50:00+00:00",
       "entry_price": 208.6475,
       "exit_price": 208.643,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T21:55:00+00:00",
+      "expires_at": "2026-09-28T22:00:00+00:00",
+      "entry_price": 178.974,
+      "exit_price": 178.9795,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T21:55:00+00:00",
+      "expires_at": "2026-09-28T22:00:00+00:00",
+      "entry_price": 208.6525,
+      "exit_price": 208.6515,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "PUT",
+      "score": 15,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T21:55:00+00:00",
+      "expires_at": "2026-09-28T22:00:00+00:00",
+      "entry_price": 0.5665,
+      "exit_price": 0.56668,
       "outcome": "LOSS"
     }
   ],
