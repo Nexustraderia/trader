@@ -1,23 +1,43 @@
 {
   "pending": [
     {
-      "symbol": "GBP/CHF",
-      "direction": "CALL",
-      "score": 100,
+      "symbol": "EUR/CAD",
+      "direction": "PUT",
+      "score": 25,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T14:40:00+00:00",
-      "expires_at": "2026-09-28T14:45:00+00:00",
+      "entry_at": "2026-09-28T15:00:00+00:00",
+      "expires_at": "2026-09-28T15:05:00+00:00",
       "entry_price": null
     },
     {
-      "symbol": "GBP/CHF",
+      "symbol": "EUR/USD",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T15:00:00+00:00",
+      "expires_at": "2026-09-28T15:05:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "USD/CAD",
       "direction": "CALL",
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T14:45:00+00:00",
-      "expires_at": "2026-09-28T14:50:00+00:00",
+      "entry_at": "2026-09-28T15:00:00+00:00",
+      "expires_at": "2026-09-28T15:05:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T15:00:00+00:00",
+      "expires_at": "2026-09-28T15:05:00+00:00",
       "entry_price": null
     }
   ],
@@ -122,6 +142,30 @@
       "entry_price": 0.567095,
       "exit_price": 0.56663,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T14:40:00+00:00",
+      "expires_at": "2026-09-28T14:45:00+00:00",
+      "entry_price": 1.103445,
+      "exit_price": 1.103225,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T14:45:00+00:00",
+      "expires_at": "2026-09-28T14:50:00+00:00",
+      "entry_price": 1.103235,
+      "exit_price": 1.103105,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -224,6 +268,30 @@
       "expires_at": "2026-09-28T13:05:00+00:00",
       "entry_price": 0.567095,
       "exit_price": 0.56663,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T14:40:00+00:00",
+      "expires_at": "2026-09-28T14:45:00+00:00",
+      "entry_price": 1.103445,
+      "exit_price": 1.103225,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T14:45:00+00:00",
+      "expires_at": "2026-09-28T14:50:00+00:00",
+      "entry_price": 1.103235,
+      "exit_price": 1.103105,
       "outcome": "LOSS"
     }
   ],
