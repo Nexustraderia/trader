@@ -1,26 +1,5 @@
 {
-  "pending": [
-    {
-      "symbol": "GBP/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "OTC_ZONE_CONFLUENCE",
-      "entry_at": "2026-09-28T12:55:00+00:00",
-      "expires_at": "2026-09-28T13:00:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "NZD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T13:00:00+00:00",
-      "expires_at": "2026-09-28T13:05:00+00:00",
-      "entry_price": null
-    }
-  ],
+  "pending": [],
   "settled": [
     {
       "symbol": "EUR/USD-OTC",
@@ -97,6 +76,30 @@
       "expires_at": "2026-09-28T12:25:00+00:00",
       "entry_price": 1.307385,
       "exit_price": 1.307195,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-09-28T12:55:00+00:00",
+      "expires_at": "2026-09-28T13:00:00+00:00",
+      "entry_price": 214.390525,
+      "exit_price": 214.488255,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T13:00:00+00:00",
+      "expires_at": "2026-09-28T13:05:00+00:00",
+      "entry_price": 0.567095,
+      "exit_price": 0.56663,
       "outcome": "LOSS"
     }
   ],
@@ -176,6 +179,30 @@
       "expires_at": "2026-09-28T12:25:00+00:00",
       "entry_price": 1.307385,
       "exit_price": 1.307195,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-09-28T12:55:00+00:00",
+      "expires_at": "2026-09-28T13:00:00+00:00",
+      "entry_price": 214.390525,
+      "exit_price": 214.488255,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T13:00:00+00:00",
+      "expires_at": "2026-09-28T13:05:00+00:00",
+      "entry_price": 0.567095,
+      "exit_price": 0.56663,
       "outcome": "LOSS"
     }
   ],
