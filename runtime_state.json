@@ -1,23 +1,13 @@
 {
   "pending": [
     {
-      "symbol": "CAD/JPY",
+      "symbol": "GBP/JPY",
       "direction": "CALL",
       "score": 100,
-      "confidence": 95,
+      "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T21:05:00+00:00",
-      "expires_at": "2026-09-28T21:10:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "CHF/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T21:05:00+00:00",
-      "expires_at": "2026-09-28T21:10:00+00:00",
+      "entry_at": "2026-09-28T21:20:00+00:00",
+      "expires_at": "2026-09-28T21:25:00+00:00",
       "entry_price": null
     }
   ],
@@ -938,6 +928,30 @@
       "entry_price": 0.8321,
       "exit_price": 0.83206,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "CAD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T21:05:00+00:00",
+      "expires_at": "2026-09-28T21:10:00+00:00",
+      "entry_price": 111.068,
+      "exit_price": 111.057,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T21:05:00+00:00",
+      "expires_at": "2026-09-28T21:10:00+00:00",
+      "entry_price": 189.223,
+      "exit_price": 189.2055,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1143,6 +1157,30 @@
       "expires_at": "2026-09-28T21:00:00+00:00",
       "entry_price": 0.8321,
       "exit_price": 0.83206,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "CAD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T21:05:00+00:00",
+      "expires_at": "2026-09-28T21:10:00+00:00",
+      "entry_price": 111.068,
+      "exit_price": 111.057,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T21:05:00+00:00",
+      "expires_at": "2026-09-28T21:10:00+00:00",
+      "entry_price": 189.223,
+      "exit_price": 189.2055,
       "outcome": "LOSS"
     }
   ],
