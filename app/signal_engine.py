@@ -322,6 +322,7 @@ def analyze_with_confirmation(
         or (result["decision"] == "PUT" and result["price"] <= result["ema_trend"] and result["macd_histogram"] <= 0)
     )
     result["trend_momentum_ok"] = trend_momentum_ok
+    result["regular_confidence"] = directional_confidence(result["decision"], result["score"])
     if result.get("zones_available", result.get("available", False)):
         result["price_action_ok"] = (
             (result["decision"] == "CALL" and (result.get("bullish_rejection", False) or result.get("bullish_reaction", False)))
@@ -346,6 +347,17 @@ def analyze_with_confirmation(
         and volatility_ok
         and trend_momentum_ok
         and result["price_action_ok"]
+    )
+    result["regular_trend_confluence_ok"] = (
+        result["decision"] in ("CALL", "PUT")
+        and result["m15_decision"] == result["decision"]
+        and result["h1_decision"] in (result["decision"], "AGUARDAR")
+        and result["m1_confirmation_ok"]
+        and result["volatility_ok"]
+        and result["trend_momentum_ok"]
+        and result["rsi_entry_ok"]
+        and result.get("adx", 0.0) >= 18
+        and result.get("regular_confidence", 0) >= 75
     )
     if not result["confluence_ok"]:
         result["reasons"].append("Confluência completa M5/M15/H1 não confirmada")

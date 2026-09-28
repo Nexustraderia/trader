@@ -233,21 +233,24 @@ def main() -> None:
             result = analyze_with_confirmation(symbol, m5, m15, h1, m1)
             is_regular = not symbol.endswith("-OTC")
             asset_min_confidence = 75 if is_regular else MIN_CONFIDENCE
+            effective_confidence = result.get("regular_confidence", 0) if is_regular else result.get("confidence", 0)
             # Regular pairs use the trend strategy: ADX confirms that the
-            # aligned M5/M15 setup is not merely a sideways fluctuation.
+            # aligned M5/M15 setup is not merely a sideways fluctuation;
+            # they do not need the OTC-specific support/resistance reaction.
             regular_trend_ok = not is_regular or result.get("adx", 0) >= 18
             eligible = (
-                bool(result.get("confluence_ok"))
-                and result.get("confidence", 0) >= asset_min_confidence
+                bool(result.get("regular_trend_confluence_ok")) if is_regular else bool(result.get("confluence_ok"))
+                and effective_confidence >= asset_min_confidence
                 and result.get("m1_decision") == result.get("decision")
                 and result.get("m15_decision") == result.get("decision")
                 and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
                 and regular_trend_ok
             )
             print(
-                f"{symbol}={result.get('decision')} confidence={result.get('confidence', 0)} "
+                f"{symbol}={result.get('decision')} confidence={effective_confidence} "
                 f"M1={result.get('m1_decision')} M15={result.get('m15_decision')} H1={result.get('h1_decision')} "
-                f"confidence_min={asset_min_confidence} adx={result.get('adx', 0):.1f} "
+                f"confidence_min={asset_min_confidence} regular_confidence={result.get('regular_confidence', 0)} "
+                f"adx={result.get('adx', 0):.1f} "
                 f"confluence={result.get('confluence_ok')} rsi={result.get('rsi_entry_ok')} eligible={eligible}"
             )
             key = (symbol, entry.isoformat())
