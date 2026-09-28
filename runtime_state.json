@@ -9,6 +9,16 @@
       "entry_at": "2026-09-28T14:40:00+00:00",
       "expires_at": "2026-09-28T14:45:00+00:00",
       "entry_price": null
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T14:45:00+00:00",
+      "expires_at": "2026-09-28T14:50:00+00:00",
+      "entry_price": null
     }
   ],
   "settled": [
