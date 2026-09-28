@@ -1,23 +1,23 @@
 {
   "pending": [
     {
-      "symbol": "EUR/CHF",
+      "symbol": "CAD/JPY",
       "direction": "CALL",
       "score": 100,
-      "confidence": 50,
+      "confidence": 95,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T20:55:00+00:00",
-      "expires_at": "2026-09-28T21:00:00+00:00",
+      "entry_at": "2026-09-28T21:05:00+00:00",
+      "expires_at": "2026-09-28T21:10:00+00:00",
       "entry_price": null
     },
     {
-      "symbol": "USD/CHF",
+      "symbol": "CHF/JPY",
       "direction": "CALL",
       "score": 100,
-      "confidence": 50,
+      "confidence": 95,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T20:55:00+00:00",
-      "expires_at": "2026-09-28T21:00:00+00:00",
+      "entry_at": "2026-09-28T21:05:00+00:00",
+      "expires_at": "2026-09-28T21:10:00+00:00",
       "entry_price": null
     }
   ],
@@ -914,6 +914,30 @@
       "entry_price": 0.946265,
       "exit_price": 0.94632,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T20:55:00+00:00",
+      "expires_at": "2026-09-28T21:00:00+00:00",
+      "entry_price": 0.946155,
+      "exit_price": 0.94613,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T20:55:00+00:00",
+      "expires_at": "2026-09-28T21:00:00+00:00",
+      "entry_price": 0.8321,
+      "exit_price": 0.83206,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1096,6 +1120,30 @@
       "entry_price": 0.946265,
       "exit_price": 0.94632,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T20:55:00+00:00",
+      "expires_at": "2026-09-28T21:00:00+00:00",
+      "entry_price": 0.946155,
+      "exit_price": 0.94613,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T20:55:00+00:00",
+      "expires_at": "2026-09-28T21:00:00+00:00",
+      "entry_price": 0.8321,
+      "exit_price": 0.83206,
+      "outcome": "LOSS"
     }
   ],
   "completed_sessions": 3
