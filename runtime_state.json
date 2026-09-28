@@ -1,13 +1,43 @@
 {
   "pending": [
     {
-      "symbol": "EUR/USD-OTC",
+      "symbol": "AUD/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T19:45:00+00:00",
+      "expires_at": "2026-09-28T19:50:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "GBP/AUD",
       "direction": "CALL",
       "score": 100,
-      "confidence": 95,
-      "strategy": "OTC_ZONE_CONFLUENCE",
-      "entry_at": "2026-09-28T19:30:00+00:00",
-      "expires_at": "2026-09-28T19:35:00+00:00",
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T19:45:00+00:00",
+      "expires_at": "2026-09-28T19:50:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T19:45:00+00:00",
+      "expires_at": "2026-09-28T19:50:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T19:45:00+00:00",
+      "expires_at": "2026-09-28T19:50:00+00:00",
       "entry_price": null
     }
   ],
@@ -700,6 +730,18 @@
       "entry_price": 0.83192,
       "exit_price": 0.83194,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-09-28T19:30:00+00:00",
+      "expires_at": "2026-09-28T19:35:00+00:00",
+      "entry_price": 1.150035,
+      "exit_price": 1.150535,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -917,6 +959,18 @@
       "expires_at": "2026-09-28T19:05:00+00:00",
       "entry_price": 0.83192,
       "exit_price": 0.83194,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-09-28T19:30:00+00:00",
+      "expires_at": "2026-09-28T19:35:00+00:00",
+      "entry_price": 1.150035,
+      "exit_price": 1.150535,
       "outcome": "WIN"
     }
   ],
