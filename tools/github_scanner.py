@@ -16,6 +16,7 @@ EMAIL = os.environ["IQ_OPTION_EMAIL"].strip()
 PASSWORD = os.environ["IQ_OPTION_PASSWORD"]
 MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", "85"))
 MAX_ASSETS = int(os.getenv("MAX_SCAN_ASSETS", "12"))
+OTC_ONLY = os.getenv("OTC_ONLY", "false").lower() == "true"
 SESSION_SIZE = 20
 STAKE_PER_SIGNAL = float(os.getenv("SESSION_STAKE", "2.00"))
 PAYOUT_PERCENT = float(os.getenv("SESSION_PAYOUT_PERCENT", "90"))
@@ -211,7 +212,11 @@ def main() -> None:
     assets = available_signal_assets()
     if not assets:
         raise RuntimeError("IQ Option returned no open candle assets")
-    assets = sorted(symbol for symbol in assets if symbol.endswith("-OTC"))[:MAX_ASSETS]
+    # IQ Option remains the sole source. When OTC_ONLY is disabled, include
+    # every asset the IQ catalog confirms as open, including regular pairs.
+    if OTC_ONLY:
+        assets = [symbol for symbol in assets if symbol.endswith("-OTC")]
+    assets = sorted(assets)[:MAX_ASSETS]
     print(f"IQ_OPEN_ASSETS={len(assets)}")
     entry = next_entry()
     sent = 0

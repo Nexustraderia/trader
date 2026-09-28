@@ -22,7 +22,7 @@ jobs:
       TELEGRAM_CHANNEL_ID: "@NexusTraderIA"
       PYTHONPATH: .
       AUTO_SIGNAL_MIN_CONFIDENCE: "85"
-      OTC_ONLY: "true"
+      OTC_ONLY: "false"
       SESSION_STAKE: "2.00"
       SESSION_PAYOUT_PERCENT: "90"
       MAX_SCAN_ASSETS: "12"
