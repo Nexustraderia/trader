@@ -25,7 +25,7 @@ jobs:
       OTC_ONLY: "false"
       SESSION_STAKE: "2.00"
       SESSION_PAYOUT_PERCENT: "90"
-      MAX_SCAN_ASSETS: "12"
+      MAX_SCAN_ASSETS: "24"
     steps:
       - name: Checkout
         uses: actions/checkout@v4

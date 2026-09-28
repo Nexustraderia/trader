@@ -25,6 +25,13 @@ IQ_SYMBOLS = {
 }
 INTERVAL_SECONDS = {"1m": 60, "5m": 300, "15m": 900, "1h": 3600}
 OTC_BASES = ("EURUSD", "EURJPY", "USDJPY", "GBPUSD", "GBPJPY", "AUDUSD", "USDCAD")
+# Candidates only; an asset enters the scan universe only after IQ Option
+# returns candles for it. No external catalog or fallback is used.
+REGULAR_BASES = (
+    "NZDUSD", "USDCHF", "EURGBP", "AUDJPY", "CADJPY", "CHFJPY",
+    "EURAUD", "GBPAUD", "EURCAD", "GBPCAD", "NZDJPY", "AUDCAD",
+    "EURCHF", "GBPCHF",
+)
 
 _client = None
 _client_lock = threading.Lock()
@@ -155,7 +162,7 @@ def available_iq_assets() -> set[str]:
     now = time.time()
     if _asset_cache and now - _asset_cache_at < 300:
         return set(_asset_cache)
-    candidates = list(IQ_SYMBOLS.values()) + [f"{base}-OTC" for base in OTC_BASES]
+    candidates = list(IQ_SYMBOLS.values()) + list(REGULAR_BASES) + [f"{base}-OTC" for base in OTC_BASES]
     candidates = sorted(set(candidates))
 
     async def probe_all():
