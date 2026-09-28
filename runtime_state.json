@@ -1,5 +1,16 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T21:45:00+00:00",
+      "expires_at": "2026-09-28T21:50:00+00:00",
+      "entry_price": null
+    }
+  ],
   "settled": [
     {
       "symbol": "EUR/USD-OTC",
