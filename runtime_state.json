@@ -49,6 +49,46 @@
       "entry_at": "2026-09-28T17:00:00+00:00",
       "expires_at": "2026-09-28T17:05:00+00:00",
       "entry_price": null
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:05:00+00:00",
+      "expires_at": "2026-09-28T17:10:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:05:00+00:00",
+      "expires_at": "2026-09-28T17:10:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:05:00+00:00",
+      "expires_at": "2026-09-28T17:10:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "GBP/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:05:00+00:00",
+      "expires_at": "2026-09-28T17:10:00+00:00",
+      "entry_price": null
     }
   ],
   "settled": [
