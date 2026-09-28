@@ -231,16 +231,23 @@ def main() -> None:
                 print(f"{symbol}=SKIP_STALE")
                 continue
             result = analyze_with_confirmation(symbol, m5, m15, h1, m1)
+            is_regular = not symbol.endswith("-OTC")
+            asset_min_confidence = 75 if is_regular else MIN_CONFIDENCE
+            # Regular pairs use the trend strategy: ADX confirms that the
+            # aligned M5/M15 setup is not merely a sideways fluctuation.
+            regular_trend_ok = not is_regular or all(result.get(key, 0) >= 18 for key in ("adx", "m15_adx", "h1_adx"))
             eligible = (
                 bool(result.get("confluence_ok"))
-                and result.get("confidence", 0) >= MIN_CONFIDENCE
+                and result.get("confidence", 0) >= asset_min_confidence
                 and result.get("m1_decision") == result.get("decision")
                 and result.get("m15_decision") == result.get("decision")
                 and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
+                and regular_trend_ok
             )
             print(
                 f"{symbol}={result.get('decision')} confidence={result.get('confidence', 0)} "
                 f"M1={result.get('m1_decision')} M15={result.get('m15_decision')} H1={result.get('h1_decision')} "
+                f"confidence_min={asset_min_confidence} adx={result.get('adx', 0):.1f} "
                 f"confluence={result.get('confluence_ok')} rsi={result.get('rsi_entry_ok')} eligible={eligible}"
             )
             key = (symbol, entry.isoformat())
@@ -250,6 +257,7 @@ def main() -> None:
                     "direction": result["decision"],
                     "score": int(result["score"]),
                     "confidence": int(result.get("confidence", 0)),
+                    "strategy": "REGULAR_TREND_ADX" if is_regular else "OTC_ZONE_CONFLUENCE",
                     "entry_at": entry.isoformat(),
                     "expires_at": (entry + timedelta(minutes=5)).isoformat(),
                     # The price is captured from the exact M5 candle at entry,

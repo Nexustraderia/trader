@@ -117,6 +117,29 @@ def bollinger(values: list[float], period: int = 20) -> tuple[float, float, floa
     return middle - 2 * deviation, middle, middle + 2 * deviation
 
 
+def adx(candles: list[dict], period: int = 14) -> float:
+    """Calculate a compact Wilder-style ADX from the supplied IQ candles."""
+    if len(candles) < period + 2 or not all("high" in c and "low" in c for c in candles[-(period + 2):]):
+        return 0.0
+    rows = candles[-(period + 1):]
+    trs, plus_dm, minus_dm = [], [], []
+    for previous, current in zip(rows, rows[1:]):
+        high, low = float(current["high"]), float(current["low"])
+        prev_high, prev_low = float(previous["high"]), float(previous["low"])
+        prev_close = float(previous["close"])
+        trs.append(max(high - low, abs(high - prev_close), abs(low - prev_close)))
+        up, down = high - prev_high, prev_low - low
+        plus_dm.append(up if up > down and up > 0 else 0.0)
+        minus_dm.append(down if down > up and down > 0 else 0.0)
+    atr = sum(trs) / len(trs)
+    if atr <= 0:
+        return 0.0
+    plus_di = 100 * (sum(plus_dm) / len(plus_dm)) / atr
+    minus_di = 100 * (sum(minus_dm) / len(minus_dm)) / atr
+    denominator = plus_di + minus_di
+    return 100 * abs(plus_di - minus_di) / denominator if denominator else 0.0
+
+
 def directional_confidence(decision: str, score: int | float) -> int:
     """Convert the legacy directional score into confidence for either side.
 
@@ -149,6 +172,7 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
     range_position = support_resistance_position(closes)
     macd_line, macd_signal, macd_histogram = macd(closes)
     lower_band, middle_band, upper_band = bollinger(closes)
+    trend_strength = adx(candles)
     zones = support_resistance_zones(candles)
     recent = closes[-1]
     score = 50
@@ -212,6 +236,7 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         "macd": macd_line,
         "macd_signal": macd_signal,
         "macd_histogram": macd_histogram,
+        "adx": trend_strength,
         "bollinger_lower": lower_band,
         "bollinger_middle": middle_band,
         "bollinger_upper": upper_band,
@@ -239,9 +264,11 @@ def analyze_with_confirmation(
     confirmation = analyze(symbol, m15_candles)
     result["m15_decision"] = confirmation["decision"]
     result["m15_score"] = confirmation["score"]
+    result["m15_adx"] = confirmation.get("adx", 0.0)
     context = analyze(symbol, h1_candles) if h1_candles else None
     trigger = analyze(symbol, m1_candles) if m1_candles else None
     result["h1_decision"] = context["decision"] if context else "indisponível"
+    result["h1_adx"] = context.get("adx", 0.0) if context else 0.0
     result["m1_decision"] = trigger["decision"] if trigger else "indisponível"
     result["m1_confirmation_ok"] = True
     volatility_ok = result.get("volatility_pct", 0.0) >= 0.003 and result.get("latest_move_pct", 0.0) <= 1.00
