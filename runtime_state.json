@@ -6,8 +6,8 @@
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:00:00+00:00",
-      "expires_at": "2026-09-28T17:05:00+00:00",
+      "entry_at": "2026-09-28T17:25:00+00:00",
+      "expires_at": "2026-09-28T17:30:00+00:00",
       "entry_price": null
     },
     {
@@ -16,28 +16,8 @@
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:00:00+00:00",
-      "expires_at": "2026-09-28T17:05:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "EUR/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:00:00+00:00",
-      "expires_at": "2026-09-28T17:05:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "GBP/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:00:00+00:00",
-      "expires_at": "2026-09-28T17:05:00+00:00",
+      "entry_at": "2026-09-28T17:25:00+00:00",
+      "expires_at": "2026-09-28T17:30:00+00:00",
       "entry_price": null
     },
     {
@@ -46,48 +26,18 @@
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:00:00+00:00",
-      "expires_at": "2026-09-28T17:05:00+00:00",
+      "entry_at": "2026-09-28T17:25:00+00:00",
+      "expires_at": "2026-09-28T17:30:00+00:00",
       "entry_price": null
     },
     {
-      "symbol": "EUR/CHF",
+      "symbol": "NZD/USD",
       "direction": "CALL",
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:05:00+00:00",
-      "expires_at": "2026-09-28T17:10:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "GBP/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:05:00+00:00",
-      "expires_at": "2026-09-28T17:10:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "GBP/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:05:00+00:00",
-      "expires_at": "2026-09-28T17:10:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "GBP/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:05:00+00:00",
-      "expires_at": "2026-09-28T17:10:00+00:00",
+      "entry_at": "2026-09-28T17:25:00+00:00",
+      "expires_at": "2026-09-28T17:30:00+00:00",
       "entry_price": null
     }
   ],
@@ -456,56 +406,6 @@
       "entry_price": 0.567405,
       "exit_price": 0.567245,
       "outcome": "LOSS"
-    }
-  ],
-  "session_results": [
-    {
-      "symbol": "AUD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T16:15:00+00:00",
-      "expires_at": "2026-09-28T16:20:00+00:00",
-      "entry_price": 0.99448,
-      "exit_price": 0.995045,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "NZD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T16:15:00+00:00",
-      "expires_at": "2026-09-28T16:20:00+00:00",
-      "entry_price": 0.566555,
-      "exit_price": 0.56695,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T16:15:00+00:00",
-      "expires_at": "2026-09-28T16:20:00+00:00",
-      "entry_price": 1.41737,
-      "exit_price": 1.417435,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "GBP/AUD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 85,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T16:30:00+00:00",
-      "expires_at": "2026-09-28T16:35:00+00:00",
-      "entry_price": 1.886685,
-      "exit_price": 1.88732,
-      "outcome": "LOSS"
     },
     {
       "symbol": "AUD/CAD",
@@ -513,10 +413,10 @@
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T16:45:00+00:00",
-      "expires_at": "2026-09-28T16:50:00+00:00",
-      "entry_price": 0.99512,
-      "exit_price": 0.994915,
+      "entry_at": "2026-09-28T17:00:00+00:00",
+      "expires_at": "2026-09-28T17:05:00+00:00",
+      "entry_price": 0.995225,
+      "exit_price": 0.994775,
       "outcome": "LOSS"
     },
     {
@@ -525,22 +425,58 @@
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T16:45:00+00:00",
-      "expires_at": "2026-09-28T16:50:00+00:00",
-      "entry_price": 0.70242,
-      "exit_price": 0.70227,
+      "entry_at": "2026-09-28T17:00:00+00:00",
+      "expires_at": "2026-09-28T17:05:00+00:00",
+      "entry_price": 0.702465,
+      "exit_price": 0.702155,
       "outcome": "LOSS"
     },
     {
-      "symbol": "EUR/CAD",
+      "symbol": "EUR/CHF",
       "direction": "CALL",
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T16:45:00+00:00",
-      "expires_at": "2026-09-28T16:50:00+00:00",
-      "entry_price": 1.611635,
-      "exit_price": 1.611455,
+      "entry_at": "2026-09-28T17:00:00+00:00",
+      "expires_at": "2026-09-28T17:05:00+00:00",
+      "entry_price": 0.94589,
+      "exit_price": 0.94603,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:00:00+00:00",
+      "expires_at": "2026-09-28T17:05:00+00:00",
+      "entry_price": 1.87934,
+      "exit_price": 1.879195,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:00:00+00:00",
+      "expires_at": "2026-09-28T17:05:00+00:00",
+      "entry_price": 1.326445,
+      "exit_price": 1.326365,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:05:00+00:00",
+      "expires_at": "2026-09-28T17:10:00+00:00",
+      "entry_price": 0.946025,
+      "exit_price": 0.945965,
       "outcome": "LOSS"
     },
     {
@@ -549,10 +485,10 @@
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T16:45:00+00:00",
-      "expires_at": "2026-09-28T16:50:00+00:00",
-      "entry_price": 1.879065,
-      "exit_price": 1.878885,
+      "entry_at": "2026-09-28T17:05:00+00:00",
+      "expires_at": "2026-09-28T17:10:00+00:00",
+      "entry_price": 1.87919,
+      "exit_price": 1.878915,
       "outcome": "LOSS"
     },
     {
@@ -561,11 +497,11 @@
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T16:45:00+00:00",
-      "expires_at": "2026-09-28T16:50:00+00:00",
-      "entry_price": 1.10296,
-      "exit_price": 1.103125,
-      "outcome": "WIN"
+      "entry_at": "2026-09-28T17:05:00+00:00",
+      "expires_at": "2026-09-28T17:10:00+00:00",
+      "entry_price": 1.103545,
+      "exit_price": 1.10336,
+      "outcome": "LOSS"
     },
     {
       "symbol": "GBP/USD",
@@ -573,24 +509,13 @@
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T16:45:00+00:00",
-      "expires_at": "2026-09-28T16:50:00+00:00",
-      "entry_price": 1.32633,
-      "exit_price": 1.326195,
-      "outcome": "LOSS"
-    },
-    {
-      "symbol": "NZD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T16:45:00+00:00",
-      "expires_at": "2026-09-28T16:50:00+00:00",
-      "entry_price": 0.567405,
-      "exit_price": 0.567245,
+      "entry_at": "2026-09-28T17:05:00+00:00",
+      "expires_at": "2026-09-28T17:10:00+00:00",
+      "entry_price": 1.32636,
+      "exit_price": 1.326255,
       "outcome": "LOSS"
     }
   ],
-  "completed_sessions": 1
+  "session_results": [],
+  "completed_sessions": 2
 }
