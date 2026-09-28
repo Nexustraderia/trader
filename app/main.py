@@ -232,16 +232,25 @@ def price_lookup(symbol: str) -> float:
 
 
 def price_lookup_at(symbol: str, iso_timestamp: str) -> float:
-    """Read the close of the M5 candle at or before a scheduled UTC timestamp."""
+    """Read the close of the M5 candle that ends at the scheduled expiry."""
+    # A signal entered at 03:30 expires at 03:35; the result is the close of
+    # the candle that started at 03:30, not the opening price of 03:35.
+    target = datetime.fromisoformat(iso_timestamp).timestamp() - 5 * 60
+    candles = fetch_candles(symbol, interval="5m", range_="2d", count=600)
+    exact = [candle for candle in candles if candle.get("timestamp") is not None and float(candle["timestamp"]) == target]
+    if not exact:
+        raise ValueError("candle histórica indisponível")
+    return float(exact[-1]["close"])
+
+
+def open_price_lookup_at(symbol: str, iso_timestamp: str) -> float:
+    """Return the open of the exact IQ Option M5 candle at entry time."""
     target = datetime.fromisoformat(iso_timestamp).timestamp()
     candles = fetch_candles(symbol, interval="5m", range_="2d", count=600)
-    eligible = [candle for candle in candles if candle.get("timestamp") is not None and float(candle["timestamp"]) <= target]
-    if not eligible:
-        raise ValueError("candle histórica indisponível")
-    candle = eligible[-1]
-    if target - float(candle["timestamp"]) > 10 * 60:
-        raise ValueError("candle histórica atrasada")
-    return float(candle["close"])
+    exact = [candle for candle in candles if float(candle.get("timestamp", -1)) == target]
+    if not exact:
+        raise ValueError("vela M5 exata de entrada indisponível")
+    return float(exact[-1]["open"])
 
 
 def settlement_loop() -> None:
@@ -250,7 +259,7 @@ def settlement_loop() -> None:
     while True:
         try:
             state["settlement_last_check"] = datetime.now(timezone.utc).isoformat()
-            capture_entry_prices(price_lookup_at)
+            capture_entry_prices(open_price_lookup_at)
             settled = settle_pending(price_lookup, price_lookup_at)
             delivered = 0
             for item in pending_result_deliveries():

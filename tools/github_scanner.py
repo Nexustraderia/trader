@@ -59,6 +59,15 @@ def candle_at_or_before(symbol: str, target: datetime) -> float:
     return float(candle["close"])
 
 
+def candle_at(symbol: str, target: datetime) -> dict:
+    """Return the exact IQ Option M5 candle whose interval starts at target."""
+    candles = fetch_iq_candles(symbol, "5m", 600)
+    exact = [c for c in candles if float(c.get("timestamp", -1)) == target.timestamp()]
+    if not exact:
+        raise RuntimeError(f"No exact IQ M5 candle at {target.isoformat()}")
+    return exact[-1]
+
+
 def load_state() -> dict:
     if not STATE_PATH.exists():
         return {"pending": [], "settled": [], "session_results": [], "completed_sessions": 0}
@@ -166,9 +175,10 @@ def settle_pending(state: dict) -> None:
             remaining.append(item)
             continue
         try:
-            if item.get("entry_price") is None:
-                item["entry_price"] = candle_at_or_before(item["symbol"], datetime.fromisoformat(item["entry_at"]))
-            exit_price = candle_at_or_before(item["symbol"], expiry)
+            entry_candle = candle_at(item["symbol"], datetime.fromisoformat(item["entry_at"]))
+            item["entry_price"] = float(entry_candle["open"])
+            exit_candle = candle_at(item["symbol"], expiry - timedelta(minutes=5))
+            exit_price = float(exit_candle["close"])
             entry_price = float(item["entry_price"])
             if exit_price == entry_price:
                 outcome = "VOID"
@@ -237,7 +247,9 @@ def main() -> None:
                     "confidence": int(result.get("confidence", 0)),
                     "entry_at": entry.isoformat(),
                     "expires_at": (entry + timedelta(minutes=5)).isoformat(),
-                    "entry_price": float(result["price"]),
+                    # The price is captured from the exact M5 candle at entry,
+                    # not from the earlier analysis candle.
+                    "entry_price": None,
                 }
                 telegram(
                     format_signal(result, entry),
