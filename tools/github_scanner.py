@@ -235,7 +235,7 @@ def main() -> None:
             asset_min_confidence = 75 if is_regular else MIN_CONFIDENCE
             # Regular pairs use the trend strategy: ADX confirms that the
             # aligned M5/M15 setup is not merely a sideways fluctuation.
-            regular_trend_ok = not is_regular or all(result.get(key, 0) >= 18 for key in ("adx", "m15_adx", "h1_adx"))
+            regular_trend_ok = not is_regular or result.get("adx", 0) >= 18
             eligible = (
                 bool(result.get("confluence_ok"))
                 and result.get("confidence", 0) >= asset_min_confidence
