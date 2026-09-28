@@ -1,43 +1,13 @@
 {
   "pending": [
     {
-      "symbol": "AUD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:25:00+00:00",
-      "expires_at": "2026-09-28T17:30:00+00:00",
-      "entry_price": null
-    },
-    {
       "symbol": "AUD/USD",
       "direction": "CALL",
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:25:00+00:00",
-      "expires_at": "2026-09-28T17:30:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "GBP/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:25:00+00:00",
-      "expires_at": "2026-09-28T17:30:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "NZD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:25:00+00:00",
-      "expires_at": "2026-09-28T17:30:00+00:00",
+      "entry_at": "2026-09-28T17:35:00+00:00",
+      "expires_at": "2026-09-28T17:40:00+00:00",
       "entry_price": null
     }
   ],
@@ -514,8 +484,105 @@
       "entry_price": 1.32636,
       "exit_price": 1.326255,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "AUD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:25:00+00:00",
+      "expires_at": "2026-09-28T17:30:00+00:00",
+      "entry_price": 0.995665,
+      "exit_price": 0.99539,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:25:00+00:00",
+      "expires_at": "2026-09-28T17:30:00+00:00",
+      "entry_price": 0.7029,
+      "exit_price": 0.702865,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:25:00+00:00",
+      "expires_at": "2026-09-28T17:30:00+00:00",
+      "entry_price": 1.326675,
+      "exit_price": 1.326555,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:25:00+00:00",
+      "expires_at": "2026-09-28T17:30:00+00:00",
+      "entry_price": 0.567915,
+      "exit_price": 0.567795,
+      "outcome": "LOSS"
     }
   ],
-  "session_results": [],
+  "session_results": [
+    {
+      "symbol": "AUD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:25:00+00:00",
+      "expires_at": "2026-09-28T17:30:00+00:00",
+      "entry_price": 0.995665,
+      "exit_price": 0.99539,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:25:00+00:00",
+      "expires_at": "2026-09-28T17:30:00+00:00",
+      "entry_price": 0.7029,
+      "exit_price": 0.702865,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:25:00+00:00",
+      "expires_at": "2026-09-28T17:30:00+00:00",
+      "entry_price": 1.326675,
+      "exit_price": 1.326555,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:25:00+00:00",
+      "expires_at": "2026-09-28T17:30:00+00:00",
+      "entry_price": 0.567915,
+      "exit_price": 0.567795,
+      "outcome": "LOSS"
+    }
+  ],
   "completed_sessions": 2
 }
