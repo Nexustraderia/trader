@@ -1,5 +1,16 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-09-28T19:30:00+00:00",
+      "expires_at": "2026-09-28T19:35:00+00:00",
+      "entry_price": null
+    }
+  ],
   "settled": [
     {
       "symbol": "EUR/USD-OTC",
