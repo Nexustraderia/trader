@@ -1,5 +1,56 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T18:15:00+00:00",
+      "expires_at": "2026-09-28T18:20:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "EUR/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T18:15:00+00:00",
+      "expires_at": "2026-09-28T18:20:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T18:15:00+00:00",
+      "expires_at": "2026-09-28T18:20:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T18:15:00+00:00",
+      "expires_at": "2026-09-28T18:20:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T18:15:00+00:00",
+      "expires_at": "2026-09-28T18:20:00+00:00",
+      "entry_price": null
+    }
+  ],
   "settled": [
     {
       "symbol": "EUR/USD-OTC",
