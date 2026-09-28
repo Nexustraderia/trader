@@ -1,16 +1,5 @@
 {
-  "pending": [
-    {
-      "symbol": "AUD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T17:35:00+00:00",
-      "expires_at": "2026-09-28T17:40:00+00:00",
-      "entry_price": null
-    }
-  ],
+  "pending": [],
   "settled": [
     {
       "symbol": "EUR/USD-OTC",
@@ -532,6 +521,18 @@
       "entry_price": 0.567915,
       "exit_price": 0.567795,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:35:00+00:00",
+      "expires_at": "2026-09-28T17:40:00+00:00",
+      "entry_price": 0.702745,
+      "exit_price": 0.702705,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -581,6 +582,18 @@
       "expires_at": "2026-09-28T17:30:00+00:00",
       "entry_price": 0.567915,
       "exit_price": 0.567795,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-28T17:35:00+00:00",
+      "expires_at": "2026-09-28T17:40:00+00:00",
+      "entry_price": 0.702745,
+      "exit_price": 0.702705,
       "outcome": "LOSS"
     }
   ],
