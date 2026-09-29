@@ -259,7 +259,11 @@ def main() -> None:
                     "symbol": symbol,
                     "direction": result["decision"],
                     "score": int(result["score"]),
-                    "confidence": int(result.get("confidence", 0)),
+                    # Persist the same confidence that was actually checked
+                    # by the eligibility rule; the legacy raw score can be
+                    # 50 after a confirmation adjustment and is not the
+                    # directional confidence shown in diagnostics.
+                    "confidence": int(effective_confidence),
                     "strategy": "REGULAR_TREND_ADX" if is_regular else "OTC_ZONE_CONFLUENCE",
                     "entry_at": entry.isoformat(),
                     "expires_at": (entry + timedelta(minutes=5)).isoformat(),
