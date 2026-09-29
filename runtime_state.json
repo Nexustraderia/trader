@@ -1,51 +1,27 @@
 {
   "pending": [
     {
-      "symbol": "AUD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T05:10:00+00:00",
-      "expires_at": "2026-09-29T05:15:00+00:00",
-      "entry_price": null
-    },
-    {
       "symbol": "AUD/JPY",
       "direction": "CALL",
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T05:10:00+00:00",
-      "expires_at": "2026-09-29T05:15:00+00:00",
+      "entry_at": "2026-09-29T05:25:00+00:00",
+      "expires_at": "2026-09-29T05:30:00+00:00",
       "entry_price": null
-    }
-  ],
-  "settled": [
+    },
     {
-      "symbol": "EUR/JPY",
+      "symbol": "AUD/USD",
       "direction": "CALL",
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T22:20:00+00:00",
-      "expires_at": "2026-09-28T22:25:00+00:00",
-      "entry_price": 178.9895,
-      "exit_price": 178.999,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "GBP/CHF",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T22:20:00+00:00",
-      "expires_at": "2026-09-28T22:25:00+00:00",
-      "entry_price": 1.102535,
-      "exit_price": 1.10252,
-      "outcome": "WIN"
-    },
+      "entry_at": "2026-09-29T05:25:00+00:00",
+      "expires_at": "2026-09-29T05:30:00+00:00",
+      "entry_price": null
+    }
+  ],
+  "settled": [
     {
       "symbol": "CHF/JPY",
       "direction": "CALL",
@@ -1221,6 +1197,30 @@
       "entry_price": 1.88646,
       "exit_price": 1.885695,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T05:10:00+00:00",
+      "expires_at": "2026-09-29T05:15:00+00:00",
+      "entry_price": 0.99602,
+      "exit_price": 0.996175,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T05:10:00+00:00",
+      "expires_at": "2026-09-29T05:15:00+00:00",
+      "entry_price": 110.565,
+      "exit_price": 110.561,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1319,6 +1319,30 @@
       "entry_price": 1.88646,
       "exit_price": 1.885695,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T05:10:00+00:00",
+      "expires_at": "2026-09-29T05:15:00+00:00",
+      "entry_price": 0.99602,
+      "exit_price": 0.996175,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T05:10:00+00:00",
+      "expires_at": "2026-09-29T05:15:00+00:00",
+      "entry_price": 110.565,
+      "exit_price": 110.561,
+      "outcome": "LOSS"
     }
   ],
   "completed_sessions": 9
