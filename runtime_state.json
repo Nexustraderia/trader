@@ -1,5 +1,36 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T06:35:00+00:00",
+      "expires_at": "2026-09-29T06:40:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T06:35:00+00:00",
+      "expires_at": "2026-09-29T06:40:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "PUT",
+      "score": 15,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T06:35:00+00:00",
+      "expires_at": "2026-09-29T06:40:00+00:00",
+      "entry_price": null
+    }
+  ],
   "settled": [
     {
       "symbol": "GBP/USD",
