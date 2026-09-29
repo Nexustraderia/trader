@@ -185,19 +185,23 @@ def auto_scan_loop() -> None:
                 now = datetime.now(timezone.utc)
                 last_sent = state["auto_last_sent"].get(result["symbol"])
                 cooldown_ok = not last_sent or now - last_sent >= timedelta(minutes=20)
+                is_regular = not result["symbol"].endswith("-OTC")
+                strategy_confluence_ok = result.get(
+                    "regular_trend_confluence_ok" if is_regular else "confluence_ok",
+                    False,
+                )
                 eligible = (
-                    result.get("confluence_ok", False)
+                    strategy_confluence_ok
                     and result.get("rsi_entry_ok", True)
                     and result.get(
-                        "regular_confidence" if not result["symbol"].endswith("-OTC") else "confidence",
+                        "regular_confidence" if is_regular else "confidence",
                         0,
-                    ) >= (AUTO_REGULAR_MIN_CONFIDENCE if not result["symbol"].endswith("-OTC") else AUTO_OTC_MIN_CONFIDENCE)
+                    ) >= (AUTO_REGULAR_MIN_CONFIDENCE if is_regular else AUTO_OTC_MIN_CONFIDENCE)
                 )
                 if AUTO_REQUIRE_FULL_ALIGNMENT:
-                    eligible = eligible and all(
-                        result.get(key) == result.get("decision")
-                        for key in ("m1_decision", "m15_decision", "h1_decision")
-                    )
+                    eligible = eligible and result.get("m1_decision") == result.get("decision")
+                    eligible = eligible and result.get("m15_decision") == result.get("decision")
+                    eligible = eligible and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
                 today = now.date().isoformat()
                 if state["auto_sent_date"] != today:
                     state["auto_sent_date"] = today
