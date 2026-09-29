@@ -1,5 +1,16 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-29T20:40:00+00:00",
+      "expires_at": "2026-09-29T20:45:00+00:00",
+      "entry_price": null
+    }
+  ],
   "settled": [
     {
       "symbol": "EUR/AUD",
