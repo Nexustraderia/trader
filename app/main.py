@@ -43,6 +43,10 @@ AUTO_SIGNAL_MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", os.gete
 # floor of 75, while OTC keeps the stricter 85 floor.
 AUTO_REGULAR_MIN_CONFIDENCE = int(os.getenv("AUTO_REGULAR_MIN_CONFIDENCE", "75"))
 AUTO_OTC_MIN_CONFIDENCE = int(os.getenv("AUTO_OTC_MIN_CONFIDENCE", "85"))
+# Diagnostic mode: when enabled, the M1 freshness gate is bypassed until the
+# environment flag is changed. M5/M15/H1 freshness gates remain enforced.
+AUTO_ALLOW_STALE_M1 = os.getenv("AUTO_ALLOW_STALE_M1", "false").lower() == "true"
+AUTO_ALLOW_STALE_M1_UNTIL = os.getenv("AUTO_ALLOW_STALE_M1_UNTIL", "").strip()
 # Signals are continuous. The legacy AUTO_SIGNAL_MAX_DAILY variable is kept
 # only for deployment compatibility and is intentionally ignored.
 AUTO_SIGNAL_MAX_DAILY = 0
@@ -122,7 +126,13 @@ def build_analysis(symbol: str) -> tuple[dict, dict]:
     source_m15 = market_data_source()
     candles_h1 = fetch_candles(symbol, interval="1h", range_="60d", count=80)
     source_h1 = market_data_source()
-    if not is_fresh(candles_m1, 3 * 60):
+    allow_stale_m1 = AUTO_ALLOW_STALE_M1
+    if AUTO_ALLOW_STALE_M1_UNTIL:
+        try:
+            allow_stale_m1 = datetime.now(timezone.utc) < datetime.fromisoformat(AUTO_ALLOW_STALE_M1_UNTIL.replace("Z", "+00:00"))
+        except ValueError:
+            allow_stale_m1 = False
+    if not is_fresh(candles_m1, 3 * 60) and not allow_stale_m1:
         raise RuntimeError("candles M1 atrasados")
     if not is_fresh(candles_m5, 10 * 60):
         raise RuntimeError("candles M5 atrasados")
