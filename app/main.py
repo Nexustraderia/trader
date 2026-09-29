@@ -208,15 +208,9 @@ def auto_scan_loop() -> None:
                 )
                 if AUTO_RELAXED_ANALYSIS_TEST:
                     # Reversible diagnostic mode only: preserve IQ-only data,
-                    # fresh candles, timeframe direction and RSI safety while
-                    # temporarily bypassing indicator strictness.
-                    eligible = (
-                        result.get("decision") in ("CALL", "PUT")
-                        and result.get("m15_decision") == result.get("decision")
-                        and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
-                        and result.get("m1_confirmation_ok", False)
-                        and result.get("rsi_entry_ok", True)
-                    )
+                    # fresh IQ candles while temporarily bypassing all
+                    # strategy/confluence gates to test signal delivery.
+                    eligible = result.get("decision") in ("CALL", "PUT")
                 elif is_regular:
                     # Match the GitHub regular-pair path: V2 confluence already
                     # contains the regular confidence/ADX/EMA/DI/MACD/ATR gates.
