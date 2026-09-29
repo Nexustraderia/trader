@@ -79,6 +79,17 @@ def reset_history_if_requested() -> bool:
     return True
 
 
+def delete_signals_by_ids(signal_ids: list[str]) -> int:
+    """Delete only explicitly supplied diagnostic signal IDs."""
+    normalized = [str(signal_id).strip().upper() for signal_id in signal_ids if str(signal_id).strip()]
+    if not normalized:
+        return 0
+    placeholders = ", ".join("?" for _ in normalized)
+    with _connect() as connection:
+        cursor = connection.execute(f"DELETE FROM paper_signals WHERE id IN ({placeholders})", tuple(normalized))
+        return cursor.rowcount
+
+
 def get_telegram_file_id(outcome: str) -> str | None:
     with _connect() as connection:
         row = connection.execute("SELECT file_id FROM telegram_file_cache WHERE outcome = ?", (outcome.upper(),)).fetchone()

@@ -11,18 +11,20 @@ try:
     from .db import backend_name
     from .iq_data import IQ_SYMBOLS, available_asset_modes, available_iq_assets, available_signal_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
     from .market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
-    from .paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, reset_history_if_requested, session_statistics, settle_pending, statistics
+    from .paper_journal import capture_entry_prices, close_signal, create_signal, delete_signals_by_ids, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, reset_history_if_requested, session_statistics, settle_pending, statistics
     from .signal_engine import analyze_with_confirmation, format_analysis
 except ImportError:
     from db import backend_name
     from iq_data import IQ_SYMBOLS, available_asset_modes, available_iq_assets, available_signal_assets, cached_otc_open_assets, cached_signal_assets, is_iq_asset_open
     from market_data import fetch_candles, is_fresh, market_data_diagnostics, market_data_source, normalize_symbol
-    from paper_journal import capture_entry_prices, close_signal, create_signal, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, reset_history_if_requested, session_statistics, settle_pending, statistics
+    from paper_journal import capture_entry_prices, close_signal, create_signal, delete_signals_by_ids, format_history, format_ranking, format_result, format_result_batch, format_session_summary, format_signal, format_statistics, mark_result_batch, mark_result_delivered, next_result_batch, pending_result_deliveries, pending_signal_status, ranking, recent_signals, reset_history_if_requested, session_statistics, settle_pending, statistics
     from signal_engine import analyze_with_confirmation, format_analysis
 
 load_dotenv()
 
 HISTORY_RESET_APPLIED = reset_history_if_requested()
+_diagnostic_ids = [item for item in os.getenv("PAPER_DELETE_SIGNAL_IDS", "").split(",") if item.strip()]
+DELETED_DIAGNOSTIC_SIGNALS = delete_signals_by_ids(_diagnostic_ids) if _diagnostic_ids else 0
 
 app = Flask(__name__)
 
