@@ -183,6 +183,19 @@ def auto_scan_loop() -> None:
                     "h1": result.get("h1_decision"),
                     "confidence": result.get("confidence", 50),
                     "confluence_ok": result.get("confluence_ok", False),
+                    "regular_trend_confluence_ok": result.get("regular_trend_confluence_ok", False),
+                    "regular_confidence": result.get("regular_confidence", 0),
+                    "gates": {
+                        "volatility": result.get("volatility_ok", False),
+                        "trend_momentum": result.get("trend_momentum_ok", False),
+                        "rsi_entry": result.get("rsi_entry_ok", False),
+                        "adx": result.get("adx", 0),
+                        "di_direction": result.get("regular_directional_ok", False),
+                        "ema_alignment": result.get("regular_ema_alignment_ok", False),
+                        "macd": result.get("regular_macd_ok", False),
+                        "atr": result.get("regular_atr_ok", False),
+                        "m1_confirmation": result.get("m1_confirmation_ok", False),
+                    },
                 }
                 now = datetime.now(timezone.utc)
                 last_sent = state["auto_last_sent"].get(result["symbol"])
