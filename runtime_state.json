@@ -1,5 +1,16 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T09:20:00+00:00",
+      "expires_at": "2026-09-29T09:25:00+00:00",
+      "entry_price": null
+    }
+  ],
   "settled": [
     {
       "symbol": "GBP/USD",
