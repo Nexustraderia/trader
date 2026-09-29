@@ -55,6 +55,7 @@ AUTO_INCLUDE_IQ_ASSETS = os.getenv("AUTO_INCLUDE_IQ_ASSETS", "true").lower() == 
 AUTO_MAX_SCAN_ASSETS = int(os.getenv("MAX_SCAN_ASSETS", "12"))
 AUTO_OTC_ONLY = os.getenv("AUTO_OTC_ONLY", "false").lower() == "true"
 AUTO_REQUIRE_FULL_ALIGNMENT = os.getenv("AUTO_REQUIRE_FULL_ALIGNMENT", "true").lower() == "true"
+AUTO_RELAXED_ANALYSIS_TEST = os.getenv("AUTO_RELAXED_ANALYSIS_TEST", "false").lower() == "true"
 state = {
     "started_at": datetime.now(timezone.utc).isoformat(),
     "last_update": None,
@@ -205,7 +206,18 @@ def auto_scan_loop() -> None:
                     "regular_trend_confluence_ok" if is_regular else "confluence_ok",
                     False,
                 )
-                if is_regular:
+                if AUTO_RELAXED_ANALYSIS_TEST:
+                    # Reversible diagnostic mode only: preserve IQ-only data,
+                    # fresh candles, timeframe direction and RSI safety while
+                    # temporarily bypassing indicator strictness.
+                    eligible = (
+                        result.get("decision") in ("CALL", "PUT")
+                        and result.get("m15_decision") == result.get("decision")
+                        and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
+                        and result.get("m1_confirmation_ok", False)
+                        and result.get("rsi_entry_ok", True)
+                    )
+                elif is_regular:
                     # Match the GitHub regular-pair path: V2 confluence already
                     # contains the regular confidence/ADX/EMA/DI/MACD/ATR gates.
                     eligible = bool(strategy_confluence_ok)
