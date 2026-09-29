@@ -1,5 +1,16 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "EUR/CAD",
+      "direction": "PUT",
+      "score": 15,
+      "confidence": 85,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-29T13:20:00+00:00",
+      "expires_at": "2026-09-29T13:25:00+00:00",
+      "entry_price": null
+    }
+  ],
   "settled": [
     {
       "symbol": "AUD/CAD",
