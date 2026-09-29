@@ -190,18 +190,20 @@ def auto_scan_loop() -> None:
                     "regular_trend_confluence_ok" if is_regular else "confluence_ok",
                     False,
                 )
-                eligible = (
-                    strategy_confluence_ok
-                    and result.get("rsi_entry_ok", True)
-                    and result.get(
-                        "regular_confidence" if is_regular else "confidence",
-                        0,
-                    ) >= (AUTO_REGULAR_MIN_CONFIDENCE if is_regular else AUTO_OTC_MIN_CONFIDENCE)
-                )
-                if AUTO_REQUIRE_FULL_ALIGNMENT:
-                    eligible = eligible and result.get("m1_decision") == result.get("decision")
-                    eligible = eligible and result.get("m15_decision") == result.get("decision")
-                    eligible = eligible and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
+                if is_regular:
+                    # Match the GitHub regular-pair path: V2 confluence already
+                    # contains the regular confidence/ADX/EMA/DI/MACD/ATR gates.
+                    eligible = bool(strategy_confluence_ok)
+                else:
+                    eligible = (
+                        bool(strategy_confluence_ok)
+                        and result.get("rsi_entry_ok", True)
+                        and result.get("confidence", 0) >= AUTO_OTC_MIN_CONFIDENCE
+                    )
+                    if AUTO_REQUIRE_FULL_ALIGNMENT:
+                        eligible = eligible and result.get("m1_decision") == result.get("decision")
+                        eligible = eligible and result.get("m15_decision") == result.get("decision")
+                        eligible = eligible and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
                 today = now.date().isoformat()
                 if state["auto_sent_date"] != today:
                     state["auto_sent_date"] = today
