@@ -1,29 +1,27 @@
 {
   "pending": [
     {
+      "symbol": "EUR/GBP",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 75,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-29T20:55:00+00:00",
+      "expires_at": "2026-09-29T21:00:00+00:00",
+      "entry_price": null
+    },
+    {
       "symbol": "GBP/CHF",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-29T20:40:00+00:00",
-      "expires_at": "2026-09-29T20:45:00+00:00",
+      "entry_at": "2026-09-29T20:55:00+00:00",
+      "expires_at": "2026-09-29T21:00:00+00:00",
       "entry_price": null
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/AUD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T03:10:00+00:00",
-      "expires_at": "2026-09-29T03:15:00+00:00",
-      "entry_price": 1.620725,
-      "exit_price": 1.6205,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "EUR/JPY",
       "direction": "PUT",
@@ -1211,6 +1209,18 @@
       "entry_price": 1.138895,
       "exit_price": 1.138915,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-29T20:40:00+00:00",
+      "expires_at": "2026-09-29T20:45:00+00:00",
+      "entry_price": 1.10331,
+      "exit_price": 1.10332,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1320,6 +1330,18 @@
       "expires_at": "2026-09-29T20:15:00+00:00",
       "entry_price": 1.138895,
       "exit_price": 1.138915,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-29T20:40:00+00:00",
+      "expires_at": "2026-09-29T20:45:00+00:00",
+      "entry_price": 1.10331,
+      "exit_price": 1.10332,
       "outcome": "WIN"
     }
   ],
