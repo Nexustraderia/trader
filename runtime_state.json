@@ -1,29 +1,47 @@
 {
   "pending": [
     {
-      "symbol": "USD/CAD",
+      "symbol": "AUD/CAD",
       "direction": "CALL",
       "score": 100,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T04:35:00+00:00",
-      "expires_at": "2026-09-29T04:40:00+00:00",
+      "entry_at": "2026-09-29T04:45:00+00:00",
+      "expires_at": "2026-09-29T04:50:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "PUT",
+      "score": 15,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T04:45:00+00:00",
+      "expires_at": "2026-09-29T04:50:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "GBP/AUD",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T04:45:00+00:00",
+      "expires_at": "2026-09-29T04:50:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T04:45:00+00:00",
+      "expires_at": "2026-09-29T04:50:00+00:00",
       "entry_price": null
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T21:55:00+00:00",
-      "expires_at": "2026-09-28T22:00:00+00:00",
-      "entry_price": 178.974,
-      "exit_price": 178.9795,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/JPY",
       "direction": "CALL",
@@ -1211,6 +1229,18 @@
       "entry_price": 1.10289,
       "exit_price": 1.102815,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T04:35:00+00:00",
+      "expires_at": "2026-09-29T04:40:00+00:00",
+      "entry_price": 1.41867,
+      "exit_price": 1.418745,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1225,6 +1255,18 @@
       "entry_price": 1.10289,
       "exit_price": 1.102815,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T04:35:00+00:00",
+      "expires_at": "2026-09-29T04:40:00+00:00",
+      "entry_price": 1.41867,
+      "exit_price": 1.418745,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 9
