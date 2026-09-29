@@ -1,29 +1,27 @@
 {
   "pending": [
     {
-      "symbol": "EUR/GBP",
+      "symbol": "EUR/CHF",
       "direction": "PUT",
       "score": 20,
       "confidence": 50,
       "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T07:25:00+00:00",
-      "expires_at": "2026-09-29T07:30:00+00:00",
+      "entry_at": "2026-09-29T07:40:00+00:00",
+      "expires_at": "2026-09-29T07:45:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T07:40:00+00:00",
+      "expires_at": "2026-09-29T07:45:00+00:00",
       "entry_price": null
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/USD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-28T23:00:00+00:00",
-      "expires_at": "2026-09-28T23:05:00+00:00",
-      "entry_price": 1.325455,
-      "exit_price": 1.325355,
-      "outcome": "WIN"
-    },
     {
       "symbol": "CAD/JPY",
       "direction": "CALL",
@@ -1211,6 +1209,18 @@
       "entry_price": 1.1036,
       "exit_price": 1.103205,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T07:25:00+00:00",
+      "expires_at": "2026-09-29T07:30:00+00:00",
+      "entry_price": 0.857825,
+      "exit_price": 0.857765,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1273,6 +1283,18 @@
       "entry_price": 1.1036,
       "exit_price": 1.103205,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 50,
+      "strategy": "REGULAR_TREND_ADX",
+      "entry_at": "2026-09-29T07:25:00+00:00",
+      "expires_at": "2026-09-29T07:30:00+00:00",
+      "entry_price": 0.857825,
+      "exit_price": 0.857765,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 10
