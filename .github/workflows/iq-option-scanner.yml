@@ -1,9 +1,10 @@
 name: IQ Option paper scanner
 
 on:
+  # Scanning is now performed exclusively by the continuous Render service.
+  # Keep manual dispatch available for diagnostics without creating a second
+  # producer of signals/results.
   workflow_dispatch:
-  schedule:
-    - cron: "*/5 * * * *"
 
 concurrency:
   group: iq-option-paper-scanner

@@ -39,6 +39,10 @@ AUTO_SIGNAL_INTERVAL = 60
 # Balanced selectivity: keep full M5/M15/H1/M1 confluence while allowing
 # high-quality setups that score 80+ to be published.
 AUTO_SIGNAL_MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", os.getenv("AUTO_SIGNAL_MIN_SCORE", "80")))
+# Strategy-specific thresholds: regular V2 uses the directional confidence
+# floor of 75, while OTC keeps the stricter 85 floor.
+AUTO_REGULAR_MIN_CONFIDENCE = int(os.getenv("AUTO_REGULAR_MIN_CONFIDENCE", "75"))
+AUTO_OTC_MIN_CONFIDENCE = int(os.getenv("AUTO_OTC_MIN_CONFIDENCE", "85"))
 # Signals are continuous. The legacy AUTO_SIGNAL_MAX_DAILY variable is kept
 # only for deployment compatibility and is intentionally ignored.
 AUTO_SIGNAL_MAX_DAILY = 0
@@ -174,7 +178,10 @@ def auto_scan_loop() -> None:
                 eligible = (
                     result.get("confluence_ok", False)
                     and result.get("rsi_entry_ok", True)
-                    and result.get("confidence", 0) >= AUTO_SIGNAL_MIN_CONFIDENCE
+                    and result.get(
+                        "regular_confidence" if not result["symbol"].endswith("-OTC") else "confidence",
+                        0,
+                    ) >= (AUTO_REGULAR_MIN_CONFIDENCE if not result["symbol"].endswith("-OTC") else AUTO_OTC_MIN_CONFIDENCE)
                 )
                 if AUTO_REQUIRE_FULL_ALIGNMENT:
                     eligible = eligible and all(
@@ -420,6 +427,8 @@ def health():
             "last_message": state["last_message"],
             "auto_signals_enabled": AUTO_SIGNALS_ENABLED,
             "auto_signal_min_confidence": AUTO_SIGNAL_MIN_CONFIDENCE,
+            "auto_regular_min_confidence": AUTO_REGULAR_MIN_CONFIDENCE,
+            "auto_otc_min_confidence": AUTO_OTC_MIN_CONFIDENCE,
             "auto_signal_max_daily": AUTO_SIGNAL_MAX_DAILY,
             "auto_otc_only": AUTO_OTC_ONLY,
             "auto_require_full_alignment": AUTO_REQUIRE_FULL_ALIGNMENT,
