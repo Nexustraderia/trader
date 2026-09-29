@@ -1,29 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "EUR/CHF",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-29T11:15:00+00:00",
-      "expires_at": "2026-09-29T11:20:00+00:00",
-      "entry_price": null
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "CHF/JPY",
-      "direction": "PUT",
-      "score": 15,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T01:15:00+00:00",
-      "expires_at": "2026-09-29T01:20:00+00:00",
-      "entry_price": 188.995,
-      "exit_price": 188.957,
-      "outcome": "WIN"
-    },
     {
       "symbol": "EUR/JPY",
       "direction": "PUT",
@@ -1211,8 +1188,33 @@
       "entry_price": 1.878885,
       "exit_price": 1.878885,
       "outcome": "VOID"
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-29T11:15:00+00:00",
+      "expires_at": "2026-09-29T11:20:00+00:00",
+      "entry_price": 0.94556,
+      "exit_price": 0.94577,
+      "outcome": "LOSS"
     }
   ],
-  "session_results": [],
+  "session_results": [
+    {
+      "symbol": "EUR/CHF",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-29T11:15:00+00:00",
+      "expires_at": "2026-09-29T11:20:00+00:00",
+      "entry_price": 0.94556,
+      "exit_price": 0.94577,
+      "outcome": "LOSS"
+    }
+  ],
   "completed_sessions": 12
 }
