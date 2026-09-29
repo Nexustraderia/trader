@@ -368,17 +368,6 @@ def analyze_with_confirmation(
     )
     result["regular_atr_ok"] = result.get("atr_pct", 0.0) >= 0.003
     result["regular_confidence"] = directional_confidence(result["decision"], result["score"])
-    # Real IQ candles expose OHLC/zone data. Keep close-only unit fixtures
-    # compatible while applying V2.1's 3-of-4 gate to live market data.
-    real_ohlc = result.get("zones_available", result.get("available", False))
-    result["v21_indicator_alignment_ok"] = (not real_ohlc) or sum(
-        (
-            result["regular_directional_ok"],
-            result["regular_ema_alignment_ok"],
-            result["regular_macd_ok"],
-            result["regular_atr_ok"],
-        )
-    ) >= 3
     if result.get("zones_available", result.get("available", False)):
         result["price_action_ok"] = (
             (result["decision"] == "CALL" and (result.get("bullish_rejection", False) or result.get("bullish_reaction", False)))
@@ -403,8 +392,6 @@ def analyze_with_confirmation(
         and volatility_ok
         and trend_momentum_ok
         and result["price_action_ok"]
-        and ((not real_ohlc) or result.get("adx", 0.0) >= 18)
-        and result["v21_indicator_alignment_ok"]
     )
     result["regular_trend_confluence_ok"] = (
         result["decision"] in ("CALL", "PUT")
@@ -414,8 +401,11 @@ def analyze_with_confirmation(
         and result["volatility_ok"]
         and result["trend_momentum_ok"]
         and result["rsi_entry_ok"]
-        and result.get("adx", 0.0) >= 18
-        and result["v21_indicator_alignment_ok"]
+        and result.get("adx", 0.0) >= 25
+        and result["regular_directional_ok"]
+        and result["regular_ema_alignment_ok"]
+        and result["regular_macd_ok"]
+        and result["regular_atr_ok"]
         and result.get("regular_confidence", 0) >= 75
     )
     if not result["confluence_ok"]:
