@@ -52,6 +52,7 @@ AUTO_ALLOW_STALE_M1_UNTIL = os.getenv("AUTO_ALLOW_STALE_M1_UNTIL", "").strip()
 AUTO_SIGNAL_MAX_DAILY = 0
 AUTO_SUMMARY_INTERVAL = int(os.getenv("AUTO_SUMMARY_INTERVAL", "3600"))
 AUTO_INCLUDE_IQ_ASSETS = os.getenv("AUTO_INCLUDE_IQ_ASSETS", "true").lower() == "true"
+AUTO_MAX_SCAN_ASSETS = int(os.getenv("MAX_SCAN_ASSETS", "12"))
 AUTO_OTC_ONLY = os.getenv("AUTO_OTC_ONLY", "false").lower() == "true"
 AUTO_REQUIRE_FULL_ALIGNMENT = os.getenv("AUTO_REQUIRE_FULL_ALIGNMENT", "true").lower() == "true"
 state = {
@@ -161,6 +162,7 @@ def auto_scan_loop() -> None:
             scan_symbols = list(state["iq_open_assets"]) if state["iq_catalog_available"] else []
             if AUTO_OTC_ONLY:
                 scan_symbols = [symbol for symbol in scan_symbols if symbol.endswith("-OTC")]
+            scan_symbols = sorted(scan_symbols)[:AUTO_MAX_SCAN_ASSETS]
         else:
             scan_symbols = []
         state["auto_symbols"] = scan_symbols
