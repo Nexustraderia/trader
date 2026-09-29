@@ -250,7 +250,8 @@ def main() -> None:
                 f"{symbol}={result.get('decision')} confidence={effective_confidence} "
                 f"M1={result.get('m1_decision')} M15={result.get('m15_decision')} H1={result.get('h1_decision')} "
                 f"confidence_min={asset_min_confidence} regular_confidence={result.get('regular_confidence', 0)} "
-                f"adx={result.get('adx', 0):.1f} "
+                f"adx={result.get('adx', 0):.1f} di+={result.get('di_plus', 0):.1f} "
+                f"di-={result.get('di_minus', 0):.1f} atr={result.get('atr_pct', 0):.4f} "
                 f"confluence={result.get('confluence_ok')} rsi={result.get('rsi_entry_ok')} eligible={eligible}"
             )
             key = (symbol, entry.isoformat())
@@ -264,7 +265,7 @@ def main() -> None:
                     # 50 after a confirmation adjustment and is not the
                     # directional confidence shown in diagnostics.
                     "confidence": int(effective_confidence),
-                    "strategy": "REGULAR_TREND_ADX" if is_regular else "OTC_ZONE_CONFLUENCE",
+                    "strategy": "REGULAR_V2_EMA_DI_MACD_ATR" if is_regular else "OTC_ZONE_CONFLUENCE",
                     "entry_at": entry.isoformat(),
                     "expires_at": (entry + timedelta(minutes=5)).isoformat(),
                     # The price is captured from the exact M5 candle at entry,

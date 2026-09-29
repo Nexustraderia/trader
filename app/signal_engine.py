@@ -118,9 +118,14 @@ def bollinger(values: list[float], period: int = 20) -> tuple[float, float, floa
 
 
 def adx(candles: list[dict], period: int = 14) -> float:
-    """Calculate a compact Wilder-style ADX from the supplied IQ candles."""
+    """Calculate a compact ADX from the supplied IQ candles."""
+    return directional_movement(candles, period)[0]
+
+
+def directional_movement(candles: list[dict], period: int = 14) -> tuple[float, float, float]:
+    """Return ADX, +DI and -DI using only the supplied IQ candles."""
     if len(candles) < period + 2 or not all("high" in c and "low" in c for c in candles[-(period + 2):]):
-        return 0.0
+        return 0.0, 0.0, 0.0
     rows = candles[-(period + 1):]
     trs, plus_dm, minus_dm = [], [], []
     for previous, current in zip(rows, rows[1:]):
@@ -133,11 +138,26 @@ def adx(candles: list[dict], period: int = 14) -> float:
         minus_dm.append(down if down > up and down > 0 else 0.0)
     atr = sum(trs) / len(trs)
     if atr <= 0:
-        return 0.0
+        return 0.0, 0.0, 0.0
     plus_di = 100 * (sum(plus_dm) / len(plus_dm)) / atr
     minus_di = 100 * (sum(minus_dm) / len(minus_dm)) / atr
     denominator = plus_di + minus_di
-    return 100 * abs(plus_di - minus_di) / denominator if denominator else 0.0
+    value = 100 * abs(plus_di - minus_di) / denominator if denominator else 0.0
+    return value, plus_di, minus_di
+
+
+def atr_percent(candles: list[dict], period: int = 14) -> float:
+    """Return average true range as a percentage of the latest close."""
+    if len(candles) < 2 or not all("high" in c and "low" in c for c in candles[-(period + 1):]):
+        return 0.0
+    rows = candles[-(period + 1):]
+    ranges = []
+    for previous, current in zip(rows, rows[1:]):
+        high, low = float(current["high"]), float(current["low"])
+        previous_close = float(previous["close"])
+        ranges.append(max(high - low, abs(high - previous_close), abs(low - previous_close)))
+    close = abs(float(rows[-1]["close"]))
+    return (sum(ranges) / len(ranges)) / close * 100 if close else 0.0
 
 
 def directional_confidence(decision: str, score: int | float) -> int:
@@ -164,15 +184,16 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
     if len(closes) < 20:
         return {"symbol": symbol, "decision": "AGUARDAR", "score": 0, "confidence": 50, "reason": "Dados insuficientes para análise."}
 
-    fast = ema(closes, 9)
-    slow = ema(closes, 21)
+    fast = ema(closes, 20)
+    slow = ema(closes, 50)
     trend = ema(closes, 50)
     momentum = rsi(closes)
     volatility_pct, latest_move_pct = volatility_metrics(closes)
     range_position = support_resistance_position(closes)
     macd_line, macd_signal, macd_histogram = macd(closes)
     lower_band, middle_band, upper_band = bollinger(closes)
-    trend_strength = adx(candles)
+    trend_strength, di_plus, di_minus = directional_movement(candles)
+    atr_pct = atr_percent(candles)
     zones = support_resistance_zones(candles)
     recent = closes[-1]
     score = 50
@@ -180,10 +201,10 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
 
     if fast > slow:
         score += 20
-        reasons.append("EMA 9 acima da EMA 21")
+        reasons.append("EMA 20 acima da EMA 50")
     elif fast < slow:
         score -= 20
-        reasons.append("EMA 9 abaixo da EMA 21")
+        reasons.append("EMA 20 abaixo da EMA 50")
 
     if recent > trend:
         score += 10
@@ -237,6 +258,11 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         "macd_signal": macd_signal,
         "macd_histogram": macd_histogram,
         "adx": trend_strength,
+        "di_plus": di_plus,
+        "di_minus": di_minus,
+        "atr_pct": atr_pct,
+        "ema20": fast,
+        "ema50": slow,
         "bollinger_lower": lower_band,
         "bollinger_middle": middle_band,
         "bollinger_upper": upper_band,
@@ -265,6 +291,10 @@ def analyze_with_confirmation(
     result["m15_decision"] = confirmation["decision"]
     result["m15_score"] = confirmation["score"]
     result["m15_adx"] = confirmation.get("adx", 0.0)
+    result["m15_di_plus"] = confirmation.get("di_plus", 0.0)
+    result["m15_di_minus"] = confirmation.get("di_minus", 0.0)
+    result["m15_ema20"] = confirmation.get("ema20", 0.0)
+    result["m15_ema50"] = confirmation.get("ema50", 0.0)
     context = analyze(symbol, h1_candles) if h1_candles else None
     trigger = analyze(symbol, m1_candles) if m1_candles else None
     result["h1_decision"] = context["decision"] if context else "indisponível"
@@ -322,6 +352,21 @@ def analyze_with_confirmation(
         or (result["decision"] == "PUT" and result["price"] <= result["ema_trend"] and result["macd_histogram"] <= 0)
     )
     result["trend_momentum_ok"] = trend_momentum_ok
+    result["regular_directional_ok"] = (
+        (result["decision"] == "CALL" and result.get("di_plus", 0.0) > result.get("di_minus", 0.0))
+        or (result["decision"] == "PUT" and result.get("di_minus", 0.0) > result.get("di_plus", 0.0))
+    )
+    result["regular_ema_alignment_ok"] = (
+        (result["decision"] == "CALL" and result.get("ema20", 0.0) > result.get("ema50", 0.0)
+         and result.get("m15_ema20", 0.0) > result.get("m15_ema50", 0.0))
+        or (result["decision"] == "PUT" and result.get("ema20", 0.0) < result.get("ema50", 0.0)
+            and result.get("m15_ema20", 0.0) < result.get("m15_ema50", 0.0))
+    )
+    result["regular_macd_ok"] = (
+        (result["decision"] == "CALL" and result.get("macd_histogram", 0.0) > 0)
+        or (result["decision"] == "PUT" and result.get("macd_histogram", 0.0) < 0)
+    )
+    result["regular_atr_ok"] = result.get("atr_pct", 0.0) >= 0.003
     result["regular_confidence"] = directional_confidence(result["decision"], result["score"])
     if result.get("zones_available", result.get("available", False)):
         result["price_action_ok"] = (
@@ -356,7 +401,11 @@ def analyze_with_confirmation(
         and result["volatility_ok"]
         and result["trend_momentum_ok"]
         and result["rsi_entry_ok"]
-        and result.get("adx", 0.0) >= 18
+        and result.get("adx", 0.0) >= 25
+        and result["regular_directional_ok"]
+        and result["regular_ema_alignment_ok"]
+        and result["regular_macd_ok"]
+        and result["regular_atr_ok"]
         and result.get("regular_confidence", 0) >= 75
     )
     if not result["confluence_ok"]:
