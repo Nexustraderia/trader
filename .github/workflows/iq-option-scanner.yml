@@ -28,6 +28,8 @@ jobs:
       SESSION_STAKE: "2.00"
       SESSION_PAYOUT_PERCENT: "90"
       MAX_SCAN_ASSETS: "27"
+      SIGNAL_TIMEFRAME: "1m"
+      SESSION_SIZE: "25"
     steps:
       - name: Checkout
         uses: actions/checkout@v4

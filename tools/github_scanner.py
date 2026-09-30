@@ -17,7 +17,10 @@ PASSWORD = os.environ["IQ_OPTION_PASSWORD"]
 MIN_CONFIDENCE = int(os.getenv("AUTO_SIGNAL_MIN_CONFIDENCE", "85"))
 MAX_ASSETS = int(os.getenv("MAX_SCAN_ASSETS", "12"))
 OTC_ONLY = os.getenv("OTC_ONLY", "false").lower() == "true"
-SESSION_SIZE = 20
+SESSION_SIZE = int(os.getenv("SESSION_SIZE", "25"))
+SIGNAL_TIMEFRAME = os.getenv("SIGNAL_TIMEFRAME", "1m").lower()
+EXPIRY_MINUTES = 1 if SIGNAL_TIMEFRAME == "1m" else 5
+DISPLAY_TIMEFRAME = "M1" if EXPIRY_MINUTES == 1 else "M5"
 STAKE_PER_SIGNAL = float(os.getenv("SESSION_STAKE", "2.00"))
 PAYOUT_PERCENT = float(os.getenv("SESSION_PAYOUT_PERCENT", "90"))
 STATE_PATH = Path(os.getenv("SCANNER_STATE_PATH", "runtime_state.json"))
@@ -50,10 +53,10 @@ def next_entry() -> datetime:
 
 
 def candle_at_or_before(symbol: str, target: datetime) -> float:
-    candles = fetch_iq_candles(symbol, "5m", 600)
+    candles = fetch_iq_candles(symbol, SIGNAL_TIMEFRAME, 600)
     eligible = [c for c in candles if float(c.get("timestamp", 0)) <= target.timestamp()]
     if not eligible:
-        raise RuntimeError(f"No M5 candle at or before {target.isoformat()}")
+        raise RuntimeError(f"No {DISPLAY_TIMEFRAME} candle at or before {target.isoformat()}")
     candle = eligible[-1]
     if target.timestamp() - float(candle["timestamp"]) > 10 * 60:
         raise RuntimeError("Historical M5 candle is stale")
@@ -61,11 +64,11 @@ def candle_at_or_before(symbol: str, target: datetime) -> float:
 
 
 def candle_at(symbol: str, target: datetime) -> dict:
-    """Return the exact IQ Option M5 candle whose interval starts at target."""
-    candles = fetch_iq_candles(symbol, "5m", 600)
+    """Return the exact IQ Option candle whose interval starts at target."""
+    candles = fetch_iq_candles(symbol, SIGNAL_TIMEFRAME, 600)
     exact = [c for c in candles if float(c.get("timestamp", -1)) == target.timestamp()]
     if not exact:
-        raise RuntimeError(f"No exact IQ M5 candle at {target.isoformat()}")
+        raise RuntimeError(f"No exact IQ {DISPLAY_TIMEFRAME} candle at {target.isoformat()}")
     return exact[-1]
 
 
@@ -101,7 +104,7 @@ def format_signal(result: dict, entry_at: datetime, martingale_level: int = 0) -
         *("🔁 RECUPERAÇÃO MG1" if martingale_level == 1 else "" ,),
         "",
         f"⏰ ENTRADA\n{local.strftime('%H:%M')} (UTC−3 Brasília)",
-        "⌛ EXPIRAÇÃO\nM5",
+        f"⌛ EXPIRAÇÃO\n{DISPLAY_TIMEFRAME}",
         "",
         "",
         "Sinais Exclusivos para a IQ OPTION",
@@ -129,7 +132,7 @@ def format_result(item: dict, outcome: str) -> str:
         f"💱 Ativo: {item['symbol']}",
         f"📍 Direção: {item['direction']}",
         f"⏰ Entrada: {local.strftime('%H:%M')} (UTC−3 Brasília)",
-        "⌛ Expiração: M5",
+        f"⌛ Expiração: {DISPLAY_TIMEFRAME}",
         "",
         label,
     ])
@@ -184,7 +187,7 @@ def settle_pending(state: dict) -> None:
         try:
             entry_candle = candle_at(item["symbol"], datetime.fromisoformat(item["entry_at"]))
             item["entry_price"] = float(entry_candle["open"])
-            exit_candle = candle_at(item["symbol"], expiry - timedelta(minutes=5))
+            exit_candle = candle_at(item["symbol"], expiry - timedelta(minutes=EXPIRY_MINUTES))
             exit_price = float(exit_candle["close"])
             entry_price = float(item["entry_price"])
             if exit_price == entry_price:
@@ -207,7 +210,7 @@ def settle_pending(state: dict) -> None:
                     "confidence": item.get("confidence", 0),
                     "strategy": item.get("strategy", ""),
                     "entry_at": recovery_entry.isoformat(),
-                    "expires_at": (recovery_entry + timedelta(minutes=5)).isoformat(),
+                    "expires_at": (recovery_entry + timedelta(minutes=EXPIRY_MINUTES)).isoformat(),
                     "entry_price": None,
                     "martingale_level": 1,
                     "parent_id": item.get("id"),
@@ -292,7 +295,7 @@ def main() -> None:
                     "confidence": int(effective_confidence),
                     "strategy": "REGULAR_HYBRID_ADX_V2" if is_regular else "OTC_ZONE_CONFLUENCE",
                     "entry_at": entry.isoformat(),
-                    "expires_at": (entry + timedelta(minutes=5)).isoformat(),
+                    "expires_at": (entry + timedelta(minutes=EXPIRY_MINUTES)).isoformat(),
                     # The price is captured from the exact M5 candle at entry,
                     # not from the earlier analysis candle.
                     "entry_price": None,
