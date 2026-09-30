@@ -6,24 +6,32 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T10:20:00+00:00",
-      "expires_at": "2026-09-30T10:25:00+00:00",
+      "entry_at": "2026-09-30T10:30:00+00:00",
+      "expires_at": "2026-09-30T10:35:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T10:30:00+00:00",
+      "expires_at": "2026-09-30T10:35:00+00:00",
+      "entry_price": null
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T10:30:00+00:00",
+      "expires_at": "2026-09-30T10:35:00+00:00",
       "entry_price": null
     }
   ],
   "settled": [
-    {
-      "symbol": "AUD/JPY",
-      "direction": "PUT",
-      "score": 25,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T03:25:00+00:00",
-      "expires_at": "2026-09-29T03:30:00+00:00",
-      "entry_price": 110.369,
-      "exit_price": 110.3375,
-      "outcome": "WIN"
-    },
     {
       "symbol": "USD/CAD",
       "direction": "CALL",
@@ -1211,6 +1219,18 @@
       "entry_price": 1.103275,
       "exit_price": 1.10343,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T10:20:00+00:00",
+      "expires_at": "2026-09-30T10:25:00+00:00",
+      "entry_price": 1.135975,
+      "exit_price": 1.13591,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1357,6 +1377,18 @@
       "entry_price": 1.103275,
       "exit_price": 1.10343,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T10:20:00+00:00",
+      "expires_at": "2026-09-30T10:25:00+00:00",
+      "entry_price": 1.135975,
+      "exit_price": 1.13591,
+      "outcome": "LOSS"
     }
   ],
   "completed_sessions": 13
