@@ -1,13 +1,35 @@
 {
   "pending": [
     {
-      "symbol": "GBP/CAD",
+      "symbol": "CHF/JPY",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-09-30T23:40:00+00:00",
-      "expires_at": "2026-09-30T23:41:00+00:00",
+      "entry_at": "2026-09-30T23:50:00+00:00",
+      "expires_at": "2026-09-30T23:51:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T23:50:00+00:00",
+      "expires_at": "2026-09-30T23:51:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T23:50:00+00:00",
+      "expires_at": "2026-09-30T23:51:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
@@ -118,6 +140,19 @@
       "parent_id": null,
       "exit_price": 1.63107,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T23:40:00+00:00",
+      "expires_at": "2026-09-30T23:41:00+00:00",
+      "entry_price": 1.88795,
+      "martingale_level": 0,
+      "exit_price": 1.88798,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -200,6 +235,19 @@
       "parent_id": null,
       "exit_price": 1.63107,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T23:40:00+00:00",
+      "expires_at": "2026-09-30T23:41:00+00:00",
+      "entry_price": 1.88795,
+      "martingale_level": 0,
+      "exit_price": 1.88798,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 0
