@@ -1,31 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "CHF/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-09-30T16:35:00+00:00",
-      "expires_at": "2026-09-30T16:40:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "USD/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T08:55:00+00:00",
-      "expires_at": "2026-09-29T09:00:00+00:00",
-      "entry_price": 0.834065,
-      "exit_price": 0.834065,
-      "outcome": "VOID"
-    },
     {
       "symbol": "GBP/CHF",
       "direction": "CALL",
@@ -1279,6 +1254,20 @@
       "martingale_level": 0,
       "exit_price": 0.835265,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T16:35:00+00:00",
+      "expires_at": "2026-09-30T16:40:00+00:00",
+      "entry_price": 188.331,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 188.3505,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1306,6 +1295,20 @@
       "entry_price": 0.83526,
       "martingale_level": 0,
       "exit_price": 0.835265,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T16:35:00+00:00",
+      "expires_at": "2026-09-30T16:40:00+00:00",
+      "entry_price": 188.331,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 188.3505,
       "outcome": "WIN"
     }
   ],
