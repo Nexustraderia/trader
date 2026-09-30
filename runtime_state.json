@@ -6,48 +6,14 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-09-30T16:15:00+00:00",
-      "expires_at": "2026-09-30T16:20:00+00:00",
+      "entry_at": "2026-09-30T16:35:00+00:00",
+      "expires_at": "2026-09-30T16:40:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
-    },
-    {
-      "symbol": "USD/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-09-30T16:15:00+00:00",
-      "expires_at": "2026-09-30T16:20:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T08:55:00+00:00",
-      "expires_at": "2026-09-29T09:00:00+00:00",
-      "entry_price": 1.103785,
-      "exit_price": 1.104025,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "NZD/USD",
-      "direction": "PUT",
-      "score": 25,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T08:55:00+00:00",
-      "expires_at": "2026-09-29T09:00:00+00:00",
-      "entry_price": 0.56497,
-      "exit_price": 0.565105,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "USD/CHF",
       "direction": "CALL",
@@ -1287,6 +1253,32 @@
       "martingale_level": 0,
       "exit_price": 1.133825,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T16:15:00+00:00",
+      "expires_at": "2026-09-30T16:20:00+00:00",
+      "entry_price": 188.361,
+      "martingale_level": 0,
+      "exit_price": 188.3535,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T16:15:00+00:00",
+      "expires_at": "2026-09-30T16:20:00+00:00",
+      "entry_price": 0.83526,
+      "martingale_level": 0,
+      "exit_price": 0.835265,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1301,6 +1293,19 @@
       "entry_price": 1.13444,
       "martingale_level": 0,
       "exit_price": 1.133825,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T16:15:00+00:00",
+      "expires_at": "2026-09-30T16:20:00+00:00",
+      "entry_price": 0.83526,
+      "martingale_level": 0,
+      "exit_price": 0.835265,
       "outcome": "WIN"
     }
   ],
