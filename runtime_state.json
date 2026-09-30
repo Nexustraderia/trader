@@ -6,25 +6,14 @@
       "score": 20,
       "confidence": 80,
       "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T13:30:00+00:00",
-      "expires_at": "2026-09-30T13:35:00+00:00",
+      "entry_at": "2026-09-30T13:45:00+00:00",
+      "expires_at": "2026-09-30T13:50:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/CAD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T05:40:00+00:00",
-      "expires_at": "2026-09-29T05:45:00+00:00",
-      "entry_price": 1.87794,
-      "exit_price": 1.877835,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/CAD",
       "direction": "PUT",
@@ -1238,6 +1227,19 @@
       "martingale_level": 1,
       "parent_id": null,
       "exit_price": 4202.66,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T13:30:00+00:00",
+      "expires_at": "2026-09-30T13:35:00+00:00",
+      "entry_price": 0.83331,
+      "martingale_level": 0,
+      "exit_price": 0.833355,
       "outcome": "LOSS"
     }
   ],
