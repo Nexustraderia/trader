@@ -1,9 +1,10 @@
 name: IQ Option paper scanner
 
 on:
-  # Scanning is now performed exclusively by the continuous Render service.
-  # Keep manual dispatch available for diagnostics without creating a second
-  # producer of signals/results.
+  schedule:
+    # GitHub's minimum supported cron interval is five minutes.
+    - cron: "*/5 * * * *"
+  # Keep manual dispatch available for diagnostics.
   workflow_dispatch:
 
 concurrency:
