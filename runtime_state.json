@@ -1,73 +1,17 @@
 {
   "pending": [
     {
-      "symbol": "EUR/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T10:30:00+00:00",
-      "expires_at": "2026-09-30T10:35:00+00:00",
-      "entry_price": null
-    },
-    {
       "symbol": "GBP/JPY",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T10:30:00+00:00",
-      "expires_at": "2026-09-30T10:35:00+00:00",
-      "entry_price": null
-    },
-    {
-      "symbol": "USD/CAD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T10:30:00+00:00",
-      "expires_at": "2026-09-30T10:35:00+00:00",
+      "entry_at": "2026-09-30T10:45:00+00:00",
+      "expires_at": "2026-09-30T10:50:00+00:00",
       "entry_price": null
     }
   ],
   "settled": [
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T03:25:00+00:00",
-      "expires_at": "2026-09-29T03:30:00+00:00",
-      "entry_price": 1.41782,
-      "exit_price": 1.41788,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "EUR/GBP",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T03:40:00+00:00",
-      "expires_at": "2026-09-29T03:45:00+00:00",
-      "entry_price": 0.858,
-      "exit_price": 0.858035,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "EUR/JPY",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T03:40:00+00:00",
-      "expires_at": "2026-09-29T03:45:00+00:00",
-      "entry_price": 178.7735,
-      "exit_price": 178.819,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "GBP/CAD",
       "direction": "PUT",
@@ -1231,6 +1175,42 @@
       "entry_price": 1.135975,
       "exit_price": 1.13591,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T10:30:00+00:00",
+      "expires_at": "2026-09-30T10:35:00+00:00",
+      "entry_price": 1.135785,
+      "exit_price": 1.13562,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T10:30:00+00:00",
+      "expires_at": "2026-09-30T10:35:00+00:00",
+      "entry_price": 208.6445,
+      "exit_price": 208.666,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T10:30:00+00:00",
+      "expires_at": "2026-09-30T10:35:00+00:00",
+      "entry_price": 1.418035,
+      "exit_price": 1.41822,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1388,6 +1368,42 @@
       "expires_at": "2026-09-30T10:25:00+00:00",
       "entry_price": 1.135975,
       "exit_price": 1.13591,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T10:30:00+00:00",
+      "expires_at": "2026-09-30T10:35:00+00:00",
+      "entry_price": 1.135785,
+      "exit_price": 1.13562,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T10:30:00+00:00",
+      "expires_at": "2026-09-30T10:35:00+00:00",
+      "entry_price": 208.6445,
+      "exit_price": 208.666,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T10:30:00+00:00",
+      "expires_at": "2026-09-30T10:35:00+00:00",
+      "entry_price": 1.418035,
+      "exit_price": 1.41822,
       "outcome": "LOSS"
     }
   ],
