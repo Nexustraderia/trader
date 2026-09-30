@@ -415,16 +415,23 @@ def analyze_with_confirmation(
         and result["regular_atr_ok"]
         and result.get("regular_confidence", 0) >= 75
     )
-    # Hybrid gate: preserve the historically stronger ADX/confluence base,
-    # while requiring at least two independent V2 quality checks. This avoids
-    # the old V2 all-or-nothing gate that reduced the sample excessively.
-    result["regular_hybrid_confluence_ok"] = (
+    result["regular_base_confluence_ok"] = (
         result["decision"] in ("CALL", "PUT")
-        and result["confluence_ok"]
-        and result.get("adx", 0.0) >= 18
+        and result["m15_decision"] == result["decision"]
+        and result["h1_decision"] in (result["decision"], "AGUARDAR")
+        and result["m1_confirmation_ok"]
+        and result["volatility_ok"]
+        and result["trend_momentum_ok"]
         and result["rsi_entry_ok"]
-        and result["regular_v2_quality_count"] >= 2
+        and result.get("adx", 0.0) >= 18
         and result.get("regular_confidence", 0) >= 75
+    )
+    # Hybrid gate: preserve the historically stronger ADX/confluence base,
+    # while requiring at least two independent V2 quality checks. Regular
+    # pairs intentionally do not require the OTC support/resistance reaction.
+    result["regular_hybrid_confluence_ok"] = (
+        result["regular_base_confluence_ok"]
+        and result["regular_v2_quality_count"] >= 2
     )
     if not result["confluence_ok"]:
         result["reasons"].append("Confluência completa M5/M15/H1 não confirmada")
