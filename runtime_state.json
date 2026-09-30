@@ -1,5 +1,39 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T14:10:00+00:00",
+      "expires_at": "2026-09-30T14:15:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T14:10:00+00:00",
+      "expires_at": "2026-09-30T14:15:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "NZD/JPY",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 75,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T14:10:00+00:00",
+      "expires_at": "2026-09-30T14:15:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
   "settled": [
     {
       "symbol": "USD/CAD",
