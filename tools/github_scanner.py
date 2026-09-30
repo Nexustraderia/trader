@@ -258,17 +258,17 @@ def main() -> None:
             is_regular = not symbol.endswith("-OTC")
             asset_min_confidence = 75 if is_regular else MIN_CONFIDENCE
             effective_confidence = result.get("regular_confidence", 0) if is_regular else result.get("confidence", 0)
-            # Regular pairs use the trend strategy: ADX confirms that the
-            # aligned M5/M15 setup is not merely a sideways fluctuation;
-            # they do not need the OTC-specific support/resistance reaction.
-            regular_trend_ok = not is_regular or result.get("adx", 0) >= 18
+            # Regular pairs use the hybrid ADX/confluence base with at least
+            # two independent EMA/DI/MACD/ATR quality checks.
             eligible = (
-                bool(result.get("regular_trend_confluence_ok")) if is_regular else bool(result.get("confluence_ok"))
-                and effective_confidence >= asset_min_confidence
+                bool(result.get("regular_hybrid_confluence_ok"))
+                if is_regular
+                else bool(result.get("confluence_ok"))
+            ) and (
+                effective_confidence >= asset_min_confidence
                 and result.get("m1_decision") == result.get("decision")
                 and result.get("m15_decision") == result.get("decision")
                 and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
-                and regular_trend_ok
             )
             print(
                 f"{symbol}={result.get('decision')} confidence={effective_confidence} "
@@ -276,7 +276,8 @@ def main() -> None:
                 f"confidence_min={asset_min_confidence} regular_confidence={result.get('regular_confidence', 0)} "
                 f"adx={result.get('adx', 0):.1f} di+={result.get('di_plus', 0):.1f} "
                 f"di-={result.get('di_minus', 0):.1f} atr={result.get('atr_pct', 0):.4f} "
-                f"confluence={result.get('confluence_ok')} rsi={result.get('rsi_entry_ok')} eligible={eligible}"
+                f"v2_quality={result.get('regular_v2_quality_count', 0)}/4 "
+                f"hybrid={result.get('regular_hybrid_confluence_ok')} eligible={eligible}"
             )
             key = (symbol, entry.isoformat())
             if eligible and key not in pending_keys:
@@ -289,7 +290,7 @@ def main() -> None:
                     # 50 after a confirmation adjustment and is not the
                     # directional confidence shown in diagnostics.
                     "confidence": int(effective_confidence),
-                    "strategy": "REGULAR_V2_EMA_DI_MACD_ATR" if is_regular else "OTC_ZONE_CONFLUENCE",
+                    "strategy": "REGULAR_HYBRID_ADX_V2" if is_regular else "OTC_ZONE_CONFLUENCE",
                     "entry_at": entry.isoformat(),
                     "expires_at": (entry + timedelta(minutes=5)).isoformat(),
                     # The price is captured from the exact M5 candle at entry,

@@ -368,6 +368,13 @@ def analyze_with_confirmation(
     )
     result["regular_atr_ok"] = result.get("atr_pct", 0.0) >= 0.003
     result["regular_confidence"] = directional_confidence(result["decision"], result["score"])
+    regular_quality_flags = (
+        result["regular_directional_ok"],
+        result["regular_ema_alignment_ok"],
+        result["regular_macd_ok"],
+        result["regular_atr_ok"],
+    )
+    result["regular_v2_quality_count"] = sum(bool(flag) for flag in regular_quality_flags)
     if result.get("zones_available", result.get("available", False)):
         result["price_action_ok"] = (
             (result["decision"] == "CALL" and (result.get("bullish_rejection", False) or result.get("bullish_reaction", False)))
@@ -406,6 +413,17 @@ def analyze_with_confirmation(
         and result["regular_ema_alignment_ok"]
         and result["regular_macd_ok"]
         and result["regular_atr_ok"]
+        and result.get("regular_confidence", 0) >= 75
+    )
+    # Hybrid gate: preserve the historically stronger ADX/confluence base,
+    # while requiring at least two independent V2 quality checks. This avoids
+    # the old V2 all-or-nothing gate that reduced the sample excessively.
+    result["regular_hybrid_confluence_ok"] = (
+        result["decision"] in ("CALL", "PUT")
+        and result["confluence_ok"]
+        and result.get("adx", 0.0) >= 18
+        and result["rsi_entry_ok"]
+        and result["regular_v2_quality_count"] >= 2
         and result.get("regular_confidence", 0) >= 75
     )
     if not result["confluence_ok"]:
