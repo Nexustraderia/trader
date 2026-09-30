@@ -6,26 +6,13 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-09-30T22:05:00+00:00",
-      "expires_at": "2026-09-30T22:10:00+00:00",
+      "entry_at": "2026-09-30T22:20:00+00:00",
+      "expires_at": "2026-09-30T22:25:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T12:55:00+00:00",
-      "expires_at": "2026-09-30T13:00:00+00:00",
-      "entry_price": 1.611025,
-      "martingale_level": 0,
-      "exit_price": 1.61083,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "EUR/USD",
       "direction": "CALL",
@@ -1349,6 +1336,19 @@
       "parent_id": null,
       "exit_price": 1.61238,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T22:05:00+00:00",
+      "expires_at": "2026-09-30T22:10:00+00:00",
+      "entry_price": 1.61258,
+      "martingale_level": 0,
+      "exit_price": 1.612635,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1393,6 +1393,19 @@
       "parent_id": null,
       "exit_price": 1.61238,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T22:05:00+00:00",
+      "expires_at": "2026-09-30T22:10:00+00:00",
+      "entry_price": 1.61258,
+      "martingale_level": 0,
+      "exit_price": 1.612635,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 17
