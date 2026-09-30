@@ -1,5 +1,61 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T22:35:00+00:00",
+      "expires_at": "2026-09-30T22:36:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T22:35:00+00:00",
+      "expires_at": "2026-09-30T22:36:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T22:35:00+00:00",
+      "expires_at": "2026-09-30T22:36:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T22:35:00+00:00",
+      "expires_at": "2026-09-30T22:36:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T22:35:00+00:00",
+      "expires_at": "2026-09-30T22:36:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
   "settled": [],
   "session_results": [],
   "completed_sessions": 0
