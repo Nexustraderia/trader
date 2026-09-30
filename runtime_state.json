@@ -1,27 +1,16 @@
 {
   "pending": [
     {
-      "symbol": "USD/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-09-30T18:15:00+00:00",
-      "expires_at": "2026-09-30T18:20:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
-    },
-    {
       "symbol": "EUR/JPY",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-09-30T18:15:00+00:00",
-      "expires_at": "2026-09-30T18:20:00+00:00",
+      "entry_at": "2026-09-30T18:35:00+00:00",
+      "expires_at": "2026-09-30T18:40:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     },
     {
       "symbol": "GBP/JPY",
@@ -29,49 +18,14 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-09-30T18:15:00+00:00",
-      "expires_at": "2026-09-30T18:20:00+00:00",
+      "entry_at": "2026-09-30T18:35:00+00:00",
+      "expires_at": "2026-09-30T18:40:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/CAD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T10:20:00+00:00",
-      "expires_at": "2026-09-29T10:25:00+00:00",
-      "entry_price": 1.8779,
-      "exit_price": 1.877945,
-      "outcome": "LOSS"
-    },
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T10:20:00+00:00",
-      "expires_at": "2026-09-29T10:25:00+00:00",
-      "entry_price": 1.419995,
-      "exit_price": 1.41989,
-      "outcome": "LOSS"
-    },
-    {
-      "symbol": "GBP/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T10:35:00+00:00",
-      "expires_at": "2026-09-29T10:40:00+00:00",
-      "entry_price": 1.878575,
-      "exit_price": 1.8788,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/CAD",
       "direction": "CALL",
@@ -1316,6 +1270,46 @@
       "martingale_level": 0,
       "exit_price": 0.83529,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T18:15:00+00:00",
+      "expires_at": "2026-09-30T18:20:00+00:00",
+      "entry_price": 0.83553,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 0.83545,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T18:15:00+00:00",
+      "expires_at": "2026-09-30T18:20:00+00:00",
+      "entry_price": 178.3975,
+      "martingale_level": 0,
+      "exit_price": 178.358,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T18:15:00+00:00",
+      "expires_at": "2026-09-30T18:20:00+00:00",
+      "entry_price": 208.737,
+      "martingale_level": 0,
+      "exit_price": 208.7025,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1489,6 +1483,20 @@
       "martingale_level": 0,
       "exit_price": 88.631,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T18:15:00+00:00",
+      "expires_at": "2026-09-30T18:20:00+00:00",
+      "entry_price": 0.83553,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 0.83545,
+      "outcome": "LOSS"
     }
   ],
   "completed_sessions": 15
