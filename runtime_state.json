@@ -1,76 +1,41 @@
 {
   "pending": [
     {
-      "symbol": "EUR/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T14:10:00+00:00",
-      "expires_at": "2026-09-30T14:15:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    },
-    {
       "symbol": "GBP/CAD",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T14:10:00+00:00",
-      "expires_at": "2026-09-30T14:15:00+00:00",
+      "entry_at": "2026-09-30T14:30:00+00:00",
+      "expires_at": "2026-09-30T14:35:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T14:30:00+00:00",
+      "expires_at": "2026-09-30T14:35:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     },
     {
-      "symbol": "NZD/JPY",
-      "direction": "PUT",
-      "score": 25,
-      "confidence": 75,
+      "symbol": "EUR/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
       "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T14:10:00+00:00",
-      "expires_at": "2026-09-30T14:15:00+00:00",
+      "entry_at": "2026-09-30T14:30:00+00:00",
+      "expires_at": "2026-09-30T14:35:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T05:50:00+00:00",
-      "expires_at": "2026-09-29T05:55:00+00:00",
-      "entry_price": 1.419255,
-      "exit_price": 1.419195,
-      "outcome": "LOSS"
-    },
-    {
-      "symbol": "GBP/CAD",
-      "direction": "PUT",
-      "score": 25,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T06:00:00+00:00",
-      "expires_at": "2026-09-29T06:05:00+00:00",
-      "entry_price": 1.87784,
-      "exit_price": 1.87812,
-      "outcome": "LOSS"
-    },
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T06:00:00+00:00",
-      "expires_at": "2026-09-29T06:05:00+00:00",
-      "entry_price": 1.41901,
-      "exit_price": 1.418435,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "EUR/GBP",
       "direction": "CALL",
@@ -1264,6 +1229,45 @@
       "parent_id": null,
       "exit_price": 0.834095,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T14:10:00+00:00",
+      "expires_at": "2026-09-30T14:15:00+00:00",
+      "entry_price": 0.94766,
+      "martingale_level": 0,
+      "exit_price": 0.947785,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T14:10:00+00:00",
+      "expires_at": "2026-09-30T14:15:00+00:00",
+      "entry_price": 1.88517,
+      "martingale_level": 0,
+      "exit_price": 1.884735,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "NZD/JPY",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 75,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T14:10:00+00:00",
+      "expires_at": "2026-09-30T14:15:00+00:00",
+      "entry_price": 88.556,
+      "martingale_level": 0,
+      "exit_price": 88.532,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1363,6 +1367,32 @@
       "martingale_level": 1,
       "parent_id": null,
       "exit_price": 0.834095,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T14:10:00+00:00",
+      "expires_at": "2026-09-30T14:15:00+00:00",
+      "entry_price": 0.94766,
+      "martingale_level": 0,
+      "exit_price": 0.947785,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "NZD/JPY",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 75,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T14:10:00+00:00",
+      "expires_at": "2026-09-30T14:15:00+00:00",
+      "entry_price": 88.556,
+      "martingale_level": 0,
+      "exit_price": 88.532,
       "outcome": "WIN"
     }
   ],
