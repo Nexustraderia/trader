@@ -1,29 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "GBP/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T10:45:00+00:00",
-      "expires_at": "2026-09-30T10:50:00+00:00",
-      "entry_price": null
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "GBP/CAD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T03:40:00+00:00",
-      "expires_at": "2026-09-29T03:45:00+00:00",
-      "entry_price": 1.87822,
-      "exit_price": 1.878,
-      "outcome": "WIN"
-    },
     {
       "symbol": "USD/CHF",
       "direction": "CALL",
@@ -1211,6 +1188,18 @@
       "entry_price": 1.418035,
       "exit_price": 1.41822,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T10:45:00+00:00",
+      "expires_at": "2026-09-30T10:50:00+00:00",
+      "entry_price": 208.6895,
+      "exit_price": 208.759,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1405,6 +1394,18 @@
       "entry_price": 1.418035,
       "exit_price": 1.41822,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T10:45:00+00:00",
+      "expires_at": "2026-09-30T10:50:00+00:00",
+      "entry_price": 208.6895,
+      "exit_price": 208.759,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 13
