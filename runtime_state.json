@@ -1,16 +1,15 @@
 {
   "pending": [
     {
-      "symbol": "EUR/AUD",
+      "symbol": "GBP/CAD",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-09-30T23:30:00+00:00",
-      "expires_at": "2026-09-30T23:31:00+00:00",
+      "entry_at": "2026-09-30T23:40:00+00:00",
+      "expires_at": "2026-09-30T23:41:00+00:00",
       "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
+      "martingale_level": 0
     }
   ],
   "settled": [
@@ -105,6 +104,20 @@
       "martingale_level": 0,
       "exit_price": 1.6314,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T23:30:00+00:00",
+      "expires_at": "2026-09-30T23:31:00+00:00",
+      "entry_price": 1.63108,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.63107,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -172,6 +185,20 @@
       "martingale_level": 1,
       "parent_id": null,
       "exit_price": 1.631265,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T23:30:00+00:00",
+      "expires_at": "2026-09-30T23:31:00+00:00",
+      "entry_price": 1.63108,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.63107,
       "outcome": "LOSS"
     }
   ],
