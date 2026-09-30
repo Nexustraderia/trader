@@ -1,25 +1,13 @@
 {
   "pending": [
     {
-      "symbol": "GBP/CAD",
+      "symbol": "EUR/CAD",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
-      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T15:00:00+00:00",
-      "expires_at": "2026-09-30T15:05:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
-    },
-    {
-      "symbol": "GBP/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T15:00:00+00:00",
-      "expires_at": "2026-09-30T15:05:00+00:00",
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T15:30:00+00:00",
+      "expires_at": "2026-09-30T15:35:00+00:00",
       "entry_price": null,
       "martingale_level": 1,
       "parent_id": null
@@ -30,72 +18,25 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-09-30T15:00:00+00:00",
-      "expires_at": "2026-09-30T15:05:00+00:00",
+      "entry_at": "2026-09-30T15:30:00+00:00",
+      "expires_at": "2026-09-30T15:35:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     },
     {
-      "symbol": "EUR/CAD",
+      "symbol": "USD/CAD",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-09-30T15:05:00+00:00",
-      "expires_at": "2026-09-30T15:10:00+00:00",
+      "entry_at": "2026-09-30T15:30:00+00:00",
+      "expires_at": "2026-09-30T15:35:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T07:40:00+00:00",
-      "expires_at": "2026-09-29T07:45:00+00:00",
-      "entry_price": 1.418925,
-      "exit_price": 1.41913,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "CHF/JPY",
-      "direction": "PUT",
-      "score": 25,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T07:55:00+00:00",
-      "expires_at": "2026-09-29T08:00:00+00:00",
-      "entry_price": 188.868,
-      "exit_price": 188.8465,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "GBP/USD",
-      "direction": "PUT",
-      "score": 25,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T07:55:00+00:00",
-      "expires_at": "2026-09-29T08:00:00+00:00",
-      "entry_price": 1.323505,
-      "exit_price": 1.32336,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "NZD/JPY",
-      "direction": "PUT",
-      "score": 25,
-      "confidence": 50,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T07:55:00+00:00",
-      "expires_at": "2026-09-29T08:00:00+00:00",
-      "entry_price": 88.947,
-      "exit_price": 88.9595,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "USD/CAD",
       "direction": "CALL",
@@ -1290,6 +1231,60 @@
       "martingale_level": 0,
       "exit_price": 1.10854,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T15:00:00+00:00",
+      "expires_at": "2026-09-30T15:05:00+00:00",
+      "entry_price": 1.885945,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.88565,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T15:00:00+00:00",
+      "expires_at": "2026-09-30T15:05:00+00:00",
+      "entry_price": 1.10892,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.108545,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T15:00:00+00:00",
+      "expires_at": "2026-09-30T15:05:00+00:00",
+      "entry_price": 1.612505,
+      "martingale_level": 0,
+      "exit_price": 1.612325,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T15:05:00+00:00",
+      "expires_at": "2026-09-30T15:10:00+00:00",
+      "entry_price": 1.61233,
+      "martingale_level": 0,
+      "exit_price": 1.611835,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1457,6 +1452,34 @@
       "martingale_level": 1,
       "parent_id": null,
       "exit_price": 1.61071,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T15:00:00+00:00",
+      "expires_at": "2026-09-30T15:05:00+00:00",
+      "entry_price": 1.885945,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.88565,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T15:00:00+00:00",
+      "expires_at": "2026-09-30T15:05:00+00:00",
+      "entry_price": 1.10892,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.108545,
       "outcome": "LOSS"
     }
   ],
