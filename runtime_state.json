@@ -34,6 +34,17 @@
       "expires_at": "2026-09-30T15:05:00+00:00",
       "entry_price": null,
       "martingale_level": 0
+    },
+    {
+      "symbol": "EUR/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-09-30T15:05:00+00:00",
+      "expires_at": "2026-09-30T15:10:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
     }
   ],
   "settled": [
