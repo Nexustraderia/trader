@@ -1,5 +1,17 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "EUR/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T11:25:00+00:00",
+      "expires_at": "2026-09-30T11:30:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
   "settled": [
     {
       "symbol": "USD/CHF",
