@@ -1,31 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "EUR/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
-      "entry_at": "2026-09-30T11:40:00+00:00",
-      "expires_at": "2026-09-30T11:45:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "AUD/CAD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 85,
-      "strategy": "REGULAR_TREND_ADX",
-      "entry_at": "2026-09-29T04:00:00+00:00",
-      "expires_at": "2026-09-29T04:05:00+00:00",
-      "entry_price": 0.99444,
-      "exit_price": 0.994415,
-      "outcome": "WIN"
-    },
     {
       "symbol": "EUR/GBP",
       "direction": "CALL",
@@ -1214,6 +1189,20 @@
       "martingale_level": 0,
       "exit_price": 178.267,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T11:40:00+00:00",
+      "expires_at": "2026-09-30T11:45:00+00:00",
+      "entry_price": 178.3145,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 178.3405,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1419,6 +1408,20 @@
       "expires_at": "2026-09-30T10:50:00+00:00",
       "entry_price": 208.6895,
       "exit_price": 208.759,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_V2_EMA_DI_MACD_ATR",
+      "entry_at": "2026-09-30T11:40:00+00:00",
+      "expires_at": "2026-09-30T11:45:00+00:00",
+      "entry_price": 178.3145,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 178.3405,
       "outcome": "WIN"
     }
   ],
