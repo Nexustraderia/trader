@@ -88,7 +88,7 @@ def save_state(state: dict) -> None:
     STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n")
 
 
-def format_signal(result: dict, entry_at: datetime) -> str:
+def format_signal(result: dict, entry_at: datetime, martingale_level: int = 0) -> str:
     local = entry_at.astimezone(BRASILIA)
     return "\n".join([
         "⚡️ NEXUS I.A TRADER ⚡️",
@@ -98,13 +98,14 @@ def format_signal(result: dict, entry_at: datetime) -> str:
         f"💱 ATIVO\n{result['symbol']}",
         "",
         f"📊 DIREÇÃO\n{'🟢' if result['decision'] == 'CALL' else '🔴'} {result['decision']}",
+        *("🔁 RECUPERAÇÃO MG1" if martingale_level == 1 else "" ,),
         "",
         f"⏰ ENTRADA\n{local.strftime('%H:%M')} (UTC−3 Brasília)",
         "⌛ EXPIRAÇÃO\nM5",
         "",
         "",
         "Sinais Exclusivos para a IQ OPTION",
-        "100% sem martingale.",
+        "Até 1 recuperação permitida.",
         "Não tem conta na IQ OPTION?",
         "Clique no botão abaixo e cadastre-se.",
     ])
@@ -112,7 +113,15 @@ def format_signal(result: dict, entry_at: datetime) -> str:
 
 def format_result(item: dict, outcome: str) -> str:
     local = datetime.fromisoformat(item["entry_at"]).astimezone(BRASILIA)
-    label = {"WIN": "✅ WIN", "LOSS": "🔴 LOSS", "VOID": "⚪ VOID"}[outcome]
+    level = int(item.get("martingale_level", 0))
+    if level == 1 and outcome == "WIN":
+        label = "✅ WIN no MG1"
+    elif level == 1 and outcome == "LOSS":
+        label = "🔴 LOSS após MG1"
+    elif level == 0 and outcome == "LOSS":
+        label = "🔴 LOSS — MG1 acionado"
+    else:
+        label = {"WIN": "✅ WIN", "LOSS": "🔴 LOSS", "VOID": "⚪ VOID"}[outcome]
     return "\n".join([
         "⚡️ NEXUS I.A TRADER ⚡️",
         "📊 Resultado do paper trading",
@@ -129,8 +138,7 @@ def format_result(item: dict, outcome: str) -> str:
 def format_session_summary(batch: list[dict]) -> str:
     """Format one attractive 20-signal scoreboard for Telegram."""
     counts = {outcome: sum(1 for item in batch if item.get("outcome") == outcome) for outcome in ("WIN", "LOSS", "VOID")}
-    win_return = STAKE_PER_SIGNAL * (PAYOUT_PERCENT / 100)
-    estimated_profit = counts["WIN"] * win_return - counts["LOSS"] * STAKE_PER_SIGNAL
+    mg1_wins = sum(1 for item in batch if item.get("martingale_level") == 1 and item.get("outcome") == "WIN")
     result_icons = {"WIN": "💚", "LOSS": "❌", "VOID": "⚪"}
     lines = [
         "💥🤑 PLACAR NEXUS IA 🤑💥",
@@ -142,18 +150,16 @@ def format_session_summary(batch: list[dict]) -> str:
     for item in batch:
         local = datetime.fromisoformat(item["entry_at"]).astimezone(BRASILIA)
         symbol = item["symbol"].replace("/", "")
-        lines.append(f"{local.strftime('%H:%M')}  {symbol}  {item['direction']}  {result_icons.get(item.get('outcome'), '⚪')}")
+        mg_label = "  MG1" if int(item.get("martingale_level", 0)) == 1 else ""
+        lines.append(f"{local.strftime('%H:%M')}  {symbol}  {item['direction']}{mg_label}  {result_icons.get(item.get('outcome'), '⚪')}")
     decided = counts["WIN"] + counts["LOSS"]
     accuracy = counts["WIN"] / decided * 100 if decided else 0
-    profit_label = f"R$ {estimated_profit:.2f}".replace(".", ",")
     lines.extend([
         "",
         "━━━━━━━━━━━━━━━━━━",
         f"✅ WIN: {counts['WIN']}   ❌ LOSS: {counts['LOSS']}   ⚪ VOID: {counts['VOID']}",
+        f"🔁 WIN no MG1: {mg1_wins}",
         f"🎯 Assertividade: {accuracy:.2f}%",
-        f"💰 Estimativa: {profit_label}",
-        "",
-        f"Entrada: R$ {STAKE_PER_SIGNAL:.2f}".replace(".", ",") + f"  •  Payout: {PAYOUT_PERCENT:.0f}%",
     ])
     return "\n".join(lines)
 
@@ -191,7 +197,25 @@ def settle_pending(state: dict) -> None:
             item["outcome"] = outcome
             state["settled"].append(item)
             telegram(format_result(item, outcome))
-            state.setdefault("session_results", []).append(item)
+            level = int(item.get("martingale_level", 0))
+            if outcome == "LOSS" and level == 0:
+                recovery_entry = next_entry()
+                recovery = {
+                    "symbol": item["symbol"],
+                    "direction": item["direction"],
+                    "score": item.get("score", 0),
+                    "confidence": item.get("confidence", 0),
+                    "strategy": item.get("strategy", ""),
+                    "entry_at": recovery_entry.isoformat(),
+                    "expires_at": (recovery_entry + timedelta(minutes=5)).isoformat(),
+                    "entry_price": None,
+                    "martingale_level": 1,
+                    "parent_id": item.get("id"),
+                }
+                telegram(format_signal({"symbol": recovery["symbol"], "decision": recovery["direction"]}, recovery_entry, 1))
+                remaining.append(recovery)
+            else:
+                state.setdefault("session_results", []).append(item)
             print(f"RESULT {item['symbol']}={outcome}")
         except Exception as error:
             item["settlement_error"] = f"{type(error).__name__}: {str(error)[:160]}"
@@ -271,6 +295,7 @@ def main() -> None:
                     # The price is captured from the exact M5 candle at entry,
                     # not from the earlier analysis candle.
                     "entry_price": None,
+                    "martingale_level": 0,
                 }
                 telegram(
                     format_signal(result, entry),
