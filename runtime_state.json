@@ -1,31 +1,18 @@
 {
   "pending": [
     {
-      "symbol": "GBP/CAD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T17:05:00+00:00",
-      "expires_at": "2026-10-01T17:06:00+00:00",
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 95,
+      "confidence": 95,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-10-01T17:20:00+00:00",
+      "expires_at": "2026-10-01T17:21:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "CAD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T05:40:00+00:00",
-      "expires_at": "2026-10-01T05:41:00+00:00",
-      "entry_price": 111.15,
-      "martingale_level": 0,
-      "exit_price": 111.1575,
-      "outcome": "WIN"
-    },
     {
       "symbol": "CHF/JPY",
       "direction": "CALL",
@@ -1345,6 +1332,19 @@
       "martingale_level": 0,
       "exit_price": 1.87879,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T17:05:00+00:00",
+      "expires_at": "2026-10-01T17:06:00+00:00",
+      "entry_price": 1.87882,
+      "martingale_level": 0,
+      "exit_price": 1.878665,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1359,6 +1359,19 @@
       "entry_price": 1.87901,
       "martingale_level": 0,
       "exit_price": 1.87879,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T17:05:00+00:00",
+      "expires_at": "2026-10-01T17:06:00+00:00",
+      "entry_price": 1.87882,
+      "martingale_level": 0,
+      "exit_price": 1.878665,
       "outcome": "WIN"
     }
   ],
