@@ -6,8 +6,8 @@
       "score": 20,
       "confidence": 80,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T07:40:00+00:00",
-      "expires_at": "2026-10-01T07:41:00+00:00",
+      "entry_at": "2026-10-01T07:55:00+00:00",
+      "expires_at": "2026-10-01T07:56:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
@@ -1026,8 +1026,35 @@
       "martingale_level": 0,
       "exit_price": 158.4005,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "NZD/JPY",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T07:40:00+00:00",
+      "expires_at": "2026-10-01T07:41:00+00:00",
+      "entry_price": 88.841,
+      "martingale_level": 0,
+      "exit_price": 88.837,
+      "outcome": "WIN"
     }
   ],
-  "session_results": [],
+  "session_results": [
+    {
+      "symbol": "NZD/JPY",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T07:40:00+00:00",
+      "expires_at": "2026-10-01T07:41:00+00:00",
+      "entry_price": 88.841,
+      "martingale_level": 0,
+      "exit_price": 88.837,
+      "outcome": "WIN"
+    }
+  ],
   "completed_sessions": 2
 }
