@@ -1,57 +1,30 @@
 {
   "pending": [
     {
-      "symbol": "USD/JPY",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T15:55:00+00:00",
-      "expires_at": "2026-10-01T15:56:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
-    },
-    {
       "symbol": "GBP/CAD",
       "direction": "PUT",
       "score": 20,
       "confidence": 80,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T15:55:00+00:00",
-      "expires_at": "2026-10-01T15:56:00+00:00",
+      "entry_at": "2026-10-01T16:05:00+00:00",
+      "expires_at": "2026-10-01T16:06:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T16:05:00+00:00",
+      "expires_at": "2026-10-01T16:06:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "USD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T04:55:00+00:00",
-      "expires_at": "2026-10-01T04:56:00+00:00",
-      "entry_price": 158.257,
-      "martingale_level": 1,
-      "parent_id": null,
-      "exit_price": 158.2795,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "USD/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T04:55:00+00:00",
-      "expires_at": "2026-10-01T04:56:00+00:00",
-      "entry_price": 0.83647,
-      "martingale_level": 0,
-      "exit_price": 0.83647,
-      "outcome": "VOID"
-    },
     {
       "symbol": "GBP/CHF",
       "direction": "CALL",
@@ -1358,6 +1331,33 @@
       "martingale_level": 0,
       "exit_price": 157.508,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T15:55:00+00:00",
+      "expires_at": "2026-10-01T15:56:00+00:00",
+      "entry_price": 157.622,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 157.61,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T15:55:00+00:00",
+      "expires_at": "2026-10-01T15:56:00+00:00",
+      "entry_price": 1.879515,
+      "martingale_level": 0,
+      "exit_price": 1.879715,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1643,6 +1643,20 @@
       "entry_price": 1.321465,
       "martingale_level": 0,
       "exit_price": 1.322275,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T15:55:00+00:00",
+      "expires_at": "2026-10-01T15:56:00+00:00",
+      "entry_price": 157.622,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 157.61,
       "outcome": "WIN"
     }
   ],
