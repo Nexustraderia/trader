@@ -6,10 +6,11 @@
       "score": 20,
       "confidence": 80,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T18:25:00+00:00",
-      "expires_at": "2026-10-01T18:26:00+00:00",
+      "entry_at": "2026-10-01T18:45:00+00:00",
+      "expires_at": "2026-10-01T18:46:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     },
     {
       "symbol": "XAU/USD",
@@ -17,40 +18,14 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T18:25:00+00:00",
-      "expires_at": "2026-10-01T18:26:00+00:00",
+      "entry_at": "2026-10-01T18:45:00+00:00",
+      "expires_at": "2026-10-01T18:46:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     }
   ],
   "settled": [
-    {
-      "symbol": "NZD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T05:40:00+00:00",
-      "expires_at": "2026-10-01T05:41:00+00:00",
-      "entry_price": 89.01,
-      "martingale_level": 0,
-      "exit_price": 89.0135,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "EUR/AUD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T05:50:00+00:00",
-      "expires_at": "2026-10-01T05:51:00+00:00",
-      "entry_price": 1.62894,
-      "martingale_level": 1,
-      "parent_id": null,
-      "exit_price": 1.62922,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "AUD/CAD",
       "direction": "CALL",
@@ -1357,6 +1332,32 @@
       "martingale_level": 0,
       "exit_price": 1.42378,
       "outcome": "VOID"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T18:25:00+00:00",
+      "expires_at": "2026-10-01T18:26:00+00:00",
+      "entry_price": 1.424105,
+      "martingale_level": 0,
+      "exit_price": 1.42418,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "XAU/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T18:25:00+00:00",
+      "expires_at": "2026-10-01T18:26:00+00:00",
+      "entry_price": 4177.16,
+      "martingale_level": 0,
+      "exit_price": 4176.23,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
