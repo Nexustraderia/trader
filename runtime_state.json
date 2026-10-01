@@ -1,32 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "USD/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "OTC_ZONE_CONFLUENCE",
-      "entry_at": "2026-10-01T10:35:00+00:00",
-      "expires_at": "2026-10-01T10:36:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "EUR/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-09-30T23:50:00+00:00",
-      "expires_at": "2026-09-30T23:51:00+00:00",
-      "entry_price": 178.4095,
-      "martingale_level": 0,
-      "exit_price": 178.393,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "USD/JPY",
       "direction": "CALL",
@@ -1350,6 +1324,20 @@
       "martingale_level": 0,
       "exit_price": 158.35765,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-10-01T10:35:00+00:00",
+      "expires_at": "2026-10-01T10:36:00+00:00",
+      "entry_price": 158.41235,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 158.43085,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1624,6 +1612,20 @@
       "entry_price": 178.5385,
       "martingale_level": 0,
       "exit_price": 178.5215,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-10-01T10:35:00+00:00",
+      "expires_at": "2026-10-01T10:36:00+00:00",
+      "entry_price": 158.41235,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 158.43085,
       "outcome": "WIN"
     }
   ],
