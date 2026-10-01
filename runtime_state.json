@@ -1,39 +1,16 @@
 {
   "pending": [
     {
-      "symbol": "USD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T09:10:00+00:00",
-      "expires_at": "2026-10-01T09:11:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
-    },
-    {
-      "symbol": "XAU/USD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T09:10:00+00:00",
-      "expires_at": "2026-10-01T09:11:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
-    },
-    {
       "symbol": "EUR/AUD",
       "direction": "PUT",
       "score": 25,
       "confidence": 75,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T09:10:00+00:00",
-      "expires_at": "2026-10-01T09:11:00+00:00",
+      "entry_at": "2026-10-01T09:30:00+00:00",
+      "expires_at": "2026-10-01T09:31:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     },
     {
       "symbol": "GBP/CAD",
@@ -41,10 +18,11 @@
       "score": 20,
       "confidence": 80,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T09:10:00+00:00",
-      "expires_at": "2026-10-01T09:11:00+00:00",
+      "entry_at": "2026-10-01T09:30:00+00:00",
+      "expires_at": "2026-10-01T09:31:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     }
   ],
   "settled": [
@@ -1301,6 +1279,60 @@
       "martingale_level": 0,
       "exit_price": 4154.4,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T09:10:00+00:00",
+      "expires_at": "2026-10-01T09:11:00+00:00",
+      "entry_price": 158.2915,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 158.3135,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "XAU/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T09:10:00+00:00",
+      "expires_at": "2026-10-01T09:11:00+00:00",
+      "entry_price": 4159.645,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 4160.93,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 75,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T09:10:00+00:00",
+      "expires_at": "2026-10-01T09:11:00+00:00",
+      "entry_price": 1.62753,
+      "martingale_level": 0,
+      "exit_price": 1.627545,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T09:10:00+00:00",
+      "expires_at": "2026-10-01T09:11:00+00:00",
+      "entry_price": 1.88271,
+      "martingale_level": 0,
+      "exit_price": 1.882805,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1439,6 +1471,34 @@
       "martingale_level": 0,
       "exit_price": 1.608285,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T09:10:00+00:00",
+      "expires_at": "2026-10-01T09:11:00+00:00",
+      "entry_price": 158.2915,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 158.3135,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "XAU/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T09:10:00+00:00",
+      "expires_at": "2026-10-01T09:11:00+00:00",
+      "entry_price": 4159.645,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 4160.93,
+      "outcome": "LOSS"
     }
   ],
   "completed_sessions": 2
