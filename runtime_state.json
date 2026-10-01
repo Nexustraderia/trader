@@ -1,27 +1,16 @@
 {
   "pending": [
     {
-      "symbol": "EUR/USD-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "OTC_ZONE_CONFLUENCE",
-      "entry_at": "2026-10-01T01:50:00+00:00",
-      "expires_at": "2026-10-01T01:51:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
-    },
-    {
       "symbol": "CAD/JPY",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T01:50:00+00:00",
-      "expires_at": "2026-10-01T01:51:00+00:00",
+      "entry_at": "2026-10-01T02:00:00+00:00",
+      "expires_at": "2026-10-01T02:01:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     },
     {
       "symbol": "EUR/JPY",
@@ -29,10 +18,11 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T01:50:00+00:00",
-      "expires_at": "2026-10-01T01:51:00+00:00",
+      "entry_at": "2026-10-01T02:00:00+00:00",
+      "expires_at": "2026-10-01T02:01:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     },
     {
       "symbol": "USD/JPY",
@@ -40,8 +30,31 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T01:50:00+00:00",
-      "expires_at": "2026-10-01T01:51:00+00:00",
+      "entry_at": "2026-10-01T02:00:00+00:00",
+      "expires_at": "2026-10-01T02:01:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null
+    },
+    {
+      "symbol": "AUD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T02:00:00+00:00",
+      "expires_at": "2026-10-01T02:01:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T02:00:00+00:00",
+      "expires_at": "2026-10-01T02:01:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
@@ -473,6 +486,59 @@
       "martingale_level": 0,
       "exit_price": 1.157345,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-10-01T01:50:00+00:00",
+      "expires_at": "2026-10-01T01:51:00+00:00",
+      "entry_price": 1.160235,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.160085,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "CAD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T01:50:00+00:00",
+      "expires_at": "2026-10-01T01:51:00+00:00",
+      "entry_price": 111.0365,
+      "martingale_level": 0,
+      "exit_price": 111.0335,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T01:50:00+00:00",
+      "expires_at": "2026-10-01T01:51:00+00:00",
+      "entry_price": 179.1425,
+      "martingale_level": 0,
+      "exit_price": 179.1375,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T01:50:00+00:00",
+      "expires_at": "2026-10-01T01:51:00+00:00",
+      "entry_price": 158.105,
+      "martingale_level": 0,
+      "exit_price": 158.1015,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -745,6 +811,20 @@
       "martingale_level": 1,
       "parent_id": null,
       "exit_price": 158.0755,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 95,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-10-01T01:50:00+00:00",
+      "expires_at": "2026-10-01T01:51:00+00:00",
+      "entry_price": 1.160235,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.160085,
       "outcome": "LOSS"
     }
   ],
