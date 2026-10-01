@@ -1,5 +1,50 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "GBP/AUD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T13:25:00+00:00",
+      "expires_at": "2026-10-01T13:26:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T13:25:00+00:00",
+      "expires_at": "2026-10-01T13:26:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T13:25:00+00:00",
+      "expires_at": "2026-10-01T13:26:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-10-01T13:25:00+00:00",
+      "expires_at": "2026-10-01T13:26:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
   "settled": [
     {
       "symbol": "GBP/AUD",
