@@ -1,17 +1,5 @@
 {
-  "pending": [
-    {
-      "symbol": "GBP/USD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T03:35:00+00:00",
-      "expires_at": "2026-10-01T03:36:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
     {
       "symbol": "EUR/AUD",
@@ -587,6 +575,19 @@
       "parent_id": null,
       "exit_price": 0.989375,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T03:35:00+00:00",
+      "expires_at": "2026-10-01T03:36:00+00:00",
+      "entry_price": 1.32513,
+      "martingale_level": 0,
+      "exit_price": 1.325095,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -615,6 +616,19 @@
       "martingale_level": 1,
       "parent_id": null,
       "exit_price": 0.989375,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-01T03:35:00+00:00",
+      "expires_at": "2026-10-01T03:36:00+00:00",
+      "entry_price": 1.32513,
+      "martingale_level": 0,
+      "exit_price": 1.325095,
       "outcome": "WIN"
     }
   ],
