@@ -6,26 +6,58 @@
       "score": 20,
       "confidence": 80,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T11:15:00+00:00",
-      "expires_at": "2026-10-02T11:16:00+00:00",
+      "entry_at": "2026-10-02T11:30:00+00:00",
+      "expires_at": "2026-10-02T11:31:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T11:30:00+00:00",
+      "expires_at": "2026-10-02T11:31:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T11:30:00+00:00",
+      "expires_at": "2026-10-02T11:31:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T11:30:00+00:00",
+      "expires_at": "2026-10-02T11:31:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T11:30:00+00:00",
+      "expires_at": "2026-10-02T11:31:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/USD-OTC",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 85,
-      "strategy": "OTC_ZONE_CONFLUENCE",
-      "entry_at": "2026-10-01T13:25:00+00:00",
-      "expires_at": "2026-10-01T13:26:00+00:00",
-      "entry_price": 1.319745,
-      "martingale_level": 0,
-      "exit_price": 1.320075,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "GBP/AUD",
       "direction": "PUT",
@@ -1343,6 +1375,19 @@
       "martingale_level": 0,
       "exit_price": 4169.155,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T11:15:00+00:00",
+      "expires_at": "2026-10-02T11:16:00+00:00",
+      "entry_price": 1.320425,
+      "martingale_level": 0,
+      "exit_price": 1.3205,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
