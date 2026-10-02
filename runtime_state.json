@@ -6,27 +6,14 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T18:40:00+00:00",
-      "expires_at": "2026-10-02T18:41:00+00:00",
+      "entry_at": "2026-10-02T18:55:00+00:00",
+      "expires_at": "2026-10-02T18:56:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     }
   ],
   "settled": [
-    {
-      "symbol": "CAD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T04:10:00+00:00",
-      "expires_at": "2026-10-02T04:11:00+00:00",
-      "entry_price": 111.079,
-      "martingale_level": 1,
-      "parent_id": null,
-      "exit_price": 111.0825,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/USD-OTC",
       "direction": "CALL",
@@ -1343,6 +1330,19 @@
       "parent_id": null,
       "exit_price": 1.88712,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T18:40:00+00:00",
+      "expires_at": "2026-10-02T18:41:00+00:00",
+      "entry_price": 190.43,
+      "martingale_level": 0,
+      "exit_price": 190.427,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1566,12 +1566,12 @@
   "completed_sessions": 7,
   "asset_quarantine": {
     "GBP/USD": {
-      "remaining": 15,
+      "remaining": 14,
       "sample_size": 9,
       "accuracy": 44.44
     },
     "GBP/CAD": {
-      "remaining": 16,
+      "remaining": 15,
       "sample_size": 9,
       "accuracy": 44.44
     }
