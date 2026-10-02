@@ -1,5 +1,28 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T03:10:00+00:00",
+      "expires_at": "2026-10-02T03:11:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 75,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T03:10:00+00:00",
+      "expires_at": "2026-10-02T03:11:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
   "settled": [
     {
       "symbol": "USD/JPY",
