@@ -1,32 +1,29 @@
 {
   "pending": [
     {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T10:05:00+00:00",
-      "expires_at": "2026-10-02T10:06:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
-    }
-  ],
-  "settled": [
-    {
-      "symbol": "GBP/AUD",
+      "symbol": "NZD/USD",
       "direction": "PUT",
       "score": 20,
       "confidence": 80,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T13:25:00+00:00",
-      "expires_at": "2026-10-01T13:26:00+00:00",
-      "entry_price": 1.902695,
-      "martingale_level": 0,
-      "exit_price": 1.90294,
-      "outcome": "LOSS"
+      "entry_at": "2026-10-02T10:20:00+00:00",
+      "expires_at": "2026-10-02T10:21:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
     },
+    {
+      "symbol": "XAU/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T10:20:00+00:00",
+      "expires_at": "2026-10-02T10:21:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
+  "settled": [
     {
       "symbol": "GBP/CHF",
       "direction": "PUT",
@@ -1343,6 +1340,20 @@
       "martingale_level": 0,
       "exit_price": 1.423685,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T10:05:00+00:00",
+      "expires_at": "2026-10-02T10:06:00+00:00",
+      "entry_price": 1.42371,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.423715,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1359,6 +1370,20 @@
       "parent_id": null,
       "exit_price": 1.124895,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T10:05:00+00:00",
+      "expires_at": "2026-10-02T10:06:00+00:00",
+      "entry_price": 1.42371,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.423715,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 6
