@@ -1666,12 +1666,12 @@
   "completed_sessions": 7,
   "asset_quarantine": {
     "GBP/USD": {
-      "remaining": 1,
+      "remaining": 0,
       "sample_size": 9,
       "accuracy": 44.44
     },
     "GBP/CAD": {
-      "remaining": 2,
+      "remaining": 1,
       "sample_size": 9,
       "accuracy": 44.44
     }
