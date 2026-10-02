@@ -6,27 +6,36 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T17:10:00+00:00",
-      "expires_at": "2026-10-02T17:11:00+00:00",
+      "entry_at": "2026-10-02T17:25:00+00:00",
+      "expires_at": "2026-10-02T17:26:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null
+    },
+    {
+      "symbol": "EUR/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T17:25:00+00:00",
+      "expires_at": "2026-10-02T17:26:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T17:25:00+00:00",
+      "expires_at": "2026-10-02T17:26:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "OTC_ZONE_CONFLUENCE",
-      "entry_at": "2026-10-02T01:50:00+00:00",
-      "expires_at": "2026-10-02T01:51:00+00:00",
-      "entry_price": 210.814455,
-      "martingale_level": 1,
-      "parent_id": null,
-      "exit_price": 210.822615,
-      "outcome": "WIN"
-    },
     {
       "symbol": "CHF/JPY",
       "direction": "CALL",
@@ -1342,6 +1351,19 @@
       "martingale_level": 0,
       "exit_price": 1.32338,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T17:10:00+00:00",
+      "expires_at": "2026-10-02T17:11:00+00:00",
+      "entry_price": 1.32352,
+      "martingale_level": 0,
+      "exit_price": 1.323495,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1522,5 +1544,11 @@
     }
   ],
   "completed_sessions": 7,
-  "asset_quarantine": {}
+  "asset_quarantine": {
+    "GBP/USD": {
+      "remaining": 20,
+      "sample_size": 9,
+      "accuracy": 44.44
+    }
+  }
 }
