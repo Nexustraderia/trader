@@ -1,31 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "USD/JPY",
-      "direction": "PUT",
-      "score": 25,
-      "confidence": 75,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T08:40:00+00:00",
-      "expires_at": "2026-10-02T08:41:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "USD/CHF",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T11:50:00+00:00",
-      "expires_at": "2026-10-01T11:51:00+00:00",
-      "entry_price": 0.83518,
-      "martingale_level": 0,
-      "exit_price": 0.835125,
-      "outcome": "WIN"
-    },
     {
       "symbol": "XAU/USD",
       "direction": "CALL",
@@ -1342,6 +1317,19 @@
       "martingale_level": 0,
       "exit_price": 1.422955,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 75,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T08:40:00+00:00",
+      "expires_at": "2026-10-02T08:41:00+00:00",
+      "entry_price": 157.622,
+      "martingale_level": 0,
+      "exit_price": 157.594,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1610,6 +1598,19 @@
       "entry_price": 1.422925,
       "martingale_level": 0,
       "exit_price": 1.422955,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "PUT",
+      "score": 25,
+      "confidence": 75,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T08:40:00+00:00",
+      "expires_at": "2026-10-02T08:41:00+00:00",
+      "entry_price": 157.622,
+      "martingale_level": 0,
+      "exit_price": 157.594,
       "outcome": "WIN"
     }
   ],
