@@ -1,32 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "GBP/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T17:40:00+00:00",
-      "expires_at": "2026-10-02T17:41:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "CAD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T04:00:00+00:00",
-      "expires_at": "2026-10-02T04:01:00+00:00",
-      "entry_price": 111.0935,
-      "martingale_level": 0,
-      "exit_price": 111.0885,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "CAD/JPY",
       "direction": "CALL",
@@ -1343,6 +1317,20 @@
       "martingale_level": 0,
       "exit_price": 1.88666,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T17:40:00+00:00",
+      "expires_at": "2026-10-02T17:41:00+00:00",
+      "entry_price": 1.887125,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.88712,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1547,17 +1535,31 @@
       "martingale_level": 0,
       "exit_price": 1.125535,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T17:40:00+00:00",
+      "expires_at": "2026-10-02T17:41:00+00:00",
+      "entry_price": 1.887125,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.88712,
+      "outcome": "LOSS"
     }
   ],
   "completed_sessions": 7,
   "asset_quarantine": {
     "GBP/USD": {
-      "remaining": 19,
+      "remaining": 18,
       "sample_size": 9,
       "accuracy": 44.44
     },
     "GBP/CAD": {
-      "remaining": 20,
+      "remaining": 19,
       "sample_size": 9,
       "accuracy": 44.44
     }
