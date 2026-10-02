@@ -6,26 +6,14 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T01:05:00+00:00",
-      "expires_at": "2026-10-02T01:06:00+00:00",
+      "entry_at": "2026-10-02T01:20:00+00:00",
+      "expires_at": "2026-10-02T01:21:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     }
   ],
   "settled": [
-    {
-      "symbol": "NZD/JPY",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T07:40:00+00:00",
-      "expires_at": "2026-10-01T07:41:00+00:00",
-      "entry_price": 88.841,
-      "martingale_level": 0,
-      "exit_price": 88.837,
-      "outcome": "WIN"
-    },
     {
       "symbol": "NZD/JPY",
       "direction": "PUT",
@@ -1346,6 +1334,19 @@
       "martingale_level": 0,
       "exit_price": 1.90611,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T01:05:00+00:00",
+      "expires_at": "2026-10-02T01:06:00+00:00",
+      "entry_price": 158.0985,
+      "martingale_level": 0,
+      "exit_price": 158.094,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
