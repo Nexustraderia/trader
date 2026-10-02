@@ -1,32 +1,18 @@
 {
   "pending": [
     {
-      "symbol": "CAD/JPY",
+      "symbol": "GBP/USD-OTC",
       "direction": "CALL",
       "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T04:10:00+00:00",
-      "expires_at": "2026-10-02T04:11:00+00:00",
+      "confidence": 95,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-10-02T04:25:00+00:00",
+      "expires_at": "2026-10-02T04:26:00+00:00",
       "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
+      "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/CAD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T08:45:00+00:00",
-      "expires_at": "2026-10-01T08:46:00+00:00",
-      "entry_price": 1.60838,
-      "martingale_level": 0,
-      "exit_price": 1.608285,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/AUD",
       "direction": "PUT",
@@ -1346,6 +1332,20 @@
       "martingale_level": 0,
       "exit_price": 111.0885,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "CAD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T04:10:00+00:00",
+      "expires_at": "2026-10-02T04:11:00+00:00",
+      "entry_price": 111.079,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 111.0825,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1628,6 +1628,20 @@
       "entry_price": 111.126,
       "martingale_level": 0,
       "exit_price": 111.1265,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "CAD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T04:10:00+00:00",
+      "expires_at": "2026-10-02T04:11:00+00:00",
+      "entry_price": 111.079,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 111.0825,
       "outcome": "WIN"
     }
   ],
