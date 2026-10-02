@@ -1,55 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "NZD/USD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T10:20:00+00:00",
-      "expires_at": "2026-10-02T10:21:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    },
-    {
-      "symbol": "XAU/USD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T10:20:00+00:00",
-      "expires_at": "2026-10-02T10:21:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "GBP/CHF",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T13:25:00+00:00",
-      "expires_at": "2026-10-01T13:26:00+00:00",
-      "entry_price": 1.10432,
-      "martingale_level": 0,
-      "exit_price": 1.104635,
-      "outcome": "LOSS"
-    },
-    {
-      "symbol": "GBP/JPY",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-01T13:25:00+00:00",
-      "expires_at": "2026-10-01T13:26:00+00:00",
-      "entry_price": 208.876,
-      "martingale_level": 0,
-      "exit_price": 208.907,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "GBP/USD-OTC",
       "direction": "PUT",
@@ -1354,6 +1305,32 @@
       "parent_id": null,
       "exit_price": 1.423715,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T10:20:00+00:00",
+      "expires_at": "2026-10-02T10:21:00+00:00",
+      "entry_price": 0.560705,
+      "martingale_level": 0,
+      "exit_price": 0.56066,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "XAU/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T10:20:00+00:00",
+      "expires_at": "2026-10-02T10:21:00+00:00",
+      "entry_price": 4170.795,
+      "martingale_level": 0,
+      "exit_price": 4169.155,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1383,6 +1360,32 @@
       "martingale_level": 1,
       "parent_id": null,
       "exit_price": 1.423715,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T10:20:00+00:00",
+      "expires_at": "2026-10-02T10:21:00+00:00",
+      "entry_price": 0.560705,
+      "martingale_level": 0,
+      "exit_price": 0.56066,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "XAU/USD",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 80,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T10:20:00+00:00",
+      "expires_at": "2026-10-02T10:21:00+00:00",
+      "entry_price": 4170.795,
+      "martingale_level": 0,
+      "exit_price": 4169.155,
       "outcome": "WIN"
     }
   ],
