@@ -30,6 +30,10 @@ jobs:
       MAX_SCAN_ASSETS: "27"
       SIGNAL_TIMEFRAME: "1m"
       SESSION_SIZE: "25"
+      PUT_MIN_CONFIDENCE: "80"
+      QUARANTINE_MIN_SAMPLES: "8"
+      QUARANTINE_MAX_ACCURACY: "45"
+      QUARANTINE_CYCLES: "20"
     steps:
       - name: Checkout
         uses: actions/checkout@v4

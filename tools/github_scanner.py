@@ -21,6 +21,10 @@ SESSION_SIZE = int(os.getenv("SESSION_SIZE", "25"))
 SIGNAL_TIMEFRAME = os.getenv("SIGNAL_TIMEFRAME", "1m").lower()
 EXPIRY_MINUTES = 1 if SIGNAL_TIMEFRAME == "1m" else 5
 DISPLAY_TIMEFRAME = "M1" if EXPIRY_MINUTES == 1 else "M5"
+PUT_MIN_CONFIDENCE = int(os.getenv("PUT_MIN_CONFIDENCE", "80"))
+QUARANTINE_MIN_SAMPLES = int(os.getenv("QUARANTINE_MIN_SAMPLES", "8"))
+QUARANTINE_MAX_ACCURACY = float(os.getenv("QUARANTINE_MAX_ACCURACY", "45"))
+QUARANTINE_CYCLES = int(os.getenv("QUARANTINE_CYCLES", "20"))
 STAKE_PER_SIGNAL = float(os.getenv("SESSION_STAKE", "2.00"))
 PAYOUT_PERCENT = float(os.getenv("SESSION_PAYOUT_PERCENT", "90"))
 STATE_PATH = Path(os.getenv("SCANNER_STATE_PATH", "runtime_state.json"))
@@ -82,13 +86,75 @@ def load_state() -> dict:
             "settled": list(data.get("settled", [])),
             "session_results": list(data.get("session_results", [])),
             "completed_sessions": int(data.get("completed_sessions", 0)),
+            "asset_quarantine": dict(data.get("asset_quarantine", {})),
         }
     except (OSError, ValueError, TypeError):
-        return {"pending": [], "settled": [], "session_results": [], "completed_sessions": 0}
+        return {"pending": [], "settled": [], "session_results": [], "completed_sessions": 0, "asset_quarantine": {}}
 
 
 def save_state(state: dict) -> None:
     STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n")
+
+
+def update_asset_quarantine(state: dict) -> set[str]:
+    """Temporarily skip regular assets with a meaningful, poor direct sample.
+
+    MG1 is intentionally excluded: the filter should measure the quality of the
+    original setup, not the recovery attempt. A quarantine lasts a fixed number
+    of scanner cycles and is renewed only when a new direct result arrives.
+    """
+    rows = [*state.get("settled", []), *state.get("session_results", [])]
+    stats: dict[str, list[str]] = {}
+    for item in rows:
+        if int(item.get("martingale_level") or 0) != 0:
+            continue
+        outcome = item.get("outcome")
+        symbol = item.get("symbol")
+        if symbol and outcome in {"WIN", "LOSS"}:
+            stats.setdefault(symbol, []).append(outcome)
+
+    quarantine = state.setdefault("asset_quarantine", {})
+    for symbol, record in list(quarantine.items()):
+        if not isinstance(record, dict):
+            quarantine[symbol] = {"remaining": 0, "sample_size": 0}
+            continue
+        record["remaining"] = max(0, int(record.get("remaining", 0)) - 1)
+
+    active: set[str] = set()
+    for symbol, outcomes in stats.items():
+        sample_size = len(outcomes)
+        accuracy = sum(outcome == "WIN" for outcome in outcomes) / sample_size * 100
+        record = quarantine.get(symbol, {})
+        if int(record.get("remaining", 0)) > 0:
+            active.add(symbol)
+        elif sample_size >= QUARANTINE_MIN_SAMPLES and accuracy < QUARANTINE_MAX_ACCURACY:
+            # Do not immediately re-quarantine the same unchanged sample after
+            # the cooldown expires; a new direct result must justify renewal.
+            if sample_size > int(record.get("sample_size", 0)):
+                quarantine[symbol] = {
+                    "remaining": QUARANTINE_CYCLES,
+                    "sample_size": sample_size,
+                    "accuracy": round(accuracy, 2),
+                }
+                active.add(symbol)
+    return active
+
+
+def regular_put_quality_ok(result: dict, confidence: int) -> bool:
+    """Require stronger directional evidence for regular PUT setups."""
+    if result.get("decision") != "PUT":
+        return True
+    return (
+        confidence >= PUT_MIN_CONFIDENCE
+        and result.get("m15_confidence", 0) >= 75
+        and result.get("adx", 0.0) >= 22
+        and result.get("regular_directional_ok", False)
+        and result.get("regular_ema_alignment_ok", False)
+        and result.get("regular_macd_ok", False)
+        and result.get("regular_atr_ok", False)
+        and result.get("m15_di_minus", 0.0) > result.get("m15_di_plus", 0.0)
+        and result.get("h1_decision") == "PUT"
+    )
 
 
 def format_signal(result: dict, entry_at: datetime, martingale_level: int = 0) -> str:
@@ -235,7 +301,9 @@ def main() -> None:
     state = load_state()
     state.setdefault("session_results", [])
     state.setdefault("completed_sessions", 0)
+    state.setdefault("asset_quarantine", {})
     settle_pending(state)
+    quarantined_assets = update_asset_quarantine(state)
     assets = available_signal_assets()
     if not assets:
         raise RuntimeError("IQ Option returned no open candle assets")
@@ -243,8 +311,8 @@ def main() -> None:
     # every asset the IQ catalog confirms as open, including regular pairs.
     if OTC_ONLY:
         assets = [symbol for symbol in assets if symbol.endswith("-OTC")]
-    assets = sorted(assets)[:MAX_ASSETS]
-    print(f"IQ_OPEN_ASSETS={len(assets)}")
+    assets = [symbol for symbol in sorted(assets) if symbol.endswith("-OTC") or symbol not in quarantined_assets][:MAX_ASSETS]
+    print(f"IQ_OPEN_ASSETS={len(assets)} QUARANTINED={','.join(sorted(quarantined_assets)) or 'none'}")
     entry = next_entry()
     sent = 0
     pending_keys = {(x["symbol"], x["entry_at"]) for x in state["pending"]}
@@ -272,6 +340,7 @@ def main() -> None:
                 and result.get("m1_decision") == result.get("decision")
                 and result.get("m15_decision") == result.get("decision")
                 and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
+                and (not is_regular or regular_put_quality_ok(result, int(effective_confidence)))
             )
             print(
                 f"{symbol}={result.get('decision')} confidence={effective_confidence} "
@@ -280,7 +349,8 @@ def main() -> None:
                 f"adx={result.get('adx', 0):.1f} di+={result.get('di_plus', 0):.1f} "
                 f"di-={result.get('di_minus', 0):.1f} atr={result.get('atr_pct', 0):.4f} "
                 f"v2_quality={result.get('regular_v2_quality_count', 0)}/4 "
-                f"hybrid={result.get('regular_hybrid_confluence_ok')} eligible={eligible}"
+                f"hybrid={result.get('regular_hybrid_confluence_ok')} "
+                f"put_quality={regular_put_quality_ok(result, int(effective_confidence))} eligible={eligible}"
             )
             key = (symbol, entry.isoformat())
             if eligible and key not in pending_keys:
