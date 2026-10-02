@@ -1,32 +1,29 @@
 {
   "pending": [
     {
-      "symbol": "CHF/JPY",
+      "symbol": "AUD/CAD",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T18:55:00+00:00",
-      "expires_at": "2026-10-02T18:56:00+00:00",
+      "entry_at": "2026-10-02T19:10:00+00:00",
+      "expires_at": "2026-10-02T19:11:00+00:00",
       "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T19:10:00+00:00",
+      "expires_at": "2026-10-02T19:11:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/USD-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "OTC_ZONE_CONFLUENCE",
-      "entry_at": "2026-10-02T04:25:00+00:00",
-      "expires_at": "2026-10-02T04:26:00+00:00",
-      "entry_price": 1.326425,
-      "martingale_level": 0,
-      "exit_price": 1.326625,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/AUD",
       "direction": "PUT",
@@ -1343,6 +1340,20 @@
       "martingale_level": 0,
       "exit_price": 190.427,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T18:55:00+00:00",
+      "expires_at": "2026-10-02T18:56:00+00:00",
+      "entry_price": 190.4115,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 190.422,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1561,17 +1572,31 @@
       "parent_id": null,
       "exit_price": 1.88712,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-02T18:55:00+00:00",
+      "expires_at": "2026-10-02T18:56:00+00:00",
+      "entry_price": 190.4115,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 190.422,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 7,
   "asset_quarantine": {
     "GBP/USD": {
-      "remaining": 14,
+      "remaining": 13,
       "sample_size": 9,
       "accuracy": 44.44
     },
     "GBP/CAD": {
-      "remaining": 15,
+      "remaining": 14,
       "sample_size": 9,
       "accuracy": 44.44
     }
