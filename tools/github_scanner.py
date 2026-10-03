@@ -366,12 +366,20 @@ def main() -> None:
                 else bool(result.get("confluence_ok"))
             )
             fallback_eligible = (not is_regular) and otc_quality_fallback_ok(result)
+            # When confluence is false, the engine intentionally reports raw
+            # confidence=50. A validated OTC fallback must use its technical
+            # regular_confidence for the final gate and persisted signal.
+            gate_confidence = (
+                int(result.get("regular_confidence", 0) or 0)
+                if fallback_eligible
+                else int(effective_confidence)
+            )
             eligible = (primary_eligible or fallback_eligible) and (
-                effective_confidence >= asset_min_confidence
+                gate_confidence >= asset_min_confidence
                 and result.get("m1_decision") == result.get("decision")
                 and result.get("m15_decision") == result.get("decision")
                 and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
-                and (result.get("decision") != "PUT" or regular_put_quality_ok(result, int(effective_confidence)))
+                and (result.get("decision") != "PUT" or regular_put_quality_ok(result, gate_confidence))
             )
             print(
                 f"{symbol}={result.get('decision')} confidence={effective_confidence} "
@@ -394,7 +402,7 @@ def main() -> None:
                     # by the eligibility rule; the legacy raw score can be
                     # 50 after a confirmation adjustment and is not the
                     # directional confidence shown in diagnostics.
-                    "confidence": int(effective_confidence),
+                    "confidence": gate_confidence,
                     "strategy": (
                         "REGULAR_HYBRID_ADX_V2"
                         if is_regular
