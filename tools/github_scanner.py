@@ -22,6 +22,7 @@ SIGNAL_TIMEFRAME = os.getenv("SIGNAL_TIMEFRAME", "1m").lower()
 EXPIRY_MINUTES = 1 if SIGNAL_TIMEFRAME == "1m" else 5
 DISPLAY_TIMEFRAME = "M1" if EXPIRY_MINUTES == 1 else "M5"
 PUT_MIN_CONFIDENCE = int(os.getenv("PUT_MIN_CONFIDENCE", "80"))
+OTC_FALLBACK_MIN_CONFIDENCE = int(os.getenv("OTC_FALLBACK_MIN_CONFIDENCE", "85"))
 QUARANTINE_MIN_SAMPLES = int(os.getenv("QUARANTINE_MIN_SAMPLES", "8"))
 QUARANTINE_MAX_ACCURACY = float(os.getenv("QUARANTINE_MAX_ACCURACY", "45"))
 QUARANTINE_CYCLES = int(os.getenv("QUARANTINE_CYCLES", "20"))
@@ -154,6 +155,33 @@ def regular_put_quality_ok(result: dict, confidence: int) -> bool:
         and result.get("regular_atr_ok", False)
         and result.get("m15_di_minus", 0.0) > result.get("m15_di_plus", 0.0)
         and result.get("h1_decision") == "PUT"
+    )
+
+
+def otc_quality_fallback_ok(result: dict) -> bool:
+    """Allow a high-quality OTC setup when only price-action confirmation fails.
+
+    OTC candles can provide reliable trend/momentum alignment while the zone
+    reaction flag remains unavailable or too strict. This fallback still needs
+    complete timeframe direction, strong confidence, healthy volatility and at
+    least three of the four independent technical quality checks. PUTs retain
+    the stricter directional gate above.
+    """
+    decision = result.get("decision")
+    confidence = int(result.get("regular_confidence", 0) or 0)
+    return (
+        decision in {"CALL", "PUT"}
+        and confidence >= OTC_FALLBACK_MIN_CONFIDENCE
+        and result.get("m1_decision") == decision
+        and result.get("m15_decision") == decision
+        and result.get("h1_decision") in {decision, "AGUARDAR"}
+        and result.get("m1_confirmation_ok", False)
+        and result.get("volatility_ok", False)
+        and result.get("trend_momentum_ok", False)
+        and result.get("rsi_entry_ok", False)
+        and result.get("adx", 0.0) >= 18
+        and result.get("regular_v2_quality_count", 0) >= 3
+        and (decision != "PUT" or regular_put_quality_ok(result, confidence))
     )
 
 
@@ -329,18 +357,21 @@ def main() -> None:
             is_regular = not symbol.endswith("-OTC")
             asset_min_confidence = 75 if is_regular else MIN_CONFIDENCE
             effective_confidence = result.get("regular_confidence", 0) if is_regular else result.get("confidence", 0)
-            # Regular pairs use the hybrid ADX/confluence base with at least
-            # two independent EMA/DI/MACD/ATR quality checks.
-            eligible = (
+            # Regular pairs use the hybrid ADX/confluence base. OTC keeps its
+            # primary zone-confluence gate, with a controlled technical
+            # fallback for strong setups rejected only by price-action detail.
+            primary_eligible = (
                 bool(result.get("regular_hybrid_confluence_ok"))
                 if is_regular
                 else bool(result.get("confluence_ok"))
-            ) and (
+            )
+            fallback_eligible = (not is_regular) and otc_quality_fallback_ok(result)
+            eligible = (primary_eligible or fallback_eligible) and (
                 effective_confidence >= asset_min_confidence
                 and result.get("m1_decision") == result.get("decision")
                 and result.get("m15_decision") == result.get("decision")
                 and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
-                and (not is_regular or regular_put_quality_ok(result, int(effective_confidence)))
+                and (result.get("decision") != "PUT" or regular_put_quality_ok(result, int(effective_confidence)))
             )
             print(
                 f"{symbol}={result.get('decision')} confidence={effective_confidence} "
@@ -350,6 +381,7 @@ def main() -> None:
                 f"di-={result.get('di_minus', 0):.1f} atr={result.get('atr_pct', 0):.4f} "
                 f"v2_quality={result.get('regular_v2_quality_count', 0)}/4 "
                 f"hybrid={result.get('regular_hybrid_confluence_ok')} "
+                f"otc_fallback={fallback_eligible} "
                 f"put_quality={regular_put_quality_ok(result, int(effective_confidence))} eligible={eligible}"
             )
             key = (symbol, entry.isoformat())
@@ -363,7 +395,11 @@ def main() -> None:
                     # 50 after a confirmation adjustment and is not the
                     # directional confidence shown in diagnostics.
                     "confidence": int(effective_confidence),
-                    "strategy": "REGULAR_HYBRID_ADX_V2" if is_regular else "OTC_ZONE_CONFLUENCE",
+                    "strategy": (
+                        "REGULAR_HYBRID_ADX_V2"
+                        if is_regular
+                        else ("OTC_ZONE_CONFLUENCE" if primary_eligible else "OTC_HYBRID_FALLBACK_V22")
+                    ),
                     "entry_at": entry.isoformat(),
                     "expires_at": (entry + timedelta(minutes=EXPIRY_MINUTES)).isoformat(),
                     # The price is captured from the exact M5 candle at entry,
