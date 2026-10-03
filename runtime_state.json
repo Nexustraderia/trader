@@ -6,26 +6,14 @@
       "score": 20,
       "confidence": 85,
       "strategy": "OTC_ZONE_CONFLUENCE",
-      "entry_at": "2026-10-03T01:05:00+00:00",
-      "expires_at": "2026-10-03T01:06:00+00:00",
+      "entry_at": "2026-10-03T01:20:00+00:00",
+      "expires_at": "2026-10-03T01:21:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/AUD",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 80,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T07:20:00+00:00",
-      "expires_at": "2026-10-02T07:21:00+00:00",
-      "entry_price": 1.903925,
-      "martingale_level": 0,
-      "exit_price": 1.90354,
-      "outcome": "WIN"
-    },
     {
       "symbol": "AUD/USD",
       "direction": "CALL",
@@ -1345,6 +1333,19 @@
       "martingale_level": 0,
       "exit_price": 214.092365,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-10-03T01:05:00+00:00",
+      "expires_at": "2026-10-03T01:06:00+00:00",
+      "entry_price": 157.81355,
+      "martingale_level": 0,
+      "exit_price": 157.82225,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [],
