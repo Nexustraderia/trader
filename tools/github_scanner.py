@@ -23,6 +23,7 @@ EXPIRY_MINUTES = 1 if SIGNAL_TIMEFRAME == "1m" else 5
 DISPLAY_TIMEFRAME = "M1" if EXPIRY_MINUTES == 1 else "M5"
 PUT_MIN_CONFIDENCE = int(os.getenv("PUT_MIN_CONFIDENCE", "80"))
 OTC_FALLBACK_MIN_CONFIDENCE = int(os.getenv("OTC_FALLBACK_MIN_CONFIDENCE", "85"))
+OTC_STRONG_TREND_ADX = float(os.getenv("OTC_STRONG_TREND_ADX", "30"))
 QUARANTINE_MIN_SAMPLES = int(os.getenv("QUARANTINE_MIN_SAMPLES", "8"))
 QUARANTINE_MAX_ACCURACY = float(os.getenv("QUARANTINE_MAX_ACCURACY", "45"))
 QUARANTINE_CYCLES = int(os.getenv("QUARANTINE_CYCLES", "20"))
@@ -169,7 +170,7 @@ def otc_quality_fallback_ok(result: dict) -> bool:
     """
     decision = result.get("decision")
     confidence = int(result.get("regular_confidence", 0) or 0)
-    return (
+    common = (
         decision in {"CALL", "PUT"}
         and confidence >= OTC_FALLBACK_MIN_CONFIDENCE
         and result.get("m1_decision") == decision
@@ -180,8 +181,23 @@ def otc_quality_fallback_ok(result: dict) -> bool:
         and result.get("trend_momentum_ok", False)
         and result.get("rsi_entry_ok", False)
         and result.get("adx", 0.0) >= 18
-        and result.get("regular_v2_quality_count", 0) >= 3
-        and (decision != "PUT" or regular_put_quality_ok(result, confidence))
+    )
+    if not common:
+        return False
+    if decision == "PUT":
+        return (
+            result.get("regular_v2_quality_count", 0) >= 3
+            and regular_put_quality_ok(result, confidence)
+        )
+    # Adaptive CALL mode: in a strong, aligned trend, two independent quality
+    # checks are sufficient. This avoids starving the scanner when one filter
+    # (usually EMA or ATR) lags the current OTC impulse.
+    return (
+        result.get("regular_v2_quality_count", 0) >= 2
+        and (
+            result.get("regular_v2_quality_count", 0) >= 3
+            or result.get("adx", 0.0) >= OTC_STRONG_TREND_ADX
+        )
     )
 
 
