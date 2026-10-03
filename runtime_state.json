@@ -1,32 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "USD/JPY-OTC",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 85,
-      "strategy": "OTC_ZONE_CONFLUENCE",
-      "entry_at": "2026-10-03T01:20:00+00:00",
-      "expires_at": "2026-10-03T01:21:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "AUD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-02T07:35:00+00:00",
-      "expires_at": "2026-10-02T07:36:00+00:00",
-      "entry_price": 0.69416,
-      "martingale_level": 0,
-      "exit_price": 0.694105,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "CHF/JPY",
       "direction": "CALL",
@@ -1346,9 +1320,38 @@
       "martingale_level": 0,
       "exit_price": 157.82225,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-10-03T01:20:00+00:00",
+      "expires_at": "2026-10-03T01:21:00+00:00",
+      "entry_price": 157.83125,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 157.83395,
+      "outcome": "LOSS"
     }
   ],
-  "session_results": [],
+  "session_results": [
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 85,
+      "strategy": "OTC_ZONE_CONFLUENCE",
+      "entry_at": "2026-10-03T01:20:00+00:00",
+      "expires_at": "2026-10-03T01:21:00+00:00",
+      "entry_price": 157.83125,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 157.83395,
+      "outcome": "LOSS"
+    }
+  ],
   "completed_sessions": 8,
   "asset_quarantine": {
     "GBP/USD": {
