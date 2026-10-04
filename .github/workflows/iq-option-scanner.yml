@@ -9,7 +9,7 @@ on:
 
 concurrency:
   group: iq-option-paper-scanner
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   scan:
@@ -36,6 +36,8 @@ jobs:
       QUARANTINE_MIN_SAMPLES: "8"
       QUARANTINE_MAX_ACCURACY: "45"
       QUARANTINE_CYCLES: "20"
+      INTERNAL_CYCLES: "4"
+      INTERNAL_CYCLE_SLEEP_SECONDS: "60"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -47,7 +49,14 @@ jobs:
       - name: Install dependencies
         run: pip install --disable-pip-version-check -r requirements.txt
       - name: Scan IQ Option and publish paper signals
-        run: python tools/github_scanner.py
+        run: |
+          for cycle in $(seq 1 "$INTERNAL_CYCLES"); do
+            echo "INTERNAL_CYCLE=$cycle/$INTERNAL_CYCLES"
+            python tools/github_scanner.py
+            if [ "$cycle" -lt "$INTERNAL_CYCLES" ]; then
+              sleep "$INTERNAL_CYCLE_SLEEP_SECONDS"
+            fi
+          done
       - name: Persist paper trading state
         run: |
           git config user.name "nexus-ia-trader[bot]"

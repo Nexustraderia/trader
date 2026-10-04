@@ -55,7 +55,7 @@ def fresh(candles: list[dict], seconds: int) -> bool:
 
 def next_entry() -> datetime:
     current = now_utc().replace(second=0, microsecond=0)
-    return current + timedelta(minutes=5 - current.minute % 5)
+    return current + timedelta(minutes=1 if SIGNAL_TIMEFRAME == "1m" else 5 - current.minute % 5)
 
 
 def candle_at_or_before(symbol: str, target: datetime) -> float:
