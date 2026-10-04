@@ -6,8 +6,8 @@
       "score": 100,
       "confidence": 100,
       "strategy": "OTC_HYBRID_FALLBACK_V22",
-      "entry_at": "2026-10-04T23:10:00+00:00",
-      "expires_at": "2026-10-04T23:11:00+00:00",
+      "entry_at": "2026-10-04T23:24:00+00:00",
+      "expires_at": "2026-10-04T23:25:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     },
@@ -17,54 +17,13 @@
       "score": 100,
       "confidence": 100,
       "strategy": "OTC_HYBRID_FALLBACK_V22",
-      "entry_at": "2026-10-04T23:11:00+00:00",
-      "expires_at": "2026-10-04T23:12:00+00:00",
+      "entry_at": "2026-10-04T23:25:00+00:00",
+      "expires_at": "2026-10-04T23:26:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "OTC_HYBRID_FALLBACK_V22",
-      "entry_at": "2026-10-04T21:40:00+00:00",
-      "expires_at": "2026-10-04T21:41:00+00:00",
-      "entry_price": 175.968405,
-      "martingale_level": 1,
-      "parent_id": null,
-      "exit_price": 175.968655,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "GBP/AUD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-04T21:40:00+00:00",
-      "expires_at": "2026-10-04T21:41:00+00:00",
-      "entry_price": 1.904265,
-      "martingale_level": 1,
-      "parent_id": null,
-      "exit_price": 1.90437,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "EUR/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-04T21:40:00+00:00",
-      "expires_at": "2026-10-04T21:41:00+00:00",
-      "entry_price": 1.12609,
-      "martingale_level": 0,
-      "exit_price": 1.12608,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "EUR/USD",
       "direction": "CALL",
@@ -1358,6 +1317,45 @@
       "martingale_level": 0,
       "exit_price": 213.373615,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:10:00+00:00",
+      "expires_at": "2026-10-04T23:11:00+00:00",
+      "entry_price": 213.385365,
+      "martingale_level": 0,
+      "exit_price": 213.463855,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:11:00+00:00",
+      "expires_at": "2026-10-04T23:12:00+00:00",
+      "entry_price": 213.463025,
+      "martingale_level": 0,
+      "exit_price": 213.485345,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:22:00+00:00",
+      "expires_at": "2026-10-04T23:23:00+00:00",
+      "entry_price": 213.668585,
+      "martingale_level": 0,
+      "exit_price": 213.709015,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1372,6 +1370,45 @@
       "entry_price": 213.348335,
       "martingale_level": 0,
       "exit_price": 213.373615,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:10:00+00:00",
+      "expires_at": "2026-10-04T23:11:00+00:00",
+      "entry_price": 213.385365,
+      "martingale_level": 0,
+      "exit_price": 213.463855,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:11:00+00:00",
+      "expires_at": "2026-10-04T23:12:00+00:00",
+      "entry_price": 213.463025,
+      "martingale_level": 0,
+      "exit_price": 213.485345,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:22:00+00:00",
+      "expires_at": "2026-10-04T23:23:00+00:00",
+      "entry_price": 213.668585,
+      "martingale_level": 0,
+      "exit_price": 213.709015,
       "outcome": "WIN"
     }
   ],
@@ -1393,12 +1430,12 @@
       "accuracy": 37.5
     },
     "EUR/CAD": {
-      "remaining": 5,
+      "remaining": 1,
       "sample_size": 8,
       "accuracy": 37.5
     },
     "GBP/AUD": {
-      "remaining": 9,
+      "remaining": 5,
       "sample_size": 8,
       "accuracy": 25.0
     }
