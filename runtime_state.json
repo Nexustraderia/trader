@@ -1,98 +1,52 @@
 {
   "pending": [
     {
-      "symbol": "EUR/USD-OTC",
+      "symbol": "EUR/JPY-OTC",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "OTC_HYBRID_FALLBACK_V22",
-      "entry_at": "2026-10-04T23:40:00+00:00",
-      "expires_at": "2026-10-04T23:41:00+00:00",
+      "entry_at": "2026-10-04T23:52:00+00:00",
+      "expires_at": "2026-10-04T23:53:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-04T23:52:00+00:00",
+      "expires_at": "2026-10-04T23:53:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:53:00+00:00",
+      "expires_at": "2026-10-04T23:54:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-04T23:53:00+00:00",
+      "expires_at": "2026-10-04T23:54:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "AUD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-04T21:55:00+00:00",
-      "expires_at": "2026-10-04T21:56:00+00:00",
-      "entry_price": 0.991225,
-      "martingale_level": 0,
-      "exit_price": 0.991285,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "AUD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-04T21:55:00+00:00",
-      "expires_at": "2026-10-04T21:56:00+00:00",
-      "entry_price": 0.69551,
-      "martingale_level": 0,
-      "exit_price": 0.695495,
-      "outcome": "LOSS"
-    },
-    {
-      "symbol": "AUD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-04T21:56:00+00:00",
-      "expires_at": "2026-10-04T21:57:00+00:00",
-      "entry_price": 0.991285,
-      "martingale_level": 0,
-      "exit_price": 0.991265,
-      "outcome": "LOSS"
-    },
-    {
-      "symbol": "AUD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-04T21:56:00+00:00",
-      "expires_at": "2026-10-04T21:57:00+00:00",
-      "entry_price": 0.695495,
-      "martingale_level": 0,
-      "exit_price": 0.69552,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "AUD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-04T22:02:00+00:00",
-      "expires_at": "2026-10-04T22:03:00+00:00",
-      "entry_price": 0.69558,
-      "martingale_level": 1,
-      "parent_id": null,
-      "exit_price": 0.69562,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "AUD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-04T22:02:00+00:00",
-      "expires_at": "2026-10-04T22:03:00+00:00",
-      "entry_price": 0.99137,
-      "martingale_level": 1,
-      "parent_id": null,
-      "exit_price": 0.991445,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/CHF",
       "direction": "CALL",
@@ -1345,6 +1299,85 @@
       "martingale_level": 0,
       "exit_price": 1.125015,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:40:00+00:00",
+      "expires_at": "2026-10-04T23:41:00+00:00",
+      "entry_price": 1.124265,
+      "martingale_level": 0,
+      "exit_price": 1.124255,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:49:00+00:00",
+      "expires_at": "2026-10-04T23:50:00+00:00",
+      "entry_price": 1.122845,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.122695,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:49:00+00:00",
+      "expires_at": "2026-10-04T23:50:00+00:00",
+      "entry_price": 176.287675,
+      "martingale_level": 0,
+      "exit_price": 176.256355,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-04T23:49:00+00:00",
+      "expires_at": "2026-10-04T23:50:00+00:00",
+      "entry_price": 1.425435,
+      "martingale_level": 0,
+      "exit_price": 1.42549,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:50:00+00:00",
+      "expires_at": "2026-10-04T23:51:00+00:00",
+      "entry_price": 176.256325,
+      "martingale_level": 0,
+      "exit_price": 176.263325,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-04T23:50:00+00:00",
+      "expires_at": "2026-10-04T23:51:00+00:00",
+      "entry_price": 1.425485,
+      "martingale_level": 0,
+      "exit_price": 1.42553,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1466,6 +1499,59 @@
       "martingale_level": 0,
       "exit_price": 1.125015,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:49:00+00:00",
+      "expires_at": "2026-10-04T23:50:00+00:00",
+      "entry_price": 1.122845,
+      "martingale_level": 1,
+      "parent_id": null,
+      "exit_price": 1.122695,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-04T23:49:00+00:00",
+      "expires_at": "2026-10-04T23:50:00+00:00",
+      "entry_price": 1.425435,
+      "martingale_level": 0,
+      "exit_price": 1.42549,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-04T23:50:00+00:00",
+      "expires_at": "2026-10-04T23:51:00+00:00",
+      "entry_price": 176.256325,
+      "martingale_level": 0,
+      "exit_price": 176.263325,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-04T23:50:00+00:00",
+      "expires_at": "2026-10-04T23:51:00+00:00",
+      "entry_price": 1.425485,
+      "martingale_level": 0,
+      "exit_price": 1.42553,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 11,
@@ -1491,7 +1577,7 @@
       "accuracy": 37.5
     },
     "GBP/AUD": {
-      "remaining": 1,
+      "remaining": 0,
       "sample_size": 8,
       "accuracy": 25.0
     }
