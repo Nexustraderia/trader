@@ -237,8 +237,6 @@ def format_result(item: dict, outcome: str) -> str:
         label = "✅ WIN no MG1"
     elif level == 1 and outcome == "LOSS":
         label = "🔴 LOSS após MG1"
-    elif level == 0 and outcome == "LOSS":
-        label = "🔴 LOSS — MG1 acionado"
     else:
         label = {"WIN": "✅ WIN", "LOSS": "🔴 LOSS", "VOID": "⚪ VOID"}[outcome]
     return "\n".join([
@@ -256,8 +254,10 @@ def format_result(item: dict, outcome: str) -> str:
 
 def format_session_summary(batch: list[dict]) -> str:
     """Format one attractive 20-signal scoreboard for Telegram."""
-    counts = {outcome: sum(1 for item in batch if item.get("outcome") == outcome) for outcome in ("WIN", "LOSS", "VOID")}
-    mg1_wins = sum(1 for item in batch if item.get("martingale_level") == 1 and item.get("outcome") == "WIN")
+    direct_wins = sum(1 for item in batch if int(item.get("martingale_level", 0)) == 0 and item.get("outcome") == "WIN")
+    mg1_wins = sum(1 for item in batch if int(item.get("martingale_level", 0)) == 1 and item.get("outcome") == "WIN")
+    mg1_losses = sum(1 for item in batch if int(item.get("martingale_level", 0)) == 1 and item.get("outcome") == "LOSS")
+    voids = sum(1 for item in batch if item.get("outcome") == "VOID")
     result_icons = {"WIN": "💚", "LOSS": "❌", "VOID": "⚪"}
     lines = [
         "💥🤑 PLACAR NEXUS IA 🤑💥",
@@ -271,13 +271,14 @@ def format_session_summary(batch: list[dict]) -> str:
         symbol = item["symbol"].replace("/", "")
         mg_label = "  MG1" if int(item.get("martingale_level", 0)) == 1 else ""
         lines.append(f"{local.strftime('%H:%M')}  {symbol}  {item['direction']}{mg_label}  {result_icons.get(item.get('outcome'), '⚪')}")
-    decided = counts["WIN"] + counts["LOSS"]
-    accuracy = counts["WIN"] / decided * 100 if decided else 0
+    total_wins = direct_wins + mg1_wins
+    decided = total_wins + mg1_losses
+    accuracy = total_wins / decided * 100 if decided else 0
     lines.extend([
         "",
         "━━━━━━━━━━━━━━━━━━",
-        f"✅ WIN: {counts['WIN']}   ❌ LOSS: {counts['LOSS']}   ⚪ VOID: {counts['VOID']}",
-        f"🔁 WIN no MG1: {mg1_wins}",
+        f"✅ WIN: {direct_wins}   🔁 WIN MG1: {mg1_wins}",
+        f"❌ LOSS MG1: {mg1_losses}   ⚪ VOID: {voids}",
         f"🎯 Assertividade: {accuracy:.2f}%",
     ])
     return "\n".join(lines)
@@ -315,7 +316,6 @@ def settle_pending(state: dict) -> None:
             item["exit_price"] = exit_price
             item["outcome"] = outcome
             state["settled"].append(item)
-            telegram(format_result(item, outcome))
             level = int(item.get("martingale_level", 0))
             if outcome == "LOSS" and level == 0:
                 # SIO's G1 evaluates the candle immediately after the original
@@ -345,6 +345,7 @@ def settle_pending(state: dict) -> None:
                 telegram(format_signal({"symbol": recovery["symbol"], "decision": recovery["direction"]}, recovery_entry, 1))
                 remaining.append(recovery)
             else:
+                telegram(format_result(item, outcome))
                 state.setdefault("session_results", []).append(item)
             print(f"RESULT {item['symbol']}={outcome}")
         except Exception as error:
