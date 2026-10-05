@@ -1,35 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "CHF/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T13:10:00+00:00",
-      "expires_at": "2026-10-05T13:11:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T13:09:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T13:11:11.881023+00:00"
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "AUD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T04:40:00+00:00",
-      "expires_at": "2026-10-05T04:41:00+00:00",
-      "entry_price": 109.717,
-      "martingale_level": 0,
-      "exit_price": 109.7205,
-      "outcome": "WIN"
-    },
     {
       "symbol": "EUR/USD-OTC",
       "direction": "CALL",
@@ -1436,6 +1407,23 @@
       "martingale_level": 0,
       "exit_price": 190.414,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T13:10:00+00:00",
+      "expires_at": "2026-10-05T13:11:00+00:00",
+      "entry_price": 190.4235,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-05T13:09:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-05T13:11:11.881023+00:00",
+      "exit_price": 190.383,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1596,6 +1584,23 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-05T13:06:51.920419+00:00",
       "exit_price": 1.334815,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T13:10:00+00:00",
+      "expires_at": "2026-10-05T13:11:00+00:00",
+      "entry_price": 190.4235,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-05T13:09:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-05T13:11:11.881023+00:00",
+      "exit_price": 190.383,
       "outcome": "LOSS"
     }
   ],
