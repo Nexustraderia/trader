@@ -6,26 +6,28 @@
       "score": 100,
       "confidence": 100,
       "strategy": "OTC_HYBRID_FALLBACK_V22",
-      "entry_at": "2026-10-05T16:31:00+00:00",
-      "expires_at": "2026-10-05T16:32:00+00:00",
+      "entry_at": "2026-10-05T16:32:00+00:00",
+      "expires_at": "2026-10-05T16:33:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-05T16:31:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-05T16:33:18.110454+00:00"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-05T16:34:00+00:00",
+      "expires_at": "2026-10-05T16:35:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "USD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T10:48:00+00:00",
-      "expires_at": "2026-10-05T10:49:00+00:00",
-      "entry_price": 157.9685,
-      "martingale_level": 0,
-      "exit_price": 157.9685,
-      "outcome": "VOID"
-    },
     {
       "symbol": "AUD/CAD",
       "direction": "CALL",
@@ -1444,6 +1446,19 @@
       "martingale_level": 0,
       "exit_price": 0.84847,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-05T16:31:00+00:00",
+      "expires_at": "2026-10-05T16:32:00+00:00",
+      "entry_price": 1.138225,
+      "martingale_level": 0,
+      "exit_price": 1.137935,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
