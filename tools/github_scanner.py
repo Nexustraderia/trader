@@ -324,7 +324,14 @@ def settle_pending(state: dict) -> None:
                     "entry_price": None,
                     "martingale_level": 1,
                     "parent_id": item.get("id"),
+                    "parent_entry_at": item.get("entry_at"),
+                    "parent_outcome": outcome,
+                    "recovery_created_at": now_utc().isoformat(),
                 }
+                print(
+                    f"MG1_SCHEDULED {recovery['symbol']} "
+                    f"parent={item.get('entry_at')} recovery={recovery_entry.isoformat()}"
+                )
                 telegram(format_signal({"symbol": recovery["symbol"], "decision": recovery["direction"]}, recovery_entry, 1))
                 remaining.append(recovery)
             else:
