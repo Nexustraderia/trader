@@ -1,31 +1,18 @@
 {
   "pending": [
     {
-      "symbol": "AUD/CAD",
+      "symbol": "EUR/CHF",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T15:06:00+00:00",
-      "expires_at": "2026-10-05T15:07:00+00:00",
+      "entry_at": "2026-10-05T15:24:00+00:00",
+      "expires_at": "2026-10-05T15:25:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T09:24:00+00:00",
-      "expires_at": "2026-10-05T09:25:00+00:00",
-      "entry_price": 1.097625,
-      "martingale_level": 0,
-      "exit_price": 1.0976,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "GBP/CHF",
       "direction": "CALL",
@@ -1440,6 +1427,19 @@
       "martingale_level": 0,
       "exit_price": 0.931695,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T15:06:00+00:00",
+      "expires_at": "2026-10-05T15:07:00+00:00",
+      "entry_price": 0.99238,
+      "martingale_level": 0,
+      "exit_price": 0.99252,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1467,6 +1467,19 @@
       "entry_price": 0.931645,
       "martingale_level": 0,
       "exit_price": 0.931695,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T15:06:00+00:00",
+      "expires_at": "2026-10-05T15:07:00+00:00",
+      "entry_price": 0.99238,
+      "martingale_level": 0,
+      "exit_price": 0.99252,
       "outcome": "WIN"
     }
   ],
@@ -1513,7 +1526,7 @@
       "accuracy": 36.36
     },
     "USD/CHF": {
-      "remaining": 18,
+      "remaining": 17,
       "sample_size": 8,
       "accuracy": 37.5
     }
