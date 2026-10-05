@@ -1,39 +1,18 @@
 {
   "pending": [
     {
-      "symbol": "EUR/JPY-OTC",
+      "symbol": "USD/CAD",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
-      "strategy": "OTC_HYBRID_FALLBACK_V22",
-      "entry_at": "2026-10-05T14:08:00+00:00",
-      "expires_at": "2026-10-05T14:09:00+00:00",
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T14:28:00+00:00",
+      "expires_at": "2026-10-05T14:29:00+00:00",
       "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T14:07:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T14:08:16.811892+00:00"
+      "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/USD-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "OTC_HYBRID_FALLBACK_V22",
-      "entry_at": "2026-10-05T04:42:00+00:00",
-      "expires_at": "2026-10-05T04:43:00+00:00",
-      "entry_price": 1.127215,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T04:41:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T05:11:13.527892+00:00",
-      "exit_price": 1.127225,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/JPY",
       "direction": "CALL",
@@ -1440,6 +1419,23 @@
       "martingale_level": 0,
       "exit_price": 177.523995,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-05T14:08:00+00:00",
+      "expires_at": "2026-10-05T14:09:00+00:00",
+      "entry_price": 177.512555,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-05T14:07:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-05T14:08:16.811892+00:00",
+      "exit_price": 177.489995,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1660,6 +1656,23 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-05T14:06:53.927441+00:00",
       "exit_price": 177.514555,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-05T14:08:00+00:00",
+      "expires_at": "2026-10-05T14:09:00+00:00",
+      "entry_price": 177.512555,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-05T14:07:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-05T14:08:16.811892+00:00",
+      "exit_price": 177.489995,
       "outcome": "LOSS"
     }
   ],
