@@ -37,6 +37,7 @@ _client = None
 _client_lock = threading.Lock()
 _asset_cache = set()
 _asset_cache_at = 0.0
+ASSET_CACHE_SECONDS = 60
 _asset_modes_cache = {}
 _connect_blocked_until = 0.0
 _last_connect_error = None
@@ -160,7 +161,7 @@ def available_iq_assets() -> set[str]:
     """Return IQ assets confirmed by successful IQ-only candle responses."""
     global _asset_cache, _asset_cache_at, _asset_modes_cache
     now = time.time()
-    if _asset_cache and now - _asset_cache_at < 300:
+    if _asset_cache and now - _asset_cache_at < ASSET_CACHE_SECONDS:
         return set(_asset_cache)
     candidates = list(IQ_SYMBOLS.values()) + list(REGULAR_BASES) + [f"{base}-OTC" for base in OTC_BASES]
     candidates = sorted(set(candidates))
@@ -186,7 +187,22 @@ def available_iq_assets() -> set[str]:
                 results.append(await get_candles(email, password, opcode, 60, 2))
             except Exception as error:
                 results.append(error)
-        opened = [(active, result) for active, result in zip(candidates, results) if isinstance(result, list) and result]
+        now_epoch = time.time()
+        opened = []
+        for active, result in zip(candidates, results):
+            if not isinstance(result, list) or not result:
+                continue
+            latest = result[-1]
+            timestamp = latest.get("from", latest.get("at", 0))
+            # Historical candles can still be returned for a closed pair.
+            # Only treat an asset as open when IQ has delivered a recent M1
+            # candle for it during this catalog refresh.
+            try:
+                recent = now_epoch - float(timestamp) <= 180
+            except (TypeError, ValueError):
+                recent = False
+            if recent:
+                opened.append((active, result))
         failures = [result for result in results if isinstance(result, Exception)]
         return opened, failures
 
@@ -260,13 +276,10 @@ def available_asset_modes() -> dict[str, list[str]]:
 def is_iq_asset_open(symbol: str) -> bool:
     """Check availability before generating a signal for any asset."""
     normalized = _display_symbol(symbol)
-    # Every asset, including normal forex pairs, must be confirmed open by the
-    # Every asset must be confirmed open by the IQ catalog before analysis.
-    if normalized.endswith("-OTC"):
-        return bool(_asset_cache) and normalized in {_display_symbol(asset) for asset in _asset_cache}
-    # Normal IQ symbols have stable numeric opcodes and can be tested directly
-    # even while the optional OTC/open-catalog refresh is still in progress.
-    return normalized in IQ_SYMBOLS
+    # Every asset must be confirmed by the current IQ candle catalog. A known
+    # opcode alone is not proof that the pair is open for negotiation.
+    assets = available_iq_assets()
+    return normalized in {_display_symbol(asset) for asset in assets}
 
 
 def fetch_iq_candles(symbol: str, interval: str, count: int) -> list[dict]:
@@ -277,10 +290,9 @@ def fetch_iq_candles(symbol: str, interval: str, count: int) -> list[dict]:
     size = INTERVAL_SECONDS.get(interval)
     if not active or not size:
         raise ValueError(f"IQ Option symbol/interval unsupported: {symbol}/{interval}")
-    if normalized.endswith("-OTC"):
-        assets = available_iq_assets()
-        if normalized not in {_display_symbol(asset) for asset in assets}:
-            raise RuntimeError(f"IQ Option asset not open: {active}")
+    assets = available_iq_assets()
+    if normalized not in {_display_symbol(asset) for asset in assets}:
+        raise RuntimeError(f"IQ Option asset not open: {active}")
     opcode = _opcode_for_asset(active)
     if opcode is None:
         raise ValueError(f"IQ Option active opcode unavailable: {normalized}")
