@@ -1549,7 +1549,7 @@
       "accuracy": 25.0
     },
     "EUR/USD-OTC": {
-      "remaining": 4,
+      "remaining": 0,
       "sample_size": 16,
       "accuracy": 18.75
     },
@@ -1559,7 +1559,7 @@
       "accuracy": 40.0
     },
     "EUR/JPY-OTC": {
-      "remaining": 15,
+      "remaining": 11,
       "sample_size": 11,
       "accuracy": 36.36
     }
