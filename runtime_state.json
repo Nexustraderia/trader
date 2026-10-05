@@ -1,35 +1,18 @@
 {
   "pending": [
     {
-      "symbol": "GBP/CHF",
+      "symbol": "EUR/GBP",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T21:34:00+00:00",
-      "expires_at": "2026-10-05T21:35:00+00:00",
+      "entry_at": "2026-10-05T21:36:00+00:00",
+      "expires_at": "2026-10-05T21:37:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "CAD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T14:51:00+00:00",
-      "expires_at": "2026-10-05T14:52:00+00:00",
-      "entry_price": 110.967,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T14:50:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T15:02:26.254998+00:00",
-      "exit_price": 110.951,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "GBP/CHF",
       "direction": "CALL",
@@ -1444,6 +1427,19 @@
       "recovery_created_at": "2026-10-05T21:32:16.792597+00:00",
       "exit_price": 190.189,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T21:34:00+00:00",
+      "expires_at": "2026-10-05T21:35:00+00:00",
+      "entry_price": 1.098955,
+      "martingale_level": 0,
+      "exit_price": 1.099055,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1638,6 +1634,19 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-05T21:32:16.792597+00:00",
       "exit_price": 190.189,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T21:34:00+00:00",
+      "expires_at": "2026-10-05T21:35:00+00:00",
+      "entry_price": 1.098955,
+      "martingale_level": 0,
+      "exit_price": 1.099055,
       "outcome": "WIN"
     }
   ],
