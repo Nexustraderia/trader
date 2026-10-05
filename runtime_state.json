@@ -1,76 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "USD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T09:43:00+00:00",
-      "expires_at": "2026-10-05T09:44:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    },
-    {
-      "symbol": "USD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T09:44:00+00:00",
-      "expires_at": "2026-10-05T09:45:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "GBP/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T01:05:00+00:00",
-      "expires_at": "2026-10-05T01:06:00+00:00",
-      "entry_price": 1.88762,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T01:04:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T01:05:35.477714+00:00",
-      "exit_price": 1.887545,
-      "outcome": "LOSS"
-    },
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T01:05:00+00:00",
-      "expires_at": "2026-10-05T01:06:00+00:00",
-      "entry_price": 1.42588,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T01:04:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T01:05:37.193595+00:00",
-      "exit_price": 1.425925,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "AUD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T01:06:00+00:00",
-      "expires_at": "2026-10-05T01:07:00+00:00",
-      "entry_price": 0.695615,
-      "martingale_level": 0,
-      "exit_price": 0.69561,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "AUD/USD",
       "direction": "CALL",
@@ -1459,6 +1389,45 @@
       "recovery_created_at": "2026-10-05T09:42:17.441010+00:00",
       "exit_price": 157.908,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T09:43:00+00:00",
+      "expires_at": "2026-10-05T09:44:00+00:00",
+      "entry_price": 157.9065,
+      "martingale_level": 0,
+      "exit_price": 157.911,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T09:44:00+00:00",
+      "expires_at": "2026-10-05T09:45:00+00:00",
+      "entry_price": 157.9115,
+      "martingale_level": 0,
+      "exit_price": 157.9325,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T09:56:00+00:00",
+      "expires_at": "2026-10-05T09:57:00+00:00",
+      "entry_price": 190.4975,
+      "martingale_level": 0,
+      "exit_price": 190.511,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1700,6 +1669,45 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-05T09:42:17.441010+00:00",
       "exit_price": 157.908,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T09:43:00+00:00",
+      "expires_at": "2026-10-05T09:44:00+00:00",
+      "entry_price": 157.9065,
+      "martingale_level": 0,
+      "exit_price": 157.911,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T09:44:00+00:00",
+      "expires_at": "2026-10-05T09:45:00+00:00",
+      "entry_price": 157.9115,
+      "martingale_level": 0,
+      "exit_price": 157.9325,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T09:56:00+00:00",
+      "expires_at": "2026-10-05T09:57:00+00:00",
+      "entry_price": 190.4975,
+      "martingale_level": 0,
+      "exit_price": 190.511,
       "outcome": "WIN"
     }
   ],
