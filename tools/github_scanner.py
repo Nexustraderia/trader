@@ -304,7 +304,10 @@ def settle_pending(state: dict) -> None:
         try:
             entry_candle = candle_at(item["symbol"], datetime.fromisoformat(item["entry_at"]))
             item["entry_price"] = float(entry_candle["open"])
-            exit_candle = candle_at(item["symbol"], expiry - timedelta(minutes=EXPIRY_MINUTES))
+            # IQ/SIO settlement uses the close of the candle at expiration.
+            # For M1, an entry at 06:22 expires at 06:23, so the exit candle
+            # must be timestamped 06:23 rather than reusing the entry candle.
+            exit_candle = candle_at(item["symbol"], expiry)
             exit_price = float(exit_candle["close"])
             entry_price = float(item["entry_price"])
             if exit_price == entry_price:
@@ -387,6 +390,17 @@ def main() -> None:
         for item in bucket
         if item.get("symbol") and item.get("entry_at")
     }
+    # A direct signal at the candle immediately after a pending direct entry
+    # can collide with the MG1 that will be created when that entry settles.
+    # Reserve that next candle proactively; this mirrors the SIO sequence and
+    # prevents a direct + MG1 pair from being published for one asset/minute.
+    recovery_reserved_keys = {
+        (item.get("symbol"), recovery_entry_for(item).isoformat())
+        for item in state["pending"]
+        if item.get("symbol")
+        and item.get("entry_at")
+        and int(item.get("martingale_level") or 0) == 0
+    }
     for symbol in assets:
         try:
             m1 = fetch_iq_candles(symbol, "1m", 80)
@@ -436,7 +450,7 @@ def main() -> None:
                 f"put_quality={regular_put_quality_ok(result, int(effective_confidence))} eligible={eligible}"
             )
             key = (symbol, entry.isoformat())
-            if eligible and key not in signal_keys:
+            if eligible and key not in signal_keys and key not in recovery_reserved_keys:
                 item = {
                     "symbol": symbol,
                     "direction": result["decision"],
