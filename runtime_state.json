@@ -1559,7 +1559,7 @@
       "accuracy": 40.0
     },
     "EUR/JPY-OTC": {
-      "remaining": 7,
+      "remaining": 3,
       "sample_size": 11,
       "accuracy": 36.36
     }
