@@ -58,6 +58,12 @@ def next_entry() -> datetime:
     return current + timedelta(minutes=1 if SIGNAL_TIMEFRAME == "1m" else 5 - current.minute % 5)
 
 
+def recovery_entry_for(item: dict) -> datetime:
+    """Return the exact next candle used by the verifier for G1/MG1."""
+    original_entry = datetime.fromisoformat(item["entry_at"])
+    return original_entry + timedelta(minutes=EXPIRY_MINUTES)
+
+
 def candle_at_or_before(symbol: str, target: datetime) -> float:
     candles = fetch_iq_candles(symbol, SIGNAL_TIMEFRAME, 600)
     eligible = [c for c in candles if float(c.get("timestamp", 0)) <= target.timestamp()]
@@ -312,7 +318,11 @@ def settle_pending(state: dict) -> None:
             telegram(format_result(item, outcome))
             level = int(item.get("martingale_level", 0))
             if outcome == "LOSS" and level == 0:
-                recovery_entry = next_entry()
+                # SIO's G1 evaluates the candle immediately after the original
+                # signal, not the next candle available when settlement runs.
+                # Using wall-clock next_entry() after a delayed cycle shifted
+                # MG1 several minutes and made our labels disagree.
+                recovery_entry = recovery_entry_for(item)
                 recovery = {
                     "symbol": item["symbol"],
                     "direction": item["direction"],
