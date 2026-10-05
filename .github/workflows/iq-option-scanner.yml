@@ -50,21 +50,34 @@ jobs:
         run: pip install --disable-pip-version-check -r requirements.txt
       - name: Scan IQ Option and publish paper signals
         run: |
+          git config user.name "nexus-ia-trader[bot]"
+          git config user.email "nexus-ia-trader[bot]@users.noreply.github.com"
+
+          persist_state() {
+            git add runtime_state.json
+            if git diff --cached --quiet; then
+              echo "No state changes to commit"
+              return 0
+            fi
+            git commit -m "chore: persist paper trading state"
+            # Publish immediately after this one-minute cycle. A short retry
+            # protects the state commit if a queued scheduled run advanced main.
+            for attempt in 1 2 3; do
+              if git push; then
+                return 0
+              fi
+              echo "Push retry $attempt: rebasing on origin/main"
+              git pull --rebase origin main
+            done
+            echo "Could not publish runtime_state.json after three attempts"
+            return 1
+          }
+
           for cycle in $(seq 1 "$INTERNAL_CYCLES"); do
             echo "INTERNAL_CYCLE=$cycle/$INTERNAL_CYCLES"
             python tools/github_scanner.py
+            persist_state
             if [ "$cycle" -lt "$INTERNAL_CYCLES" ]; then
               sleep "$INTERNAL_CYCLE_SLEEP_SECONDS"
             fi
           done
-      - name: Persist paper trading state
-        run: |
-          git config user.name "nexus-ia-trader[bot]"
-          git config user.email "nexus-ia-trader[bot]@users.noreply.github.com"
-          git add runtime_state.json
-          if git diff --cached --quiet; then
-            echo "No state changes to commit"
-          else
-            git commit -m "chore: persist paper trading state"
-            git push
-          fi

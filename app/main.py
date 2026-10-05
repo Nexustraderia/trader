@@ -36,7 +36,7 @@ GITHUB_STATE_URL = os.getenv(
     "GITHUB_STATE_URL",
     "https://raw.githubusercontent.com/Nexustraderia/trader/main/runtime_state.json",
 ).strip()
-GITHUB_STATE_CACHE_SECONDS = int(os.getenv("GITHUB_STATE_CACHE_SECONDS", "15"))
+GITHUB_STATE_CACHE_SECONDS = int(os.getenv("GITHUB_STATE_CACHE_SECONDS", "10"))
 PORT = int(os.getenv("PORT", "10000"))
 AUTO_SIGNALS_ENABLED = os.getenv("AUTO_SIGNALS_ENABLED", "false").lower() == "true"
 # M5 strategy: refresh once per minute, never once per second.
