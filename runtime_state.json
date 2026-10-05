@@ -1,31 +1,18 @@
 {
   "pending": [
     {
-      "symbol": "USD/CAD",
+      "symbol": "EUR/JPY-OTC",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T13:55:00+00:00",
-      "expires_at": "2026-10-05T13:56:00+00:00",
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-05T14:05:00+00:00",
+      "expires_at": "2026-10-05T14:06:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/JPY",
-      "direction": "CALL",
-      "score": 95,
-      "confidence": 95,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T04:40:00+00:00",
-      "expires_at": "2026-10-05T04:41:00+00:00",
-      "entry_price": 208.7805,
-      "martingale_level": 0,
-      "exit_price": 208.7925,
-      "outcome": "WIN"
-    },
     {
       "symbol": "EUR/USD-OTC",
       "direction": "CALL",
@@ -1436,6 +1423,19 @@
       "martingale_level": 0,
       "exit_price": 0.832145,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T13:55:00+00:00",
+      "expires_at": "2026-10-05T13:56:00+00:00",
+      "entry_price": 1.42596,
+      "martingale_level": 0,
+      "exit_price": 1.426185,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1626,6 +1626,19 @@
       "entry_price": 0.831895,
       "martingale_level": 0,
       "exit_price": 0.832145,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T13:55:00+00:00",
+      "expires_at": "2026-10-05T13:56:00+00:00",
+      "entry_price": 1.42596,
+      "martingale_level": 0,
+      "exit_price": 1.426185,
       "outcome": "WIN"
     }
   ],
