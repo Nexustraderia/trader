@@ -1,35 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "USD/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T06:07:00+00:00",
-      "expires_at": "2026-10-05T06:08:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "AUD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T00:46:00+00:00",
-      "expires_at": "2026-10-05T00:47:00+00:00",
-      "entry_price": 0.991305,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T00:45:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T01:00:41.864866+00:00",
-      "exit_price": 0.991365,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/CAD",
       "direction": "CALL",
@@ -1456,6 +1427,19 @@
       "recovery_created_at": "2026-10-05T06:06:09.374113+00:00",
       "exit_price": 177.013965,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T06:07:00+00:00",
+      "expires_at": "2026-10-05T06:08:00+00:00",
+      "entry_price": 0.83011,
+      "martingale_level": 0,
+      "exit_price": 0.830205,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1522,6 +1506,19 @@
       "recovery_created_at": "2026-10-05T06:06:09.374113+00:00",
       "exit_price": 177.013965,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T06:07:00+00:00",
+      "expires_at": "2026-10-05T06:08:00+00:00",
+      "entry_price": 0.83011,
+      "martingale_level": 0,
+      "exit_price": 0.830205,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 15,
@@ -1552,7 +1549,7 @@
       "accuracy": 25.0
     },
     "EUR/USD-OTC": {
-      "remaining": 8,
+      "remaining": 4,
       "sample_size": 16,
       "accuracy": 18.75
     },
@@ -1562,7 +1559,7 @@
       "accuracy": 40.0
     },
     "EUR/JPY-OTC": {
-      "remaining": 19,
+      "remaining": 15,
       "sample_size": 11,
       "accuracy": 36.36
     }
