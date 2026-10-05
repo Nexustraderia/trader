@@ -1610,12 +1610,12 @@
       "accuracy": 25.0
     },
     "EUR/USD-OTC": {
-      "remaining": 4,
-      "sample_size": 13,
-      "accuracy": 30.77
+      "remaining": 20,
+      "sample_size": 14,
+      "accuracy": 35.71
     },
     "USD/CAD": {
-      "remaining": 5,
+      "remaining": 1,
       "sample_size": 15,
       "accuracy": 40.0
     }
