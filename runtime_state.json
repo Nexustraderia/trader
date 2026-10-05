@@ -1,39 +1,18 @@
 {
   "pending": [
     {
-      "symbol": "GBP/USD-OTC",
+      "symbol": "CHF/JPY",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
-      "strategy": "OTC_HYBRID_FALLBACK_V22",
-      "entry_at": "2026-10-05T12:55:00+00:00",
-      "expires_at": "2026-10-05T12:56:00+00:00",
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T13:09:00+00:00",
+      "expires_at": "2026-10-05T13:10:00+00:00",
       "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T12:54:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T13:06:51.920419+00:00"
+      "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/USD-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "OTC_HYBRID_FALLBACK_V22",
-      "entry_at": "2026-10-05T04:38:00+00:00",
-      "expires_at": "2026-10-05T04:39:00+00:00",
-      "entry_price": 1.128755,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T04:37:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T04:39:21.518989+00:00",
-      "exit_price": 1.128715,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "EUR/USD-OTC",
       "direction": "CALL",
@@ -1440,6 +1419,23 @@
       "martingale_level": 0,
       "exit_price": 1.334855,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-05T12:55:00+00:00",
+      "expires_at": "2026-10-05T12:56:00+00:00",
+      "entry_price": 1.335345,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-05T12:54:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-05T13:06:51.920419+00:00",
+      "exit_price": 1.334815,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1584,6 +1580,23 @@
       "martingale_level": 0,
       "exit_price": 111.0475,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-05T12:55:00+00:00",
+      "expires_at": "2026-10-05T12:56:00+00:00",
+      "entry_price": 1.335345,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-05T12:54:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-05T13:06:51.920419+00:00",
+      "exit_price": 1.334815,
+      "outcome": "LOSS"
     }
   ],
   "completed_sessions": 17,
