@@ -1,59 +1,18 @@
 {
   "pending": [
     {
-      "symbol": "EUR/GBP",
+      "symbol": "EUR/USD-OTC",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T16:14:00+00:00",
-      "expires_at": "2026-10-05T16:15:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T16:13:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T16:15:14.080905+00:00"
-    },
-    {
-      "symbol": "EUR/GBP",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T16:16:00+00:00",
-      "expires_at": "2026-10-05T16:17:00+00:00",
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-05T16:31:00+00:00",
+      "expires_at": "2026-10-05T16:32:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "USD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T10:47:00+00:00",
-      "expires_at": "2026-10-05T10:48:00+00:00",
-      "entry_price": 157.968,
-      "martingale_level": 0,
-      "exit_price": 157.968,
-      "outcome": "VOID"
-    },
-    {
-      "symbol": "AUD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T10:48:00+00:00",
-      "expires_at": "2026-10-05T10:49:00+00:00",
-      "entry_price": 0.992,
-      "martingale_level": 0,
-      "exit_price": 0.992085,
-      "outcome": "WIN"
-    },
     {
       "symbol": "USD/JPY",
       "direction": "CALL",
@@ -1455,6 +1414,36 @@
       "martingale_level": 0,
       "exit_price": 0.848385,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T16:14:00+00:00",
+      "expires_at": "2026-10-05T16:15:00+00:00",
+      "entry_price": 0.84844,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-05T16:13:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-05T16:15:14.080905+00:00",
+      "exit_price": 0.8484,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T16:16:00+00:00",
+      "expires_at": "2026-10-05T16:17:00+00:00",
+      "entry_price": 0.8484,
+      "martingale_level": 0,
+      "exit_price": 0.84847,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1710,6 +1699,36 @@
       "martingale_level": 0,
       "exit_price": 0.84843,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T16:14:00+00:00",
+      "expires_at": "2026-10-05T16:15:00+00:00",
+      "entry_price": 0.84844,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-05T16:13:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-05T16:15:14.080905+00:00",
+      "exit_price": 0.8484,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T16:16:00+00:00",
+      "expires_at": "2026-10-05T16:17:00+00:00",
+      "entry_price": 0.8484,
+      "martingale_level": 0,
+      "exit_price": 0.84847,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 18,
@@ -1755,7 +1774,7 @@
       "accuracy": 36.36
     },
     "USD/CHF": {
-      "remaining": 2,
+      "remaining": 1,
       "sample_size": 8,
       "accuracy": 37.5
     }
