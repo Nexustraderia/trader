@@ -1,21 +1,6 @@
 {
   "pending": [
     {
-      "symbol": "NZD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T22:27:00+00:00",
-      "expires_at": "2026-10-05T22:28:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T22:26:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T22:34:31.228265+00:00"
-    },
-    {
       "symbol": "GBP/CAD",
       "direction": "CALL",
       "score": 100,
@@ -23,8 +8,9 @@
       "strategy": "REGULAR_HYBRID_ADX_V2",
       "entry_at": "2026-10-05T22:35:00+00:00",
       "expires_at": "2026-10-05T22:36:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
+      "entry_price": 1.885095,
+      "martingale_level": 0,
+      "settlement_error": "RuntimeError: No exact IQ M1 candle at 2026-10-05T22:36:00+00:00"
     },
     {
       "symbol": "NZD/USD",
@@ -34,28 +20,23 @@
       "strategy": "REGULAR_HYBRID_ADX_V2",
       "entry_at": "2026-10-05T22:35:00+00:00",
       "expires_at": "2026-10-05T22:36:00+00:00",
+      "entry_price": 0.5603,
+      "martingale_level": 0,
+      "settlement_error": "RuntimeError: No exact IQ M1 candle at 2026-10-05T22:36:00+00:00"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T22:37:00+00:00",
+      "expires_at": "2026-10-05T22:38:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/USD-OTC",
-      "direction": "CALL",
-      "score": 95,
-      "confidence": 95,
-      "strategy": "OTC_HYBRID_FALLBACK_V22",
-      "entry_at": "2026-10-05T17:35:00+00:00",
-      "expires_at": "2026-10-05T17:36:00+00:00",
-      "entry_price": 1.332965,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T17:34:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T17:35:46.047817+00:00",
-      "exit_price": 1.332375,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "AUD/CAD",
       "direction": "CALL",
@@ -1464,6 +1445,23 @@
       "martingale_level": 0,
       "exit_price": 0.56024,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T22:27:00+00:00",
+      "expires_at": "2026-10-05T22:28:00+00:00",
+      "entry_price": 0.560255,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-05T22:26:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-05T22:34:31.228265+00:00",
+      "exit_price": 0.560235,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1709,6 +1707,23 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-05T22:25:17.220391+00:00",
       "exit_price": 0.697365,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T22:27:00+00:00",
+      "expires_at": "2026-10-05T22:28:00+00:00",
+      "entry_price": 0.560255,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-05T22:26:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-05T22:34:31.228265+00:00",
+      "exit_price": 0.560235,
       "outcome": "LOSS"
     }
   ],
