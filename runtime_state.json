@@ -6,21 +6,14 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T21:56:00+00:00",
-      "expires_at": "2026-10-05T21:57:00+00:00",
+      "entry_at": "2026-10-05T21:57:00+00:00",
+      "expires_at": "2026-10-05T21:58:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
-    },
-    {
-      "symbol": "NZD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-05T21:56:00+00:00",
-      "expires_at": "2026-10-05T21:57:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-05T21:56:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-05T21:57:42.754578+00:00"
     },
     {
       "symbol": "GBP/CHF",
@@ -43,39 +36,42 @@
       "expires_at": "2026-10-05T21:58:00+00:00",
       "entry_price": null,
       "martingale_level": 0
+    },
+    {
+      "symbol": "AUD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T21:58:00+00:00",
+      "expires_at": "2026-10-05T21:59:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T21:58:00+00:00",
+      "expires_at": "2026-10-05T21:59:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 95,
+      "confidence": 95,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T21:58:00+00:00",
+      "expires_at": "2026-10-05T21:59:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "OTC_ZONE_CONFLUENCE",
-      "entry_at": "2026-10-05T15:44:00+00:00",
-      "expires_at": "2026-10-05T15:45:00+00:00",
-      "entry_price": 177.279415,
-      "martingale_level": 0,
-      "exit_price": 177.268135,
-      "outcome": "LOSS"
-    },
-    {
-      "symbol": "EUR/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "OTC_ZONE_CONFLUENCE",
-      "entry_at": "2026-10-05T15:45:00+00:00",
-      "expires_at": "2026-10-05T15:46:00+00:00",
-      "entry_price": 177.249375,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-05T15:44:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-05T15:45:17.138784+00:00",
-      "exit_price": 177.296125,
-      "outcome": "WIN"
-    },
     {
       "symbol": "EUR/CHF",
       "direction": "CALL",
@@ -1475,6 +1471,32 @@
       "settlement_error": "RuntimeError: No exact IQ M1 candle at 2026-10-05T21:55:00+00:00",
       "exit_price": 0.560295,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T21:56:00+00:00",
+      "expires_at": "2026-10-05T21:57:00+00:00",
+      "entry_price": 0.932665,
+      "martingale_level": 0,
+      "exit_price": 0.932345,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T21:56:00+00:00",
+      "expires_at": "2026-10-05T21:57:00+00:00",
+      "entry_price": 0.560295,
+      "martingale_level": 0,
+      "exit_price": 0.56035,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1820,6 +1842,19 @@
       "martingale_level": 0,
       "settlement_error": "RuntimeError: No exact IQ M1 candle at 2026-10-05T21:55:00+00:00",
       "exit_price": 0.560295,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-05T21:56:00+00:00",
+      "expires_at": "2026-10-05T21:57:00+00:00",
+      "entry_price": 0.560295,
+      "martingale_level": 0,
+      "exit_price": 0.56035,
       "outcome": "WIN"
     }
   ],
