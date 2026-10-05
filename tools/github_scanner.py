@@ -254,10 +254,10 @@ def format_result(item: dict, outcome: str) -> str:
 
 def format_session_summary(batch: list[dict]) -> str:
     """Format one attractive 20-signal scoreboard for Telegram."""
+    batch = [item for item in batch if item.get("outcome") in {"WIN", "LOSS"}]
     direct_wins = sum(1 for item in batch if int(item.get("martingale_level", 0)) == 0 and item.get("outcome") == "WIN")
     mg1_wins = sum(1 for item in batch if int(item.get("martingale_level", 0)) == 1 and item.get("outcome") == "WIN")
     mg1_losses = sum(1 for item in batch if int(item.get("martingale_level", 0)) == 1 and item.get("outcome") == "LOSS")
-    voids = sum(1 for item in batch if item.get("outcome") == "VOID")
     result_icons = {"WIN": "💚", "LOSS": "❌", "VOID": "⚪"}
     lines = [
         "💥🤑 PLACAR NEXUS IA 🤑💥",
@@ -278,7 +278,7 @@ def format_session_summary(batch: list[dict]) -> str:
         "",
         "━━━━━━━━━━━━━━━━━━",
         f"✅ WIN: {direct_wins}   🔁 WIN MG1: {mg1_wins}",
-        f"❌ LOSS MG1: {mg1_losses}   ⚪ VOID: {voids}",
+        f"❌ LOSS MG1: {mg1_losses}",
         f"🎯 Assertividade: {accuracy:.2f}%",
     ])
     return "\n".join(lines)
@@ -345,8 +345,9 @@ def settle_pending(state: dict) -> None:
                 telegram(format_signal({"symbol": recovery["symbol"], "decision": recovery["direction"]}, recovery_entry, 1))
                 remaining.append(recovery)
             else:
-                telegram(format_result(item, outcome))
-                state.setdefault("session_results", []).append(item)
+                if outcome in {"WIN", "LOSS"}:
+                    telegram(format_result(item, outcome))
+                    state.setdefault("session_results", []).append(item)
             print(f"RESULT {item['symbol']}={outcome}")
         except Exception as error:
             item["settlement_error"] = f"{type(error).__name__}: {str(error)[:160]}"
