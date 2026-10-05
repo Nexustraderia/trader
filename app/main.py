@@ -32,6 +32,11 @@ BOT_MODE = os.getenv("BOT_MODE", "TESTE").upper()
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID", "@NexusTraderIA").strip()
 IQ_OPTION_AFFILIATE_URL = "https://affiliate.iqoption.net/redir/?aff=232843&aff_model=revenue&afftrack="
+GITHUB_STATE_URL = os.getenv(
+    "GITHUB_STATE_URL",
+    "https://raw.githubusercontent.com/Nexustraderia/trader/main/runtime_state.json",
+).strip()
+GITHUB_STATE_CACHE_SECONDS = int(os.getenv("GITHUB_STATE_CACHE_SECONDS", "15"))
 PORT = int(os.getenv("PORT", "10000"))
 AUTO_SIGNALS_ENABLED = os.getenv("AUTO_SIGNALS_ENABLED", "false").lower() == "true"
 # M5 strategy: refresh once per minute, never once per second.
@@ -86,6 +91,9 @@ state = {
     "settlement_last_check": None,
 }
 
+_github_state_cache = None
+_github_state_cache_at = 0.0
+
 
 def telegram_url(method: str) -> str:
     return f"https://api.telegram.org/bot{BOT_TOKEN}/{method}"
@@ -117,6 +125,80 @@ def send_signal(signal: dict, chat_id: str | None = None) -> bool:
 def send_result(item: dict, chat_id: str | None = None) -> bool:
     """Send only the text result; no image attachment is used."""
     return send_message(format_result(item), chat_id)
+
+
+def github_dashboard_snapshot() -> dict | None:
+    """Read the GitHub Actions paper journal for the public Render site."""
+    global _github_state_cache, _github_state_cache_at
+    now = time.monotonic()
+    if _github_state_cache is not None and now - _github_state_cache_at < GITHUB_STATE_CACHE_SECONDS:
+        return _github_state_cache
+    try:
+        response = requests.get(
+            GITHUB_STATE_URL,
+            params={"dashboard_cache": int(time.time() // GITHUB_STATE_CACHE_SECONDS)},
+            headers={"Accept": "application/json", "Cache-Control": "no-cache"},
+            timeout=8,
+        )
+        response.raise_for_status()
+        raw = response.json()
+        if not isinstance(raw, dict):
+            raise ValueError("GitHub state is not an object")
+
+        def public_item(item: dict, outcome: str | None = None) -> dict:
+            level = int(item.get("martingale_level") or 0)
+            return {
+                "id": item.get("id") or f"{item.get('symbol')}:{item.get('entry_at')}:{level}",
+                "symbol": item.get("symbol"),
+                "direction": item.get("direction"),
+                "score": item.get("score", 0),
+                "confidence": item.get("confidence", 0),
+                "timeframe": "M1",
+                "entry_at": item.get("entry_at"),
+                "expires_at": item.get("expires_at"),
+                "outcome": outcome or item.get("outcome"),
+                "martingale_level": level,
+                "parent_entry_at": item.get("parent_entry_at"),
+            }
+
+        live = [public_item(item, "PENDENTE") for item in raw.get("pending", []) if item.get("symbol")]
+        results = []
+        seen = set()
+        for item in raw.get("settled", []):
+            outcome = item.get("outcome")
+            level = int(item.get("martingale_level") or 0)
+            # A direct LOSS is an intermediate state; the public site shows
+            # only the final WIN, WIN MG1 or LOSS MG1 outcome.
+            if outcome not in {"WIN", "LOSS"} or (level == 0 and outcome == "LOSS"):
+                continue
+            key = (item.get("symbol"), item.get("entry_at"), level, outcome)
+            if key in seen:
+                continue
+            seen.add(key)
+            results.append(public_item(item))
+
+        live.sort(key=lambda item: item.get("entry_at") or "", reverse=True)
+        results.sort(key=lambda item: item.get("entry_at") or "", reverse=True)
+        wins = sum(item["outcome"] == "WIN" for item in results)
+        mg1_losses = sum(item["outcome"] == "LOSS" and item["martingale_level"] == 1 for item in results)
+        decided = wins + mg1_losses
+        _github_state_cache = {
+            "live": live[:100],
+            "results": results[:100],
+            "statistics": {
+                "total": decided,
+                "wins": wins,
+                "losses": mg1_losses,
+                "accuracy": wins / decided * 100 if decided else None,
+            },
+            "source": "GitHub Actions · IQ Option",
+            "source_url": GITHUB_STATE_URL,
+            "github_updated_at": raw.get("updated_at") or raw.get("last_update"),
+        }
+        _github_state_cache_at = now
+        return _github_state_cache
+    except Exception:
+        return _github_state_cache
 
 
 def build_analysis(symbol: str) -> tuple[dict, dict]:
@@ -442,13 +524,17 @@ def index():
     return render_template("dashboard.html")
 @app.get("/api/dashboard")
 def dashboard_data():
-    """Public read-only view of the persistent journal for the web app."""
+    """Public read-only view of the GitHub Actions journal for the web app."""
+    github_snapshot = github_dashboard_snapshot()
+    if github_snapshot is not None:
+        return jsonify({**github_snapshot, "updated_at": datetime.now(timezone.utc).isoformat()})
     signals = recent_signals(100)
     return jsonify({
         "live": [signal for signal in signals if signal.get("outcome") == "PENDENTE"],
         "results": [signal for signal in signals if signal.get("outcome") in {"WIN", "LOSS", "VOID"}],
         "statistics": statistics(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
+        "source": "Render local journal (GitHub snapshot temporarily unavailable)",
     })
 
 
