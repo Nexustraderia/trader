@@ -359,7 +359,15 @@ def main() -> None:
     print(f"IQ_OPEN_ASSETS={len(assets)} QUARANTINED={','.join(sorted(quarantined_assets)) or 'none'}")
     entry = next_entry()
     sent = 0
-    pending_keys = {(x["symbol"], x["entry_at"]) for x in state["pending"]}
+    # Internal one-minute cycles can revisit the same entry minute. Deduplicate
+    # against the complete persisted history, not only currently pending items;
+    # otherwise a settled signal may be generated again before the next cron.
+    signal_keys = {
+        (item.get("symbol"), item.get("entry_at"))
+        for bucket in (state["pending"], state["settled"], state.get("session_results", []))
+        for item in bucket
+        if item.get("symbol") and item.get("entry_at")
+    }
     for symbol in assets:
         try:
             m1 = fetch_iq_candles(symbol, "1m", 80)
@@ -409,7 +417,7 @@ def main() -> None:
                 f"put_quality={regular_put_quality_ok(result, int(effective_confidence))} eligible={eligible}"
             )
             key = (symbol, entry.isoformat())
-            if eligible and key not in pending_keys:
+            if eligible and key not in signal_keys:
                 item = {
                     "symbol": symbol,
                     "direction": result["decision"],
@@ -436,7 +444,7 @@ def main() -> None:
                     {"inline_keyboard": [[{"text": "CADASTRE-SE NA IQ OPTION", "url": IQ_OPTION_AFFILIATE_URL}]]},
                 )
                 state["pending"].append(item)
-                pending_keys.add(key)
+                signal_keys.add(key)
                 sent += 1
         except Exception as error:
             print(f"{symbol}=ERROR {type(error).__name__}: {str(error)[:160]}")
