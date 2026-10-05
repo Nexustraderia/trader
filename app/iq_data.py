@@ -37,7 +37,10 @@ _client = None
 _client_lock = threading.Lock()
 _asset_cache = set()
 _asset_cache_at = 0.0
-ASSET_CACHE_SECONDS = 60
+# Refresh the complete IQ catalog once per workflow window. Individual scans
+# still require a fresh M1 candle, so a pair that closes is rejected quickly
+# without probing every known asset on every internal minute cycle.
+ASSET_CACHE_SECONDS = 240
 _asset_modes_cache = {}
 _connect_blocked_until = 0.0
 _last_connect_error = None
