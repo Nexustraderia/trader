@@ -1,17 +1,6 @@
 {
   "pending": [
     {
-      "symbol": "EUR/AUD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T08:04:00+00:00",
-      "expires_at": "2026-10-06T08:05:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    },
-    {
       "symbol": "AUD/USD",
       "direction": "CALL",
       "score": 100,
@@ -43,26 +32,31 @@
       "expires_at": "2026-10-06T08:06:00+00:00",
       "entry_price": null,
       "martingale_level": 0
-    }
-  ],
-  "settled": [
+    },
     {
-      "symbol": "USD/CAD",
+      "symbol": "EUR/USD",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T05:04:00+00:00",
-      "expires_at": "2026-10-06T05:05:00+00:00",
-      "entry_price": 1.42661,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-06T05:03:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-06T05:05:06.121551+00:00",
-      "exit_price": 1.42662,
-      "outcome": "WIN"
+      "entry_at": "2026-10-06T08:06:00+00:00",
+      "expires_at": "2026-10-06T08:07:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
     },
+    {
+      "symbol": "NZD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T08:06:00+00:00",
+      "expires_at": "2026-10-06T08:07:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
+  "settled": [
     {
       "symbol": "USD/CAD",
       "direction": "CALL",
@@ -1453,6 +1447,19 @@
       "recovery_created_at": "2026-10-06T08:03:20.171780+00:00",
       "exit_price": 4140.105,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T08:04:00+00:00",
+      "expires_at": "2026-10-06T08:05:00+00:00",
+      "entry_price": 1.611005,
+      "martingale_level": 0,
+      "exit_price": 1.61101,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1696,6 +1703,19 @@
       "recovery_created_at": "2026-10-06T08:03:20.171780+00:00",
       "exit_price": 4140.105,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T08:04:00+00:00",
+      "expires_at": "2026-10-06T08:05:00+00:00",
+      "entry_price": 1.611005,
+      "martingale_level": 0,
+      "exit_price": 1.61101,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 29,
