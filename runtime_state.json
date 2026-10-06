@@ -1801,7 +1801,7 @@
       "accuracy": 37.5
     },
     "EUR/AUD": {
-      "remaining": 9,
+      "remaining": 8,
       "sample_size": 9,
       "accuracy": 33.33
     }
