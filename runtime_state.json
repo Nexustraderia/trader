@@ -1,17 +1,5 @@
 {
-  "pending": [
-    {
-      "symbol": "GBP/AUD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T14:24:00+00:00",
-      "expires_at": "2026-10-06T14:25:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
     {
       "symbol": "EUR/JPY",
@@ -128,6 +116,19 @@
       "recovery_created_at": "2026-10-06T12:42:09.668128+00:00",
       "exit_price": 0.848795,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T14:24:00+00:00",
+      "expires_at": "2026-10-06T14:25:00+00:00",
+      "entry_price": 1.901355,
+      "martingale_level": 0,
+      "exit_price": 1.90138,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -190,6 +191,19 @@
       "recovery_created_at": "2026-10-06T12:42:09.668128+00:00",
       "exit_price": 0.848795,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T14:24:00+00:00",
+      "expires_at": "2026-10-06T14:25:00+00:00",
+      "entry_price": 1.901355,
+      "martingale_level": 0,
+      "exit_price": 1.90138,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 0,
