@@ -6,26 +6,39 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T05:37:00+00:00",
-      "expires_at": "2026-10-06T05:38:00+00:00",
+      "entry_at": "2026-10-06T05:38:00+00:00",
+      "expires_at": "2026-10-06T05:39:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-06T05:37:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-06T05:39:00.294774+00:00"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T05:40:00+00:00",
+      "expires_at": "2026-10-06T05:41:00+00:00",
       "entry_price": null,
       "martingale_level": 0
-    }
-  ],
-  "settled": [
+    },
     {
       "symbol": "USD/CHF",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T02:22:00+00:00",
-      "expires_at": "2026-10-06T02:23:00+00:00",
-      "entry_price": 0.831445,
-      "martingale_level": 0,
-      "exit_price": 0.83143,
-      "outcome": "LOSS"
-    },
+      "entry_at": "2026-10-06T05:40:00+00:00",
+      "expires_at": "2026-10-06T05:41:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
+  "settled": [
     {
       "symbol": "GBP/CHF",
       "direction": "CALL",
@@ -1420,6 +1433,19 @@
       "recovery_created_at": "2026-10-06T05:36:12.734131+00:00",
       "exit_price": 209.0445,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T05:37:00+00:00",
+      "expires_at": "2026-10-06T05:38:00+00:00",
+      "entry_price": 1.426895,
+      "martingale_level": 0,
+      "exit_price": 1.42682,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1572,7 +1598,7 @@
       "accuracy": 33.33
     },
     "NZD/JPY": {
-      "remaining": 7,
+      "remaining": 6,
       "sample_size": 8,
       "accuracy": 37.5
     }
