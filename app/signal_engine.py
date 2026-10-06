@@ -187,6 +187,7 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
     fast = ema(closes, 20)
     slow = ema(closes, 50)
     trend = ema(closes, 50)
+    ema200 = ema(closes, 200) if len(closes) >= 200 else None
     momentum = rsi(closes)
     volatility_pct, latest_move_pct = volatility_metrics(closes)
     range_position = support_resistance_position(closes)
@@ -254,6 +255,8 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         "ema_fast": fast,
         "ema_slow": slow,
         "ema_trend": trend,
+        "ema200": ema200,
+        "ema200_available": ema200 is not None,
         "macd": macd_line,
         "macd_signal": macd_signal,
         "macd_histogram": macd_histogram,
@@ -367,6 +370,24 @@ def analyze_with_confirmation(
         or (result["decision"] == "PUT" and result.get("macd_histogram", 0.0) < 0)
     )
     result["regular_atr_ok"] = result.get("atr_pct", 0.0) >= 0.003
+    result["regular_ema200_ok"] = (
+        result.get("ema200") is None
+        or (result["decision"] == "CALL" and result["price"] > result["ema200"])
+        or (result["decision"] == "PUT" and result["price"] < result["ema200"])
+    )
+    result["regular_bollinger_ok"] = (
+        result.get("ema200") is None
+        or (
+            result["decision"] == "CALL"
+            and result["price"] <= result.get("bollinger_upper", result["price"])
+            and result["price"] >= result.get("bollinger_middle", result["price"])
+        )
+        or (
+            result["decision"] == "PUT"
+            and result["price"] >= result.get("bollinger_lower", result["price"])
+            and result["price"] <= result.get("bollinger_middle", result["price"])
+        )
+    )
     result["regular_confidence"] = directional_confidence(result["decision"], result["score"])
     regular_quality_flags = (
         result["regular_directional_ok"],
@@ -425,6 +446,9 @@ def analyze_with_confirmation(
         and result["rsi_entry_ok"]
         and result.get("adx", 0.0) >= 18
         and result.get("regular_confidence", 0) >= 75
+        and result["regular_ema200_ok"]
+        and result["regular_bollinger_ok"]
+        and result["price_action_ok"]
     )
     # Hybrid gate: preserve the ADX/confluence base while requiring three of
     # four independent V2 quality checks. This is intentionally selective for

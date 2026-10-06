@@ -400,7 +400,8 @@ def main() -> None:
     for symbol in assets:
         try:
             m1 = fetch_iq_candles(symbol, "1m", 80)
-            m5 = fetch_iq_candles(symbol, "5m", 80)
+            # Keep enough M5 history for the EMA 200 context filter.
+            m5 = fetch_iq_candles(symbol, "5m", 220)
             m15 = fetch_iq_candles(symbol, "15m", 80)
             h1 = fetch_iq_candles(symbol, "1h", 80)
             if not (fresh(m1, 180) and fresh(m5, 600) and fresh(m15, 2100) and fresh(h1, 7200)):
