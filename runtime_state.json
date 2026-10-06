@@ -10,6 +10,17 @@
       "expires_at": "2026-10-06T10:59:00+00:00",
       "entry_price": null,
       "martingale_level": 0
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 95,
+      "confidence": 95,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-06T10:59:00+00:00",
+      "expires_at": "2026-10-06T11:00:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
     }
   ],
   "settled": [
