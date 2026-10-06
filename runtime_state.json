@@ -6,26 +6,50 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T10:15:00+00:00",
-      "expires_at": "2026-10-06T10:16:00+00:00",
+      "entry_at": "2026-10-06T10:16:00+00:00",
+      "expires_at": "2026-10-06T10:17:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-06T10:15:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-06T10:27:18.648255+00:00"
+    },
+    {
+      "symbol": "GBP/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T10:28:00+00:00",
+      "expires_at": "2026-10-06T10:29:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T10:28:00+00:00",
+      "expires_at": "2026-10-06T10:29:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T10:28:00+00:00",
+      "expires_at": "2026-10-06T10:29:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "AUD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T08:41:00+00:00",
-      "expires_at": "2026-10-06T08:42:00+00:00",
-      "entry_price": 110.3425,
-      "martingale_level": 0,
-      "exit_price": 110.3715,
-      "outcome": "WIN"
-    },
     {
       "symbol": "EUR/AUD",
       "direction": "CALL",
@@ -1436,6 +1460,19 @@
       "martingale_level": 0,
       "exit_price": 0.560745,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T10:15:00+00:00",
+      "expires_at": "2026-10-06T10:16:00+00:00",
+      "entry_price": 0.560725,
+      "martingale_level": 0,
+      "exit_price": 0.560705,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1644,7 +1681,7 @@
       "accuracy": 37.5
     },
     "GBP/JPY": {
-      "remaining": 4,
+      "remaining": 3,
       "sample_size": 8,
       "accuracy": 37.5
     }
