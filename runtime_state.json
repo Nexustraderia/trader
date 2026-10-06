@@ -1,15 +1,19 @@
 {
   "pending": [
     {
-      "symbol": "CHF/JPY",
+      "symbol": "USD/CAD",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T05:03:00+00:00",
-      "expires_at": "2026-10-06T05:04:00+00:00",
+      "entry_at": "2026-10-06T05:04:00+00:00",
+      "expires_at": "2026-10-06T05:05:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-06T05:03:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-06T05:05:06.121551+00:00"
     },
     {
       "symbol": "USD/CAD",
@@ -17,47 +21,24 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T05:03:00+00:00",
-      "expires_at": "2026-10-06T05:04:00+00:00",
+      "entry_at": "2026-10-06T05:06:00+00:00",
+      "expires_at": "2026-10-06T05:07:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T05:06:00+00:00",
+      "expires_at": "2026-10-06T05:07:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T02:03:00+00:00",
-      "expires_at": "2026-10-06T02:04:00+00:00",
-      "entry_price": 1.098835,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-06T02:02:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-06T02:04:14.333072+00:00",
-      "exit_price": 1.09883,
-      "outcome": "LOSS"
-    },
-    {
-      "symbol": "AUD/JPY",
-      "direction": "CALL",
-      "score": 95,
-      "confidence": 95,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T02:04:00+00:00",
-      "expires_at": "2026-10-06T02:05:00+00:00",
-      "entry_price": 110.0335,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-06T02:03:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-06T02:04:16.480804+00:00",
-      "exit_price": 110.04,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/CHF",
       "direction": "CALL",
@@ -1443,6 +1424,32 @@
       "martingale_level": 0,
       "exit_price": 1.09908,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T05:03:00+00:00",
+      "expires_at": "2026-10-06T05:04:00+00:00",
+      "entry_price": 190.158,
+      "martingale_level": 0,
+      "exit_price": 190.1805,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T05:03:00+00:00",
+      "expires_at": "2026-10-06T05:04:00+00:00",
+      "entry_price": 1.42664,
+      "martingale_level": 0,
+      "exit_price": 1.42661,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1762,6 +1769,19 @@
       "martingale_level": 0,
       "exit_price": 1.09908,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T05:03:00+00:00",
+      "expires_at": "2026-10-06T05:04:00+00:00",
+      "entry_price": 190.158,
+      "martingale_level": 0,
+      "exit_price": 190.1805,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 26,
@@ -1817,7 +1837,7 @@
       "accuracy": 33.33
     },
     "NZD/JPY": {
-      "remaining": 15,
+      "remaining": 14,
       "sample_size": 8,
       "accuracy": 37.5
     }
