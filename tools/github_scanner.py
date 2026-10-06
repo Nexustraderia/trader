@@ -270,11 +270,11 @@ def format_result(item: dict, outcome: str) -> str:
     local = datetime.fromisoformat(item["entry_at"]).astimezone(BRASILIA)
     level = int(item.get("martingale_level", 0))
     if level == 1 and outcome == "WIN":
-        label = "✅ WIN no MG1"
+        label = "WIN G1 💚"
     elif level == 1 and outcome == "LOSS":
-        label = "🔴 LOSS após MG1"
+        label = "LOSS ❤️"
     else:
-        label = {"WIN": "✅ WIN", "LOSS": "🔴 LOSS", "VOID": "⚪ VOID"}[outcome]
+        label = {"WIN": "WIN 💚", "LOSS": "LOSS ❤️", "VOID": "VOID ⚪"}[outcome]
     return "\n".join([
         "⚡️ NEXUS I.A TRADER ⚡️",
         "📊 Resultado do paper trading",
@@ -294,7 +294,7 @@ def format_session_summary(batch: list[dict]) -> str:
     direct_wins = sum(1 for item in batch if int(item.get("martingale_level", 0)) == 0 and item.get("outcome") == "WIN")
     mg1_wins = sum(1 for item in batch if int(item.get("martingale_level", 0)) == 1 and item.get("outcome") == "WIN")
     mg1_losses = sum(1 for item in batch if int(item.get("martingale_level", 0)) == 1 and item.get("outcome") == "LOSS")
-    result_icons = {"WIN": "💚", "LOSS": "❌", "VOID": "⚪"}
+    result_labels = {"WIN": "WIN 💚", "LOSS": "LOSS ❤️", "VOID": "VOID ⚪"}
     lines = [
         "💥🤑 PLACAR NEXUS IA 🤑💥",
         "",
@@ -306,15 +306,17 @@ def format_session_summary(batch: list[dict]) -> str:
         local = datetime.fromisoformat(item["entry_at"]).astimezone(BRASILIA)
         symbol = item["symbol"].replace("/", "")
         mg_label = "  MG1" if int(item.get("martingale_level", 0)) == 1 else ""
-        lines.append(f"{local.strftime('%H:%M')}  {symbol}  {item['direction']}{mg_label}  {result_icons.get(item.get('outcome'), '⚪')}")
+        outcome = item.get("outcome")
+        result_label = "WIN G1 💚" if mg_label and outcome == "WIN" else result_labels.get(outcome, "VOID ⚪")
+        lines.append(f"{local.strftime('%H:%M')}  {symbol}  {item['direction']}{mg_label}  {result_label}")
     total_wins = direct_wins + mg1_wins
     decided = total_wins + mg1_losses
     accuracy = total_wins / decided * 100 if decided else 0
     lines.extend([
         "",
         "━━━━━━━━━━━━━━━━━━",
-        f"✅ WIN: {direct_wins}   🔁 WIN MG1: {mg1_wins}",
-        f"❌ LOSS MG1: {mg1_losses}",
+        f"WIN 💚: {direct_wins}   WIN G1 💚: {mg1_wins}",
+        f"LOSS ❤️: {mg1_losses}",
         f"🎯 Assertividade: {accuracy:.2f}%",
     ])
     return "\n".join(lines)
