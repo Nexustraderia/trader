@@ -6,32 +6,14 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T04:39:00+00:00",
-      "expires_at": "2026-10-06T04:40:00+00:00",
+      "entry_at": "2026-10-06T04:40:00+00:00",
+      "expires_at": "2026-10-06T04:41:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
-    },
-    {
-      "symbol": "EUR/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T04:39:00+00:00",
-      "expires_at": "2026-10-06T04:40:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    },
-    {
-      "symbol": "EUR/GBP",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T04:39:00+00:00",
-      "expires_at": "2026-10-06T04:40:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-06T04:39:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-06T04:40:48.594034+00:00"
     },
     {
       "symbol": "NZD/JPY",
@@ -43,55 +25,42 @@
       "expires_at": "2026-10-06T04:41:00+00:00",
       "entry_price": null,
       "martingale_level": 0
+    },
+    {
+      "symbol": "AUD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:41:00+00:00",
+      "expires_at": "2026-10-06T04:42:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:41:00+00:00",
+      "expires_at": "2026-10-06T04:42:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:41:00+00:00",
+      "expires_at": "2026-10-06T04:42:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T01:10:00+00:00",
-      "expires_at": "2026-10-06T01:11:00+00:00",
-      "entry_price": 0.932555,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-06T01:09:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-06T01:10:13.000691+00:00",
-      "exit_price": 0.93261,
-      "outcome": "WIN",
-      "settlement_error": "ReadTimeout: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=20)"
-    },
-    {
-      "symbol": "GBP/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T01:11:00+00:00",
-      "expires_at": "2026-10-06T01:12:00+00:00",
-      "entry_price": 1.322565,
-      "martingale_level": 0,
-      "exit_price": 1.32266,
-      "outcome": "WIN",
-      "settlement_error": "ReadTimeout: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=20)"
-    },
-    {
-      "symbol": "NZD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T01:11:00+00:00",
-      "expires_at": "2026-10-06T01:12:00+00:00",
-      "entry_price": 0.560175,
-      "martingale_level": 0,
-      "exit_price": 0.560245,
-      "outcome": "WIN",
-      "settlement_error": "ReadTimeout: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=20)"
-    },
     {
       "symbol": "EUR/AUD",
       "direction": "CALL",
@@ -1460,6 +1429,45 @@
       "recovery_created_at": "2026-10-06T04:38:06.077755+00:00",
       "exit_price": 0.848855,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:39:00+00:00",
+      "expires_at": "2026-10-06T04:40:00+00:00",
+      "entry_price": 110.259,
+      "martingale_level": 0,
+      "exit_price": 110.2495,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:39:00+00:00",
+      "expires_at": "2026-10-06T04:40:00+00:00",
+      "entry_price": 0.932975,
+      "martingale_level": 0,
+      "exit_price": 0.932985,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:39:00+00:00",
+      "expires_at": "2026-10-06T04:40:00+00:00",
+      "entry_price": 0.84888,
+      "martingale_level": 0,
+      "exit_price": 0.848895,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1560,6 +1568,32 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-06T04:38:06.077755+00:00",
       "exit_price": 0.848855,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:39:00+00:00",
+      "expires_at": "2026-10-06T04:40:00+00:00",
+      "entry_price": 0.932975,
+      "martingale_level": 0,
+      "exit_price": 0.932985,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:39:00+00:00",
+      "expires_at": "2026-10-06T04:40:00+00:00",
+      "entry_price": 0.84888,
+      "martingale_level": 0,
+      "exit_price": 0.848895,
       "outcome": "WIN"
     }
   ],
