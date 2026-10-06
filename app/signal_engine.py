@@ -185,14 +185,17 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         return {"symbol": symbol, "decision": "AGUARDAR", "score": 0, "confidence": 50, "reason": "Dados insuficientes para análise."}
 
     fast = ema(closes, 20)
+    previous_fast = ema(closes[:-1], 20) if len(closes) > 20 else fast
     slow = ema(closes, 50)
     trend = ema(closes, 50)
     ema200 = ema(closes, 200) if len(closes) >= 200 else None
     momentum = rsi(closes)
+    momentum7 = rsi(closes, 7)
     volatility_pct, latest_move_pct = volatility_metrics(closes)
     range_position = support_resistance_position(closes)
     macd_line, macd_signal, macd_histogram = macd(closes)
     lower_band, middle_band, upper_band = bollinger(closes)
+    bollinger_width_pct = ((upper_band - lower_band) / middle_band * 100) if middle_band else 0.0
     trend_strength, di_plus, di_minus = directional_movement(candles)
     atr_pct = atr_percent(candles)
     zones = support_resistance_zones(candles)
@@ -252,7 +255,10 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         "score": score,
         "price": recent,
         "rsi": momentum,
+        "rsi7": momentum7,
         "ema_fast": fast,
+        "ema20_slope_up": fast > previous_fast,
+        "ema20_slope_down": fast < previous_fast,
         "ema_slow": slow,
         "ema_trend": trend,
         "ema200": ema200,
@@ -269,6 +275,7 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         "bollinger_lower": lower_band,
         "bollinger_middle": middle_band,
         "bollinger_upper": upper_band,
+        "bollinger_width_pct": bollinger_width_pct,
         "volatility_pct": volatility_pct,
         "latest_move_pct": latest_move_pct,
         "range_position": range_position,

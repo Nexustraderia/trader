@@ -165,6 +165,40 @@ def regular_put_quality_ok(result: dict, confidence: int) -> bool:
     )
 
 
+def otc_specific_quality_ok(result: dict) -> bool:
+    """Dedicated OTC M1 gate; regular-pair rules are not reused here."""
+    decision = result.get("decision")
+    confidence = int(result.get("regular_confidence", 0) or 0)
+    if decision not in {"CALL", "PUT"} or confidence < OTC_FALLBACK_MIN_CONFIDENCE:
+        return False
+    common = (
+        result.get("m1_decision") == decision
+        and result.get("m15_decision") == decision
+        and result.get("h1_decision") in {decision, "AGUARDAR"}
+        and result.get("m1_confirmation_ok", False)
+        and result.get("volatility_ok", False)
+        and result.get("trend_momentum_ok", False)
+        and result.get("price_action_ok", False)
+        and result.get("bollinger_width_pct", 0.0) >= 0.05
+        and result.get("atr_pct", 0.0) >= 0.003
+    )
+    if not common:
+        return False
+    price = float(result.get("price", 0.0) or 0.0)
+    middle = float(result.get("bollinger_middle", price) or price)
+    lower = float(result.get("bollinger_lower", price) or price)
+    upper = float(result.get("bollinger_upper", price) or price)
+    rsi7 = float(result.get("rsi7", 50.0) or 50.0)
+    if decision == "CALL":
+        return result.get("ema20_slope_up", False) and 35.0 <= rsi7 <= 68.0 and lower <= price <= middle
+    return (
+        result.get("ema20_slope_down", False)
+        and 32.0 <= rsi7 <= 65.0
+        and middle <= price <= upper
+        and regular_put_quality_ok(result, confidence)
+    )
+
+
 def otc_quality_fallback_ok(result: dict) -> bool:
     """Allow a high-quality OTC setup when only price-action confirmation fails.
 
@@ -411,15 +445,14 @@ def main() -> None:
             is_regular = not symbol.endswith("-OTC")
             asset_min_confidence = 75 if is_regular else MIN_CONFIDENCE
             effective_confidence = result.get("regular_confidence", 0) if is_regular else result.get("confidence", 0)
-            # Regular pairs use the hybrid ADX/confluence base. OTC keeps its
-            # primary zone-confluence gate, with a controlled technical
-            # fallback for strong setups rejected only by price-action detail.
+            # Regular pairs use the hybrid ADX/confluence base. OTC uses its
+            # own Bollinger/EMA20/RSI7/price-action M1 strategy.
             primary_eligible = (
                 bool(result.get("regular_hybrid_confluence_ok"))
                 if is_regular
-                else bool(result.get("confluence_ok"))
+                else otc_specific_quality_ok(result)
             )
-            fallback_eligible = (not is_regular) and otc_quality_fallback_ok(result)
+            fallback_eligible = False
             # When confluence is false, the engine intentionally reports raw
             # confidence=50. A validated OTC fallback must use its technical
             # regular_confidence for the final gate and persisted signal.
@@ -460,7 +493,7 @@ def main() -> None:
                     "strategy": (
                         "REGULAR_HYBRID_ADX_V2"
                         if is_regular
-                        else ("OTC_ZONE_CONFLUENCE" if primary_eligible else "OTC_HYBRID_FALLBACK_V22")
+                        else "OTC_BB_EMA20_RSI7_PA_M1"
                     ),
                     "entry_at": entry.isoformat(),
                     "expires_at": (entry + timedelta(minutes=EXPIRY_MINUTES)).isoformat(),
