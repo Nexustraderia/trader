@@ -195,15 +195,11 @@ def otc_quality_fallback_ok(result: dict) -> bool:
             result.get("regular_v2_quality_count", 0) >= 3
             and regular_put_quality_ok(result, confidence)
         )
-    # Adaptive CALL mode: in a strong, aligned trend, two independent quality
-    # checks are sufficient. This avoids starving the scanner when one filter
-    # (usually EMA or ATR) lags the current OTC impulse.
+    # Keep OTC CALLs selective as well: a strong ADX cannot replace a missing
+    # independent confirmation on M1.
     return (
-        result.get("regular_v2_quality_count", 0) >= 2
-        and (
-            result.get("regular_v2_quality_count", 0) >= 3
-            or result.get("adx", 0.0) >= OTC_STRONG_TREND_ADX
-        )
+        result.get("regular_v2_quality_count", 0) >= 3
+        and result.get("adx", 0.0) >= OTC_STRONG_TREND_ADX
     )
 
 

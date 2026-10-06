@@ -426,12 +426,13 @@ def analyze_with_confirmation(
         and result.get("adx", 0.0) >= 18
         and result.get("regular_confidence", 0) >= 75
     )
-    # Hybrid gate: preserve the historically stronger ADX/confluence base,
-    # while requiring at least two independent V2 quality checks. Regular
-    # pairs intentionally do not require the OTC support/resistance reaction.
+    # Hybrid gate: preserve the ADX/confluence base while requiring three of
+    # four independent V2 quality checks. This is intentionally selective for
+    # M1, where two checks alone produced too many one-sided CALL entries.
+    # Regular pairs still do not require the OTC support/resistance reaction.
     result["regular_hybrid_confluence_ok"] = (
         result["regular_base_confluence_ok"]
-        and result["regular_v2_quality_count"] >= 2
+        and result["regular_v2_quality_count"] >= 3
     )
     if not result["confluence_ok"]:
         result["reasons"].append("Confluência completa M5/M15/H1 não confirmada")
