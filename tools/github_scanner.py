@@ -190,9 +190,15 @@ def otc_specific_quality_ok(result: dict) -> bool:
     upper = float(result.get("bollinger_upper", price) or price)
     rsi7 = float(result.get("rsi7", 50.0) or 50.0)
     if decision == "CALL":
-        return result.get("ema20_slope_up", False) and 35.0 <= rsi7 <= 68.0 and lower <= price <= middle
+        return (
+            result.get("ema20_slope_up", False)
+            and result.get("rsi7_slope_up", False)
+            and 35.0 <= rsi7 <= 68.0
+            and lower <= price <= middle
+        )
     return (
         result.get("ema20_slope_down", False)
+        and result.get("rsi7_slope_down", False)
         and 32.0 <= rsi7 <= 65.0
         and middle <= price <= upper
         and regular_put_quality_ok(result, confidence)

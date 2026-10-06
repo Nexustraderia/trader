@@ -191,6 +191,7 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
     ema200 = ema(closes, 200) if len(closes) >= 200 else None
     momentum = rsi(closes)
     momentum7 = rsi(closes, 7)
+    previous_momentum7 = rsi(closes[:-1], 7) if len(closes) > 8 else momentum7
     volatility_pct, latest_move_pct = volatility_metrics(closes)
     range_position = support_resistance_position(closes)
     macd_line, macd_signal, macd_histogram = macd(closes)
@@ -256,6 +257,8 @@ def analyze(symbol: str, candles: list[dict]) -> dict:
         "price": recent,
         "rsi": momentum,
         "rsi7": momentum7,
+        "rsi7_slope_up": momentum7 > previous_momentum7,
+        "rsi7_slope_down": momentum7 < previous_momentum7,
         "ema_fast": fast,
         "ema20_slope_up": fast > previous_fast,
         "ema20_slope_down": fast < previous_fast,
