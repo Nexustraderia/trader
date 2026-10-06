@@ -1,90 +1,18 @@
 {
   "pending": [
     {
-      "symbol": "CHF/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T04:24:00+00:00",
-      "expires_at": "2026-10-06T04:25:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    },
-    {
-      "symbol": "EUR/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T04:24:00+00:00",
-      "expires_at": "2026-10-06T04:25:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    },
-    {
       "symbol": "EUR/GBP",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T04:25:00+00:00",
-      "expires_at": "2026-10-06T04:26:00+00:00",
+      "entry_at": "2026-10-06T04:27:00+00:00",
+      "expires_at": "2026-10-06T04:28:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/AUD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T01:10:00+00:00",
-      "expires_at": "2026-10-06T01:11:00+00:00",
-      "entry_price": 1.610645,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-06T01:09:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-06T01:10:12.274472+00:00",
-      "exit_price": 1.610565,
-      "outcome": "LOSS",
-      "settlement_error": "ReadTimeout: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=20)"
-    },
-    {
-      "symbol": "EUR/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T01:10:00+00:00",
-      "expires_at": "2026-10-06T01:11:00+00:00",
-      "entry_price": 0.932555,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-06T01:09:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-06T01:10:13.000691+00:00",
-      "exit_price": 0.932625,
-      "outcome": "WIN",
-      "settlement_error": "ReadTimeout: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=20)"
-    },
-    {
-      "symbol": "GBP/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T01:11:00+00:00",
-      "expires_at": "2026-10-06T01:12:00+00:00",
-      "entry_price": 1.322565,
-      "martingale_level": 0,
-      "exit_price": 1.322625,
-      "outcome": "WIN",
-      "settlement_error": "ReadTimeout: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=20)"
-    },
     {
       "symbol": "NZD/USD",
       "direction": "CALL",
@@ -1462,6 +1390,45 @@
       "martingale_level": 0,
       "exit_price": 177.3345,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:24:00+00:00",
+      "expires_at": "2026-10-06T04:25:00+00:00",
+      "entry_price": 190.1295,
+      "martingale_level": 0,
+      "exit_price": 190.139,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:24:00+00:00",
+      "expires_at": "2026-10-06T04:25:00+00:00",
+      "entry_price": 177.3305,
+      "martingale_level": 0,
+      "exit_price": 177.344,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:25:00+00:00",
+      "expires_at": "2026-10-06T04:26:00+00:00",
+      "entry_price": 0.84878,
+      "martingale_level": 0,
+      "exit_price": 0.848785,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1506,6 +1473,45 @@
       "entry_price": 177.3215,
       "martingale_level": 0,
       "exit_price": 177.3345,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:24:00+00:00",
+      "expires_at": "2026-10-06T04:25:00+00:00",
+      "entry_price": 190.1295,
+      "martingale_level": 0,
+      "exit_price": 190.139,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:24:00+00:00",
+      "expires_at": "2026-10-06T04:25:00+00:00",
+      "entry_price": 177.3305,
+      "martingale_level": 0,
+      "exit_price": 177.344,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T04:25:00+00:00",
+      "expires_at": "2026-10-06T04:26:00+00:00",
+      "entry_price": 0.84878,
+      "martingale_level": 0,
+      "exit_price": 0.848785,
       "outcome": "WIN"
     }
   ],
