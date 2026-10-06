@@ -1,64 +1,22 @@
 {
   "pending": [
     {
-      "symbol": "AUD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T10:59:00+00:00",
-      "expires_at": "2026-10-06T11:00:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-06T10:58:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-06T11:00:00.462241+00:00"
-    },
-    {
       "symbol": "EUR/JPY-OTC",
       "direction": "CALL",
       "score": 95,
       "confidence": 95,
       "strategy": "OTC_HYBRID_FALLBACK_V22",
-      "entry_at": "2026-10-06T10:59:00+00:00",
-      "expires_at": "2026-10-06T11:00:00+00:00",
-      "entry_price": 177.420455,
-      "martingale_level": 0,
-      "settlement_error": "RuntimeError: No exact IQ M1 candle at 2026-10-06T11:00:00+00:00"
+      "entry_at": "2026-10-06T11:00:00+00:00",
+      "expires_at": "2026-10-06T11:01:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-06T10:59:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-06T11:01:19.984195+00:00"
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T08:55:00+00:00",
-      "expires_at": "2026-10-06T08:56:00+00:00",
-      "entry_price": 1.323935,
-      "martingale_level": 0,
-      "exit_price": 1.323775,
-      "outcome": "LOSS"
-    },
-    {
-      "symbol": "EUR/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T08:56:00+00:00",
-      "expires_at": "2026-10-06T08:57:00+00:00",
-      "entry_price": 177.777,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-06T08:55:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-06T08:56:12.664589+00:00",
-      "exit_price": 177.8355,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/JPY",
       "direction": "CALL",
@@ -1472,6 +1430,37 @@
       "martingale_level": 0,
       "exit_price": 0.9948,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "AUD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T10:59:00+00:00",
+      "expires_at": "2026-10-06T11:00:00+00:00",
+      "entry_price": 0.99495,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-06T10:58:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-06T11:00:00.462241+00:00",
+      "exit_price": 0.994675,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 95,
+      "confidence": 95,
+      "strategy": "OTC_HYBRID_FALLBACK_V22",
+      "entry_at": "2026-10-06T10:59:00+00:00",
+      "expires_at": "2026-10-06T11:00:00+00:00",
+      "entry_price": 177.420455,
+      "martingale_level": 0,
+      "settlement_error": "RuntimeError: No exact IQ M1 candle at 2026-10-06T11:00:00+00:00",
+      "exit_price": 177.414875,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1778,6 +1767,23 @@
       "recovery_created_at": "2026-10-06T10:46:13.997048+00:00",
       "exit_price": 1.89123,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T10:59:00+00:00",
+      "expires_at": "2026-10-06T11:00:00+00:00",
+      "entry_price": 0.99495,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-06T10:58:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-06T11:00:00.462241+00:00",
+      "exit_price": 0.994675,
+      "outcome": "LOSS"
     }
   ],
   "completed_sessions": 33,
