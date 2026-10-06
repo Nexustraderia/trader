@@ -19,7 +19,7 @@ services:
       - key: RESET_PAPER_HISTORY
         value: "true"
       - key: PAPER_HISTORY_RESET_ID
-        value: "otc-strategy-trial-2026-09-26-17-48"
+        value: "clean-session-2026-10-06"
       - key: TELEGRAM_CHANNEL_ID
         value: '@NexusTraderIA'
       - key: TELEGRAM_BOT_TOKEN

@@ -59,7 +59,7 @@ def reset_history_if_requested() -> bool:
     # Render keeps existing environment values when a render.yaml is changed.
     # Include this deployment epoch so the requested one-time reset is applied
     # even when the service still has the previous reset ID configured.
-    reset_id = f"{reset_id}:nexus-branding-2026-09-26"
+    reset_id = f"{reset_id}:clean-session-2026-10-06"
     with _connect() as connection:
         connection.execute(
             "CREATE TABLE IF NOT EXISTS paper_reset_markers (reset_id TEXT PRIMARY KEY, applied_at TEXT NOT NULL)"
