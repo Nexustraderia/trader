@@ -6,26 +6,13 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T09:43:00+00:00",
-      "expires_at": "2026-10-06T09:44:00+00:00",
+      "entry_at": "2026-10-06T09:45:00+00:00",
+      "expires_at": "2026-10-06T09:46:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-06T08:24:00+00:00",
-      "expires_at": "2026-10-06T08:25:00+00:00",
-      "entry_price": 209.3015,
-      "martingale_level": 0,
-      "exit_price": 209.2905,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "NZD/USD",
       "direction": "CALL",
@@ -1444,6 +1431,19 @@
       "martingale_level": 0,
       "exit_price": 190.3185,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T09:43:00+00:00",
+      "expires_at": "2026-10-06T09:44:00+00:00",
+      "entry_price": 0.84919,
+      "martingale_level": 0,
+      "exit_price": 0.84932,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1736,6 +1736,19 @@
       "martingale_level": 0,
       "exit_price": 190.3185,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/GBP",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-06T09:43:00+00:00",
+      "expires_at": "2026-10-06T09:44:00+00:00",
+      "entry_price": 0.84919,
+      "martingale_level": 0,
+      "exit_price": 0.84932,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 32,
@@ -1796,7 +1809,7 @@
       "accuracy": 37.5
     },
     "GBP/JPY": {
-      "remaining": 14,
+      "remaining": 13,
       "sample_size": 8,
       "accuracy": 37.5
     }
