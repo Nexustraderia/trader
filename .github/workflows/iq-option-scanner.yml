@@ -54,6 +54,7 @@ jobs:
           git config user.email "nexus-ia-trader[bot]@users.noreply.github.com"
 
           persist_state() {
+            cp runtime_state.json /tmp/runtime_state.local.json
             git add runtime_state.json
             if git diff --cached --quiet; then
               echo "No state changes to commit"
@@ -67,7 +68,47 @@ jobs:
                 return 0
               fi
               echo "Push retry $attempt: rebasing on origin/main"
-              git pull --rebase origin main
+              git rebase --abort 2>/dev/null || true
+              git fetch origin main
+              git reset --hard origin/main
+              python - <<'PY'
+import json
+from pathlib import Path
+
+local_path = Path('/tmp/runtime_state.local.json')
+remote_path = Path('runtime_state.json')
+local = json.loads(local_path.read_text())
+remote = json.loads(remote_path.read_text())
+
+def merge_rows(name):
+    rows = []
+    seen = set()
+    for item in remote.get(name, []) + local.get(name, []):
+        key = (
+            item.get('symbol'), item.get('entry_at'),
+            int(item.get('martingale_level') or 0), item.get('outcome'),
+        )
+        if key not in seen:
+            seen.add(key)
+            rows.append(item)
+    return rows[-100:] if name == 'settled' else rows
+
+merged = dict(remote)
+for bucket in ('pending', 'settled', 'session_results'):
+    merged[bucket] = merge_rows(bucket)
+merged['completed_sessions'] = max(
+    int(remote.get('completed_sessions', 0)),
+    int(local.get('completed_sessions', 0)),
+)
+merged['asset_quarantine'] = {**remote.get('asset_quarantine', {}), **local.get('asset_quarantine', {})}
+remote_path.write_text(json.dumps(merged, ensure_ascii=False, indent=2) + '\\n')
+PY
+              git add runtime_state.json
+              if git diff --cached --quiet; then
+                echo "Remote state already contains this cycle"
+              else
+                git commit -m "chore: merge paper trading state after push race"
+              fi
             done
             echo "Could not publish runtime_state.json after three attempts"
             return 1
