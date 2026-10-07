@@ -1,17 +1,5 @@
 {
-  "pending": [
-    {
-      "symbol": "USD/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-07T02:40:00+00:00",
-      "expires_at": "2026-10-07T02:41:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
     {
       "symbol": "EUR/JPY",
@@ -537,9 +525,36 @@
       "martingale_level": 0,
       "exit_price": 0.83327,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-07T02:40:00+00:00",
+      "expires_at": "2026-10-07T02:41:00+00:00",
+      "entry_price": 0.83327,
+      "martingale_level": 0,
+      "exit_price": 0.83333,
+      "outcome": "WIN"
     }
   ],
-  "session_results": [],
+  "session_results": [
+    {
+      "symbol": "USD/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-07T02:40:00+00:00",
+      "expires_at": "2026-10-07T02:41:00+00:00",
+      "entry_price": 0.83327,
+      "martingale_level": 0,
+      "exit_price": 0.83333,
+      "outcome": "WIN"
+    }
+  ],
   "completed_sessions": 1,
   "asset_quarantine": {}
 }
