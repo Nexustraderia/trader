@@ -10,6 +10,17 @@
       "expires_at": "2026-10-07T05:11:00+00:00",
       "entry_price": null,
       "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-07T05:11:00+00:00",
+      "expires_at": "2026-10-07T05:12:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
     }
   ],
   "settled": [
