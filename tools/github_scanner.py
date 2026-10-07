@@ -165,44 +165,44 @@ def regular_put_quality_ok(result: dict, confidence: int) -> bool:
     )
 
 
-def otc_specific_quality_ok(result: dict) -> bool:
-    """Dedicated OTC M1 gate; regular-pair rules are not reused here."""
+def otc_score(result: dict) -> tuple[int, dict[str, bool]]:
+    """Score only the dedicated OTC M1 setup; regular confidence is ignored."""
     decision = result.get("decision")
-    confidence = int(result.get("regular_confidence", 0) or 0)
-    if decision not in {"CALL", "PUT"} or confidence < OTC_FALLBACK_MIN_CONFIDENCE:
-        return False
-    common = (
+    price = float(result.get("price", 0.0) or 0.0)
+    lower = float(result.get("bollinger_lower", price) or price)
+    middle = float(result.get("bollinger_middle", price) or price)
+    upper = float(result.get("bollinger_upper", price) or price)
+    rsi7 = float(result.get("rsi7", 50.0) or 50.0)
+    if decision == "CALL":
+        bb_ok = lower <= price <= middle
+        ema_ok = bool(result.get("ema20_slope_up")) and result.get("macd_histogram", 0.0) >= 0
+        rsi_ok = bool(result.get("rsi7_slope_up")) and 30.0 <= rsi7 <= 68.0
+        pa_ok = bool(result.get("bullish_rejection") or result.get("bullish_reaction"))
+    elif decision == "PUT":
+        bb_ok = middle <= price <= upper
+        ema_ok = bool(result.get("ema20_slope_down")) and result.get("macd_histogram", 0.0) <= 0
+        rsi_ok = bool(result.get("rsi7_slope_down")) and 32.0 <= rsi7 <= 70.0
+        pa_ok = bool(result.get("bearish_rejection") or result.get("bearish_reaction"))
+    else:
+        bb_ok = ema_ok = rsi_ok = pa_ok = False
+    context_ok = (
         result.get("m1_decision") == decision
         and result.get("m15_decision") == decision
         and result.get("h1_decision") in {decision, "AGUARDAR"}
         and result.get("m1_confirmation_ok", False)
         and result.get("volatility_ok", False)
-        and result.get("trend_momentum_ok", False)
-        and result.get("price_action_ok", False)
         and result.get("bollinger_width_pct", 0.0) >= 0.05
         and result.get("atr_pct", 0.0) >= 0.003
     )
-    if not common:
-        return False
-    price = float(result.get("price", 0.0) or 0.0)
-    middle = float(result.get("bollinger_middle", price) or price)
-    lower = float(result.get("bollinger_lower", price) or price)
-    upper = float(result.get("bollinger_upper", price) or price)
-    rsi7 = float(result.get("rsi7", 50.0) or 50.0)
-    if decision == "CALL":
-        return (
-            result.get("ema20_slope_up", False)
-            and result.get("rsi7_slope_up", False)
-            and 35.0 <= rsi7 <= 68.0
-            and lower <= price <= middle
-        )
-    return (
-        result.get("ema20_slope_down", False)
-        and result.get("rsi7_slope_down", False)
-        and 32.0 <= rsi7 <= 65.0
-        and middle <= price <= upper
-        and regular_put_quality_ok(result, confidence)
-    )
+    flags = {"bb": bb_ok, "ema": ema_ok, "rsi7": rsi_ok, "price_action": pa_ok, "context": context_ok}
+    return sum(weight for key, weight in {"bb": 25, "ema": 20, "rsi7": 20, "price_action": 25, "context": 10}.items() if flags[key]), flags
+
+
+def otc_specific_quality_ok(result: dict) -> bool:
+    """Dedicated OTC M1 strategy: accept only independent score >= 80."""
+    score, _ = otc_score(result)
+    result["otc_score"] = score
+    return result.get("decision") in {"CALL", "PUT"} and score >= 80
 
 
 def otc_quality_fallback_ok(result: dict) -> bool:
@@ -464,18 +464,18 @@ def main() -> None:
             # When confluence is false, the engine intentionally reports raw
             # confidence=50. A validated OTC fallback must use its technical
             # regular_confidence for the final gate and persisted signal.
-            gate_confidence = (
-                int(result.get("regular_confidence", 0) or 0)
-                if fallback_eligible
-                else int(effective_confidence)
-            )
-            eligible = (primary_eligible or fallback_eligible) and (
-                gate_confidence >= asset_min_confidence
-                and result.get("m1_decision") == result.get("decision")
-                and result.get("m15_decision") == result.get("decision")
-                and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
-                and (result.get("decision") != "PUT" or regular_put_quality_ok(result, gate_confidence))
-            )
+            otc_score_value = int(result.get("otc_score", 0) or 0)
+            gate_confidence = int(result.get("regular_confidence", 0) or 0) if fallback_eligible else int(effective_confidence)
+            if is_regular:
+                eligible = (primary_eligible or fallback_eligible) and (
+                    gate_confidence >= asset_min_confidence
+                    and result.get("m1_decision") == result.get("decision")
+                    and result.get("m15_decision") == result.get("decision")
+                    and result.get("h1_decision") in (result.get("decision"), "AGUARDAR")
+                    and (result.get("decision") != "PUT" or regular_put_quality_ok(result, gate_confidence))
+                )
+            else:
+                eligible = primary_eligible and otc_score_value >= 80
             print(
                 f"{symbol}={result.get('decision')} confidence={effective_confidence} "
                 f"M1={result.get('m1_decision')} M15={result.get('m15_decision')} H1={result.get('h1_decision')} "
@@ -483,7 +483,7 @@ def main() -> None:
                 f"adx={result.get('adx', 0):.1f} di+={result.get('di_plus', 0):.1f} "
                 f"di-={result.get('di_minus', 0):.1f} atr={result.get('atr_pct', 0):.4f} "
                 f"v2_quality={result.get('regular_v2_quality_count', 0)}/4 "
-                f"hybrid={result.get('regular_hybrid_confluence_ok')} "
+                f"hybrid={result.get('regular_hybrid_confluence_ok')} otc_score={otc_score_value}/100 "
                 f"otc_fallback={fallback_eligible} "
                 f"put_quality={regular_put_quality_ok(result, int(effective_confidence))} eligible={eligible}"
             )

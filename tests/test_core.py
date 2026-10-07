@@ -8,6 +8,10 @@ from app.market_data import is_fresh, market_data_source, normalize_symbol
 from app.news_sentinel import format_channel_alert, should_block
 from app.paper_journal import close_signal, create_signal, format_result, format_session_summary, format_signal, mark_result_delivered, pending_result_deliveries, ranking, recent_signals, session_statistics, settle_pending, statistics
 from app.signal_engine import analyze, analyze_with_confirmation
+os.environ.setdefault("TELEGRAM_BOT_TOKEN", "test-token")
+os.environ.setdefault("IQ_OPTION_EMAIL", "test@example.com")
+os.environ.setdefault("IQ_OPTION_PASSWORD", "test-password")
+from tools.github_scanner import otc_score, otc_specific_quality_ok
 import app.paper_journal as paper_journal
 
 
@@ -61,6 +65,23 @@ class CoreTests(unittest.TestCase):
         self.assertFalse(result["volatility_ok"])
         self.assertFalse(result["confluence_ok"])
         self.assertEqual(result["decision"], "AGUARDAR")
+
+    def test_otc_score_is_independent_from_regular_confidence(self):
+        result = {
+            "decision": "CALL", "price": 99.0,
+            "bollinger_lower": 98.0, "bollinger_middle": 100.0, "bollinger_upper": 102.0,
+            "ema20_slope_up": True, "macd_histogram": 0.1,
+            "rsi7": 42.0, "rsi7_slope_up": True,
+            "bullish_reaction": True, "bullish_rejection": False,
+            "m1_decision": "CALL", "m15_decision": "CALL", "h1_decision": "AGUARDAR",
+            "m1_confirmation_ok": True, "volatility_ok": True,
+            "bollinger_width_pct": 0.10, "atr_pct": 0.01,
+            "regular_confidence": 50,
+        }
+        score, flags = otc_score(result)
+        self.assertEqual(score, 100)
+        self.assertTrue(all(flags.values()))
+        self.assertTrue(otc_specific_quality_ok(result))
 
     def test_news_alert_blocks(self):
         self.assertTrue(should_block({"status": "ALERTA"}))
