@@ -1,21 +1,6 @@
 {
   "pending": [
     {
-      "symbol": "EUR/AUD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-08T12:11:00+00:00",
-      "expires_at": "2026-10-08T12:12:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-08T12:10:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-08T12:12:17.359698+00:00"
-    },
-    {
       "symbol": "XAU/USD",
       "direction": "CALL",
       "score": 100,
@@ -221,6 +206,23 @@
       "martingale_level": 0,
       "exit_price": 1.61097,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-08T12:11:00+00:00",
+      "expires_at": "2026-10-08T12:12:00+00:00",
+      "entry_price": 1.61112,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-08T12:10:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-08T12:12:17.359698+00:00",
+      "exit_price": 1.610795,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -364,6 +366,23 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-08T12:09:39.210205+00:00",
       "exit_price": 0.833635,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-08T12:11:00+00:00",
+      "expires_at": "2026-10-08T12:12:00+00:00",
+      "entry_price": 1.61112,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-08T12:10:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-08T12:12:17.359698+00:00",
+      "exit_price": 1.610795,
       "outcome": "LOSS"
     }
   ],
