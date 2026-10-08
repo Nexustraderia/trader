@@ -314,6 +314,19 @@ def analyze_with_confirmation(
     result["h1_adx"] = context.get("adx", 0.0) if context else 0.0
     result["m1_decision"] = trigger["decision"] if trigger else "indisponível"
     result["m1_confirmation_ok"] = True
+    # Preserve the complete M1 indicator set for the dedicated OTC strategy.
+    # The regular strategy remains based on M5 with M15/H1 confirmation, but
+    # OTC scoring must measure the actual one-minute entry candle context.
+    if trigger:
+        for key in (
+            "price", "rsi7", "rsi7_slope_up", "rsi7_slope_down",
+            "ema20_slope_up", "ema20_slope_down", "macd_histogram",
+            "bollinger_lower", "bollinger_middle", "bollinger_upper",
+            "bollinger_width_pct", "atr_pct", "volatility_pct",
+            "latest_move_pct", "bullish_rejection", "bullish_reaction",
+            "bearish_rejection", "bearish_reaction",
+        ):
+            result[f"m1_{key}"] = trigger.get(key)
     volatility_ok = result.get("volatility_pct", 0.0) >= 0.003 and result.get("latest_move_pct", 0.0) <= 1.00
     result["volatility_ok"] = volatility_ok
     if not volatility_ok:

@@ -48,6 +48,8 @@ class CoreTests(unittest.TestCase):
         result = analyze_with_confirmation("EUR/JPY", rising, rising, rising, rising)
         self.assertEqual(result["m1_decision"], "CALL")
         self.assertTrue(result["m1_confirmation_ok"])
+        self.assertIn("m1_rsi7", result)
+        self.assertIn("m1_bollinger_middle", result)
         self.assertTrue(result["confluence_ok"])
 
     def test_m1_conflict_blocks_signal(self):
@@ -68,14 +70,15 @@ class CoreTests(unittest.TestCase):
 
     def test_otc_score_is_independent_from_regular_confidence(self):
         result = {
-            "decision": "CALL", "price": 99.0,
-            "bollinger_lower": 98.0, "bollinger_middle": 100.0, "bollinger_upper": 102.0,
-            "ema20_slope_up": True, "macd_histogram": 0.1,
-            "rsi7": 42.0, "rsi7_slope_up": True,
-            "bullish_reaction": True, "bullish_rejection": False,
+            "decision": "CALL", "m1_price": 99.0,
+            "m1_bollinger_lower": 98.0, "m1_bollinger_middle": 100.0, "m1_bollinger_upper": 102.0,
+            "m1_ema20_slope_up": True, "m1_macd_histogram": 0.1,
+            "m1_rsi7": 42.0, "m1_rsi7_slope_up": True,
+            "m1_bullish_reaction": True, "m1_bullish_rejection": False,
             "m1_decision": "CALL", "m15_decision": "CALL", "h1_decision": "AGUARDAR",
             "m1_confirmation_ok": True, "volatility_ok": True,
-            "bollinger_width_pct": 0.10, "atr_pct": 0.01,
+            "m1_volatility_pct": 0.10, "m1_latest_move_pct": 0.10,
+            "m1_bollinger_width_pct": 0.10, "m1_atr_pct": 0.01,
             "regular_confidence": 50,
         }
         score, flags = otc_score(result)

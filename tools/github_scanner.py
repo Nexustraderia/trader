@@ -168,21 +168,23 @@ def regular_put_quality_ok(result: dict, confidence: int) -> bool:
 def otc_score(result: dict) -> tuple[int, dict[str, bool]]:
     """Score only the dedicated OTC M1 setup; regular confidence is ignored."""
     decision = result.get("decision")
-    price = float(result.get("price", 0.0) or 0.0)
-    lower = float(result.get("bollinger_lower", price) or price)
-    middle = float(result.get("bollinger_middle", price) or price)
-    upper = float(result.get("bollinger_upper", price) or price)
-    rsi7 = float(result.get("rsi7", 50.0) or 50.0)
+    # These values are calculated from the actual M1 candle series by the
+    # signal engine. M5 remains the regular-pair base, never the OTC trigger.
+    price = float(result.get("m1_price", 0.0) or 0.0)
+    lower = float(result.get("m1_bollinger_lower", price) or price)
+    middle = float(result.get("m1_bollinger_middle", price) or price)
+    upper = float(result.get("m1_bollinger_upper", price) or price)
+    rsi7 = float(result.get("m1_rsi7", 50.0) or 50.0)
     if decision == "CALL":
         bb_ok = lower <= price <= middle
-        ema_ok = bool(result.get("ema20_slope_up")) and result.get("macd_histogram", 0.0) >= 0
-        rsi_ok = bool(result.get("rsi7_slope_up")) and 30.0 <= rsi7 <= 68.0
-        pa_ok = bool(result.get("bullish_rejection") or result.get("bullish_reaction"))
+        ema_ok = bool(result.get("m1_ema20_slope_up")) and result.get("m1_macd_histogram", 0.0) >= 0
+        rsi_ok = bool(result.get("m1_rsi7_slope_up")) and 30.0 <= rsi7 <= 68.0
+        pa_ok = bool(result.get("m1_bullish_rejection") or result.get("m1_bullish_reaction"))
     elif decision == "PUT":
         bb_ok = middle <= price <= upper
-        ema_ok = bool(result.get("ema20_slope_down")) and result.get("macd_histogram", 0.0) <= 0
-        rsi_ok = bool(result.get("rsi7_slope_down")) and 32.0 <= rsi7 <= 70.0
-        pa_ok = bool(result.get("bearish_rejection") or result.get("bearish_reaction"))
+        ema_ok = bool(result.get("m1_ema20_slope_down")) and result.get("m1_macd_histogram", 0.0) <= 0
+        rsi_ok = bool(result.get("m1_rsi7_slope_down")) and 32.0 <= rsi7 <= 70.0
+        pa_ok = bool(result.get("m1_bearish_rejection") or result.get("m1_bearish_reaction"))
     else:
         bb_ok = ema_ok = rsi_ok = pa_ok = False
     context_ok = (
@@ -190,9 +192,10 @@ def otc_score(result: dict) -> tuple[int, dict[str, bool]]:
         and result.get("m15_decision") == decision
         and result.get("h1_decision") in {decision, "AGUARDAR"}
         and result.get("m1_confirmation_ok", False)
-        and result.get("volatility_ok", False)
-        and result.get("bollinger_width_pct", 0.0) >= 0.05
-        and result.get("atr_pct", 0.0) >= 0.003
+        and result.get("m1_volatility_pct", 0.0) >= 0.003
+        and result.get("m1_latest_move_pct", 0.0) <= 1.00
+        and result.get("m1_bollinger_width_pct", 0.0) >= 0.05
+        and result.get("m1_atr_pct", 0.0) >= 0.003
     )
     flags = {"bb": bb_ok, "ema": ema_ok, "rsi7": rsi_ok, "price_action": pa_ok, "context": context_ok}
     return sum(weight for key, weight in {"bb": 25, "ema": 20, "rsi7": 20, "price_action": 25, "context": 10}.items() if flags[key]), flags
@@ -451,6 +454,12 @@ def main() -> None:
                 continue
             result = analyze_with_confirmation(symbol, m5, m15, h1, m1)
             is_regular = not symbol.endswith("-OTC")
+            if not is_regular:
+                # OTC is an M1 strategy: M1 chooses the direction, while M15
+                # and H1 remain context filters. Do not reuse the M5 base
+                # decision that drives regular-pair analysis.
+                result["otc_decision"] = result.get("m1_decision")
+                result["decision"] = result.get("otc_decision")
             asset_min_confidence = 75 if is_regular else MIN_CONFIDENCE
             effective_confidence = result.get("regular_confidence", 0) if is_regular else result.get("confidence", 0)
             # Regular pairs use the hybrid ADX/confluence base. OTC uses its
