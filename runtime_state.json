@@ -6,10 +6,14 @@
       "score": 30,
       "confidence": 50,
       "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-08T17:30:00+00:00",
-      "expires_at": "2026-10-08T17:31:00+00:00",
+      "entry_at": "2026-10-08T17:31:00+00:00",
+      "expires_at": "2026-10-08T17:32:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-08T17:30:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-08T17:31:46.937927+00:00"
     }
   ],
   "settled": [
@@ -309,6 +313,19 @@
       "martingale_level": 0,
       "exit_price": 88.5205,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "PUT",
+      "score": 30,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-08T17:30:00+00:00",
+      "expires_at": "2026-10-08T17:31:00+00:00",
+      "entry_price": 1.110835,
+      "martingale_level": 0,
+      "exit_price": 1.110905,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
