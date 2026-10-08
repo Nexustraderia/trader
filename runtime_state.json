@@ -6,14 +6,42 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-08T01:37:00+00:00",
-      "expires_at": "2026-10-08T01:38:00+00:00",
+      "entry_at": "2026-10-08T01:39:00+00:00",
+      "expires_at": "2026-10-08T01:40:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
-  "settled": [],
-  "session_results": [],
+  "settled": [
+    {
+      "symbol": "EUR/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-08T01:37:00+00:00",
+      "expires_at": "2026-10-08T01:38:00+00:00",
+      "entry_price": 1.12005,
+      "martingale_level": 0,
+      "exit_price": 1.120085,
+      "outcome": "WIN"
+    }
+  ],
+  "session_results": [
+    {
+      "symbol": "EUR/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-08T01:37:00+00:00",
+      "expires_at": "2026-10-08T01:38:00+00:00",
+      "entry_price": 1.12005,
+      "martingale_level": 0,
+      "exit_price": 1.120085,
+      "outcome": "WIN"
+    }
+  ],
   "completed_sessions": 0,
   "asset_quarantine": {}
 }
