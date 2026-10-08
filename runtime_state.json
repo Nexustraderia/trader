@@ -6,8 +6,23 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-08T17:47:00+00:00",
-      "expires_at": "2026-10-08T17:48:00+00:00",
+      "entry_at": "2026-10-08T17:48:00+00:00",
+      "expires_at": "2026-10-08T17:49:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-08T17:47:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-08T17:57:19.211863+00:00"
+    },
+    {
+      "symbol": "XAU/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-08T17:58:00+00:00",
+      "expires_at": "2026-10-08T17:59:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
@@ -338,6 +353,19 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-08T17:31:46.937927+00:00",
       "exit_price": 1.111695,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "XAU/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-08T17:47:00+00:00",
+      "expires_at": "2026-10-08T17:48:00+00:00",
+      "entry_price": 4132.14,
+      "martingale_level": 0,
+      "exit_price": 4129.57,
       "outcome": "LOSS"
     }
   ],
