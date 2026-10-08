@@ -6,14 +6,10 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-08T23:51:00+00:00",
-      "expires_at": "2026-10-08T23:52:00+00:00",
+      "entry_at": "2026-10-09T00:00:00+00:00",
+      "expires_at": "2026-10-09T00:01:00+00:00",
       "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-08T23:50:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-08T23:52:08.206735+00:00"
+      "martingale_level": 0
     }
   ],
   "settled": [
@@ -511,6 +507,23 @@
       "martingale_level": 0,
       "exit_price": 0.56049,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-08T23:51:00+00:00",
+      "expires_at": "2026-10-08T23:52:00+00:00",
+      "entry_price": 0.560495,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-08T23:50:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-08T23:52:08.206735+00:00",
+      "exit_price": 0.56043,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -851,6 +864,23 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-08T21:40:57.567766+00:00",
       "exit_price": 1.117245,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-08T23:51:00+00:00",
+      "expires_at": "2026-10-08T23:52:00+00:00",
+      "entry_price": 0.560495,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-08T23:50:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-08T23:52:08.206735+00:00",
+      "exit_price": 0.56043,
       "outcome": "LOSS"
     }
   ],
