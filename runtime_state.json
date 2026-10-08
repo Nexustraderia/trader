@@ -6,10 +6,14 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-08T03:03:00+00:00",
-      "expires_at": "2026-10-08T03:04:00+00:00",
+      "entry_at": "2026-10-08T03:04:00+00:00",
+      "expires_at": "2026-10-08T03:05:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-08T03:03:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-08T03:14:58.197211+00:00"
     }
   ],
   "settled": [
@@ -51,6 +55,19 @@
       "martingale_level": 0,
       "exit_price": 1.120315,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-08T03:03:00+00:00",
+      "expires_at": "2026-10-08T03:04:00+00:00",
+      "entry_price": 1.42624,
+      "martingale_level": 0,
+      "exit_price": 1.426165,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
