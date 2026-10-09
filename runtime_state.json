@@ -1,17 +1,5 @@
 {
-  "pending": [
-    {
-      "symbol": "USD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-09T13:43:00+00:00",
-      "expires_at": "2026-10-09T13:44:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
     {
       "symbol": "EUR/USD",
@@ -902,6 +890,19 @@
       "recovery_created_at": "2026-10-09T13:28:48.486781+00:00",
       "exit_price": 1.59902,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-09T13:43:00+00:00",
+      "expires_at": "2026-10-09T13:44:00+00:00",
+      "entry_price": 158.3375,
+      "martingale_level": 0,
+      "exit_price": 158.386,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1121,6 +1122,19 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-09T13:28:48.486781+00:00",
       "exit_price": 1.59902,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-09T13:43:00+00:00",
+      "expires_at": "2026-10-09T13:44:00+00:00",
+      "entry_price": 158.3375,
+      "martingale_level": 0,
+      "exit_price": 158.386,
       "outcome": "WIN"
     }
   ],
