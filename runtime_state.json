@@ -1,13 +1,13 @@
 {
   "pending": [
     {
-      "symbol": "XAU/USD",
+      "symbol": "AUD/JPY",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-09T14:15:00+00:00",
-      "expires_at": "2026-10-09T14:16:00+00:00",
+      "entry_at": "2026-10-09T14:17:00+00:00",
+      "expires_at": "2026-10-09T14:18:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
@@ -915,6 +915,19 @@
       "martingale_level": 0,
       "exit_price": 158.386,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "XAU/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-09T14:15:00+00:00",
+      "expires_at": "2026-10-09T14:16:00+00:00",
+      "entry_price": 4188.365,
+      "martingale_level": 0,
+      "exit_price": 4188.725,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1147,6 +1160,19 @@
       "entry_price": 158.3375,
       "martingale_level": 0,
       "exit_price": 158.386,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "XAU/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-09T14:15:00+00:00",
+      "expires_at": "2026-10-09T14:16:00+00:00",
+      "entry_price": 4188.365,
+      "martingale_level": 0,
+      "exit_price": 4188.725,
       "outcome": "WIN"
     }
   ],
