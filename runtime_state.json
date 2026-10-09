@@ -1,21 +1,5 @@
 {
-  "pending": [
-    {
-      "symbol": "CHF/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-09T18:59:00+00:00",
-      "expires_at": "2026-10-09T19:00:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-09T18:58:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-09T19:05:18.460802+00:00"
-    }
-  ],
+  "pending": [],
   "settled": [
     {
       "symbol": "EUR/USD",
@@ -1027,6 +1011,23 @@
       "martingale_level": 0,
       "exit_price": 190.68,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-09T18:59:00+00:00",
+      "expires_at": "2026-10-09T19:00:00+00:00",
+      "entry_price": 190.6975,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-09T18:58:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-09T19:05:18.460802+00:00",
+      "exit_price": 190.705,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1341,6 +1342,23 @@
       "entry_price": 1.59772,
       "martingale_level": 0,
       "exit_price": 1.597855,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-09T18:59:00+00:00",
+      "expires_at": "2026-10-09T19:00:00+00:00",
+      "entry_price": 190.6975,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-09T18:58:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-09T19:05:18.460802+00:00",
+      "exit_price": 190.705,
       "outcome": "WIN"
     }
   ],
