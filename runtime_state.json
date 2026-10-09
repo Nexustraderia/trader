@@ -1,5 +1,17 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 95,
+      "confidence": 95,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-09T08:30:00+00:00",
+      "expires_at": "2026-10-09T08:31:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
   "settled": [
     {
       "symbol": "EUR/USD",
