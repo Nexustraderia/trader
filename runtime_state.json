@@ -6,8 +6,8 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-09T14:17:00+00:00",
-      "expires_at": "2026-10-09T14:18:00+00:00",
+      "entry_at": "2026-10-09T14:19:00+00:00",
+      "expires_at": "2026-10-09T14:20:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
@@ -928,6 +928,19 @@
       "martingale_level": 0,
       "exit_price": 4188.725,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-09T14:17:00+00:00",
+      "expires_at": "2026-10-09T14:18:00+00:00",
+      "entry_price": 110.434,
+      "martingale_level": 0,
+      "exit_price": 110.437,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1173,6 +1186,19 @@
       "entry_price": 4188.365,
       "martingale_level": 0,
       "exit_price": 4188.725,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-09T14:17:00+00:00",
+      "expires_at": "2026-10-09T14:18:00+00:00",
+      "entry_price": 110.434,
+      "martingale_level": 0,
+      "exit_price": 110.437,
       "outcome": "WIN"
     }
   ],
