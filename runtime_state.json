@@ -1,21 +1,5 @@
 {
-  "pending": [
-    {
-      "symbol": "EUR/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-10T01:57:00+00:00",
-      "expires_at": "2026-10-10T01:58:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-10T01:56:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-10T02:02:31.929982+00:00"
-    }
-  ],
+  "pending": [],
   "settled": [
     {
       "symbol": "EUR/USD",
@@ -1070,6 +1054,23 @@
       "martingale_level": 0,
       "exit_price": 178.624905,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-10T01:57:00+00:00",
+      "expires_at": "2026-10-10T01:58:00+00:00",
+      "entry_price": 178.647185,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-10T01:56:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-10T02:02:31.929982+00:00",
+      "exit_price": 178.603025,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1415,6 +1416,23 @@
       "martingale_level": 0,
       "exit_price": 157.39015,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-10T01:57:00+00:00",
+      "expires_at": "2026-10-10T01:58:00+00:00",
+      "entry_price": 178.647185,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-10T01:56:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-10T02:02:31.929982+00:00",
+      "exit_price": 178.603025,
+      "outcome": "LOSS"
     }
   ],
   "completed_sessions": 1,
