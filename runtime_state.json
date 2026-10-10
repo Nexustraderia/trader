@@ -1,5 +1,17 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-10T08:03:00+00:00",
+      "expires_at": "2026-10-10T08:04:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
   "settled": [
     {
       "symbol": "EUR/USD",
