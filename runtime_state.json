@@ -1,17 +1,5 @@
 {
-  "pending": [
-    {
-      "symbol": "USD/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-11T20:45:00+00:00",
-      "expires_at": "2026-10-11T20:46:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
     {
       "symbol": "EUR/USD",
@@ -1199,6 +1187,19 @@
       "martingale_level": 0,
       "exit_price": 159.10005,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-11T20:45:00+00:00",
+      "expires_at": "2026-10-11T20:46:00+00:00",
+      "entry_price": 159.31625,
+      "martingale_level": 0,
+      "exit_price": 159.32835,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1264,6 +1265,19 @@
       "entry_price": 159.09635,
       "martingale_level": 0,
       "exit_price": 159.10005,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-11T20:45:00+00:00",
+      "expires_at": "2026-10-11T20:46:00+00:00",
+      "entry_price": 159.31625,
+      "martingale_level": 0,
+      "exit_price": 159.32835,
       "outcome": "WIN"
     }
   ],
