@@ -6,26 +6,28 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-12T04:27:00+00:00",
-      "expires_at": "2026-10-12T04:28:00+00:00",
+      "entry_at": "2026-10-12T04:28:00+00:00",
+      "expires_at": "2026-10-12T04:29:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-12T04:27:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-12T04:29:14.171019+00:00"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-12T04:30:00+00:00",
+      "expires_at": "2026-10-12T04:31:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "NZD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-08T04:54:00+00:00",
-      "expires_at": "2026-10-08T04:55:00+00:00",
-      "entry_price": 0.56033,
-      "martingale_level": 0,
-      "exit_price": 0.56034,
-      "outcome": "WIN"
-    },
     {
       "symbol": "USD/CHF",
       "direction": "CALL",
@@ -1436,6 +1438,19 @@
       "recovery_created_at": "2026-10-12T04:25:19.649663+00:00",
       "exit_price": 190.6515,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "CHF/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-12T04:27:00+00:00",
+      "expires_at": "2026-10-12T04:28:00+00:00",
+      "entry_price": 190.655,
+      "martingale_level": 0,
+      "exit_price": 190.6545,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1748,7 +1763,7 @@
   "completed_sessions": 2,
   "asset_quarantine": {
     "EUR/JPY-OTC": {
-      "remaining": 9,
+      "remaining": 8,
       "sample_size": 8,
       "accuracy": 37.5
     }
