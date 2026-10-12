@@ -6,30 +6,39 @@
       "score": 35,
       "confidence": 50,
       "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-12T06:13:00+00:00",
-      "expires_at": "2026-10-12T06:14:00+00:00",
+      "entry_at": "2026-10-12T06:14:00+00:00",
+      "expires_at": "2026-10-12T06:15:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-12T06:13:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-12T06:37:20.793122+00:00"
+    },
+    {
+      "symbol": "EUR/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-12T06:38:00+00:00",
+      "expires_at": "2026-10-12T06:39:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-12T06:38:00+00:00",
+      "expires_at": "2026-10-12T06:39:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "USD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-08T09:45:00+00:00",
-      "expires_at": "2026-10-08T09:46:00+00:00",
-      "entry_price": 158.245,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-08T09:44:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-08T09:55:41.906615+00:00",
-      "exit_price": 158.241,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "GBP/JPY",
       "direction": "CALL",
@@ -1444,6 +1453,19 @@
       "recovery_created_at": "2026-10-12T04:44:50.047914+00:00",
       "exit_price": 190.6775,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "PUT",
+      "score": 35,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-12T06:13:00+00:00",
+      "expires_at": "2026-10-12T06:14:00+00:00",
+      "entry_price": 177.052775,
+      "martingale_level": 0,
+      "exit_price": 177.078535,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1790,9 +1812,9 @@
   "completed_sessions": 2,
   "asset_quarantine": {
     "EUR/JPY-OTC": {
-      "remaining": 0,
-      "sample_size": 8,
-      "accuracy": 37.5
+      "remaining": 20,
+      "sample_size": 9,
+      "accuracy": 33.33
     }
   }
 }
