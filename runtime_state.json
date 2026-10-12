@@ -1,31 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "EUR/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-12T22:25:00+00:00",
-      "expires_at": "2026-10-12T22:26:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "GBP/AUD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-08T21:08:00+00:00",
-      "expires_at": "2026-10-08T21:09:00+00:00",
-      "entry_price": 1.90121,
-      "martingale_level": 0,
-      "exit_price": 1.90132,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/AUD",
       "direction": "CALL",
@@ -1448,6 +1423,19 @@
       "recovery_created_at": "2026-10-12T14:49:06.869807+00:00",
       "exit_price": 1.42651,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-12T22:25:00+00:00",
+      "expires_at": "2026-10-12T22:26:00+00:00",
+      "entry_price": 178.459445,
+      "martingale_level": 0,
+      "exit_price": 178.509415,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1595,14 +1583,27 @@
       "recovery_created_at": "2026-10-12T14:49:06.869807+00:00",
       "exit_price": 1.42651,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-12T22:25:00+00:00",
+      "expires_at": "2026-10-12T22:26:00+00:00",
+      "entry_price": 178.459445,
+      "martingale_level": 0,
+      "exit_price": 178.509415,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 3,
   "asset_quarantine": {
     "EUR/JPY-OTC": {
-      "remaining": 0,
-      "sample_size": 9,
-      "accuracy": 33.33
+      "remaining": 20,
+      "sample_size": 10,
+      "accuracy": 40.0
     }
   }
 }
