@@ -1706,7 +1706,7 @@
   "completed_sessions": 2,
   "asset_quarantine": {
     "EUR/JPY-OTC": {
-      "remaining": 17,
+      "remaining": 16,
       "sample_size": 8,
       "accuracy": 37.5
     }
