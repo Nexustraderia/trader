@@ -1,39 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-12T11:59:00+00:00",
-      "expires_at": "2026-10-12T12:00:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-12T11:58:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-12T12:00:03.876942+00:00"
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "EUR/USD-OTC",
-      "direction": "PUT",
-      "score": 30,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-08T17:31:00+00:00",
-      "expires_at": "2026-10-08T17:32:00+00:00",
-      "entry_price": 1.110755,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-08T17:30:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-08T17:31:46.937927+00:00",
-      "exit_price": 1.111695,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "XAU/USD",
       "direction": "CALL",
@@ -1452,6 +1419,23 @@
       "martingale_level": 0,
       "exit_price": 1.42651,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-12T11:59:00+00:00",
+      "expires_at": "2026-10-12T12:00:00+00:00",
+      "entry_price": 1.4265,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-12T11:58:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-12T12:00:03.876942+00:00",
+      "exit_price": 1.426325,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1521,6 +1505,23 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-12T11:04:20.194539+00:00",
       "exit_price": 1.349725,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-12T11:59:00+00:00",
+      "expires_at": "2026-10-12T12:00:00+00:00",
+      "entry_price": 1.4265,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-12T11:58:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-12T12:00:03.876942+00:00",
+      "exit_price": 1.426325,
       "outcome": "LOSS"
     }
   ],
