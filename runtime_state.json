@@ -6,30 +6,17 @@
       "score": 100,
       "confidence": 50,
       "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-12T11:02:00+00:00",
-      "expires_at": "2026-10-12T11:03:00+00:00",
+      "entry_at": "2026-10-12T11:03:00+00:00",
+      "expires_at": "2026-10-12T11:04:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-12T11:02:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-12T11:04:20.194539+00:00"
     }
   ],
   "settled": [
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-08T13:30:00+00:00",
-      "expires_at": "2026-10-08T13:31:00+00:00",
-      "entry_price": 1.42647,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-08T13:29:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-08T13:31:13.574318+00:00",
-      "exit_price": 1.426035,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "NZD/JPY",
       "direction": "CALL",
@@ -1448,6 +1435,19 @@
       "recovery_created_at": "2026-10-12T09:25:59.259232+00:00",
       "exit_price": 1.899145,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-12T11:02:00+00:00",
+      "expires_at": "2026-10-12T11:03:00+00:00",
+      "entry_price": 1.349945,
+      "martingale_level": 0,
+      "exit_price": 1.349615,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
