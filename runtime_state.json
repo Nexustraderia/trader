@@ -6,26 +6,17 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-12T07:54:00+00:00",
-      "expires_at": "2026-10-12T07:55:00+00:00",
+      "entry_at": "2026-10-12T07:55:00+00:00",
+      "expires_at": "2026-10-12T07:56:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-12T07:54:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-12T08:04:49.420419+00:00"
     }
   ],
   "settled": [
-    {
-      "symbol": "XAU/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-08T12:13:00+00:00",
-      "expires_at": "2026-10-08T12:14:00+00:00",
-      "entry_price": 4125.59,
-      "martingale_level": 0,
-      "exit_price": 4124.395,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "XAU/USD",
       "direction": "CALL",
@@ -1444,6 +1435,19 @@
       "recovery_created_at": "2026-10-12T06:39:58.631825+00:00",
       "exit_price": 1.898175,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-12T07:54:00+00:00",
+      "expires_at": "2026-10-12T07:55:00+00:00",
+      "entry_price": 1.605475,
+      "martingale_level": 0,
+      "exit_price": 1.605395,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1468,7 +1472,7 @@
   "completed_sessions": 3,
   "asset_quarantine": {
     "EUR/JPY-OTC": {
-      "remaining": 5,
+      "remaining": 4,
       "sample_size": 9,
       "accuracy": 33.33
     }
