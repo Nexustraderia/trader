@@ -1,35 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "EUR/CHF",
-      "direction": "CALL",
-      "score": 95,
-      "confidence": 95,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-12T13:38:00+00:00",
-      "expires_at": "2026-10-12T13:39:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "XAU/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-08T17:48:00+00:00",
-      "expires_at": "2026-10-08T17:49:00+00:00",
-      "entry_price": 4129.93,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-08T17:47:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-08T17:57:19.211863+00:00",
-      "exit_price": 4127.935,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "XAU/USD",
       "direction": "CALL",
@@ -1448,6 +1419,19 @@
       "martingale_level": 0,
       "exit_price": 177.3475,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 95,
+      "confidence": 95,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-12T13:38:00+00:00",
+      "expires_at": "2026-10-12T13:39:00+00:00",
+      "entry_price": 0.9313,
+      "martingale_level": 0,
+      "exit_price": 0.931465,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1547,6 +1531,19 @@
       "entry_price": 177.346,
       "martingale_level": 0,
       "exit_price": 177.3475,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 95,
+      "confidence": 95,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-12T13:38:00+00:00",
+      "expires_at": "2026-10-12T13:39:00+00:00",
+      "entry_price": 0.9313,
+      "martingale_level": 0,
+      "exit_price": 0.931465,
       "outcome": "WIN"
     }
   ],
