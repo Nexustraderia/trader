@@ -1,35 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "USD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-12T14:31:00+00:00",
-      "expires_at": "2026-10-12T14:32:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-12T14:30:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-12T14:49:06.869807+00:00"
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "XAU/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-08T19:39:00+00:00",
-      "expires_at": "2026-10-08T19:40:00+00:00",
-      "entry_price": 4132.265,
-      "martingale_level": 0,
-      "exit_price": 4133.265,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/AUD",
       "direction": "CALL",
@@ -1448,6 +1419,23 @@
       "martingale_level": 0,
       "exit_price": 1.426515,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-12T14:31:00+00:00",
+      "expires_at": "2026-10-12T14:32:00+00:00",
+      "entry_price": 1.426605,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-12T14:30:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-12T14:49:06.869807+00:00",
+      "exit_price": 1.42651,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1577,6 +1565,23 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-12T14:30:32.517284+00:00",
       "exit_price": 1.42661,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-12T14:31:00+00:00",
+      "expires_at": "2026-10-12T14:32:00+00:00",
+      "entry_price": 1.426605,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-12T14:30:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-12T14:49:06.869807+00:00",
+      "exit_price": 1.42651,
       "outcome": "LOSS"
     }
   ],
