@@ -1,5 +1,17 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-12T07:54:00+00:00",
+      "expires_at": "2026-10-12T07:55:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
   "settled": [
     {
       "symbol": "XAU/USD",
@@ -1456,7 +1468,7 @@
   "completed_sessions": 3,
   "asset_quarantine": {
     "EUR/JPY-OTC": {
-      "remaining": 6,
+      "remaining": 5,
       "sample_size": 9,
       "accuracy": 33.33
     }
