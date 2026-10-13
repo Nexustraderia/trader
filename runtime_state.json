@@ -6,26 +6,13 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-13T02:48:00+00:00",
-      "expires_at": "2026-10-13T02:49:00+00:00",
+      "entry_at": "2026-10-13T02:50:00+00:00",
+      "expires_at": "2026-10-13T02:51:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/USD-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-08T21:30:00+00:00",
-      "expires_at": "2026-10-08T21:31:00+00:00",
-      "entry_price": 1.117925,
-      "martingale_level": 0,
-      "exit_price": 1.117495,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "EUR/USD-OTC",
       "direction": "CALL",
@@ -1452,6 +1439,19 @@
       "recovery_created_at": "2026-10-12T23:43:19.920274+00:00",
       "exit_price": 178.371105,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-13T02:48:00+00:00",
+      "expires_at": "2026-10-13T02:49:00+00:00",
+      "entry_price": 1.59417,
+      "martingale_level": 0,
+      "exit_price": 1.594215,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1629,6 +1629,19 @@
       "recovery_created_at": "2026-10-12T23:43:19.920274+00:00",
       "exit_price": 178.371105,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-13T02:48:00+00:00",
+      "expires_at": "2026-10-13T02:49:00+00:00",
+      "entry_price": 1.59417,
+      "martingale_level": 0,
+      "exit_price": 1.594215,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 3,
