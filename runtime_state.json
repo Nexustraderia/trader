@@ -6,26 +6,17 @@
       "score": 30,
       "confidence": 50,
       "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-13T11:43:00+00:00",
-      "expires_at": "2026-10-13T11:44:00+00:00",
+      "entry_at": "2026-10-13T11:44:00+00:00",
+      "expires_at": "2026-10-13T11:45:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-13T11:43:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-13T11:45:19.884217+00:00"
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/CAD",
-      "direction": "CALL",
-      "score": 95,
-      "confidence": 95,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-09T07:09:00+00:00",
-      "expires_at": "2026-10-09T07:10:00+00:00",
-      "entry_price": 1.882475,
-      "martingale_level": 0,
-      "exit_price": 1.882375,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "GBP/CAD",
       "direction": "CALL",
@@ -1451,6 +1442,19 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-13T11:25:23.472470+00:00",
       "exit_price": 1.118715,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "PUT",
+      "score": 30,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-13T11:43:00+00:00",
+      "expires_at": "2026-10-13T11:44:00+00:00",
+      "entry_price": 158.65545,
+      "martingale_level": 0,
+      "exit_price": 158.70505,
       "outcome": "LOSS"
     }
   ],
