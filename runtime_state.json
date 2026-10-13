@@ -6,26 +6,13 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-13T23:16:00+00:00",
-      "expires_at": "2026-10-13T23:17:00+00:00",
+      "entry_at": "2026-10-13T23:18:00+00:00",
+      "expires_at": "2026-10-13T23:19:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "AUD/CAD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-09T13:25:00+00:00",
-      "expires_at": "2026-10-09T13:26:00+00:00",
-      "entry_price": 0.99582,
-      "martingale_level": 0,
-      "exit_price": 0.995815,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "AUD/CAD",
       "direction": "CALL",
@@ -1452,6 +1439,19 @@
       "martingale_level": 0,
       "exit_price": 158.3495,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-13T23:16:00+00:00",
+      "expires_at": "2026-10-13T23:17:00+00:00",
+      "entry_price": 110.571,
+      "martingale_level": 0,
+      "exit_price": 110.571,
+      "outcome": "VOID"
     }
   ],
   "session_results": [
