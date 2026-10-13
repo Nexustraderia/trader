@@ -1,39 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "GBP/AUD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-13T11:04:00+00:00",
-      "expires_at": "2026-10-13T11:05:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-13T11:03:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-13T11:05:22.540666+00:00"
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "EUR/JPY-OTC",
-      "direction": "CALL",
-      "score": 60,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-09T05:17:00+00:00",
-      "expires_at": "2026-10-09T05:18:00+00:00",
-      "entry_price": 176.766515,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-09T05:16:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-09T05:30:22.765538+00:00",
-      "exit_price": 176.803655,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/CAD",
       "direction": "CALL",
@@ -1452,6 +1419,23 @@
       "martingale_level": 0,
       "exit_price": 1.89905,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-13T11:04:00+00:00",
+      "expires_at": "2026-10-13T11:05:00+00:00",
+      "entry_price": 1.89903,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-13T11:03:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-13T11:05:22.540666+00:00",
+      "exit_price": 1.899075,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1719,6 +1703,23 @@
       "recovery_created_at": "2026-10-13T06:59:41.499879+00:00",
       "exit_price": 0.84524,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-13T11:04:00+00:00",
+      "expires_at": "2026-10-13T11:05:00+00:00",
+      "entry_price": 1.89903,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-13T11:03:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-13T11:05:22.540666+00:00",
+      "exit_price": 1.899075,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 3,
