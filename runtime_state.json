@@ -1,35 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "GBP/JPY-OTC",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-14T01:46:00+00:00",
-      "expires_at": "2026-10-14T01:47:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-14T01:45:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-14T02:06:35.980665+00:00"
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "USD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-09T13:43:00+00:00",
-      "expires_at": "2026-10-09T13:44:00+00:00",
-      "entry_price": 158.3375,
-      "martingale_level": 0,
-      "exit_price": 158.386,
-      "outcome": "WIN"
-    },
     {
       "symbol": "XAU/USD",
       "direction": "CALL",
@@ -1452,6 +1423,23 @@
       "martingale_level": 0,
       "exit_price": 207.747505,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-14T01:46:00+00:00",
+      "expires_at": "2026-10-14T01:47:00+00:00",
+      "entry_price": 207.680735,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-14T01:45:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-14T02:06:35.980665+00:00",
+      "exit_price": 207.729845,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1496,6 +1484,23 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-13T23:20:27.376133+00:00",
       "exit_price": 110.5685,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-14T01:46:00+00:00",
+      "expires_at": "2026-10-14T01:47:00+00:00",
+      "entry_price": 207.680735,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-14T01:45:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-14T02:06:35.980665+00:00",
+      "exit_price": 207.729845,
       "outcome": "LOSS"
     }
   ],
