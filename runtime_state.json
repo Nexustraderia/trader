@@ -1,35 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "NZD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-15T14:03:00+00:00",
-      "expires_at": "2026-10-15T14:04:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-15T14:02:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-15T14:03:56.816840+00:00"
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "USD/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-11T13:26:00+00:00",
-      "expires_at": "2026-10-11T13:27:00+00:00",
-      "entry_price": 159.09635,
-      "martingale_level": 0,
-      "exit_price": 159.10005,
-      "outcome": "WIN"
-    },
     {
       "symbol": "USD/JPY-OTC",
       "direction": "CALL",
@@ -1454,6 +1425,23 @@
       "martingale_level": 0,
       "exit_price": 0.560555,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-15T14:03:00+00:00",
+      "expires_at": "2026-10-15T14:04:00+00:00",
+      "entry_price": 0.560445,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-15T14:02:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-15T14:03:56.816840+00:00",
+      "exit_price": 0.560495,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1701,6 +1689,23 @@
       "entry_price": 209.3035,
       "martingale_level": 0,
       "exit_price": 209.391,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-15T14:03:00+00:00",
+      "expires_at": "2026-10-15T14:04:00+00:00",
+      "entry_price": 0.560445,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-15T14:02:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-15T14:03:56.816840+00:00",
+      "exit_price": 0.560495,
       "outcome": "WIN"
     }
   ],
