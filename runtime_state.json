@@ -3,29 +3,16 @@
     {
       "symbol": "GBP/JPY",
       "direction": "CALL",
-      "score": 95,
-      "confidence": 95,
+      "score": 100,
+      "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-15T11:12:00+00:00",
-      "expires_at": "2026-10-15T11:13:00+00:00",
+      "entry_at": "2026-10-15T11:37:00+00:00",
+      "expires_at": "2026-10-15T11:38:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-10T17:28:00+00:00",
-      "expires_at": "2026-10-10T17:29:00+00:00",
-      "entry_price": 180.669195,
-      "martingale_level": 0,
-      "exit_price": 180.623155,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "EUR/JPY-OTC",
       "direction": "CALL",
@@ -1458,6 +1445,19 @@
       "exit_price": 0.561335,
       "outcome": "LOSS",
       "settlement_error": "ReadTimeout: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=20)"
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 95,
+      "confidence": 95,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-15T11:12:00+00:00",
+      "expires_at": "2026-10-15T11:13:00+00:00",
+      "entry_price": 209.2625,
+      "martingale_level": 0,
+      "exit_price": 209.2965,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1667,6 +1667,19 @@
       "exit_price": 0.561335,
       "outcome": "LOSS",
       "settlement_error": "ReadTimeout: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=20)"
+    },
+    {
+      "symbol": "GBP/JPY",
+      "direction": "CALL",
+      "score": 95,
+      "confidence": 95,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-15T11:12:00+00:00",
+      "expires_at": "2026-10-15T11:13:00+00:00",
+      "entry_price": 209.2625,
+      "martingale_level": 0,
+      "exit_price": 209.2965,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 4,
