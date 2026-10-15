@@ -8,28 +8,18 @@
       "strategy": "REGULAR_HYBRID_ADX_V2",
       "entry_at": "2026-10-15T07:29:00+00:00",
       "expires_at": "2026-10-15T07:30:00+00:00",
-      "entry_price": null,
+      "entry_price": 0.56141,
       "martingale_level": 1,
       "parent_id": null,
       "parent_entry_at": "2026-10-15T07:28:00+00:00",
       "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-15T07:30:17.738856+00:00"
+      "recovery_created_at": "2026-10-15T07:30:17.738856+00:00",
+      "exit_price": 0.561335,
+      "outcome": "LOSS",
+      "settlement_error": "ReadTimeout: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=20)"
     }
   ],
   "settled": [
-    {
-      "symbol": "EUR/USD-OTC",
-      "direction": "PUT",
-      "score": 35,
-      "confidence": 70,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-10T16:20:00+00:00",
-      "expires_at": "2026-10-10T16:21:00+00:00",
-      "entry_price": 1.118105,
-      "martingale_level": 0,
-      "exit_price": 1.118855,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "EUR/USD-OTC",
       "direction": "PUT",
@@ -1456,6 +1446,24 @@
       "martingale_level": 0,
       "exit_price": 0.561365,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "NZD/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-15T07:29:00+00:00",
+      "expires_at": "2026-10-15T07:30:00+00:00",
+      "entry_price": 0.56141,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-15T07:28:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-15T07:30:17.738856+00:00",
+      "exit_price": 0.561335,
+      "outcome": "LOSS",
+      "settlement_error": "ReadTimeout: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=20)"
     }
   ],
   "session_results": [
