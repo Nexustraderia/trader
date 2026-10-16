@@ -6,26 +6,17 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-16T13:24:00+00:00",
-      "expires_at": "2026-10-16T13:25:00+00:00",
+      "entry_at": "2026-10-16T13:25:00+00:00",
+      "expires_at": "2026-10-16T13:26:00+00:00",
       "entry_price": null,
-      "martingale_level": 0
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-16T13:24:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-16T13:25:15.554097+00:00"
     }
   ],
   "settled": [
-    {
-      "symbol": "XAU/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-12T00:52:00+00:00",
-      "expires_at": "2026-10-12T00:53:00+00:00",
-      "entry_price": 4206.4,
-      "martingale_level": 0,
-      "exit_price": 4205.345,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "XAU/USD",
       "direction": "CALL",
@@ -1450,6 +1441,19 @@
       "martingale_level": 0,
       "exit_price": 1.59319,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "AUD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-16T13:24:00+00:00",
+      "expires_at": "2026-10-16T13:25:00+00:00",
+      "entry_price": 109.939,
+      "martingale_level": 0,
+      "exit_price": 109.937,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
