@@ -1,35 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "EUR/USD-OTC",
-      "direction": "PUT",
-      "score": 55,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-16T05:05:00+00:00",
-      "expires_at": "2026-10-16T05:06:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "AUD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-11T22:51:00+00:00",
-      "expires_at": "2026-10-11T22:52:00+00:00",
-      "entry_price": 0.698395,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-11T22:50:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-11T22:57:31.999834+00:00",
-      "exit_price": 0.698305,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "NZD/JPY",
       "direction": "CALL",
@@ -1454,6 +1425,19 @@
       "martingale_level": 0,
       "exit_price": 1.88353,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "PUT",
+      "score": 55,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-16T05:05:00+00:00",
+      "expires_at": "2026-10-16T05:06:00+00:00",
+      "entry_price": 1.104755,
+      "martingale_level": 0,
+      "exit_price": 1.104505,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1468,6 +1452,19 @@
       "entry_price": 1.88338,
       "martingale_level": 0,
       "exit_price": 1.88353,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "PUT",
+      "score": 55,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-16T05:05:00+00:00",
+      "expires_at": "2026-10-16T05:06:00+00:00",
+      "entry_price": 1.104755,
+      "martingale_level": 0,
+      "exit_price": 1.104505,
       "outcome": "WIN"
     }
   ],
