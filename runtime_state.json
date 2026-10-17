@@ -1,35 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "GBP/JPY-OTC",
-      "direction": "PUT",
-      "score": 35,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-17T11:42:00+00:00",
-      "expires_at": "2026-10-17T11:43:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "CHF/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-12T04:31:00+00:00",
-      "expires_at": "2026-10-12T04:32:00+00:00",
-      "entry_price": 190.661,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-12T04:30:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-12T04:44:50.047914+00:00",
-      "exit_price": 190.6775,
-      "outcome": "WIN"
-    },
     {
       "symbol": "EUR/JPY-OTC",
       "direction": "PUT",
@@ -1454,6 +1425,19 @@
       "recovery_created_at": "2026-10-17T11:17:09.923990+00:00",
       "exit_price": 1.115875,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "PUT",
+      "score": 35,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-17T11:42:00+00:00",
+      "expires_at": "2026-10-17T11:43:00+00:00",
+      "entry_price": 201.544865,
+      "martingale_level": 0,
+      "exit_price": 201.469855,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1636,6 +1620,19 @@
       "recovery_created_at": "2026-10-17T11:17:09.923990+00:00",
       "exit_price": 1.115875,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "PUT",
+      "score": 35,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-17T11:42:00+00:00",
+      "expires_at": "2026-10-17T11:43:00+00:00",
+      "entry_price": 201.544865,
+      "martingale_level": 0,
+      "exit_price": 201.469855,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 5,
