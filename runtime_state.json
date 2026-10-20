@@ -1,5 +1,28 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "AUD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-20T02:18:00+00:00",
+      "expires_at": "2026-10-20T02:19:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "NZD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-20T02:18:00+00:00",
+      "expires_at": "2026-10-20T02:19:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
   "settled": [
     {
       "symbol": "GBP/USD",
@@ -1549,7 +1572,7 @@
       "accuracy": 36.36
     },
     "NZD/USD": {
-      "remaining": 19,
+      "remaining": 18,
       "sample_size": 10,
       "accuracy": 40.0
     }
