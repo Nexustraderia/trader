@@ -6,26 +6,39 @@
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-20T21:44:00+00:00",
-      "expires_at": "2026-10-20T21:45:00+00:00",
+      "entry_at": "2026-10-20T21:45:00+00:00",
+      "expires_at": "2026-10-20T21:46:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-20T21:44:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-20T22:09:16.194674+00:00"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-20T22:10:00+00:00",
+      "expires_at": "2026-10-20T22:11:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "USD/CAD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-20T22:10:00+00:00",
+      "expires_at": "2026-10-20T22:11:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/USD-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 95,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-13T20:16:00+00:00",
-      "expires_at": "2026-10-13T20:17:00+00:00",
-      "entry_price": 1.334635,
-      "martingale_level": 0,
-      "exit_price": 1.335115,
-      "outcome": "WIN"
-    },
     {
       "symbol": "USD/JPY",
       "direction": "CALL",
@@ -1433,6 +1446,19 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-20T20:43:28.084371+00:00",
       "exit_price": 0.70019,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-20T21:44:00+00:00",
+      "expires_at": "2026-10-20T21:45:00+00:00",
+      "entry_price": 0.926975,
+      "martingale_level": 0,
+      "exit_price": 0.926895,
       "outcome": "LOSS"
     }
   ],
