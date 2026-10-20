@@ -1,31 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "CAD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-20T10:40:00+00:00",
-      "expires_at": "2026-10-20T10:41:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "EUR/USD-OTC",
-      "direction": "CALL",
-      "score": 60,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-13T14:22:00+00:00",
-      "expires_at": "2026-10-13T14:23:00+00:00",
-      "entry_price": 1.118535,
-      "martingale_level": 0,
-      "exit_price": 1.118965,
-      "outcome": "WIN"
-    },
     {
       "symbol": "NZD/USD",
       "direction": "CALL",
@@ -1434,6 +1409,19 @@
       "martingale_level": 0,
       "exit_price": 0.92701,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "CAD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-20T10:40:00+00:00",
+      "expires_at": "2026-10-20T10:41:00+00:00",
+      "entry_price": 112.5335,
+      "martingale_level": 0,
+      "exit_price": 112.557,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1670,6 +1658,19 @@
       "entry_price": 0.926905,
       "martingale_level": 0,
       "exit_price": 0.92701,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "CAD/JPY",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-10-20T10:40:00+00:00",
+      "expires_at": "2026-10-20T10:41:00+00:00",
+      "entry_price": 112.5335,
+      "martingale_level": 0,
+      "exit_price": 112.557,
       "outcome": "WIN"
     }
   ],
