@@ -1,35 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "GBP/USD-OTC",
-      "direction": "PUT",
-      "score": 20,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-21T20:59:00+00:00",
-      "expires_at": "2026-10-21T21:00:00+00:00",
-      "entry_price": null,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-21T20:58:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-21T21:16:16.462792+00:00"
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "EUR/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-15T14:35:00+00:00",
-      "expires_at": "2026-10-15T14:36:00+00:00",
-      "entry_price": 1.121845,
-      "martingale_level": 0,
-      "exit_price": 1.12217,
-      "outcome": "WIN"
-    },
     {
       "symbol": "GBP/USD",
       "direction": "CALL",
@@ -1444,6 +1415,23 @@
       "martingale_level": 0,
       "exit_price": 1.310005,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-21T20:59:00+00:00",
+      "expires_at": "2026-10-21T21:00:00+00:00",
+      "entry_price": 1.309795,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-21T20:58:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-21T21:16:16.462792+00:00",
+      "exit_price": 1.309915,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1586,6 +1574,23 @@
       "parent_outcome": "LOSS",
       "recovery_created_at": "2026-10-21T17:22:16.943980+00:00",
       "exit_price": 1.883045,
+      "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/USD-OTC",
+      "direction": "PUT",
+      "score": 20,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-21T20:59:00+00:00",
+      "expires_at": "2026-10-21T21:00:00+00:00",
+      "entry_price": 1.309795,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-21T20:58:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-21T21:16:16.462792+00:00",
+      "exit_price": 1.309915,
       "outcome": "LOSS"
     }
   ],
