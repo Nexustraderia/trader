@@ -1,31 +1,18 @@
 {
   "pending": [
     {
-      "symbol": "GBP/JPY-OTC",
+      "symbol": "GBP/USD-OTC",
       "direction": "CALL",
       "score": 60,
       "confidence": 50,
       "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-22T05:16:00+00:00",
-      "expires_at": "2026-10-22T05:17:00+00:00",
+      "entry_at": "2026-10-22T05:18:00+00:00",
+      "expires_at": "2026-10-22T05:19:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/JPY-OTC",
-      "direction": "PUT",
-      "score": 35,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-16T12:12:00+00:00",
-      "expires_at": "2026-10-16T12:13:00+00:00",
-      "entry_price": 204.770515,
-      "martingale_level": 0,
-      "exit_price": 204.818495,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "GBP/JPY-OTC",
       "direction": "PUT",
@@ -1456,6 +1443,19 @@
       "recovery_created_at": "2026-10-22T02:40:24.239882+00:00",
       "exit_price": 191.7995,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 60,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-22T05:16:00+00:00",
+      "expires_at": "2026-10-22T05:17:00+00:00",
+      "entry_price": 210.734075,
+      "martingale_level": 0,
+      "exit_price": 210.789685,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1693,6 +1693,19 @@
       "recovery_created_at": "2026-10-22T02:40:24.239882+00:00",
       "exit_price": 191.7995,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "CALL",
+      "score": 60,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-22T05:16:00+00:00",
+      "expires_at": "2026-10-22T05:17:00+00:00",
+      "entry_price": 210.734075,
+      "martingale_level": 0,
+      "exit_price": 210.789685,
+      "outcome": "WIN"
     }
   ],
   "completed_sessions": 7,
