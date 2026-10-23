@@ -6,30 +6,28 @@
       "score": 35,
       "confidence": 50,
       "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-23T02:01:00+00:00",
-      "expires_at": "2026-10-23T02:02:00+00:00",
+      "entry_at": "2026-10-23T02:02:00+00:00",
+      "expires_at": "2026-10-23T02:03:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-10-23T02:01:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-10-23T06:52:18.168762+00:00"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-23T06:53:00+00:00",
+      "expires_at": "2026-10-23T06:54:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "AUD/JPY",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-16T13:25:00+00:00",
-      "expires_at": "2026-10-16T13:26:00+00:00",
-      "entry_price": 109.939,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-16T13:24:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-16T13:25:15.554097+00:00",
-      "exit_price": 109.944,
-      "outcome": "WIN"
-    },
     {
       "symbol": "EUR/USD-OTC",
       "direction": "CALL",
@@ -1456,6 +1454,19 @@
       "martingale_level": 0,
       "exit_price": 1.347505,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/USD-OTC",
+      "direction": "PUT",
+      "score": 35,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-10-23T02:01:00+00:00",
+      "expires_at": "2026-10-23T02:02:00+00:00",
+      "entry_price": 1.114635,
+      "martingale_level": 0,
+      "exit_price": 1.114655,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
