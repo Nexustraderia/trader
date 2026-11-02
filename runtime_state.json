@@ -1,31 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "EUR/JPY-OTC",
-      "direction": "PUT",
-      "score": 75,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-11-02T22:32:00+00:00",
-      "expires_at": "2026-11-02T22:33:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "EUR/USD-OTC",
-      "direction": "PUT",
-      "score": 45,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-17T11:15:00+00:00",
-      "expires_at": "2026-10-17T11:16:00+00:00",
-      "entry_price": 1.115195,
-      "martingale_level": 0,
-      "exit_price": 1.115565,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "EUR/USD-OTC",
       "direction": "PUT",
@@ -1452,9 +1427,36 @@
       "recovery_created_at": "2026-10-30T12:40:28.997387+00:00",
       "exit_price": 1.339215,
       "outcome": "LOSS"
+    },
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "PUT",
+      "score": 75,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-11-02T22:32:00+00:00",
+      "expires_at": "2026-11-02T22:33:00+00:00",
+      "entry_price": 174.656405,
+      "martingale_level": 0,
+      "exit_price": 174.588625,
+      "outcome": "WIN"
     }
   ],
-  "session_results": [],
+  "session_results": [
+    {
+      "symbol": "EUR/JPY-OTC",
+      "direction": "PUT",
+      "score": 75,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-11-02T22:32:00+00:00",
+      "expires_at": "2026-11-02T22:33:00+00:00",
+      "entry_price": 174.656405,
+      "martingale_level": 0,
+      "exit_price": 174.588625,
+      "outcome": "WIN"
+    }
+  ],
   "completed_sessions": 8,
   "asset_quarantine": {
     "EUR/JPY-OTC": {
