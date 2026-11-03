@@ -1,55 +1,44 @@
 {
   "pending": [
     {
-      "symbol": "EUR/AUD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-11-03T23:37:00+00:00",
-      "expires_at": "2026-11-03T23:38:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    },
-    {
       "symbol": "XAU/USD",
       "direction": "CALL",
       "score": 100,
       "confidence": 100,
       "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-11-03T23:37:00+00:00",
-      "expires_at": "2026-11-03T23:38:00+00:00",
+      "entry_at": "2026-11-03T23:38:00+00:00",
+      "expires_at": "2026-11-03T23:39:00+00:00",
+      "entry_price": null,
+      "martingale_level": 1,
+      "parent_id": null,
+      "parent_entry_at": "2026-11-03T23:37:00+00:00",
+      "parent_outcome": "LOSS",
+      "recovery_created_at": "2026-11-03T23:38:50.111302+00:00"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-11-03T23:39:00+00:00",
+      "expires_at": "2026-11-03T23:40:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    },
+    {
+      "symbol": "GBP/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-11-03T23:39:00+00:00",
+      "expires_at": "2026-11-03T23:40:00+00:00",
       "entry_price": null,
       "martingale_level": 0
     }
   ],
   "settled": [
-    {
-      "symbol": "GBP/JPY-OTC",
-      "direction": "PUT",
-      "score": 35,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-17T11:42:00+00:00",
-      "expires_at": "2026-10-17T11:43:00+00:00",
-      "entry_price": 201.544865,
-      "martingale_level": 0,
-      "exit_price": 201.469855,
-      "outcome": "WIN"
-    },
-    {
-      "symbol": "USD/JPY-OTC",
-      "direction": "PUT",
-      "score": 45,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-10-17T19:16:00+00:00",
-      "expires_at": "2026-10-17T19:17:00+00:00",
-      "entry_price": 157.13555,
-      "martingale_level": 0,
-      "exit_price": 157.12235,
-      "outcome": "WIN"
-    },
     {
       "symbol": "EUR/USD-OTC",
       "direction": "PUT",
@@ -1459,6 +1448,32 @@
       "martingale_level": 0,
       "exit_price": 177.6825,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-11-03T23:37:00+00:00",
+      "expires_at": "2026-11-03T23:38:00+00:00",
+      "entry_price": 1.607245,
+      "martingale_level": 0,
+      "exit_price": 1.607425,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "XAU/USD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-11-03T23:37:00+00:00",
+      "expires_at": "2026-11-03T23:38:00+00:00",
+      "entry_price": 3930.895,
+      "martingale_level": 0,
+      "exit_price": 3930.165,
+      "outcome": "LOSS"
     }
   ],
   "session_results": [
@@ -1486,6 +1501,19 @@
       "entry_price": 177.6705,
       "martingale_level": 0,
       "exit_price": 177.6825,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "EUR/AUD",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-11-03T23:37:00+00:00",
+      "expires_at": "2026-11-03T23:38:00+00:00",
+      "entry_price": 1.607245,
+      "martingale_level": 0,
+      "exit_price": 1.607425,
       "outcome": "WIN"
     }
   ],
