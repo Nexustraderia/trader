@@ -1,5 +1,17 @@
 {
-  "pending": [],
+  "pending": [
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "PUT",
+      "score": 60,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-11-08T08:58:00+00:00",
+      "expires_at": "2026-11-08T08:59:00+00:00",
+      "entry_price": null,
+      "martingale_level": 0
+    }
+  ],
   "settled": [
     {
       "symbol": "NZD/USD",
