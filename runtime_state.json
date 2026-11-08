@@ -1,31 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "GBP/JPY-OTC",
-      "direction": "PUT",
-      "score": 60,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-11-08T08:58:00+00:00",
-      "expires_at": "2026-11-08T08:59:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "NZD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-19T05:23:00+00:00",
-      "expires_at": "2026-10-19T05:24:00+00:00",
-      "entry_price": 0.565825,
-      "martingale_level": 0,
-      "exit_price": 0.56577,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "NZD/USD",
       "direction": "CALL",
@@ -1456,6 +1431,19 @@
       "martingale_level": 0,
       "exit_price": 1.886035,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "PUT",
+      "score": 60,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-11-08T08:58:00+00:00",
+      "expires_at": "2026-11-08T08:59:00+00:00",
+      "entry_price": 206.962275,
+      "martingale_level": 0,
+      "exit_price": 206.935595,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1577,6 +1565,19 @@
       "entry_price": 1.88602,
       "martingale_level": 0,
       "exit_price": 1.886035,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/JPY-OTC",
+      "direction": "PUT",
+      "score": 60,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-11-08T08:58:00+00:00",
+      "expires_at": "2026-11-08T08:59:00+00:00",
+      "entry_price": 206.962275,
+      "martingale_level": 0,
+      "exit_price": 206.935595,
       "outcome": "WIN"
     }
   ],
