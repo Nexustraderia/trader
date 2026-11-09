@@ -1,35 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "GBP/CHF",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-11-09T20:55:00+00:00",
-      "expires_at": "2026-11-09T20:56:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "NZD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-19T05:24:00+00:00",
-      "expires_at": "2026-10-19T05:25:00+00:00",
-      "entry_price": 0.56578,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-19T05:23:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-19T05:51:08.461163+00:00",
-      "exit_price": 0.565765,
-      "outcome": "LOSS"
-    },
     {
       "symbol": "USD/CHF",
       "direction": "CALL",
@@ -1456,6 +1427,19 @@
       "martingale_level": 0,
       "exit_price": 206.935595,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-11-09T20:55:00+00:00",
+      "expires_at": "2026-11-09T20:56:00+00:00",
+      "entry_price": 1.10125,
+      "martingale_level": 0,
+      "exit_price": 1.101275,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1590,6 +1574,19 @@
       "entry_price": 206.962275,
       "martingale_level": 0,
       "exit_price": 206.935595,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "GBP/CHF",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 100,
+      "strategy": "REGULAR_HYBRID_ADX_V2",
+      "entry_at": "2026-11-09T20:55:00+00:00",
+      "expires_at": "2026-11-09T20:56:00+00:00",
+      "entry_price": 1.10125,
+      "martingale_level": 0,
+      "exit_price": 1.101275,
       "outcome": "WIN"
     }
   ],
