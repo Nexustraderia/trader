@@ -1,35 +1,6 @@
 {
-  "pending": [
-    {
-      "symbol": "USD/JPY-OTC",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 50,
-      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
-      "entry_at": "2026-11-16T19:54:00+00:00",
-      "expires_at": "2026-11-16T19:55:00+00:00",
-      "entry_price": null,
-      "martingale_level": 0
-    }
-  ],
+  "pending": [],
   "settled": [
-    {
-      "symbol": "AUD/USD",
-      "direction": "CALL",
-      "score": 100,
-      "confidence": 100,
-      "strategy": "REGULAR_HYBRID_ADX_V2",
-      "entry_at": "2026-10-19T11:51:00+00:00",
-      "expires_at": "2026-10-19T11:52:00+00:00",
-      "entry_price": 0.699035,
-      "martingale_level": 1,
-      "parent_id": null,
-      "parent_entry_at": "2026-10-19T11:50:00+00:00",
-      "parent_outcome": "LOSS",
-      "recovery_created_at": "2026-10-19T12:16:09.162175+00:00",
-      "exit_price": 0.69904,
-      "outcome": "WIN"
-    },
     {
       "symbol": "NZD/USD",
       "direction": "CALL",
@@ -1456,6 +1427,19 @@
       "martingale_level": 0,
       "exit_price": 1.941135,
       "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-11-16T19:54:00+00:00",
+      "expires_at": "2026-11-16T19:55:00+00:00",
+      "entry_price": 160.14915,
+      "martingale_level": 0,
+      "exit_price": 160.25185,
+      "outcome": "WIN"
     }
   ],
   "session_results": [
@@ -1672,6 +1656,19 @@
       "entry_price": 1.94106,
       "martingale_level": 0,
       "exit_price": 1.941135,
+      "outcome": "WIN"
+    },
+    {
+      "symbol": "USD/JPY-OTC",
+      "direction": "CALL",
+      "score": 100,
+      "confidence": 50,
+      "strategy": "OTC_BB_EMA20_RSI7_PA_M1",
+      "entry_at": "2026-11-16T19:54:00+00:00",
+      "expires_at": "2026-11-16T19:55:00+00:00",
+      "entry_price": 160.14915,
+      "martingale_level": 0,
+      "exit_price": 160.25185,
       "outcome": "WIN"
     }
   ],
